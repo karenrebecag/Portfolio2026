@@ -11,6 +11,7 @@ import { Container } from '@/components/ui/container'
 import { Button061 } from '@/components/ui/button-061'
 import type { Project } from '@karen-portfolio/shared'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
+import { AdditionalWorkMarquee } from '@/components/additional-work'
 
 const MAX_PROJECTS = 5
 
@@ -186,6 +187,14 @@ export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cm
           </div>
         </div>
       </Container>
+
+      {/* Additional work marquee */}
+      <div className="mt-20 pb-10">
+        <Container className="px-4 lg:px-6 mb-6">
+          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">02 / Additional Work</span>
+        </Container>
+        <AdditionalWorkMarquee />
+      </div>
     </section>
   )
 }

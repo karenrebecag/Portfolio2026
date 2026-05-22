@@ -11,7 +11,7 @@ interface Button061Props {
   className?: string
   target?: string
   rel?: string
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
 }
 
 const DEFAULT_COLORS = '#88C0AF, #5FA28F, #B5DACD'

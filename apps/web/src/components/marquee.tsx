@@ -27,7 +27,6 @@ export function Marquee() {
     const wrap = wrapRef.current
     if (!container || !wrap) return
 
-    let observer: IntersectionObserver | null = null
     let lastScrollY = 0
     let isVisible = true
 
@@ -77,7 +76,6 @@ export function Marquee() {
     document.addEventListener('page-navigation-complete', onNavigate)
 
     return () => {
-      observer?.disconnect()
       window.removeEventListener('scroll', handleScroll)
       document.removeEventListener('page-ready', init)
       document.removeEventListener('page-navigation-complete', onNavigate)

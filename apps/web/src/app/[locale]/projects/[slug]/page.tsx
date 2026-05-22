@@ -97,7 +97,7 @@ export default async function ProjectPage({ params }: Props) {
         <div className="mt-8 h-px w-full bg-border" />
 
         <div className="mt-10 max-w-[60ch]">
-          <RichTextRenderer content={project.description as { root?: unknown } | null} />
+          <RichTextRenderer content={project.description as any} />
         </div>
 
         {(project.liveUrl || project.repoUrl) && (
