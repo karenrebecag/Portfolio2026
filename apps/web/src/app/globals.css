@@ -319,6 +319,7 @@
 .contact-textarea {
   resize: vertical;
   min-height: 6em;
+  max-width: 100%;
 }
 
 .contact-underline {
@@ -333,8 +334,8 @@
 }
 
 .contact-pill {
-  padding: 0.5em 1em;
-  font-size: 0.8125em;
+  padding: 0.5em 0.75em;
+  font-size: 0.75em;
   font-family: var(--font-sans);
   font-weight: 500;
   color: rgba(253, 249, 237, 0.6);

@@ -188,7 +188,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* Contact */}
-      <section id="contact" data-theme-section="dark" data-reveal-group className="bg-surface text-surface-foreground py-40 scroll-mt-20">
+      <section id="contact" data-theme-section="dark" data-reveal-group className="bg-surface text-surface-foreground py-40 scroll-mt-20 overflow-hidden">
         <Container className="px-4 lg:px-6">
           <div className="grid gap-16 md:grid-cols-12">
             {/* Left -- context */}
