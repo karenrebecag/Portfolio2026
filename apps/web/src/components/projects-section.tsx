@@ -105,9 +105,9 @@ export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cm
   return (
     <section id="projects" data-theme-section="light" data-reveal-group className="px-4 lg:px-6 py-40 scroll-mt-20">
       <Container>
-        <div className="grid gap-10 md:grid-cols-12 md:gap-10">
+        <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-10">
           {/* Left -- context */}
-          <div className="col-span-12 md:col-span-5">
+          <div className="md:col-span-5">
             <div className="md:sticky md:top-28">
               <Pill>{t('pill')}</Pill>
 
@@ -128,16 +128,16 @@ export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cm
           </div>
 
           {/* Right -- project list with preview follower */}
-          <div className="col-span-12 md:col-span-7" data-follower-wrap>
+          <div className="md:col-span-7 min-w-0" data-follower-wrap>
             {/* Table header -- desktop only */}
-            <div className="preview-item__row hidden lg:flex mb-2">
-              <div className="preview-item__col is--large">
+            <div className="hidden lg:flex flex-wrap items-center w-full mb-2">
+              <div className="flex-1 min-w-0 max-w-[45%]">
                 <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">Project</span>
               </div>
-              <div className="preview-item__col is--small">
+              <div className="flex-1 min-w-0 max-w-[15%]">
                 <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">Year</span>
               </div>
-              <div className="preview-item__col is--medium">
+              <div className="flex-1 min-w-0 max-w-[30%]">
                 <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">Services</span>
               </div>
             </div>
@@ -145,28 +145,28 @@ export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cm
             {visible.length === 0 ? (
               <p className="text-muted-foreground py-10">{t('empty')}</p>
             ) : (
-              <div data-follower-collection className="preview-collection">
-                <div className="preview-list">
+              <div data-follower-collection className="w-full mt-2">
+                <div className="preview-list flex flex-col w-full relative max-[767px]:gap-y-8">
                   {visible.map((project) => (
-                    <div key={project.id} data-follower-item className="preview-item">
-                      <Link href={`/projects/${project.slug}`} className="preview-item__inner">
-                        <div className="preview-item__row">
-                          <div className="preview-item__col is--large">
-                            <h3 className="preview-item__heading font-display">{project.title}</h3>
+                    <div key={project.id} data-follower-item className="preview-item w-full transition-opacity duration-200">
+                      <Link href={`/projects/${project.slug}`} className="preview-item__inner border-t border-border w-full py-7 block no-underline text-inherit max-[767px]:border-none max-[767px]:flex max-[767px]:flex-col max-[767px]:p-0">
+                        <div className="preview-item__row flex flex-wrap justify-start items-center w-full max-[767px]:flex-col max-[767px]:items-start max-[767px]:gap-1">
+                          <div className="flex-1 min-w-0 max-w-[45%] max-[767px]:flex-none max-[767px]:w-full max-[767px]:max-w-none">
+                            <h3 className="preview-item__heading font-display text-[2rem] font-bold leading-none max-[767px]:text-lg">{project.title}</h3>
                           </div>
-                          <div className="preview-item__col is--small">
-                            <p className="preview-item__text">{project.year || '--'}</p>
+                          <div className="flex-1 min-w-0 max-w-[15%] max-[767px]:flex-none max-[767px]:w-full max-[767px]:max-w-none">
+                            <p className="text-sm font-normal leading-[1.2] text-muted-foreground break-words">{project.year || '--'}</p>
                           </div>
-                          <div className="preview-item__col is--medium">
-                            <p className="preview-item__text">{(project as any).services || project.role || project.category.replace('_', ' ')}</p>
+                          <div className="flex-1 min-w-0 max-w-[30%] max-[767px]:flex-none max-[767px]:w-full max-[767px]:max-w-none">
+                            <p className="text-sm font-normal leading-[1.2] text-muted-foreground break-words">{(project as any).services || project.role || project.category.replace('_', ' ')}</p>
                           </div>
                         </div>
                         {project.coverImage && (
-                          <div data-follower-visual className="preview-item__visual">
+                          <div data-follower-visual className="preview-item__visual max-[767px]:!block max-[767px]:!relative max-[767px]:!w-full max-[767px]:order-first max-[767px]:mb-3 max-[767px]:border max-[767px]:border-border">
                             <img
                               src={project.coverImage.url.startsWith('http') ? project.coverImage.url : `${cmsBase}${project.coverImage.url}`}
                               alt={project.coverImage.alt}
-                              className="preview-item__visual-img"
+                              className="object-cover w-full h-full"
                             />
                           </div>
                         )}

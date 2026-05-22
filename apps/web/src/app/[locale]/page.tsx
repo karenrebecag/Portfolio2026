@@ -190,9 +190,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {/* Contact */}
       <section id="contact" data-theme-section="dark" data-reveal-group className="bg-surface text-surface-foreground py-40 scroll-mt-20 overflow-hidden">
         <Container className="px-4 lg:px-6">
-          <div className="grid gap-16 md:grid-cols-12">
+          <div className="flex flex-col gap-16 md:grid md:grid-cols-12">
             {/* Left -- context */}
-            <div className="col-span-12 md:col-span-4">
+            <div className="md:col-span-4">
               <Pill>{t('contact.label')}</Pill>
               <h2 data-split="heading" data-split-reveal="words" className="mt-6 text-[clamp(1.75rem,3.5vw,3rem)] font-bold leading-[1.05] tracking-[-0.02em] max-w-[16ch]">
                 {t('contact.title')}
@@ -212,7 +212,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             {/* Right -- form */}
-            <div className="col-span-12 md:col-span-8 min-w-0">
+            <div className="md:col-span-8 min-w-0">
               <ContactForm />
             </div>
           </div>

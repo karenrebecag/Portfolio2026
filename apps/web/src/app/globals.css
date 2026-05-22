@@ -283,7 +283,32 @@
   left: 0;
 }
 
-/* -- Contact Form (dark section) -- */
+/* -- Chip (selectable pill) -- */
+.chip {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(253, 249, 237, 0.6);
+  background: transparent;
+  border: 1px solid rgba(253, 249, 237, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  border-color: rgba(253, 249, 237, 0.3);
+  color: #fdf9ed;
+}
+
+.chip[data-active] {
+  background: #88C0AF;
+  border-color: #88C0AF;
+  color: #11221f;
+  font-weight: 600;
+}
 
 /* -- Button 061 (OSMO) -- Plantation palette -- */
 :root {
@@ -855,42 +880,11 @@
   animation: marquee-translateX 25s linear infinite;
 }
 
-/* -- Preview Cursor Follower (Projects) -- */
-.preview-collection {
-  width: 100%;
-  margin-top: 0.5em;
-}
-
-.preview-item__row {
-  flex-flow: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  display: flex;
-}
-
-.preview-item__col { flex: 1; }
-.preview-item__col.is--large { max-width: 45%; }
-.preview-item__col.is--medium { max-width: 30%; }
-.preview-item__col.is--small { max-width: 15%; }
-
-.preview-list {
-  flex-flow: column;
-  width: 100%;
-  display: flex;
-  position: relative;
-}
-
-.preview-item {
-  width: 100%;
-  transition: opacity 0.2s;
-}
+/* -- Preview / Projects -- */
+/* Base layout/spacing is Tailwind inline. CSS here is only for: */
+/* transitions, :has() selectors, follower cursor, responsive overrides */
 
 .preview-item__heading {
-  margin: 0;
-  font-size: 2em;
-  font-weight: 700;
-  line-height: 1;
   transition: transform 0.5s cubic-bezier(0.625, 0.05, 0, 1), color 0.3s ease;
 }
 
@@ -899,14 +893,6 @@
     transform: translateX(12px);
     color: var(--foreground);
   }
-}
-
-.preview-item__text {
-  margin: 0;
-  font-size: 0.875em;
-  font-weight: 400;
-  line-height: 1.2;
-  color: var(--muted-foreground);
 }
 
 .preview-item__visual {
@@ -922,22 +908,6 @@
   width: 100%;
   height: 100%;
   z-index: 0;
-}
-
-.preview-item__inner {
-  border-top: 1px solid var(--border);
-  width: 100%;
-  padding-top: 1.75em;
-  padding-bottom: 1.75em;
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.preview-item__visual-img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
 }
 
 .preview-follower {
@@ -1007,72 +977,11 @@
   }
 }
 
+/* Responsive layout for project cards is handled via Tailwind arbitrary breakpoints */
+/* max-[991px]: and max-[767px]: on the JSX elements */
+
 @media screen and (max-width: 991px) {
-  .preview-item__row { grid-row-gap: 0.5em; }
-
-  .preview-item__col.is--large {
-    flex: none;
-    order: -1;
-    width: 100%;
-    max-width: none;
-  }
-
-  .preview-item__col.is--medium { order: -1; max-width: 80%; }
-  .preview-item__col.is--small { text-align: right; max-width: 20%; }
-
-  .preview-list {
-    grid-column-gap: 1em;
-    grid-row-gap: 3em;
-    flex-flow: wrap;
-  }
-
-  .preview-item { width: calc(50% - 0.5em); }
-  .preview-item__heading { font-size: 1.5em; }
-
-  .preview-item__visual {
-    border-radius: 0;
-    border: 1px solid var(--border);
-    order: -1;
-    width: 100%;
-    margin-bottom: 0.75em;
-    display: block;
-    position: relative;
-  }
-
-  .preview-item__inner {
-    border: none;
-    flex-flow: column;
-    padding-top: 0;
-    padding-bottom: 0;
-    display: flex;
-  }
-
   .preview-follower { display: none; }
-}
-
-@media screen and (max-width: 767px) {
-  .preview-list { grid-row-gap: 2em; }
-  .preview-item { width: 100%; }
-  .preview-item__heading { font-size: 1.25em; }
-
-  .preview-item__row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25em;
-  }
-
-  .preview-item__col,
-  .preview-item__col.is--large,
-  .preview-item__col.is--medium,
-  .preview-item__col.is--small {
-    flex: none;
-    width: 100%;
-    max-width: none;
-    text-align: left;
-  }
-
-  .preview-item__col.is--medium { order: 0; }
-  .preview-item__col.is--small { order: 0; }
 }
 
 /* -- Custom Cursor -- */

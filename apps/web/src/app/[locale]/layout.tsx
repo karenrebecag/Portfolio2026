@@ -114,7 +114,7 @@ export default async function LocaleLayout({
                     <SectionThemeObserver>
                       <Marquee />
                       <Navbar />
-                      <div data-main className="relative z-[2] flex min-h-screen flex-col bg-background text-foreground">
+                      <div data-main className="relative z-[2] flex min-h-screen min-w-0 flex-col bg-background text-foreground overflow-x-hidden">
                         <main className="flex-1">
                           <PageTransition>{children}</PageTransition>
                         </main>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { User, Mail, Phone, Globe, Heart, DollarSign, MessageSquare, Paperclip } from 'lucide-react'
 import { Button061 } from '@/components/ui/button-061'
+import { Chip } from '@/components/ui/chip'
 
 const SERVICES = [
   'UX/UI Design & Engineering',
@@ -24,12 +25,6 @@ const labelClass = 'flex items-center gap-2 text-xs font-semibold uppercase trac
 const inputClass = 'w-full min-w-0 bg-transparent border-none outline-none text-[#fdf9ed] text-sm md:text-base font-sans py-3 placeholder:text-[#fdf9ed]/25'
 const underlineClass = 'h-px w-full bg-[#fdf9ed]/15 transition-colors duration-300 group-focus-within:bg-[#88C0AF]'
 
-function pillClass(active: boolean) {
-  return active
-    ? 'px-2 py-1.5 md:px-3 md:py-2 text-xs font-sans font-semibold bg-[#88C0AF] border border-[#88C0AF] text-[#11221f] cursor-pointer transition-all duration-200'
-    : 'px-2 py-1.5 md:px-3 md:py-2 text-xs font-sans font-medium text-[#fdf9ed]/60 border border-[#fdf9ed]/15 bg-transparent cursor-pointer transition-all duration-200 hover:border-[#fdf9ed]/30 hover:text-[#fdf9ed]'
-}
-
 export function ContactForm() {
   const t = useTranslations('contact')
   const [selectedServices, setSelectedServices] = useState<string[]>([])
@@ -41,8 +36,8 @@ export function ContactForm() {
 
   return (
     <form className="space-y-8 min-w-0" onSubmit={(e) => e.preventDefault()}>
-      {/* Row 1: Name + Email */}
-      <div className="grid gap-6 md:grid-cols-2">
+      {/* Inputs 2x2 */}
+      <div className="grid grid-cols-2 gap-6 max-[767px]:grid-cols-1">
         <div>
           <label className={labelClass}>
             <User className="w-4 h-4 shrink-0" strokeWidth={1.5} />
@@ -63,10 +58,6 @@ export function ContactForm() {
             <div className={underlineClass} />
           </div>
         </div>
-      </div>
-
-      {/* Row 2: Phone + Country */}
-      <div className="grid gap-6 md:grid-cols-2">
         <div>
           <label className={labelClass}>
             <Phone className="w-4 h-4 shrink-0" strokeWidth={1.5} />
@@ -97,14 +88,9 @@ export function ContactForm() {
         </label>
         <div className="flex flex-wrap gap-2 mt-1">
           {SERVICES.map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => toggleService(s)}
-              className={pillClass(selectedServices.includes(s))}
-            >
+            <Chip key={s} active={selectedServices.includes(s)} onClick={() => toggleService(s)}>
               {s}
-            </button>
+            </Chip>
           ))}
         </div>
       </div>
@@ -117,14 +103,9 @@ export function ContactForm() {
         </label>
         <div className="flex flex-wrap gap-2 mt-1">
           {BUDGETS.map((b) => (
-            <button
-              key={b}
-              type="button"
-              onClick={() => setSelectedBudget(selectedBudget === b ? null : b)}
-              className={pillClass(selectedBudget === b)}
-            >
+            <Chip key={b} active={selectedBudget === b} onClick={() => setSelectedBudget(selectedBudget === b ? null : b)}>
               {b}
-            </button>
+            </Chip>
           ))}
         </div>
       </div>
