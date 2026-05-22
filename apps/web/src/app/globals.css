@@ -284,131 +284,6 @@
 }
 
 /* -- Contact Form (dark section) -- */
-.contact-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.75em;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #fdf9ed;
-  margin-bottom: 0.75em;
-  font-family: var(--font-accent);
-}
-
-.contact-input-wrap {
-  position: relative;
-}
-
-.contact-input {
-  width: 100%;
-  min-width: 0;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #fdf9ed;
-  font-size: 1em;
-  font-family: var(--font-sans);
-  padding: 0.75em 0;
-  box-sizing: border-box;
-}
-
-.contact-input::placeholder {
-  color: rgba(253, 249, 237, 0.25);
-}
-
-.contact-textarea {
-  resize: vertical;
-  min-height: 6em;
-  max-width: 100%;
-}
-
-.contact-underline {
-  height: 1px;
-  width: 100%;
-  background: rgba(253, 249, 237, 0.15);
-  transition: background 0.3s ease;
-}
-
-.contact-input-wrap:focus-within .contact-underline {
-  background: #88C0AF;
-}
-
-.contact-pill {
-  padding: 0.5em 0.75em;
-  font-size: 0.7em;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  color: rgba(253, 249, 237, 0.6);
-  border: 1px solid rgba(253, 249, 237, 0.15);
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.contact-pill:hover {
-  border-color: rgba(253, 249, 237, 0.3);
-  color: #fdf9ed;
-}
-
-.contact-pill.is--active {
-  background: #88C0AF;
-  border-color: #88C0AF;
-  color: #11221f;
-  font-weight: 600;
-}
-
-.contact-attachment {
-  display: flex;
-  align-items: center;
-  gap: 0.75em;
-  color: rgba(253, 249, 237, 0.5);
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.contact-attachment:hover {
-  color: #fdf9ed;
-}
-
-@media screen and (max-width: 767px) {
-  .contact-input {
-    font-size: 0.875rem;
-  }
-
-  .contact-pill {
-    font-size: 0.65em;
-    padding: 0.4em 0.6em;
-  }
-
-  .contact-attachment {
-    font-size: 0.875rem;
-  }
-}
-
-.contact-submit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75em;
-  padding: 0.875em 1.5em;
-  background: #fdf9ed;
-  color: #11221f;
-  border: none;
-  font-size: 0.875em;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-}
-
-.contact-submit:hover {
-  background: #88C0AF;
-}
-
-.contact-submit:active {
-  transform: scale(0.97);
-}
 
 /* -- Button 061 (OSMO) -- Plantation palette -- */
 :root {
@@ -1179,8 +1054,25 @@
   .preview-list { grid-row-gap: 2em; }
   .preview-item { width: 100%; }
   .preview-item__heading { font-size: 1.25em; }
+
+  .preview-item__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25em;
+  }
+
+  .preview-item__col,
+  .preview-item__col.is--large,
   .preview-item__col.is--medium,
-  .preview-item__col.is--small { max-width: none; }
+  .preview-item__col.is--small {
+    flex: none;
+    width: 100%;
+    max-width: none;
+    text-align: left;
+  }
+
+  .preview-item__col.is--medium { order: 0; }
+  .preview-item__col.is--small { order: 0; }
 }
 
 /* -- Custom Cursor -- */

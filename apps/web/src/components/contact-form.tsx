@@ -20,6 +20,16 @@ const BUDGETS = [
   '> $20,000',
 ]
 
+const labelClass = 'flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#fdf9ed] mb-3 font-accent'
+const inputClass = 'w-full min-w-0 bg-transparent border-none outline-none text-[#fdf9ed] text-sm md:text-base font-sans py-3 placeholder:text-[#fdf9ed]/25'
+const underlineClass = 'h-px w-full bg-[#fdf9ed]/15 transition-colors duration-300 group-focus-within:bg-[#88C0AF]'
+
+function pillClass(active: boolean) {
+  return active
+    ? 'px-2 py-1.5 md:px-3 md:py-2 text-xs font-sans font-semibold bg-[#88C0AF] border border-[#88C0AF] text-[#11221f] cursor-pointer transition-all duration-200'
+    : 'px-2 py-1.5 md:px-3 md:py-2 text-xs font-sans font-medium text-[#fdf9ed]/60 border border-[#fdf9ed]/15 bg-transparent cursor-pointer transition-all duration-200 hover:border-[#fdf9ed]/30 hover:text-[#fdf9ed]'
+}
+
 export function ContactForm() {
   const t = useTranslations('contact')
   const [selectedServices, setSelectedServices] = useState<string[]>([])
@@ -34,23 +44,23 @@ export function ContactForm() {
       {/* Row 1: Name + Email */}
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <label className="contact-label">
-            <User className="w-4 h-4 inline-block" strokeWidth={1.5} />
+          <label className={labelClass}>
+            <User className="w-4 h-4 shrink-0" strokeWidth={1.5} />
             {t('form_name')}
           </label>
-          <div className="contact-input-wrap">
-            <input type="text" placeholder={t('form_name_placeholder')} className="contact-input" />
-            <div className="contact-underline" />
+          <div className="relative group">
+            <input type="text" placeholder={t('form_name_placeholder')} className={inputClass} />
+            <div className={underlineClass} />
           </div>
         </div>
         <div>
-          <label className="contact-label">
-            <Mail className="w-4 h-4 inline-block" strokeWidth={1.5} />
+          <label className={labelClass}>
+            <Mail className="w-4 h-4 shrink-0" strokeWidth={1.5} />
             {t('form_email')}
           </label>
-          <div className="contact-input-wrap">
-            <input type="email" placeholder={t('form_email_placeholder')} className="contact-input" />
-            <div className="contact-underline" />
+          <div className="relative group">
+            <input type="email" placeholder={t('form_email_placeholder')} className={inputClass} />
+            <div className={underlineClass} />
           </div>
         </div>
       </div>
@@ -58,40 +68,40 @@ export function ContactForm() {
       {/* Row 2: Phone + Country */}
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <label className="contact-label">
-            <Phone className="w-4 h-4 inline-block" strokeWidth={1.5} />
+          <label className={labelClass}>
+            <Phone className="w-4 h-4 shrink-0" strokeWidth={1.5} />
             {t('form_phone')}
           </label>
-          <div className="contact-input-wrap">
-            <input type="tel" placeholder={t('form_phone_placeholder')} className="contact-input" />
-            <div className="contact-underline" />
+          <div className="relative group">
+            <input type="tel" placeholder={t('form_phone_placeholder')} className={inputClass} />
+            <div className={underlineClass} />
           </div>
         </div>
         <div>
-          <label className="contact-label">
-            <Globe className="w-4 h-4 inline-block" strokeWidth={1.5} />
+          <label className={labelClass}>
+            <Globe className="w-4 h-4 shrink-0" strokeWidth={1.5} />
             {t('form_country')}
           </label>
-          <div className="contact-input-wrap">
-            <input type="text" placeholder={t('form_country_placeholder')} className="contact-input" />
-            <div className="contact-underline" />
+          <div className="relative group">
+            <input type="text" placeholder={t('form_country_placeholder')} className={inputClass} />
+            <div className={underlineClass} />
           </div>
         </div>
       </div>
 
       {/* Services */}
       <div>
-        <label className="contact-label">
-          <Heart className="w-4 h-4 inline-block" strokeWidth={1.5} />
+        <label className={labelClass}>
+          <Heart className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           {t('form_needs')}
         </label>
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className="flex flex-wrap gap-2 mt-1">
           {SERVICES.map((s) => (
             <button
               key={s}
               type="button"
               onClick={() => toggleService(s)}
-              className={`contact-pill ${selectedServices.includes(s) ? 'is--active' : ''}`}
+              className={pillClass(selectedServices.includes(s))}
             >
               {s}
             </button>
@@ -101,17 +111,17 @@ export function ContactForm() {
 
       {/* Budget */}
       <div>
-        <label className="contact-label">
-          <DollarSign className="w-4 h-4 inline-block" strokeWidth={1.5} />
+        <label className={labelClass}>
+          <DollarSign className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           {t('form_budget')}
         </label>
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className="flex flex-wrap gap-2 mt-1">
           {BUDGETS.map((b) => (
             <button
               key={b}
               type="button"
               onClick={() => setSelectedBudget(selectedBudget === b ? null : b)}
-              className={`contact-pill ${selectedBudget === b ? 'is--active' : ''}`}
+              className={pillClass(selectedBudget === b)}
             >
               {b}
             </button>
@@ -121,34 +131,36 @@ export function ContactForm() {
 
       {/* Message */}
       <div>
-        <label className="contact-label">
-          <MessageSquare className="w-4 h-4 inline-block" strokeWidth={1.5} />
+        <label className={labelClass}>
+          <MessageSquare className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           {t('form_message')}
         </label>
-        <div className="contact-input-wrap mt-3">
+        <div className="relative group mt-1">
           <textarea
             placeholder={t('form_message_placeholder')}
             rows={4}
-            className="contact-input contact-textarea"
+            className={`${inputClass} resize-y min-h-24 max-w-full`}
           />
-          <div className="contact-underline" />
+          <div className={underlineClass} />
         </div>
       </div>
 
       {/* Actions */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <label className="contact-attachment">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between min-w-0">
+        <label className="flex items-center gap-3 text-[#fdf9ed]/50 cursor-pointer transition-colors duration-200 hover:text-[#fdf9ed] min-w-0">
           <Paperclip className="w-4 h-4 shrink-0" strokeWidth={1.5} />
-          <div>
+          <div className="min-w-0">
             <span className="text-sm font-medium">{t('form_attachment')}</span>
             <span className="block text-[10px] text-[#fdf9ed]/30 font-accent">{t('form_attachment_specs')}</span>
           </div>
           <input type="file" className="hidden" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" />
         </label>
 
-        <Button061 href="#" className="footer-cta" onClick={(e) => e.preventDefault()}>
-          {t('form_submit')}
-        </Button061>
+        <div className="shrink-0">
+          <Button061 href="#" className="footer-cta" onClick={(e) => e.preventDefault()}>
+            {t('form_submit')}
+          </Button061>
+        </div>
       </div>
     </form>
   )

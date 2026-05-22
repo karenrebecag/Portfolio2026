@@ -212,7 +212,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             {/* Right -- form */}
-            <div className="col-span-12 md:col-span-8">
+            <div className="col-span-12 md:col-span-8 min-w-0">
               <ContactForm />
             </div>
           </div>
