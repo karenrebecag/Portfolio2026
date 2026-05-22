@@ -3,6 +3,10 @@
 Portfolio personal de Karen Ortiz. Payload CMS + Next.js.
 Arquitectura clonada de atom-careers, adaptada a portafolio.
 
+## ESTADO ACTUAL: CMS desconectado
+
+El CMS (Payload) NO esta corriendo en produccion ni en Vercel. Todos los fetches a la API de Payload (`lib/payload.ts`) fallan gracefully y retornan arrays vacios o null. Los proyectos se muestran via `PLACEHOLDER_PROJECTS` en `lib/constants.ts`. No hacer cambios que dependan de data real del CMS hasta que se configure el backend. El `PAYLOAD_API_URL` en Vercel apunta a un placeholder URL.
+
 ## Arquitectura
 
 ```
