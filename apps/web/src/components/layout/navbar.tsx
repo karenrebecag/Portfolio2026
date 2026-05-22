@@ -38,6 +38,9 @@ export function Navbar() {
     btn.setAttribute('aria-label', isOpen ? 'close menu' : 'open menu')
     document.body.setAttribute('data-menu-status', isOpen ? 'open' : '')
 
+    const header = document.querySelector<HTMLElement>('.underlay-nav__header')
+    if (header) header.classList.toggle('is--hidden', isOpen)
+
     if (isOpen) {
       tl.invalidate()
       if (tl.time() >= enterEndTimeRef.current) tl.timeScale(1).restart()
@@ -163,9 +166,24 @@ export function Navbar() {
     }
 
     const header = document.querySelector<HTMLElement>('.underlay-nav__header')
+    let lastScrollY = 0
+    let headerVisible = true
+
     const handleScroll = () => {
       if (!header) return
-      header.classList.toggle('is--scrolled', window.scrollY > 10)
+      const scrollY = window.scrollY
+      const atTop = scrollY <= 10
+      const scrollingUp = scrollY < lastScrollY
+
+      header.classList.toggle('is--scrolled', !atTop)
+
+      const shouldShow = (atTop || scrollingUp) && !isOpenRef.current
+      if (shouldShow !== headerVisible) {
+        headerVisible = shouldShow
+        header.classList.toggle('is--hidden', !shouldShow)
+      }
+
+      lastScrollY = scrollY
     }
 
     overlayEl.addEventListener('click', handleOverlayClick)

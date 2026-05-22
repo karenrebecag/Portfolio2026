@@ -1,0 +1,141 @@
+'use client'
+
+import { useEffect, useRef, type ReactNode } from 'react'
+import gsap from 'gsap'
+
+interface IconButtonProps {
+  icon: ReactNode
+  colors?: string
+  variant?: 'default' | 'secondary'
+  className?: string
+  onClick?: (e: React.MouseEvent) => void
+  'aria-label': string
+}
+
+const DEFAULT_COLORS = '#88C0AF, #5FA28F, #B5DACD'
+
+export function IconButton({
+  icon,
+  colors = DEFAULT_COLORS,
+  variant = 'default',
+  className = '',
+  onClick,
+  'aria-label': ariaLabel,
+}: IconButtonProps) {
+  const variantClass = variant === 'secondary' ? 'icon-button--secondary' : ''
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const button = buttonRef.current
+    if (!button) return
+
+    const circle = button.querySelector<HTMLElement>('[data-icon-button-circle]')
+    if (!circle) return
+
+    const colorList = colors.split(',').map((c) => c.trim()).filter(Boolean)
+    let colorIndex = 0
+
+    const mm = gsap.matchMedia()
+
+    mm.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => {
+      const xSet = gsap.quickSetter(circle, 'xPercent')
+      const ySet = gsap.quickSetter(circle, 'yPercent')
+
+      function getXY(e: PointerEvent) {
+        const { left, top, width, height } = button!.getBoundingClientRect()
+        const xTransform = gsap.utils.pipe(
+          gsap.utils.mapRange(0, width, 0, 100),
+          gsap.utils.clamp(0, 100),
+        )
+        const yTransform = gsap.utils.pipe(
+          gsap.utils.mapRange(0, height, 0, 100),
+          gsap.utils.clamp(0, 100),
+        )
+        return {
+          x: xTransform(e.clientX - left),
+          y: yTransform(e.clientY - top),
+        }
+      }
+
+      function setNextHoverColor() {
+        if (colorList.length === 0) return
+        button!.style.setProperty('--button-061-hover-color-background', colorList[colorIndex])
+        colorIndex = (colorIndex + 1) % colorList.length
+      }
+
+      function onEnter(e: PointerEvent) {
+        setNextHoverColor()
+        const { x, y } = getXY(e)
+        xSet(x)
+        ySet(y)
+        gsap.to(circle, {
+          scale: 1,
+          duration: 1.25,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        })
+      }
+
+      function onLeave(e: PointerEvent) {
+        const { x, y } = getXY(e)
+        gsap.killTweensOf(circle)
+        gsap.to(circle, {
+          xPercent: x > 90 ? x + 25 : x < 12.5 ? x - 25 : x,
+          yPercent: y > 90 ? y + 25 : y < 12.5 ? y - 25 : y,
+          scale: 0,
+          duration: 0.45,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        })
+      }
+
+      function onMove(e: PointerEvent) {
+        const { x, y } = getXY(e)
+        gsap.to(circle, {
+          xPercent: x,
+          yPercent: y,
+          duration: 0.5,
+          ease: 'power1',
+          overwrite: 'auto',
+        })
+      }
+
+      function onFocusIn() {
+        if (button!.matches(':focus-visible')) setNextHoverColor()
+      }
+
+      button!.addEventListener('pointerenter', onEnter)
+      button!.addEventListener('pointerleave', onLeave)
+      button!.addEventListener('pointermove', onMove)
+      button!.addEventListener('focusin', onFocusIn)
+
+      return () => {
+        button!.removeEventListener('pointerenter', onEnter)
+        button!.removeEventListener('pointerleave', onLeave)
+        button!.removeEventListener('pointermove', onMove)
+        button!.removeEventListener('focusin', onFocusIn)
+      }
+    })
+
+    return () => mm.revert()
+  }, [colors])
+
+  return (
+    <button
+      ref={buttonRef}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={`icon-button ${variantClass} ${className}`}
+    >
+      <span className="button-061__bg" />
+      <span className="button-061__bg-circle">
+        <span className="button-061__circle-wrap" data-icon-button-circle>
+          <span className="button-061__circle" />
+        </span>
+      </span>
+      <span className="icon-button__inner">
+        {icon}
+      </span>
+    </button>
+  )
+}
