@@ -219,8 +219,8 @@ export function LogoWall() {
           </div>
         </div>
 
-        {/* Right -- logo grid 2x4 */}
-        <div className="col-span-12 md:col-span-7">
+        {/* Right -- logo grid 2x4 (desktop) */}
+        <div className="col-span-12 md:col-span-7 hidden md:block">
           <div
             ref={rootRef}
             data-logo-wall-cycle-init
@@ -252,6 +252,30 @@ export function LogoWall() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Logo marquee (mobile) */}
+        <div className="col-span-12 md:hidden">
+          <div className="logo-marquee">
+            <div className="logo-marquee__track">
+              {[0, 1].map((copy) => (
+                <div key={copy} className="logo-marquee__list" aria-hidden={copy > 0}>
+                  {LOGOS.map((logo) => (
+                    <div key={logo.name} className="logo-marquee__item">
+                      {logo.logoDark ? (
+                        <>
+                          <img src={logo.logo} loading="lazy" alt={logo.name} className="logo-marquee__img logo-wall__logo-img--light" />
+                          <img src={logo.logoDark} loading="lazy" alt={logo.name} className="logo-marquee__img logo-wall__logo-img--dark" />
+                        </>
+                      ) : (
+                        <img src={logo.logo} loading="lazy" alt={logo.name} className={`logo-marquee__img ${logo.name !== 'ATOM' ? 'logo-wall__logo-img--invertable' : ''}`} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>

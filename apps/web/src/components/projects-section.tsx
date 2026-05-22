@@ -188,8 +188,8 @@ export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cm
         </div>
       </Container>
 
-      {/* Additional work marquee */}
-      <div className="mt-20 pb-10">
+      {/* Additional work marquee -- desktop only */}
+      <div className="mt-20 pb-10 hidden md:block">
         <Container className="px-4 lg:px-6 mb-6">
           <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">02 / Additional Work</span>
         </Container>

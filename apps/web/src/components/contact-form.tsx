@@ -30,7 +30,7 @@ export function ContactForm() {
   }
 
   return (
-    <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+    <form className="space-y-8 min-w-0" onSubmit={(e) => e.preventDefault()}>
       {/* Row 1: Name + Email */}
       <div className="grid gap-6 md:grid-cols-2">
         <div>

@@ -303,6 +303,7 @@
 
 .contact-input {
   width: 100%;
+  min-width: 0;
   background: transparent;
   border: none;
   outline: none;
@@ -310,6 +311,7 @@
   font-size: 1em;
   font-family: var(--font-sans);
   padding: 0.75em 0;
+  box-sizing: border-box;
 }
 
 .contact-input::placeholder {
@@ -335,7 +337,7 @@
 
 .contact-pill {
   padding: 0.5em 0.75em;
-  font-size: 0.75em;
+  font-size: 0.7em;
   font-family: var(--font-sans);
   font-weight: 500;
   color: rgba(253, 249, 237, 0.6);
@@ -343,6 +345,7 @@
   background: transparent;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .contact-pill:hover {
@@ -368,6 +371,21 @@
 
 .contact-attachment:hover {
   color: #fdf9ed;
+}
+
+@media screen and (max-width: 767px) {
+  .contact-input {
+    font-size: 0.875rem;
+  }
+
+  .contact-pill {
+    font-size: 0.65em;
+    padding: 0.4em 0.6em;
+  }
+
+  .contact-attachment {
+    font-size: 0.875rem;
+  }
 }
 
 .contact-submit {
@@ -739,33 +757,46 @@
   display: block;
 }
 
-/* Stacked: logos go horizontal row */
-@media screen and (max-width: 767px) {
-  .logo-wall__list {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .logo-wall__logo-before {
-    padding-top: 100%;
-  }
-
-  [data-logo-wall-list] [data-logo-wall-item]:nth-child(n+9) {
-    display: none;
-  }
+/* -- Logo Marquee (mobile) -- */
+.logo-marquee {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
-@media screen and (max-width: 479px) {
-  .logo-wall__list {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.logo-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: logo-marquee-scroll 20s linear infinite;
+}
 
-  .logo-wall__logo-before {
-    padding-top: 100%;
-  }
+.logo-marquee__list {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+  flex-shrink: 0;
+}
 
-  [data-logo-wall-list] [data-logo-wall-item]:nth-child(n+5) {
-    display: none;
-  }
+.logo-marquee__item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+}
+
+.logo-marquee__img {
+  height: 1.75rem;
+  width: auto;
+  max-width: 7rem;
+  object-fit: contain;
+}
+
+@keyframes logo-marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* -- Rotating Text -- */
@@ -1147,6 +1178,9 @@
 @media screen and (max-width: 767px) {
   .preview-list { grid-row-gap: 2em; }
   .preview-item { width: 100%; }
+  .preview-item__heading { font-size: 1.25em; }
+  .preview-item__col.is--medium,
+  .preview-item__col.is--small { max-width: none; }
 }
 
 /* -- Custom Cursor -- */
