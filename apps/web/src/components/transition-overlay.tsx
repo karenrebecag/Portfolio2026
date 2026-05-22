@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-const PANEL_COLORS = ['#253c37', '#253c37', '#253c37', '#253c37', '#253c37']
+const PANEL_COUNT = 5
 
 export function TransitionOverlay() {
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -38,20 +38,19 @@ export function TransitionOverlay() {
   return (
     <div ref={wrapRef} className="transition">
       <div className="transition__panels">
-        {PANEL_COLORS.map((color, i) => (
+        {Array.from({ length: PANEL_COUNT }, (_, i) => (
           <div
             key={i}
             data-transition-column
-            className="transition__panel"
-            style={{ backgroundColor: color }}
+            className="transition__panel bg-surface"
           />
         ))}
       </div>
       <div className="transition__lines">
-        {PANEL_COLORS.map((_, i) => (
+        {Array.from({ length: PANEL_COUNT }, (_, i) => (
           <div
             key={i}
-            className={`transition__line${i === PANEL_COLORS.length - 1 ? ' is--last' : ''}`}
+            className={`transition__line${i === PANEL_COUNT - 1 ? ' is--last' : ''}`}
           />
         ))}
       </div>

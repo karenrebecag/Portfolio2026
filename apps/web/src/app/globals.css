@@ -65,30 +65,30 @@
     --radius: 12px;
 }
 
-/* -- Portfolio colors (dark) -- */
+/* -- Portfolio colors (dark) -- Deep night, green tint -- */
 .dark {
-    --background: #0b0b0b;
-    --foreground: #fdf9ed;
-    --card: #161616;
-    --card-foreground: #fdf9ed;
-    --popover: #161616;
-    --popover-foreground: #fdf9ed;
-    --primary: #fdf9ed;
-    --primary-foreground: #0b0b0b;
-    --secondary: #1a1a1a;
-    --secondary-foreground: #fdf9ed;
-    --muted: #1a1a1a;
-    --muted-foreground: #a1a1aa;
-    --accent: #1a1a1a;
-    --accent-foreground: #fdf9ed;
+    --background: #0c0e0a;
+    --foreground: #ECDFCC;
+    --card: #111310;
+    --card-foreground: #ECDFCC;
+    --popover: #111310;
+    --popover-foreground: #ECDFCC;
+    --primary: #ECDFCC;
+    --primary-foreground: #0c0e0a;
+    --secondary: #161814;
+    --secondary-foreground: #ECDFCC;
+    --muted: #161814;
+    --muted-foreground: #697565;
+    --accent: #1e201b;
+    --accent-foreground: #ECDFCC;
     --destructive: #ef4444;
-    --border: #2a2a2a;
-    --input: #3a3a3a;
-    --ring: #5a5a5a;
-    --brand: #fdf9ed;
-    --brand-foreground: #0b0b0b;
-    --surface: #1a1a1a;
-    --surface-foreground: #fdf9ed;
+    --border: #1e201b;
+    --input: #252721;
+    --ring: #697565;
+    --brand: #ECDFCC;
+    --brand-foreground: #0c0e0a;
+    --surface: #070806;
+    --surface-foreground: #ECDFCC;
 }
 
 
@@ -310,11 +310,11 @@
   font-weight: 600;
 }
 
-/* -- Button 061 (OSMO) -- Plantation palette -- */
+/* -- Button 061 (OSMO) -- */
 :root {
-  --button-061-color: #fdf9ed;
-  --button-061-color-background: #11221f;
-  --button-061-hover-color: #11221f;
+  --button-061-color: var(--primary-foreground);
+  --button-061-color-background: var(--primary);
+  --button-061-hover-color: var(--primary);
   --button-061-color-focus: #458776;
   --button-061-padding: 0.75em 1.25em;
   --button-061-text-duplicate-distance: 2em;
@@ -534,9 +534,9 @@
 }
 
 .icon-button--secondary {
-  --button-061-color: #11221f;
-  --button-061-color-background: #fff;
-  --button-061-hover-color: #fff;
+  --button-061-color: var(--foreground);
+  --button-061-color-background: var(--background);
+  --button-061-hover-color: var(--background);
   --button-061-hover-color-background: #88C0AF;
 }
 
@@ -545,22 +545,22 @@
 }
 
 [data-section-theme="dark"] .icon-button {
-  --button-061-color: #11221f;
-  --button-061-color-background: #fdf9ed;
-  --button-061-hover-color: #11221f;
+  --button-061-color: var(--primary);
+  --button-061-color-background: var(--primary-foreground);
+  --button-061-hover-color: var(--primary);
 }
 
 [data-section-theme="light"] .icon-button {
-  --button-061-color: #fdf9ed;
-  --button-061-color-background: #11221f;
-  --button-061-hover-color: #fdf9ed;
+  --button-061-color: var(--primary-foreground);
+  --button-061-color-background: var(--primary);
+  --button-061-hover-color: var(--primary-foreground);
 }
 
 /* -- Button 061 Secondary variant -- */
 .button-061--secondary {
-  --button-061-color: #11221f;
-  --button-061-color-background: #fff;
-  --button-061-hover-color: #fff;
+  --button-061-color: var(--foreground);
+  --button-061-color-background: var(--background);
+  --button-061-hover-color: var(--background);
   --button-061-hover-color-background: #88C0AF;
 }
 
@@ -568,15 +568,15 @@
   border-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Footer dark context */
+/* Footer/surface dark context */
 .footer-cta {
-  --button-061-color: #11221f;
-  --button-061-color-background: #fdf9ed;
-  --button-061-hover-color: #11221f;
+  --button-061-color: var(--surface);
+  --button-061-color-background: var(--surface-foreground);
+  --button-061-hover-color: var(--surface);
 }
 
 .footer-cta .button-061__bg {
-  border-color: rgba(253, 249, 237, 0.15);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* -- Logo Wall (OSMO + Brutalist) -- */
@@ -1129,6 +1129,60 @@ body:has([data-cursor]:hover) .cursor-text {
   border-right-style: none;
 }
 
+/* -- Page Transition (OSMO name wipe) -- */
+.page-transition {
+  z-index: 998;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  overflow: clip;
+}
+
+.page-transition__panel {
+  background-color: var(--surface);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.page-transition__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.page-transition__label {
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  font-family: var(--font-accent);
+  font-size: 1.25em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.page-transition__loader {
+  width: 6rem;
+  height: 1px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.page-transition__loader-bar {
+  width: 100%;
+  height: 100%;
+  background: var(--muted-foreground);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
 /* -- Page transition (fade) -- */
 @keyframes page-fade-in {
   from { opacity: 0; }
@@ -1197,7 +1251,7 @@ body:has([data-cursor]:hover) .cursor-text {
 }
 
 [data-section-theme="dark"] .underlay-nav__header {
-  color: #fff;
+  color: var(--foreground);
 }
 
 .underlay-nav__bar {
@@ -1496,13 +1550,13 @@ body:has([data-cursor]:hover) .cursor-text {
 }
 
 [data-section-theme="dark"] [data-css-marquee] {
-  background-color: #fdf9ed;
-  color: #11221f;
+  background-color: var(--foreground);
+  color: var(--background);
 }
 
 [data-section-theme="light"] [data-css-marquee] {
   background-color: var(--surface);
-  color: #fdf9ed;
+  color: var(--surface-foreground);
 }
 
 

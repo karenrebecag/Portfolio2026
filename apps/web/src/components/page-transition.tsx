@@ -1,36 +1,30 @@
 'use client'
 
-import { useEffect, useRef, useCallback } from 'react'
-import { usePathname } from 'next/navigation'
+import { useEffect, useRef } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import gsap from 'gsap'
 
-const DURATION = 1.2
-const PARALLAX_EASE = 'power3.inOut'
+function getPageName(href: string): string {
+  const path = href.replace(/^\/(en|es)/, '') || '/'
+  if (path === '/' || path === '') return 'Home'
+  const segments = path.split('/').filter(Boolean)
+  const last = segments[segments.length - 1]
+  return last.charAt(0).toUpperCase() + last.slice(1).replace(/-/g, ' ')
+}
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const contentRef = useRef<HTMLDivElement>(null)
-  const snapshotRef = useRef<HTMLDivElement>(null)
-  const darkRef = useRef<HTMLDivElement>(null)
-  const wrapRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLSpanElement>(null)
+  const labelTextRef = useRef<HTMLSpanElement>(null)
+  const loaderRef = useRef<HTMLDivElement>(null)
+  const isAnimating = useRef(false)
   const isFirstRender = useRef(true)
   const prevPathname = useRef(pathname)
-  const isAnimating = useRef(false)
 
-  const captureSnapshot = useCallback(() => {
-    const content = contentRef.current
-    const snapshot = snapshotRef.current
-    if (!content || !snapshot || isAnimating.current) return
-
-    // Clone current visible content into snapshot
-    snapshot.innerHTML = content.innerHTML
-    snapshot.style.cssText = `
-      position: fixed; top: ${-window.scrollY}px; left: 0; right: 0;
-      z-index: 1; pointer-events: none; display: block;
-      background: var(--background);
-    `
-  }, [])
-
+  // Enter animation -- runs when pathname changes (new content mounted)
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false
@@ -39,120 +33,148 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     }
 
     if (pathname === prevPathname.current) return
-    if (isAnimating.current) return
-
     prevPathname.current = pathname
-    isAnimating.current = true
 
     const content = contentRef.current
-    const snapshot = snapshotRef.current
-    const dark = darkRef.current
-    const wrap = wrapRef.current
-
-    if (!content || !snapshot || !dark || !wrap) {
+    const panel = panelRef.current
+    const label = labelRef.current
+    if (!content || !panel || !label) {
       isAnimating.current = false
       return
     }
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo(0, 0)
 
-    // Only scroll to top when navigating to a subpage, not back to home
-    const isNavigatingToSubpage = pathname.includes('/projects/')
-    const savedScrollY = isNavigatingToSubpage ? 0 : window.scrollY
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const loader = loaderRef.current
 
-    if (prefersReduced) {
-      if (isNavigatingToSubpage) window.scrollTo(0, 0)
-      snapshot.style.display = 'none'
-      snapshot.innerHTML = ''
+    if (reducedMotion) {
+      gsap.set(content, { clearProps: 'all', autoAlpha: 1 })
+      gsap.set(panel, { autoAlpha: 0, yPercent: 0 })
+      if (loader) gsap.set(loader, { scaleX: 0 })
       isAnimating.current = false
       document.dispatchEvent(new CustomEvent('page-navigation-complete'))
       return
     }
 
-    if (isNavigatingToSubpage) window.scrollTo(0, 0)
-
-    // -- LEAVE: snapshot (old page) moves up + dark overlay --
-    // Transition wrap at z-index 2 (between snapshot z1 and content z3)
-    gsap.set(wrap, { zIndex: 2 })
-    gsap.set(dark, { autoAlpha: 0 })
-
-    // New content starts at 100vh below, z-index 3 (on top of everything)
-    // Background ensures no gap visible during slide
-    gsap.set(content, {
-      y: '100vh', position: 'relative', zIndex: 3,
-      backgroundColor: 'var(--background)',
-    })
-
     const tl = gsap.timeline({
       onComplete: () => {
-        snapshot.style.display = 'none'
-        snapshot.innerHTML = ''
         gsap.set(content, { clearProps: 'all' })
-        gsap.set(dark, { autoAlpha: 0 })
-        gsap.set(wrap, { clearProps: 'zIndex' })
-
-        // Restore scroll for back navigation
-        if (!isNavigatingToSubpage) {
-          window.scrollTo(0, savedScrollY)
-        }
-
+        gsap.set(panel, { autoAlpha: 0, yPercent: 0 })
+        if (loader) gsap.set(loader, { scaleX: 0 })
         isAnimating.current = false
-
-        // Re-init animations for new page content
         document.dispatchEvent(new CustomEvent('page-navigation-complete'))
       },
     })
 
-    // Old page (snapshot): parallax up at slower rate
-    tl.fromTo(snapshot,
-      { y: 0 },
-      { y: '-25vh', duration: DURATION, ease: PARALLAX_EASE },
-      0,
+    tl.add('startEnter', 0.75)
+
+    tl.set(content, { autoAlpha: 1 }, 'startEnter')
+
+    tl.fromTo(panel,
+      { yPercent: -100 },
+      { yPercent: -200, duration: 1, ease: 'power3.inOut', overwrite: 'auto', immediateRender: false },
+      'startEnter',
     )
 
-    // Dark overlay fades in over old page
-    tl.fromTo(dark,
-      { autoAlpha: 0 },
-      { autoAlpha: 0.8, duration: DURATION, ease: PARALLAX_EASE },
-      0,
+    tl.fromTo(label,
+      { autoAlpha: 1 },
+      { autoAlpha: 0, duration: 0.4, overwrite: 'auto', immediateRender: false },
+      'startEnter+=0.1',
     )
 
-    // New page (content): slides up from 100vh to 0
-    tl.fromTo(content,
-      { y: '100vh' },
-      { y: '0vh', duration: DURATION, ease: PARALLAX_EASE, clearProps: 'all' },
-      0,
+    tl.from(content,
+      { y: '15vh', duration: 1, ease: 'power3.inOut' },
+      'startEnter',
     )
-
-    // Reset dark at end
-    tl.set(dark, { autoAlpha: 0 })
   }, [pathname])
 
-  // Capture snapshot on internal link click before Next.js navigates
+  // Intercept internal link clicks -- run leave, then navigate
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const link = (e.target as HTMLElement).closest('a')
       if (!link) return
       const href = link.getAttribute('href')
       if (!href) return
-      // Skip external, anchor, mailto, tel links
       if (href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return
-      captureSnapshot()
+      if (href === pathname) return
+      if (isAnimating.current) return
+
+      e.preventDefault()
+      isAnimating.current = true
+
+      const content = contentRef.current
+      const panel = panelRef.current
+      const label = labelRef.current
+      const labelText = labelTextRef.current
+      if (!content || !panel || !label || !labelText) {
+        router.push(href)
+        return
+      }
+
+      labelText.innerText = getPageName(href)
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reducedMotion) {
+        router.push(href)
+        return
+      }
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          gsap.set(content, { autoAlpha: 0, clearProps: 'y' })
+          router.push(href)
+        },
+      })
+
+      const loader = loaderRef.current
+
+      tl.set(panel, { autoAlpha: 1, yPercent: 0 }, 0)
+      if (loader) tl.set(loader, { scaleX: 0, transformOrigin: 'left center' }, 0)
+
+      tl.fromTo(panel,
+        { yPercent: 0 },
+        { yPercent: -100, duration: 0.8, ease: 'power3.inOut' },
+        0,
+      )
+
+      tl.fromTo(label,
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: 0.4 },
+        '<+=0.2',
+      )
+
+      if (loader) {
+        tl.to(loader, { scaleX: 1, duration: 1.2, ease: 'power1.inOut' }, 0.4)
+      }
+
+      tl.fromTo(content,
+        { y: '0vh' },
+        { y: '-15vh', duration: 0.8, ease: 'power3.inOut' },
+        0,
+      )
     }
 
     document.addEventListener('click', handleClick, true)
     return () => document.removeEventListener('click', handleClick, true)
-  }, [captureSnapshot])
+  }, [pathname, router])
 
   return (
     <>
-      {/* Transition wrap with dark overlay -- z-index 2 during transition */}
-      <div ref={wrapRef} style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
-        <div ref={darkRef} style={{ position: 'absolute', inset: 0, background: '#000', opacity: 0 }} />
+      <div className="page-transition">
+        <div ref={panelRef} className="page-transition__panel">
+          <div className="page-transition__content">
+            <span ref={labelRef} className="page-transition__label">
+              <span>[ </span>
+              <span ref={labelTextRef}>Welcome</span>
+              <span> ]</span>
+            </span>
+            <div className="page-transition__loader">
+              <div ref={loaderRef} className="page-transition__loader-bar" />
+            </div>
+          </div>
+        </div>
       </div>
-      {/* Snapshot of previous page -- z-index 1 */}
-      <div ref={snapshotRef} style={{ display: 'none' }} />
-      {/* Current page content -- z-index 3 during transition */}
       <div ref={contentRef}>{children}</div>
     </>
   )

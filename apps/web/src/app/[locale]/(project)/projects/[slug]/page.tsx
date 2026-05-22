@@ -7,6 +7,7 @@ import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { RichTextRenderer } from '@/components/rich-text-renderer'
 import { Container } from '@/components/ui/container'
 import { Button061 } from '@/components/ui/button-061'
+import { ContactSection } from '@/components/contact-section'
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>
@@ -56,7 +57,8 @@ export default async function ProjectPage({ params }: Props) {
     : null
 
   return (
-    <section data-theme-section="light" className="py-16">
+    <>
+    <section data-theme-section="light" className="pt-32 pb-16">
       <Container className="px-4 lg:px-6">
         <Link href="/#projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-accent uppercase tracking-wide">
           &larr; {t('back')}
@@ -112,5 +114,8 @@ export default async function ProjectPage({ params }: Props) {
         )}
       </Container>
     </section>
+
+    <ContactSection />
+    </>
   )
 }

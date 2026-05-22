@@ -5,8 +5,6 @@ import localFont from 'next/font/local'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { cn } from '@/lib/utils'
-import { Navbar } from '@/components/layout/navbar'
-import { Footer } from '@/components/layout/footer'
 import { LenisProvider } from '@/components/lenis-provider'
 import { ParallaxProvider } from '@/components/parallax-provider'
 import { TransitionOverlay } from '@/components/transition-overlay'
@@ -16,7 +14,6 @@ import { CustomCursor } from '@/components/custom-cursor'
 import { RotatingTextProvider } from '@/components/rotating-text'
 import { SectionThemeObserver } from '@/components/section-theme-observer'
 import { PageTransition } from '@/components/page-transition'
-import { Marquee } from '@/components/marquee'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -112,14 +109,7 @@ export default async function LocaleLayout({
                 <ContentRevealProvider>
                   <RotatingTextProvider>
                     <SectionThemeObserver>
-                      <Marquee />
-                      <Navbar />
-                      <div data-main className="relative z-[2] flex min-h-screen min-w-0 flex-col bg-background text-foreground overflow-x-hidden">
-                        <main className="flex-1">
-                          <PageTransition>{children}</PageTransition>
-                        </main>
-                        <Footer />
-                      </div>
+                      <PageTransition>{children}</PageTransition>
                     </SectionThemeObserver>
                   </RotatingTextProvider>
                 </ContentRevealProvider>
