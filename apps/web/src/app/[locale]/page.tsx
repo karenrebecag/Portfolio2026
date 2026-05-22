@@ -61,7 +61,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <Container className="relative z-[1] mb-6">
           {/* Name */}
           <div className="relative mb-6 overflow-hidden">
-            <h1 data-split="heading" data-split-reveal="lines" data-split-trigger="mount" className="text-[11vw] sm:text-[10vw] font-bold uppercase leading-[0.85] tracking-[-0.03em] whitespace-nowrap">
+            <h1 data-split="heading" data-split-reveal="lines" data-split-trigger="mount" className="text-[13vw] sm:text-[11vw] md:text-[10vw] font-bold uppercase leading-[0.85] tracking-[-0.03em]">
               Karen Ortiz
             </h1>
           </div>

@@ -43,7 +43,7 @@ export function Footer() {
         <div className="mb-10 h-px w-full bg-[#fdf9ed]/10" />
 
         {/* Bottom grid */}
-        <div className="grid grid-cols-16 gap-x-6 gap-y-12 text-sm md:gap-6">
+        <div className="grid grid-cols-1 gap-y-10 text-sm md:grid-cols-16 md:gap-x-6 md:gap-y-12">
           {/* Name + copyright */}
           <div className="order-last col-span-16 md:order-first md:col-span-4">
             <span className="block mb-2 font-display text-lg font-bold uppercase tracking-tight">{t('name')}</span>
