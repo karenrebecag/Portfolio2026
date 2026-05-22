@@ -1,0 +1,116 @@
+import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { getProjectBySlug, getPublishedProjects } from '@/lib/payload'
+import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
+import { RichTextRenderer } from '@/components/rich-text-renderer'
+import { Container } from '@/components/ui/container'
+import { Button061 } from '@/components/ui/button-061'
+
+type Props = {
+  params: Promise<{ slug: string; locale: string }>
+}
+
+function findProject(slug: string) {
+  return PLACEHOLDER_PROJECTS.find((p) => p.slug === slug) || null
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const project = (await getProjectBySlug(slug)) || findProject(slug)
+  if (!project) return { title: 'Not found' }
+  return { title: project.title, description: project.summary }
+}
+
+export async function generateStaticParams() {
+  const cmsProjects = await getPublishedProjects()
+  const cmsSlugs = cmsProjects.map((p) => ({ slug: p.slug }))
+  const placeholderSlugs = PLACEHOLDER_PROJECTS.map((p) => ({ slug: p.slug }))
+  return [...cmsSlugs, ...placeholderSlugs]
+}
+
+export default async function ProjectPage({ params }: Props) {
+  const { slug, locale } = await params
+  setRequestLocale(locale)
+
+  const cmsProject = await getProjectBySlug(slug)
+  const project = cmsProject || findProject(slug)
+  const t = await getTranslations('project_detail')
+
+  if (!project) notFound()
+
+  if (project.status === 'archived') {
+    return (
+      <Container className="px-4 lg:px-6 py-24 text-center">
+        <h1 className="text-2xl font-bold">{t('archived_title')}</h1>
+        <p className="mt-4 text-muted-foreground">{t('archived_text')}</p>
+        <Link href="/projects" className="mt-6 inline-block text-sm underline underline-offset-4">{t('view_projects')}</Link>
+      </Container>
+    )
+  }
+
+  const cmsBase = process.env.PAYLOAD_API_URL?.replace('/api', '') || ''
+  const imgSrc = project.coverImage
+    ? (project.coverImage.url.startsWith('http') ? project.coverImage.url : `${cmsBase}${project.coverImage.url}`)
+    : null
+
+  return (
+    <section data-theme-section="light" className="py-16">
+      <Container className="px-4 lg:px-6">
+        <Link href="/#projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-accent uppercase tracking-wide">
+          &larr; {t('back')}
+        </Link>
+
+        <header className="mt-10">
+          <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-tight leading-[1.05]">{project.title}</h1>
+          <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
+            <span className="capitalize">{project.category.replace('_', ' ')}</span>
+            <span className="w-1 h-1 rounded-full bg-border" />
+            <span>{project.role}</span>
+            {project.year && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-border" />
+                <span>{project.year}</span>
+              </>
+            )}
+          </div>
+          {project.tags && project.tags.length > 0 && (
+            <div className="mt-5 flex gap-2 flex-wrap">
+              {project.tags.map((tag) => (
+                <span key={tag.tag} className="text-xs px-2.5 py-1 bg-secondary text-secondary-foreground font-accent uppercase tracking-wide">{tag.tag}</span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        {imgSrc && (
+          <div className="mt-10 overflow-hidden">
+            <img src={imgSrc} alt={project.coverImage?.alt || ''} className="w-full" />
+          </div>
+        )}
+
+        {project.summary && (
+          <p className="mt-10 text-lg leading-relaxed text-foreground/80 max-w-[60ch]">{project.summary}</p>
+        )}
+
+        <div className="mt-8 h-px w-full bg-border" />
+
+        <div className="mt-10 max-w-[60ch]">
+          <RichTextRenderer content={project.description as { root?: unknown } | null} />
+        </div>
+
+        {(project.liveUrl || project.repoUrl) && (
+          <div className="mt-12 flex gap-4">
+            {project.liveUrl && (
+              <Button061 href={project.liveUrl} target="_blank" rel="noopener noreferrer">{t('live')}</Button061>
+            )}
+            {project.repoUrl && (
+              <Button061 href={project.repoUrl} target="_blank" rel="noopener noreferrer" variant="secondary">{t('repo')}</Button061>
+            )}
+          </div>
+        )}
+      </Container>
+    </section>
+  )
+}

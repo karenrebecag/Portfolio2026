@@ -1,0 +1,11 @@
+node_modules/
+.next/
+dist/
+build/
+.env
+.env.local
+.turbo/
+*.tsbuildinfo
+
+# Payload generated
+apps/cms/src/app/(payload)/admin/importMap.js

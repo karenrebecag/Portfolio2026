@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "title": "Karen Ortiz - Software Engineer & Product Designer",
+    "description": "I design and build AI-powered web products, from architecture to the last pixel."
+  },
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "hero": {
+    "title": "I design and build AI-powered web products, from architecture to the last pixel.",
+    "subtitle": "Software Engineer focused on Product Engineering & Web Experiences. I design systems, components, and agents that connect UX, infrastructure, and AI into production-ready products.",
+    "bullet_1": "Web architecture and development with Next.js, Astro, TypeScript, and decoupled stacks.",
+    "bullet_2": "Token-first design systems and npm libraries for distributed product teams.",
+    "bullet_3": "AI integrations (MCP servers, LLMs, automation) that enable non-technical teams.",
+    "cta": "Let's talk about your product",
+    "cta_button": "Book a call",
+    "subcopy": "Open to freelance and full-time roles in product engineering."
+  },
+  "statement": {
+    "text": "From architecture to the last pixel."
+  },
+  "stack": {
+    "pill": "04 / Selected collaborations",
+    "heading": "Trusted by design-led companies & engineering teams",
+    "subheading": "I work with teams that take design, product architecture, and applied AI seriously, not just the visual layer.",
+    "body": "From startups to established teams, I collaborate with Product, Design, and Engineering to design web experiences, integrate AI into their workflows, and ship decisions to production code.",
+    "body_2": "Here are some of the teams and brands I've worked with recently.",
+    "bullet_1": "Direct collaboration with founders, product managers, designers, and engineers.",
+    "bullet_2": "Production projects: from landing pages to design systems and AI-powered tools.",
+    "bullet_3": "Focus on craft, performance, and fast iteration cycles.",
+    "cta": "Let's work together"
+  },
+  "why": {
+    "pill": "03 / Why work with me",
+    "heading_before": "I bridge ",
+    "rotating_words": "product, design, engineering",
+    "rotating_default": "engineering",
+    "heading_after": " without the usual handoff friction.",
+    "statement": "I design like a product thinker and build like an engineer.",
+    "row_1_title": "Senior product thinking",
+    "row_1_body": "I design with business goals, user behavior, and technical constraints in mind.",
+    "row_2_title": "Built to ship",
+    "row_2_body": "My work translates cleanly into systems, components, and production-ready code.",
+    "row_3_title": "AI with intention",
+    "row_3_body": "I use AI where it improves workflows, tools, or product value.",
+    "row_4_title": "Low-friction collaboration",
+    "row_4_body": "I work fast with founders, designers, and engineers across the full product cycle.",
+    "tools_label": "With these tools",
+    "services_label": "Services",
+    "svc_1_title": "Product & UX Engineering",
+    "svc_1_tags": "RESEARCH, UX/UI, PROTOTYPING, FULLSTACK",
+    "svc_1_body": "I define, design, and build new features or full products. Light research, UX/UI, prototypes, and fullstack development in the same flow.",
+    "svc_2_title": "Modern Web Experiences",
+    "svc_2_tags": "NEXT.JS, ASTRO, REACT, TYPESCRIPT, APIS",
+    "svc_2_body": "I build sites, dashboards, and web apps integrating APIs, databases, and external services ready for production.",
+    "svc_3_title": "AI-Driven Interfaces & Workflows",
+    "svc_3_tags": "MCP, LLMS, AGENTS, AUTOMATION",
+    "svc_3_body": "I design and build context-aware interfaces where AI makes sense, turning it into agents and automations that improve your product and internal processes.",
+    "svc_4_title": "Design Systems & Internal Tools",
+    "svc_4_tags": "TOKENS, COMPONENTS, NPM, STORYBOOK",
+    "svc_4_body": "I create or evolve your design system, component libraries, and internal tools so product, design, and dev work on the same foundation.",
+    "svc_5_title": "UX & Conversion Improvements",
+    "svc_5_tags": "ANALYTICS, A/B TESTING, RETENTION",
+    "svc_5_body": "Data-driven optimization for active products. I analyze user flows, performance bottlenecks, and retention metrics to deploy targeted improvements.",
+    "svc_6_title": "Architecture & Tech Guidance",
+    "svc_6_tags": "STACK, INFRA, INTEGRATIONS, ROADMAP",
+    "svc_6_body": "I guide founders and small teams to make good stack, architecture, and integration decisions. Thinking about what you'll need in 6 to 12 months, not just the next sprint."
+  },
+  "projects": {
+    "pill": "01 / Selected projects",
+    "heading": "Product work I'm proud of.",
+    "description": "A few projects where I've led product thinking, UX, systems, and engineering. From early exploration to production.",
+    "empty": "Coming soon.",
+    "view_all": "View all projects"
+  },
+  "additional": {
+    "pill": "02 / Additional work",
+    "heading": "Smaller builds, launch pages, and experiments.",
+    "description": "A rotating selection of shorter projects that didn't need a full case study, but still show the range of things I design and build."
+  },
+  "about": {
+    "eyebrow": "Why partner with me",
+    "heading_before": "Companies partner with me for my ",
+    "heading_highlight": "product sense + technical instincts.",
+    "bullet_1": "I connect product thinking, UX, and engineering, so decisions make sense for users, the business, and the codebase.",
+    "bullet_2": "I care about the craft, from the architecture and design system to the final micro-interaction in production.",
+    "bullet_3": "I define scalable systems (design tokens, components, internal tools) that help teams move faster instead of starting from scratch every time.",
+    "bullet_4": "I use AI with intention, turning it into workflows, agents, and tools that actually help teams ship better work.",
+    "cta": "Learn more about me"
+  },
+  "contact": {
+    "label": "Contact",
+    "title": "Let's talk about your product",
+    "description": "Open to freelance and full-time roles in product engineering.",
+    "cta": "Book a call",
+    "form_name": "Your Name",
+    "form_name_placeholder": "John Smith",
+    "form_email": "Your Email",
+    "form_email_placeholder": "john@company.com",
+    "form_phone": "Your Phone",
+    "form_phone_placeholder": "+1 123 456 7890",
+    "form_country": "Country",
+    "form_country_placeholder": "United States, Canada, Mexico",
+    "form_needs": "What do you need?",
+    "form_budget": "Your Budget (USD)",
+    "form_message": "Project Details",
+    "form_message_placeholder": "What are your goals, timeline, and any references or inspiration?",
+    "form_attachment": "Add an Attachment",
+    "form_attachment_specs": "Max 10MB - PDF, DOC, JPG, PNG",
+    "form_submit": "Send My Project Brief"
+  },
+  "footer": {
+    "name": "Karen Ortiz",
+    "tagline_1": "Built to ship.",
+    "tagline_2": "Designed to last.",
+    "bio": "Software Engineer focused on Product Engineering & Web Experiences. I design systems, components, and agents that connect UX, infrastructure, and AI into production-ready products.",
+    "rights": "All rights reserved"
+  },
+  "project_detail": {
+    "back": "Projects",
+    "archived_title": "Archived project",
+    "archived_text": "This project is no longer available.",
+    "view_projects": "View projects",
+    "live": "View live",
+    "repo": "Repository"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "mode": "mode"
+  },
+  "marquee": {
+    "services": "Product Engineering, Design Systems, AI Integrations, Web Architecture, Component Libraries, MCP Servers, Frontend Development, UX Engineering"
+  }
+}

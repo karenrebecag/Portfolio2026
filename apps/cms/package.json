@@ -1,0 +1,30 @@
+{
+  "name": "@karen-portfolio/cms",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --port 3100",
+    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "generate:types": "payload generate:types"
+  },
+  "dependencies": {
+    "@karen-portfolio/shared": "workspace:*",
+    "@payloadcms/db-postgres": "^3.46.1",
+    "@payloadcms/next": "^3.46.1",
+    "@payloadcms/richtext-lexical": "^3.46.1",
+    "@payloadcms/storage-uploadthing": "^3.46.1",
+    "cross-env": "^7.0.3",
+    "next": "^15.3.3",
+    "payload": "^3.46.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sharp": "^0.34.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.4",
+    "typescript": "^5.8.3"
+  }
+}
