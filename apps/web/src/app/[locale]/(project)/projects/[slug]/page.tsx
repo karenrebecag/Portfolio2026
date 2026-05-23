@@ -60,9 +60,9 @@ export default async function ProjectPage({ params }: Props) {
     <>
     <section data-theme-section="light" className="pt-32 pb-16">
       <Container className="px-4 lg:px-6">
-        <Link href="/#projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-accent uppercase tracking-wide">
-          &larr; {t('back')}
-        </Link>
+        <Button061 href="/#projects" arrow="left">
+          {t('back')}
+        </Button061>
 
         <header className="mt-10">
           <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-tight leading-[1.05]">{project.title}</h1>

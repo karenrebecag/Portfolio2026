@@ -12,6 +12,7 @@ interface Button061Props {
   target?: string
   rel?: string
   onClick?: (e: React.MouseEvent) => void
+  arrow?: 'right' | 'left' | 'none'
 }
 
 const DEFAULT_COLORS = '#88C0AF, #5FA28F, #B5DACD'
@@ -25,6 +26,7 @@ export function Button061({
   target,
   rel,
   onClick,
+  arrow = 'right',
 }: Button061Props) {
   const variantClass = variant === 'secondary' ? 'button-061--secondary' : ''
   const buttonRef = useRef<HTMLAnchorElement>(null)
@@ -143,8 +145,9 @@ export function Button061({
       <span className="button-061__inner font-accent">
         <span className="button-061__text" data-button-061-text>
           <span className="inline-flex items-center gap-2">
+            {arrow === 'left' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"><path d="M19 12H5M11 19l-7-7 7-7" /></svg>}
             {children}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+            {arrow === 'right' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"><path d="M5 12h14M13 5l7 7-7 7" /></svg>}
           </span>
         </span>
       </span>

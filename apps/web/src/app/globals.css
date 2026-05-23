@@ -95,7 +95,7 @@
 /* -- Base -- */
 @layer base {
   html, body {
-    overflow-x: hidden;
+    overflow-x: clip;
   }
   * {
     @apply border-border outline-ring/50;
@@ -185,7 +185,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(17, 34, 31, 0.7);
+  background: color-mix(in srgb, var(--primary) 70%, transparent);
   opacity: 0;
   transition: opacity 0.4s cubic-bezier(0.625, 0.05, 0, 1);
   pointer-events: none;
@@ -220,8 +220,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background: #88C0AF;
-  color: #11221f;
+  background: var(--surface-foreground);
+  color: var(--surface);
 }
 
 /* -- Additional Work Gallery -- */
@@ -291,22 +291,24 @@
   font-family: var(--font-sans);
   font-weight: 500;
   line-height: 1.4;
-  color: rgba(253, 249, 237, 0.6);
+  color: var(--surface-foreground, #fdf9ed);
+  opacity: 0.6;
   background: transparent;
-  border: 1px solid rgba(253, 249, 237, 0.15);
+  border: 1px solid color-mix(in srgb, var(--surface-foreground) 15%, transparent);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .chip:hover {
-  border-color: rgba(253, 249, 237, 0.3);
-  color: #fdf9ed;
+  border-color: color-mix(in srgb, var(--surface-foreground) 30%, transparent);
+  opacity: 1;
 }
 
 .chip[data-active] {
-  background: #88C0AF;
-  border-color: #88C0AF;
-  color: #11221f;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  opacity: 1;
   font-weight: 600;
 }
 
@@ -603,7 +605,7 @@
   border-bottom: 1px solid var(--border);
 }
 
-[data-logo-wall-list] [data-logo-wall-item]:nth-child(n+7) {
+[data-logo-wall-list] [data-logo-wall-item]:nth-child(n+9) {
   display: none;
 }
 
@@ -627,6 +629,7 @@
   display: flex;
   position: absolute;
 }
+
 
 .logo-wall__logo-img {
   width: 100%;

@@ -138,7 +138,7 @@ export function AdditionalWorkMarquee() {
               <img draggable={false} loading="eager" src={item.image} alt={item.title} className="draggable-marquee__item-img" />
               <div className="draggable-marquee__item-overlay">
                 <span className="item-tag">{item.type}</span>
-                <span className="block text-base font-bold text-[#fdf9ed] mt-2">{item.title}</span>
+                <span className="block text-base font-bold text-surface-foreground mt-2">{item.title}</span>
               </div>
             </a>
           ))}

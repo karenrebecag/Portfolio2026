@@ -21,9 +21,9 @@ const BUDGETS = [
   '> $20,000',
 ]
 
-const labelClass = 'flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#fdf9ed] mb-3 font-accent'
-const inputClass = 'w-full min-w-0 bg-transparent border-none outline-none text-[#fdf9ed] text-sm md:text-base font-sans py-3 placeholder:text-[#fdf9ed]/25'
-const underlineClass = 'h-px w-full bg-[#fdf9ed]/15 transition-colors duration-300 group-focus-within:bg-[#88C0AF]'
+const labelClass = 'flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-surface-foreground mb-3 font-accent'
+const inputClass = 'w-full min-w-0 bg-transparent border-none outline-none text-surface-foreground text-sm md:text-base font-sans py-3 placeholder:text-surface-foreground/25'
+const underlineClass = 'h-px w-full bg-surface-foreground/15 transition-colors duration-300 group-focus-within:bg-brand'
 
 export function ContactForm() {
   const t = useTranslations('contact')
@@ -128,11 +128,11 @@ export function ContactForm() {
 
       {/* Actions */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between min-w-0">
-        <label className="flex items-center gap-3 text-[#fdf9ed]/50 cursor-pointer transition-colors duration-200 hover:text-[#fdf9ed] min-w-0">
+        <label className="flex items-center gap-3 text-surface-foreground/50 cursor-pointer transition-colors duration-200 hover:text-surface-foreground min-w-0">
           <Paperclip className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           <div className="min-w-0">
             <span className="text-sm font-medium">{t('form_attachment')}</span>
-            <span className="block text-[10px] text-[#fdf9ed]/30 font-accent">{t('form_attachment_specs')}</span>
+            <span className="block text-[10px] text-surface-foreground/30 font-accent">{t('form_attachment_specs')}</span>
           </div>
           <input type="file" className="hidden" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" />
         </label>

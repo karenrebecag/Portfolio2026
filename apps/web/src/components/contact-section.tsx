@@ -38,13 +38,13 @@ export async function ContactSection() {
             <h2 data-split="heading" data-split-reveal="words" className="mt-6 text-[clamp(1.75rem,3.5vw,3rem)] font-bold leading-[1.05] tracking-[-0.02em] max-w-[16ch]">
               {t('contact.title')}
             </h2>
-            <p className="mt-4 text-sm text-[#fdf9ed]/60 max-w-[30ch]">{t('contact.description')}</p>
+            <p className="mt-4 text-sm text-surface-foreground/60 max-w-[30ch]">{t('contact.description')}</p>
 
-            <div className="mt-8 h-px w-full bg-[#fdf9ed]/10" />
+            <div className="mt-8 h-px w-full bg-surface-foreground/10" />
 
             <div className="mt-8 flex flex-col gap-3">
               {CONTACT_LINKS.map((link) => (
-                <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 text-sm text-[#fdf9ed]/50 hover:text-[#fdf9ed] transition-colors">
+                <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 text-sm text-surface-foreground/50 hover:text-surface-foreground transition-colors">
                   <link.icon className="w-4 h-4" />
                   <span>{link.label}</span>
                 </a>
