@@ -39,7 +39,7 @@ const WALL_ITEMS: WallItem[] = [
   { name: 'Andrea Blass', quote: 'Karen stands out for her intelligence, attention to detail, and ability to learn fast. She consistently brought clear solutions, meaningful improvements, and a strong user-centered perspective to every project.', author: 'Andrea Blass', role: 'Fullstack Developer & Community Lead' },
   { name: 'Elias Aquique', quote: 'Her constant willingness to learn has kept her at the forefront of her field. Karen has shown excellent communication skills with both team members and clients, ensuring timely delivery of high-quality projects.', author: 'Elias Aquique', role: 'CEO, Sodio Comunicacion Visual' },
   { name: 'Irving Estrada', quote: 'Her commitment and professional ethics were fundamental to the success of our projects. She is an exceptional professional who brings value and quality to every project she is involved in.', author: 'Irving Estrada', role: 'Photographer & Videographer' },
-  { name: 'Ancient Technology', quote: 'Karen took complex requirements, broke them down, and turned them into clear, functional interfaces. She proposed UX improvements and ensured brand guidelines, accessibility, and performance were respected across every deliverable.', author: 'Ancient Technology', role: 'HR Department' },
+  { name: 'Nayeli Quinto', quote: 'Karen took complex requirements, broke them down, and turned them into clear, functional interfaces. She proposed UX improvements and ensured brand guidelines, accessibility, and performance were respected across every deliverable.', author: 'Nayeli Quinto', role: 'Art Director, Aurin' },
 ]
 
 const LOGOS = WALL_ITEMS.filter((item) => !!item.logo)
@@ -194,9 +194,9 @@ export function LogoWall() {
   return (
     <section data-theme-section="light" className="px-4 lg:px-6 py-20 lg:pt-60 lg:pb-40">
       <Container>
-      <div className="grid gap-10 md:grid-cols-12 md:gap-10">
+      <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-10">
         {/* Left -- context */}
-        <div className="col-span-12 md:col-span-5">
+        <div className="md:col-span-5">
           <div className="md:sticky md:top-28">
             <Pill>{t('pill')}</Pill>
 
@@ -241,7 +241,7 @@ export function LogoWall() {
         </div>
 
         {/* Right -- logo grid 2x4 (desktop) */}
-        <div className="col-span-12 md:col-span-7 hidden md:block">
+        <div className="hidden md:block md:col-span-7">
           <div
             ref={rootRef}
             data-logo-wall-cycle-init
@@ -289,28 +289,17 @@ export function LogoWall() {
           </div>
         </div>
 
-        {/* Logo marquee (mobile) */}
-        <div className="col-span-12 md:hidden">
-          <div className="logo-marquee">
-            <div className="logo-marquee__track">
-              {[0, 1].map((copy) => (
-                <div key={copy} className="logo-marquee__list" aria-hidden={copy > 0}>
-                  {LOGOS.map((logo) => (
-                    <div key={logo.name} className="logo-marquee__item">
-                      {logo.logoDark ? (
-                        <>
-                          <img src={logo.logo} loading="lazy" alt={logo.name} className="logo-marquee__img logo-wall__logo-img--light" />
-                          <img src={logo.logoDark} loading="lazy" alt={logo.name} className="logo-marquee__img logo-wall__logo-img--dark" />
-                        </>
-                      ) : (
-                        <img src={logo.logo} loading="lazy" alt={logo.name} className={`logo-marquee__img ${logo.name !== 'ATOM' ? 'logo-wall__logo-img--invertable' : ''}`} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ))}
+        {/* Reviews stack (mobile) */}
+        <div className="md:hidden flex flex-col gap-8">
+          {WALL_ITEMS.filter((item) => !!item.quote).map((item) => (
+            <div key={item.name} className="border-t border-border pt-6">
+              <p className="text-sm leading-relaxed text-foreground/70 italic">&ldquo;{item.quote}&rdquo;</p>
+              <div className="mt-4">
+                <span className="block text-sm font-bold text-foreground">{item.author}</span>
+                <span className="block text-[11px] font-accent text-muted-foreground mt-0.5">{item.role}</span>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
       </Container>
