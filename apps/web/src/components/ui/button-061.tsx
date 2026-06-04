@@ -15,7 +15,7 @@ interface Button061Props {
   arrow?: 'right' | 'left' | 'none'
 }
 
-const DEFAULT_COLORS = '#88C0AF, #5FA28F, #B5DACD'
+const DEFAULT_COLORS = ''
 
 export function Button061({
   href,
@@ -38,7 +38,12 @@ export function Button061({
     const circle = button.querySelector<HTMLElement>('[data-button-061-circle]')
     if (!circle) return
 
-    const colorList = colors.split(',').map((c) => c.trim()).filter(Boolean)
+    function getThemeColors() {
+      if (colors) return colors.split(',').map((c) => c.trim()).filter(Boolean)
+      const plantation = getComputedStyle(document.documentElement).getPropertyValue('--plantation').trim()
+      return plantation ? [plantation] : ['#366B5E']
+    }
+    let colorList = getThemeColors()
     let colorIndex = 0
 
     const mm = gsap.matchMedia()
@@ -64,8 +69,9 @@ export function Button061({
       }
 
       function setNextHoverColor() {
+        colorList = getThemeColors()
         if (colorList.length === 0) return
-        button!.style.setProperty('--button-061-hover-color-background', colorList[colorIndex])
+        button!.style.setProperty('--button-061-hover-color-background', colorList[colorIndex % colorList.length])
         colorIndex = (colorIndex + 1) % colorList.length
       }
 

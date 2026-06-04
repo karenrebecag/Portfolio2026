@@ -243,11 +243,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           </div>
 
           <p className="mt-8 text-base leading-relaxed text-white/70 max-w-[55ch]">
-            I'm a product engineer who lives between design and code. I build web experiences, design systems, and AI-powered tools for teams across LATAM, the US, and Europe. I care about craft, speed, and shipping things that actually work.
+            {t('hero_subtitle')}
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <Button061 href="#personal">Read more about me</Button061>
-            <Button061 href="#professional" variant="secondary">My professional profile</Button061>
+            <Button061 href="#personal">{t('hero_cta_personal')}</Button061>
+            <Button061 href="#professional" variant="secondary">{t('hero_cta_professional')}</Button061>
           </div>
         </Container>
       </section>
@@ -258,10 +258,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         <ScrollHighlight>
           <Container>
             <p className="font-display text-[clamp(1.75rem,4.5vw,4rem)] font-bold leading-[1.15] tracking-tight">
-              I fell in love with <span data-highlight>code</span> and <span data-highlight>design</span> at the same time, and I never saw a reason to pick just one. I care about the <span data-highlight>architecture underneath</span> as much as the <span data-highlight>experience on top</span>. For me, the best products come from people who <span data-highlight>obsess over both</span>.
+              {t('statement_before')}<span data-highlight>{t('statement_hl_1')}</span>{t('statement_mid_1')}<span data-highlight>{t('statement_hl_2')}</span>{t('statement_mid_2')}<span data-highlight>{t('statement_hl_3')}</span>{t('statement_mid_3')}<span data-highlight>{t('statement_hl_4')}</span>{t('statement_mid_4')}<span data-highlight>{t('statement_hl_5')}</span>{t('statement_after')}
             </p>
             <p className="mt-12 text-sm leading-relaxed text-muted-foreground max-w-[48ch]">
-              I started programming robots for underserved communities, taught kids to code, and eventually found my way into product engineering. Every project since then has been about the same thing: making technology feel human, intentional, and worth using.
+              {t('statement_sub')}
             </p>
           </Container>
         </ScrollHighlight>
@@ -274,9 +274,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <section data-theme-section="light" className="px-4 lg:px-6 py-32 lg:py-48">
         <ScrollHighlight>
           <Container className="flex flex-col items-center text-center">
-            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">Karen Rebeca Ortiz -- Product/Design Engineer</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('quote_eyebrow')}</span>
             <p className="mt-10 font-display text-[clamp(1.75rem,4.5vw,4rem)] font-bold leading-[1.15] tracking-tight max-w-[22ch]">
-              I believe that <span data-highlight>curiosity</span> is stronger than talent, and that <span data-highlight>showing up every day</span>, no matter how hard, is the <span data-highlight>most honest form</span> of craft I know.
+              {t('quote_before')}<span data-highlight>{t('quote_hl_1')}</span>{t('quote_mid_1')}<span data-highlight>{t('quote_hl_2')}</span>{t('quote_mid_2')}<span data-highlight>{t('quote_hl_3')}</span>{t('quote_after')}
             </p>
           </Container>
         </ScrollHighlight>
@@ -325,13 +325,13 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <ScrollHighlight>
             <div className="mt-16 max-w-[72ch]">
               <p className="text-base md:text-lg leading-[2] text-foreground/80">
-                I was born in <span data-highlight>Cuernavaca, Morelos</span> in 2001, a city of eternal spring, surrounded by mountains and jacarandas. I'm the oldest of three sisters, and one of my <span data-highlight>earliest memories</span> is sitting in front of my family's computer, completely absorbed by a videogame I barely understood. That's how it started: not with a lesson, but with a feeling. The screen did something, and I needed to know why.
+                {t('origin_p1_before')}<span data-highlight>{t('origin_p1_hl_1')}</span>{t('origin_p1_mid_1')}<span data-highlight>{t('origin_p1_hl_2')}</span>{t('origin_p1_after')}
               </p>
               <p className="mt-8 text-base md:text-lg leading-[2] text-foreground/80">
-                I remember pulling apart <span data-highlight>old electronics</span> to see what was inside, building little experiments with whatever I found, and staying up way too late reading things I was probably too young to understand. These moments weren't just about curiosity. They were about <span data-highlight>finding a world that made sense to me</span>, one where logic and imagination could live together.
+                {t('origin_p2_before')}<span data-highlight>{t('origin_p2_hl_1')}</span>{t('origin_p2_mid_1')}<span data-highlight>{t('origin_p2_hl_2')}</span>{t('origin_p2_after')}
               </p>
               <p className="mt-10 text-sm leading-relaxed text-muted-foreground/60 max-w-[48ch]">
-                What shaped me most, though, wasn't the technology. It was the warmth of my family, the patience of my mom letting me take things apart, and a feeling that whatever I built, no matter how small, was worth building.
+                {t('origin_p3')}
               </p>
             </div>
           </ScrollHighlight>
@@ -347,8 +347,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <section data-theme-section="light" className="py-20 lg:py-28">
         <div className="px-4 lg:px-6 mb-8">
           <Container>
-            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">On repeat</span>
-            <h2 className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight">The soundtrack to this adventure</h2>
+            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('albums_eyebrow')}</span>
+            <h2 className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight">{t('albums_heading')}</h2>
           </Container>
         </div>
         <DraggableMarqueeStrip items={ALBUMS} duration="30" />
@@ -363,26 +363,26 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             data-step-duration="2"
             className="font-display text-[clamp(1.5rem,3.5vw,3rem)] font-bold leading-[1.15] tracking-tight max-w-[22ch]"
           >
-            That curiosity turned into a{' '}
+            {t('bridge_before')}
             <span
-              data-rotating-words="career, craft, mission, lifestyle, purpose"
+              data-rotating-words={t('bridge_rotating')}
               className="rotating-text__highlight"
-            >career</span>.
+            >{t('bridge_rotating').split(',')[0].trim()}</span>{t('bridge_after')}
           </p>
 
           <div className="mt-16 mb-16 h-px w-full bg-border" />
 
-          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">Experience</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('experience_eyebrow')}</span>
           <h2
             data-rotating-title
             data-step-duration="2.5"
             className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight max-w-[24ch]"
           >
-            Where I've{' '}
+            {t('experience_heading_before')}
             <span
-              data-rotating-words="shipped, built, grown, learned, led"
+              data-rotating-words={t('experience_rotating')}
               className="rotating-text__highlight"
-            >shipped</span>
+            >{t('experience_rotating').split(',')[0].trim()}</span>
           </h2>
 
           <div className="mt-16 space-y-0">
@@ -418,17 +418,17 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-10">
             {/* Volunteering */}
             <div className="md:col-span-7">
-              <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">Volunteering</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('volunteering_eyebrow')}</span>
               <h2
                 data-rotating-title
                 data-step-duration="2.5"
                 className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight"
               >
-                Beyond{' '}
+                {t('volunteering_heading_before')}
                 <span
-                  data-rotating-words="work, code, the screen, the job"
+                  data-rotating-words={t('volunteering_rotating')}
                   className="rotating-text__highlight"
-                >work</span>
+                >{t('volunteering_rotating').split(',')[0].trim()}</span>
               </h2>
               <div className="mt-10 space-y-0">
                 {VOLUNTEERING.map((item, idx) => (
@@ -446,7 +446,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
             {/* Education + Stack */}
             <div className="md:col-span-5">
-              <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">Education</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('education_eyebrow')}</span>
               <div className="mt-6 space-y-3">
                 {EDUCATION.map((item) => (
                   <p key={item} className="text-sm leading-relaxed text-foreground/70">{item}</p>
@@ -454,7 +454,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               </div>
 
               <div className="mt-16">
-                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">Stack</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('stack_eyebrow')}</span>
                 <div className="mt-6 space-y-8">
                   {Object.entries(STACK).map(([category, tools]) => (
                     <div key={category}>

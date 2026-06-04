@@ -31,7 +31,6 @@ export function Footer() {
           <div className="shrink-0">
             <Button061
               href="mailto:hello@karenortiz.dev"
-              colors="#88C0AF, #5FA28F, #458776"
               className="footer-cta"
             >
               {contact('cta')}
