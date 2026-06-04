@@ -1,6 +1,7 @@
 # Karen Ortiz Portfolio 2026
 
 Portfolio personal de Karen Ortiz. Next.js 15 + GSAP + Tailwind CSS.
+
 Proyectos estaticos via archivos TypeScript/Markdown en `src/content/`.
 
 ## Estado actual
