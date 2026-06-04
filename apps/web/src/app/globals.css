@@ -208,6 +208,7 @@
   border-radius: 50%;
   border: 1px solid currentColor;
   opacity: 0.4;
+  filter: invert(1);
 }
 
 /* Locale toggle */
@@ -219,6 +220,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1;
+  filter: invert(1);
 }
 
 .locale-toggle__btn {
@@ -1559,6 +1561,7 @@ body:has([data-cursor]:hover) .cursor-text {
   display: flex;
   cursor: pointer;
   color: inherit;
+  filter: invert(1);
 }
 
 .underlay-nav__toggle-text {

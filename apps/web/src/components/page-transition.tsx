@@ -97,6 +97,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       const href = link.getAttribute('href')
       if (!href) return
       if (href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return
+      if (link.hasAttribute('data-no-transition')) return
       if (href === pathname) return
       if (isAnimating.current) return
 

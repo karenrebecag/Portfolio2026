@@ -25,6 +25,7 @@ export function LocaleToggle() {
       <a
         href={getHref('es')}
         onClick={(e) => handleClick(e, 'es')}
+        data-no-transition
         className={`locale-toggle__btn${locale === 'es' ? ' is--active' : ''}`}
       >
         ES
@@ -33,6 +34,7 @@ export function LocaleToggle() {
       <a
         href={getHref('en')}
         onClick={(e) => handleClick(e, 'en')}
+        data-no-transition
         className={`locale-toggle__btn${locale === 'en' ? ' is--active' : ''}`}
       >
         EN
