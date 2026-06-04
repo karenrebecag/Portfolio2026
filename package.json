@@ -5,11 +5,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "dev:cms": "pnpm --filter @karen-portfolio/cms dev",
-    "dev:web": "pnpm --filter @karen-portfolio/web dev",
-    "db:up": "docker compose up -d",
-    "db:down": "docker compose down",
-    "db:reset": "docker compose down -v && docker compose up -d"
+    "dev:web": "pnpm --filter @karen-portfolio/web dev"
   },
   "devDependencies": {
     "turbo": "^2.9.14"

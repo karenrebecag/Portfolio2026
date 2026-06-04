@@ -19,6 +19,7 @@
     "bullet_3": "AI integrations (MCP servers, LLMs, automation) that enable non-technical teams.",
     "cta": "Let's talk about your product",
     "cta_button": "Book a call",
+    "cta_secondary": "Read more about me",
     "subcopy": "Open to freelance and full-time roles in product engineering."
   },
   "statement": {
@@ -84,7 +85,7 @@
     "description": "A rotating selection of shorter projects that didn't need a full case study, but still show the range of things I design and build."
   },
   "about": {
-    "eyebrow": "Why partner with me",
+    "eyebrow": "About me",
     "heading_before": "Companies partner with me for my ",
     "heading_highlight": "product sense + technical instincts.",
     "bullet_1": "I connect product thinking, UX, and engineering, so decisions make sense for users, the business, and the codebase.",

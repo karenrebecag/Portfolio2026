@@ -9,6 +9,9 @@ interface IconButtonProps {
   variant?: 'default' | 'secondary'
   className?: string
   onClick?: (e: React.MouseEvent) => void
+  href?: string
+  target?: string
+  rel?: string
   'aria-label': string
 }
 
@@ -20,10 +23,13 @@ export function IconButton({
   variant = 'default',
   className = '',
   onClick,
+  href,
+  target,
+  rel,
   'aria-label': ariaLabel,
 }: IconButtonProps) {
   const variantClass = variant === 'secondary' ? 'icon-button--secondary' : ''
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null)
 
   useEffect(() => {
     const button = buttonRef.current
@@ -120,22 +126,41 @@ export function IconButton({
     return () => mm.revert()
   }, [colors])
 
-  return (
-    <button
-      ref={buttonRef}
-      onClick={onClick}
-      aria-label={ariaLabel}
-      className={`icon-button ${variantClass} ${className}`}
-    >
+  const inner = (
+    <>
       <span className="button-061__bg" />
       <span className="button-061__bg-circle">
         <span className="button-061__circle-wrap" data-icon-button-circle>
           <span className="button-061__circle" />
         </span>
       </span>
-      <span className="icon-button__inner">
-        {icon}
-      </span>
+      <span className="icon-button__inner">{icon}</span>
+    </>
+  )
+
+  if (href) {
+    return (
+      <a
+        ref={buttonRef as React.Ref<HTMLAnchorElement>}
+        href={href}
+        target={target}
+        rel={rel}
+        aria-label={ariaLabel}
+        className={`icon-button ${variantClass} ${className}`}
+      >
+        {inner}
+      </a>
+    )
+  }
+
+  return (
+    <button
+      ref={buttonRef as React.Ref<HTMLButtonElement>}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={`icon-button ${variantClass} ${className}`}
+    >
+      {inner}
     </button>
   )
 }

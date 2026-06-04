@@ -17,6 +17,8 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       wheelMultiplier: 1.25,
     })
     lenisRef.current = lenis
+    // Expose globally so data-attr components (TOC, etc.) can use it for smooth scroll
+    ;(window as any).lenis = lenis
 
     // Sync Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update)

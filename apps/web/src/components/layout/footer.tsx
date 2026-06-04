@@ -52,7 +52,7 @@ export function Footer() {
 
           {/* Location */}
           <div className="col-span-8 md:col-span-3 text-[#fdf9ed]/60">
-            LATAM<br />Remote
+            Cuernavaca, MX<br />Remote worldwide
           </div>
 
           {/* Email */}
@@ -66,13 +66,15 @@ export function Footer() {
           <div className="order-first col-span-16 flex justify-evenly md:order-last md:col-span-5">
             <div className="flex flex-1 flex-col gap-3">
               <span className="text-[#fdf9ed]/30 text-xs font-accent uppercase mb-1">Socials</span>
-              <a href="https://github.com/karenrebecaortiz" target="_blank" rel="noopener noreferrer" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">GitHub</a>
-              <a href="https://linkedin.com/in/karenrebecaortiz" target="_blank" rel="noopener noreferrer" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">LinkedIn</a>
+              <a href="https://github.com/karenrebecag" target="_blank" rel="noopener noreferrer" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">GitHub</a>
+              <a href="https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282" target="_blank" rel="noopener noreferrer" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">LinkedIn</a>
+              <a href="https://www.instagram.com/karenrebeca.og/" target="_blank" rel="noopener noreferrer" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">Instagram</a>
+              <a href="https://music.apple.com/profile/karenrebecaog" target="_blank" rel="noopener noreferrer" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">Apple Music</a>
             </div>
             <div className="flex flex-1 flex-col gap-3">
               <span className="text-[#fdf9ed]/30 text-xs font-accent uppercase mb-1">Navigate</span>
-              <a href="#projects" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">{nav('projects')}</a>
-              <a href="#about" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">{nav('about')}</a>
+              <a href="/#projects" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">{nav('projects')}</a>
+              <a href="/about" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">{nav('about')}</a>
               <a href="#contact" className="text-[#fdf9ed]/60 hover:text-[#fdf9ed] transition-colors max-w-fit">{nav('contact')}</a>
             </div>
           </div>
@@ -80,8 +82,8 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-16 pt-6 border-t border-[#fdf9ed]/10 flex items-center justify-between text-xs text-[#fdf9ed]/30 font-accent">
-          <span>Payload CMS + Next.js</span>
-          <span>2026</span>
+          <span>Designed & built by Karen Ortiz</span>
+          <span>Next.js + GSAP + Tailwind</span>
         </div>
       </Container>
     </footer>

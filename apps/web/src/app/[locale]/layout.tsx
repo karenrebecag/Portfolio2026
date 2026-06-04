@@ -57,6 +57,12 @@ const interval = localFont({
   display: 'swap',
 })
 
+const gantol = localFont({
+  src: [{ path: '../../fonts/gantol/Gantol.otf', weight: '400', style: 'normal' }],
+  variable: '--font-handwritten',
+  display: 'swap',
+})
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
@@ -90,7 +96,7 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={cn(interTight.variable, grift.variable, interval.variable)} suppressHydrationWarning>
+    <html lang={locale} className={cn(interTight.variable, grift.variable, interval.variable, gantol.variable)} suppressHydrationWarning>
       <head>
         <meta charSet="UTF-8" />
         <script

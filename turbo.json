@@ -8,7 +8,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "dist/**", "build/**"],
-      "env": ["PAYLOAD_API_URL", "REVALIDATE_SECRET", "NEXT_PUBLIC_SITE_URL"]
+      "env": ["NEXT_PUBLIC_SITE_URL"]
     }
   }
 }

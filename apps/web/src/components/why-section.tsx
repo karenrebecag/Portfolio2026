@@ -69,7 +69,7 @@ export function WhySection() {
         <div className="why-grid why-grid--dark">
           {ROWS.map(({ key, glyph }) => (
             <div key={key} className="why-grid__item">
-              <span className="block mb-4 text-xs font-accent text-[#88C0AF] tracking-wider">{glyph}</span>
+              <span className="block mb-4 text-xs font-accent text-[var(--plantation)] tracking-wider">{glyph}</span>
               <h3 className="text-sm font-semibold mb-2 text-[#fdf9ed]">{t(`${key}_title`)}</h3>
               <p className="text-sm leading-relaxed text-[#fdf9ed]/65">{t(`${key}_body`)}</p>
             </div>
@@ -106,13 +106,13 @@ export function WhySection() {
           {([1, 2, 3, 4, 5, 6] as const).map((n) => (
             <div key={n} className="services-table__row">
               <div className="services-table__index">
-                <span className="text-[10px] font-accent text-[#88C0AF]">{String(n).padStart(2, '0')}</span>
+                <span className="text-[10px] font-accent text-[var(--plantation)]">{String(n).padStart(2, '0')}</span>
               </div>
               <div className="services-table__title">
                 <h3 className="text-sm font-semibold text-[#fdf9ed]">{t(`svc_${n}_title`)}</h3>
               </div>
               <div className="services-table__body">
-                <span className="text-[9px] font-accent tracking-wider text-[#88C0AF]/60">{t(`svc_${n}_tags`)}</span>
+                <span className="text-[9px] font-accent tracking-wider text-[var(--plantation)]/60">{t(`svc_${n}_tags`)}</span>
                 <p className="mt-1.5 text-xs leading-relaxed text-[#fdf9ed]/50">{t(`svc_${n}_body`)}</p>
               </div>
             </div>

@@ -99,7 +99,24 @@ function initDraggableMarquee() {
   })
 }
 
+interface MarqueeItem {
+  title: string
+  type: string
+  url?: string
+  image: string
+}
+
+interface DraggableMarqueeProps {
+  items?: MarqueeItem[]
+  duration?: string
+  className?: string
+}
+
 export function AdditionalWorkMarquee() {
+  return <DraggableMarqueeStrip items={QUICK_PROJECTS} />
+}
+
+export function DraggableMarqueeStrip({ items = QUICK_PROJECTS, duration = '45', className = '' }: DraggableMarqueeProps) {
   useEffect(() => {
     function start() {
       initDraggableMarquee()
@@ -119,29 +136,31 @@ export function AdditionalWorkMarquee() {
     <div
       data-draggable-marquee-init
       data-direction="left"
-      data-duration="45"
+      data-duration={duration}
       data-multiplier="35"
       data-sensitivity="0.01"
-      className="draggable-marquee mt-16"
+      className={`draggable-marquee ${className}`}
       data-cursor="Drag"
     >
       <div data-draggable-marquee-collection className="draggable-marquee__collection">
         <div data-draggable-marquee-list className="draggable-marquee__list">
-          {QUICK_PROJECTS.map((item) => (
-            <a
-              key={item.title}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="draggable-marquee__item group"
-            >
-              <img draggable={false} loading="eager" src={item.image} alt={item.title} className="draggable-marquee__item-img" />
-              <div className="draggable-marquee__item-overlay">
-                <span className="item-tag">{item.type}</span>
-                <span className="block text-base font-bold text-surface-foreground mt-2">{item.title}</span>
-              </div>
-            </a>
-          ))}
+          {items.map((item) => {
+            const Tag = item.url ? 'a' : 'div'
+            const linkProps = item.url ? { href: item.url, target: '_blank', rel: 'noopener noreferrer' } : {}
+            return (
+              <Tag
+                key={item.title}
+                {...linkProps}
+                className="draggable-marquee__item group"
+              >
+                <img draggable={false} loading="eager" src={item.image} alt={item.title} className="draggable-marquee__item-img" />
+                <div className="draggable-marquee__item-overlay">
+                  <span className="item-tag">{item.type}</span>
+                  <span className="block text-base font-bold text-surface-foreground mt-2">{item.title}</span>
+                </div>
+              </Tag>
+            )
+          })}
         </div>
       </div>
     </div>

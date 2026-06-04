@@ -28,6 +28,7 @@ function initParallax() {
           const scrollEnd = `clamp(${trigger.getAttribute('data-parallax-scroll-end') || 'bottom top'})`
           gsap.fromTo(target, { [prop]: startVal }, { [prop]: endVal, ease: 'none', scrollTrigger: { trigger, start: scrollStart, end: scrollEnd, scrub } })
         })
+        ScrollTrigger.refresh()
       })
       return () => ctx.revert()
     },

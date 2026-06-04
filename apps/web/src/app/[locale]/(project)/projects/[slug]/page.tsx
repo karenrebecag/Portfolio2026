@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { getProjectBySlug, getPublishedProjects } from '@/lib/payload'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { RichTextRenderer } from '@/components/rich-text-renderer'
 import { Container } from '@/components/ui/container'
@@ -19,24 +18,20 @@ function findProject(slug: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const project = (await getProjectBySlug(slug)) || findProject(slug)
+  const project = findProject(slug)
   if (!project) return { title: 'Not found' }
   return { title: project.title, description: project.summary }
 }
 
 export async function generateStaticParams() {
-  const cmsProjects = await getPublishedProjects()
-  const cmsSlugs = cmsProjects.map((p) => ({ slug: p.slug }))
-  const placeholderSlugs = PLACEHOLDER_PROJECTS.map((p) => ({ slug: p.slug }))
-  return [...cmsSlugs, ...placeholderSlugs]
+  return PLACEHOLDER_PROJECTS.map((p) => ({ slug: p.slug }))
 }
 
 export default async function ProjectPage({ params }: Props) {
   const { slug, locale } = await params
   setRequestLocale(locale)
 
-  const cmsProject = await getProjectBySlug(slug)
-  const project = cmsProject || findProject(slug)
+  const project = findProject(slug)
   const t = await getTranslations('project_detail')
 
   if (!project) notFound()
@@ -51,10 +46,7 @@ export default async function ProjectPage({ params }: Props) {
     )
   }
 
-  const cmsBase = process.env.PAYLOAD_API_URL?.replace('/api', '') || ''
-  const imgSrc = project.coverImage
-    ? (project.coverImage.url.startsWith('http') ? project.coverImage.url : `${cmsBase}${project.coverImage.url}`)
-    : null
+  const imgSrc = project.coverImage?.url || null
 
   return (
     <>
@@ -98,7 +90,11 @@ export default async function ProjectPage({ params }: Props) {
 
         <div className="mt-8 h-px w-full bg-border" />
 
-        <div className="mt-10 max-w-[60ch]">
+        <div className="mt-8">
+          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">Caso de estudio</span>
+        </div>
+
+        <div className="mt-6 max-w-[68ch] prose">
           <RichTextRenderer content={project.description as any} />
         </div>
 

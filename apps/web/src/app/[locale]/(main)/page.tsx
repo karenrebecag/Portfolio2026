@@ -1,5 +1,4 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { getPublishedProjects } from '@/lib/payload'
 import { Button061 } from '@/components/ui/button-061'
 import { LogoWall } from '@/components/logo-wall'
 import { Container } from '@/components/ui/container'
@@ -7,11 +6,12 @@ import { WhySection } from '@/components/why-section'
 import { ProjectsSection } from '@/components/projects-section'
 import { ContactSection } from '@/components/contact-section'
 import { Pill } from '@/components/ui/pill'
+import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
-  const projects = await getPublishedProjects()
+  const projects = PLACEHOLDER_PROJECTS.filter((p) => p.status === 'published')
   const t = await getTranslations()
 
   return (
@@ -58,8 +58,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             {/* Links */}
             <div className="col-span-8 md:col-span-6 flex items-start justify-end pt-1">
               <div className="flex gap-6 text-xs font-bold uppercase font-accent">
-                <a href="https://github.com/karenrebecaortiz" target="_blank" rel="noopener noreferrer" className="hover:opacity-60 transition-opacity">GitHub</a>
-                <a href="https://linkedin.com/in/karenrebecaortiz" target="_blank" rel="noopener noreferrer" className="hover:opacity-60 transition-opacity">LinkedIn</a>
+                <a href="https://github.com/karenrebecag" target="_blank" rel="noopener noreferrer" className="hover:opacity-60 transition-opacity">GitHub</a>
+                <a href="https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282" target="_blank" rel="noopener noreferrer" className="hover:opacity-60 transition-opacity">LinkedIn</a>
                 <span className="opacity-40">&copy; 2026</span>
               </div>
             </div>
@@ -91,7 +91,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
             {/* CTA */}
             <div className="col-span-8 md:col-span-16 flex flex-col gap-3 items-start">
-              <Button061 href="#contact">{t('hero.cta_button')}</Button061>
+              <div className="flex flex-wrap gap-3">
+                <Button061 href="/about" variant="secondary">{t('hero.cta_secondary')}</Button061>
+                <Button061 href="#contact">{t('hero.cta_button')}</Button061>
+              </div>
               <p className="text-xs opacity-40">{t('hero.subcopy')}</p>
             </div>
           </div>
@@ -99,7 +102,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* 01 Selected Projects */}
-      <ProjectsSection projects={projects} cmsBase={process.env.PAYLOAD_API_URL?.replace('/api', '') || ''} />
+      <ProjectsSection projects={projects} cmsBase="" />
 
 
       {/* 03 Why work with me */}
@@ -115,17 +118,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           data-parallax="trigger"
           data-parallax-scroll-start="top bottom"
           data-parallax-start="0"
-          data-parallax-end="30"
-          className="absolute inset-0 z-0 h-[200%] -top-[50%]"
+          data-parallax-end="15"
+          className="absolute inset-0 z-0 h-[120%] -top-[10%]"
         >
           <img
             data-parallax="target"
-            src="https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/bg.webp"
+            src="https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/Artboard%201.webp"
             alt=""
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           />
         </div>
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/50 via-black/60 to-black/80" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/20 via-black/30 via-40% to-transparent" />
 
         <Container className="relative z-[1]">
           {/* Eyebrow */}
@@ -148,7 +151,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <div key={key} className="flex items-start gap-4">
                 <span className="mt-1 w-5 h-5 shrink-0 flex items-center justify-center">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 8.5L6 12.5L14 3.5" stroke="#88C0AF" strokeWidth="1.5" strokeLinecap="square" />
+                    <path d="M2 8.5L6 12.5L14 3.5" stroke="var(--plantation)" strokeWidth="1.5" strokeLinecap="square" />
                   </svg>
                 </span>
                 <p className="text-sm leading-relaxed text-white/80 font-medium">{t(`about.${key}`)}</p>
@@ -160,7 +163,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="mt-10 mb-10 h-px w-full bg-white/15" />
 
           {/* CTA */}
-          <Button061 href="#contact">{t('about.cta')}</Button061>
+          <Button061 href="#contact" variant="secondary">{t('about.cta')}</Button061>
         </Container>
       </section>
 

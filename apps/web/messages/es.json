@@ -19,6 +19,7 @@
     "bullet_3": "Integraciones con IA (MCP servers, LLMs, automatizacion) que habilitan a equipos no tecnicos.",
     "cta": "Hablemos de tu producto",
     "cta_button": "Agendar una llamada",
+    "cta_secondary": "Conoce mas sobre mi",
     "subcopy": "Abierta a freelance y roles full-time en product engineering."
   },
   "statement": {
@@ -84,7 +85,7 @@
     "description": "Una seleccion de proyectos mas cortos que no necesitaron un caso de estudio completo, pero muestran el rango de lo que diseno y construyo."
   },
   "about": {
-    "eyebrow": "Por que trabajar conmigo",
+    "eyebrow": "Sobre mi",
     "heading_before": "Las empresas trabajan conmigo por mi ",
     "heading_highlight": "sentido de producto + instinto tecnico.",
     "bullet_1": "Conecto product thinking, UX e ingenieria, para que las decisiones tengan sentido para los usuarios, el negocio y el codebase.",
