@@ -116,15 +116,15 @@ export function IconButton({
         if (button!.matches(':focus-visible')) setNextHoverColor()
       }
 
-      button!.addEventListener('pointerenter', onEnter)
-      button!.addEventListener('pointerleave', onLeave)
-      button!.addEventListener('pointermove', onMove)
+      button!.addEventListener('pointerenter', onEnter as EventListener)
+      button!.addEventListener('pointerleave', onLeave as EventListener)
+      button!.addEventListener('pointermove', onMove as EventListener)
       button!.addEventListener('focusin', onFocusIn)
 
       return () => {
-        button!.removeEventListener('pointerenter', onEnter)
-        button!.removeEventListener('pointerleave', onLeave)
-        button!.removeEventListener('pointermove', onMove)
+        button!.removeEventListener('pointerenter', onEnter as EventListener)
+        button!.removeEventListener('pointerleave', onLeave as EventListener)
+        button!.removeEventListener('pointermove', onMove as EventListener)
         button!.removeEventListener('focusin', onFocusIn)
       }
     })

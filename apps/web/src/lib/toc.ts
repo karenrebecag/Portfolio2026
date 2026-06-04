@@ -5,7 +5,6 @@
 declare global {
   interface Window {
     ScrollTrigger?: any
-    lenis?: { scrollTo: (target: any, options?: any) => void }
     gsap?: any
   }
 }
@@ -163,7 +162,7 @@ export function initTableOfContents() {
       const target = document.getElementById(id)
       if (!target) return
 
-      const lenis = typeof window !== 'undefined' ? window.lenis : undefined
+      const lenis = typeof window !== 'undefined' ? (window as any).lenis : undefined
 
       if (lenis && typeof lenis.scrollTo === 'function') {
         lenis.scrollTo(target, { offset: -offset })

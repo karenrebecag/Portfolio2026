@@ -90,7 +90,7 @@ function flushParagraph(paraText: string, children: LexicalNode[]) {
     type: 'paragraph',
     children: inline,
     direction: null,
-    format: '',
+    format: 0,
     indent: 0,
     version: 1,
   })
@@ -118,7 +118,7 @@ export function markdownToLexical(md: string): { root: LexicalNode } {
         tag: 'h2',
         children: [{ type: 'text', text, format: 0, direction: null, indent: 0, version: 1 }],
         direction: null,
-        format: '',
+        format: 0,
         indent: 0,
         version: 1,
       })
@@ -133,7 +133,7 @@ export function markdownToLexical(md: string): { root: LexicalNode } {
         tag: 'h1',
         children: [{ type: 'text', text, format: 0, direction: null, indent: 0, version: 1 }],
         direction: null,
-        format: '',
+        format: 0,
         indent: 0,
         version: 1,
       })
@@ -151,7 +151,7 @@ export function markdownToLexical(md: string): { root: LexicalNode } {
       type: 'root',
       children,
       direction: null,
-      format: '',
+      format: 0,
       indent: 0,
       version: 1,
     },
