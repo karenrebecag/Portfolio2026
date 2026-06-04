@@ -208,7 +208,6 @@
   border-radius: 50%;
   border: 1px solid currentColor;
   opacity: 0.4;
-  filter: invert(1);
 }
 
 /* Locale toggle */
@@ -220,6 +219,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1;
+}
+
+.locale-toggle,
+.underlay-nav__toggle,
+.theme-palette__swatch.is--active::after {
+  transition: filter 0.4s ease;
+}
+
+.underlay-nav__header:not(.is--scrolled) .locale-toggle,
+.underlay-nav__header:not(.is--scrolled) .underlay-nav__toggle,
+.underlay-nav__header:not(.is--scrolled) .theme-palette__swatch.is--active::after {
   filter: invert(1);
 }
 
@@ -1561,7 +1571,6 @@ body:has([data-cursor]:hover) .cursor-text {
   display: flex;
   cursor: pointer;
   color: inherit;
-  filter: invert(1);
 }
 
 .underlay-nav__toggle-text {

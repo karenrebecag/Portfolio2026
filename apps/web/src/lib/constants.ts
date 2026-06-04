@@ -1,8 +1,9 @@
 // Per-article case studies — one source file per article for easy writing and git history.
 // These are converted to Lexical format (what the project detail renderer expects).
 import { atomWebflowMeta, atomWebflowMarkdown } from '@/content/projects/atom-webflow'
-import { markdownToLexical } from '@/lib/markdown-to-lexical'
+import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
+import type { Block } from '@/components/blocks/types'
 
 export const STICKERS = [
   { src: '/stickers/astrosticker.webp', alt: 'Astro' },
@@ -17,7 +18,9 @@ export const STICKERS = [
   { src: '/stickers/githubsticker.webp', alt: 'GitHub' },
 ] as const
 
-export const PLACEHOLDER_PROJECTS: (Project & { services?: string })[] = [
+const atomWebflowParsed = parseMarkdown(atomWebflowMarkdown)
+
+export const PLACEHOLDER_PROJECTS: (Project & { services?: string; blocks?: Block[] })[] = [
   {
     id: '1', title: 'Token-First Design at Scale', slug: 'token-first-design-at-scale', status: 'published',
     category: 'design_system', role: 'Lead Designer & Engineer', year: '2025', featured: true,
@@ -33,7 +36,8 @@ export const PLACEHOLDER_PROJECTS: (Project & { services?: string })[] = [
   // This is how we will write all future case studies / artículos de portafolio.
   {
     ...atomWebflowMeta,
-    description: markdownToLexical(atomWebflowMarkdown),
+    description: atomWebflowParsed.lexical,
+    blocks: atomWebflowParsed.blocks,
   },
   {
     id: '2', title: 'Real-Time Product Intelligence with AI', slug: 'real-time-product-intelligence-with-ai', status: 'published',

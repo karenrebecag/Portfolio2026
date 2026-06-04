@@ -1,4 +1,6 @@
 import React from 'react'
+import type { Block } from '@/components/blocks/types'
+import { BlockRenderer } from '@/components/blocks/block-renderer'
 
 interface LexicalNode {
   type: string
@@ -17,7 +19,7 @@ interface LexicalNode {
   [key: string]: unknown
 }
 
-function renderNode(node: LexicalNode, index: number): React.ReactNode {
+function renderNode(node: LexicalNode, index: number, blocks?: Block[]): React.ReactNode {
   if (node.type === 'text') {
     let el: React.ReactNode = node.text ?? ''
     const fmt = typeof node.format === 'number' ? node.format : 0
@@ -34,7 +36,15 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
   if (node.type === 'linebreak') return <br key={index} />
   if (node.type === 'horizontalrule') return <hr key={index} />
 
-  const children = node.children?.map((child, i) => renderNode(child, i))
+  // Block reference — render the corresponding block component
+  if (node.type === 'block-ref' && blocks) {
+    const blockIndex = parseInt(node.tag || '0', 10)
+    const block = blocks[blockIndex]
+    if (block) return <BlockRenderer key={index} blocks={[block]} />
+    return null
+  }
+
+  const children = node.children?.map((child, i) => renderNode(child, i, blocks))
 
   switch (node.type) {
     case 'root':
@@ -95,7 +105,13 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
   }
 }
 
-export function RichTextRenderer({ content }: { content: { root?: LexicalNode } | null }) {
+export function RichTextRenderer({
+  content,
+  blocks,
+}: {
+  content: { root?: LexicalNode } | null
+  blocks?: Block[]
+}) {
   if (!content?.root) return null
-  return <div className="prose">{renderNode(content.root, 0)}</div>
+  return <div className="prose">{renderNode(content.root, 0, blocks)}</div>
 }
