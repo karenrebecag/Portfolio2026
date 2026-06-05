@@ -11,6 +11,7 @@ import { Container } from '@/components/ui/container'
 import { Button061 } from '@/components/ui/button-061'
 import type { Project } from '@karen-portfolio/shared'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
+import { getProjectHref, isArticleProject } from '@/lib/article-projects'
 import { AdditionalWorkMarquee } from '@/components/additional-work'
 
 const MAX_PROJECTS = 5
@@ -92,8 +93,15 @@ function initPreviewFollower() {
 
 export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cmsBase: string }) {
   const t = useTranslations('projects')
-  const raw = projects.length > 0 ? projects : PLACEHOLDER_PROJECTS as unknown as Project[]
-  const visible = raw.slice(0, MAX_PROJECTS)
+  const raw = projects.length > 0 ? projects : (PLACEHOLDER_PROJECTS as unknown as Project[])
+  const sorted = [...raw].sort((a, b) => {
+    const aArticle = isArticleProject(a.slug)
+    const bArticle = isArticleProject(b.slug)
+    if (aArticle && !bArticle) return -1
+    if (!aArticle && bArticle) return 1
+    return 0
+  })
+  const visible = sorted.slice(0, MAX_PROJECTS)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
@@ -149,7 +157,7 @@ export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cm
                 <div className="preview-list flex flex-col w-full relative max-[767px]:gap-y-8">
                   {visible.map((project) => (
                     <div key={project.id} data-follower-item className="preview-item w-full transition-opacity duration-200">
-                      <Link href={`/projects/${project.slug}`} className="preview-item__inner border-t border-border w-full py-7 block no-underline text-inherit max-[767px]:border-none max-[767px]:flex max-[767px]:flex-col max-[767px]:p-0">
+                      <Link href={getProjectHref(project.slug)} className="preview-item__inner border-t border-border w-full py-7 block no-underline text-inherit max-[767px]:border-none max-[767px]:flex max-[767px]:flex-col max-[767px]:p-0">
                         <div className="preview-item__row flex flex-wrap justify-start items-center w-full max-[767px]:flex-col max-[767px]:items-start max-[767px]:gap-1">
                           <div className="flex-1 min-w-0 max-w-[45%] max-[767px]:flex-none max-[767px]:w-full max-[767px]:max-w-none">
                             <h3 className="preview-item__heading font-display text-[2rem] font-bold leading-none max-[767px]:text-lg">{project.title}</h3>

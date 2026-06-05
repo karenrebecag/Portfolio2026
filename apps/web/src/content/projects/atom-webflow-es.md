@@ -6,7 +6,7 @@ El codigo que acaba de pegarse no tiene historial. No tiene author. No tiene dif
 
 Pase bastante tiempo pensando en este problema mientras trabajaba en el sitio de Atomchat -- un producto de AI que necesitaba un sitio con animaciones de alta fidelidad, un lenguaje visual muy especifico de marca y un equipo de contenido que pudiera publicar de forma autonoma sin coordinar con desarrollo cada vez. Tres requisitos que, dentro de Webflow por default, se contradicen.
 
-Este articulo documenta lo que construi para resolverlo. No es una solucion especifica de Atomchat -- es un workflow que cualquier engineer o design engineer puede llevar a su proximo proyecto con Webflow. Y prometo que despues de leerlo nunca mas vas a pegar codigo en un area de texto.
+Este articulo documenta lo que construi para resolverlo. No es una solucion especifica de Atomchat -- es un workflow que cualquier engineer o design engineer puede llevar a su proximo proyecto con Webflow. Despues de leerlo, pegar JavaScript de produccion en un area de texto de Webflow deberia sentirse tan mal como desplegar por FTP despues de haber aprendido git -- no como un chiste, sino como senal de que el limite entre sistemas no existe.
 
 ## Primero, entender por que Webflow se comporta asi
 
@@ -24,12 +24,33 @@ La pregunta que me hice fue: ==que pasa si en lugar de luchar contra ese limite,
 
 La respuesta es lo que llamo un modelo de control dual. Dos sistemas con responsabilidades completamente separadas, un contrato explicito entre ellos, y ninguna area de ambiguedad sobre quien es dueno de que.
 
-```mermaid
-graph LR
-  A[Webflow Designer] -->|estructura, CMS, SEO| B[Webflow CDN]
-  C[Repositorio Git] -->|tokens, JS, CSS| D[jsDelivr CDN]
-  B --> E[Sitio en Produccion]
-  D --> E
+```mermaid Arquitectura de control dual
+flowchart LR
+  subgraph WF["Webflow"]
+    direction TB
+    WF1["Estructura HTML"]
+    WF2["Contenido CMS"]
+    WF3["SEO y metadata"]
+    WF4["Flujo de publish"]
+  end
+
+  subgraph GIT["Repositorio GitHub"]
+    direction TB
+    G1["Design tokens"]
+    G2["Modulos JS"]
+    G3["CSS por seccion"]
+    G4["Docs y restricciones"]
+  end
+
+  JSD["CDN jsDelivr"]
+  SITE["Sitio en produccion"]
+
+  WF --> WFC["CDN Webflow"]
+  WFC --> SITE
+  GIT -->|"git push"| JSD
+  JSD -->|"CSS y JS @main"| SITE
+  WF -.->|"URLs fijas de assets"| JSD
+  GIT -.->|"purge de cache"| JSD
 ```
 
 **Webflow es dueno de:** la estructura HTML y la semantica de paginas, el contenido CMS y las colecciones, SEO, metadata, og tags, y el workflow de publicacion -- marketing puede hacer publish cuando quiera, sin coordinar con nadie.
@@ -63,6 +84,24 @@ curl -s https://purge.jsdelivr.net/gh/user/repo@main/src/js/site.js
 ```
 
 Dos lineas. El sitio esta actualizado. Y si algo sale mal, `git revert` y otro purge. ==Rollback completo en menos de dos minutos.==
+
+```mermaid Pipeline de deploy
+sequenceDiagram
+  participant Eng as Engineer
+  participant GH as GitHub
+  participant JD as jsDelivr
+  participant WF as CDN Webflow
+  participant Browser as Navegador
+
+  Eng->>GH: git push main
+  GH-->>Eng: nuevo commit SHA
+  Eng->>JD: purge cache (@main)
+  JD->>JD: resuelve ultimo SHA
+  Note over WF,Browser: HTML sin cambios — sin republish Webflow
+  Browser->>WF: carga HTML de pagina
+  Browser->>JD: pide site.css y site.js
+  JD-->>Browser: assets actualizados
+```
 
 ## Design tokens: el unico artefacto compartido
 
@@ -190,23 +229,40 @@ El resultado es un agente que puedo dejar correr en tareas de CMS, auditorias de
 
 ## Que gana el equipo
 
-Sin este workflow, cada semana hay entre tres y cinco interrupciones del tipo "oye, puedes cambiar este texto en Webflow?" que en realidad no son cambios de texto -- son cambios que alguien no se atreve a hacer solo porque la ultima vez que toco algo en Webflow se rompio otra cosa. El developer se convierte en el guardian del sitio no porque sea necesario sino porque nadie tiene confianza en los limites del sistema.
+Sin este workflow, cada semana aparecen interrupciones del tipo "oye, puedes cambiar este texto en Webflow?" que en realidad no son cambios de texto -- son cambios que alguien no se atreve a hacer solo porque la ultima vez que toco algo en Webflow se rompio otra cosa. El developer se convierte en el guardian del sitio no porque sea necesario sino porque nadie tiene confianza en los limites del sistema.
 
 Con este workflow, ==esa categoria de interrupcion desaparece.== Marketing sabe exactamente que puede tocar -- el Designer, el CMS, las paginas -- y sabe que sus cambios no van a romper nada del repositorio porque el repositorio es un sistema separado con su propio ciclo de vida. Engineering sabe que puede iterar en codigo con total confianza porque tiene git history, code review y rollback inmediato. Nadie bloquea a nadie.
 
-En tiempo concreto: en un proyecto activo con equipo mixto, esto elimina entre 3 y 5 horas semanales de coordinacion que antes eran friccion pura. En las primeras dos semanas, el sistema se paga. A partir de ahi es ahorro neto.
+En las primeras dos semanas despues de dibujar el limite con claridad, esos pings dejaron de aparecer en standup -- no porque corrimos un estudio de tiempo formal, sino porque la categoria de miedo simplemente desaparecio. Los cambios de copy salieron desde el CMS sin un hilo en Slack pidiendo una "revision rapida." Los fixes de animacion salieron por git y jsDelivr sin republish de Webflow. El argumento no necesita una hoja de horas ahorradas para ser creible; se nota cuando el impuesto de coordinacion ya no esta.
 
 ## Como replicarlo en tu proximo proyecto
 
-- **Repositorio con estructura clara.** `src/css/` y `src/js/`. Dentro de CSS: `base/` para tokens, reset y utilidades; `sections/` para nav, hero, footer; `components/` para componentes con logica propia. Un `site.css` como entry point que importa todo. Un `site.js` con el patron de module loader.
+- **Repositorio con estructura clara.** `src/css/` y `src/js/`. Dentro de CSS: `base/` para tokens, reset y utilidades; `sections/` para nav, hero, footer; `components/` para componentes con logica propia. Un `site.css` como entry point que importa todo. Un `site.js` con el patron de module loader. Si te saltas esta separacion, cada feature nueva se vuelve una negociacion ad-hoc sobre si vive en Webflow o en Git -- hasta que alguien rompe produccion y nadie puede decir quien es dueno del fix.
 
-- **tokens.css primero, siempre.** Antes de escribir cualquier otro CSS, define tus tokens. Todos los valores de diseno viven aqui y solo aqui. Incluye comentarios que expliquen las restricciones, no solo los valores.
+```tree Estructura del repositorio
+{
+  "root": "repository/",
+  "folders": [
+    { "category": "base", "path": "src/css/base/", "files": ["tokens.css", "reset.css", "utilities.css"] },
+    { "category": "sections", "path": "src/css/sections/", "files": ["nav.css", "hero.css", "footer.css"] },
+    { "category": "components", "path": "src/css/components/", "files": ["button.css", "marquee.css", "faq.css"] },
+    { "category": "modules", "path": "src/js/modules/", "files": ["nav.js", "animations.js", "faq.js", "mega-nav.js"] }
+  ],
+  "entries": [
+    { "category": "entry", "path": "src/css/", "files": ["site.css"] },
+    { "category": "entry", "path": "src/js/", "files": ["site.js"] },
+    { "category": "docs", "path": "", "files": ["CLAUDE.md", "ORCHESTRATOR.md", ".agents/skills/"] }
+  ]
+}
+```
 
-- **jsDelivr con @main + purge script.** Configura las referencias en Webflow una sola vez apuntando a @main. Crea un script de purge y ejecutalo despues de cada push.
+- **tokens.css primero, siempre.** Antes de escribir cualquier otro CSS, define tus tokens. Todos los valores de diseno viven aqui y solo aqui. Incluye comentarios que expliquen las restricciones, no solo los valores. Si los tokens viven en tres lugares (notas de Figma, estilos de Webflow y un CSS suelto), la deriva es inevitable; el primer redesign mandara dos naranjas ligeramente distintas y nadie sabra cual es la canonica.
 
-- **CLAUDE.md en la raiz.** Documenta el contrato entre Webflow y el repositorio, las convenciones de naming, los patrones prohibidos con su justificacion, el workflow de deploy, y las decisiones arquitectonicas con el contexto de por que se tomaron asi.
+- **jsDelivr con @main + purge script.** Configura las referencias en Webflow una sola vez apuntando a @main. Crea un script de purge y ejecutalo despues de cada push. Si usas @latest, subiras un fix, esperaras horas, te preguntaras por que no cambio nada, y aprenderas sobre npm releases y el cache agresivo del CDN de la manera dificil.
 
-- **data-* como unico mecanismo de activacion.** Nunca uses clases de Webflow como selectores en JavaScript. Las clases cambian en redesigns. Los atributos `data-*` son contratos explicitos que Webflow preserva -- pero recuerda: pon tus atributos en elementos internos, no en el root del componente.
+- **CLAUDE.md en la raiz.** Documenta el contrato entre Webflow y el repositorio, las convenciones de naming, los patrones prohibidos con su justificacion, el workflow de deploy, y las decisiones arquitectonicas con el contexto de por que se tomaron asi. Sin eso, la siguiente persona -- o el siguiente agente -- volvera a decidir cada limite desde cero, y tu seras el README viviente otra vez.
+
+- **data-* como unico mecanismo de activacion.** Nunca uses clases de Webflow como selectores en JavaScript. Las clases cambian en redesigns. Los atributos `data-*` son contratos explicitos que Webflow preserva -- pero recuerda: pon tus atributos en elementos internos, no en el root del componente. Si amarras el JS a nombres de clase, la primera vez que alguien reorganice el Designer pasaras una hora rastreando por que el modulo de nav dejo de disparar.
 
 > [!tip] Todo el codebase externo de este sitio en produccion tiene menos de 400 lineas de CSS y 300 de JavaScript. La arquitectura es deliberadamente minima. La complejidad vive en las restricciones y el workflow, no en el codigo.
 

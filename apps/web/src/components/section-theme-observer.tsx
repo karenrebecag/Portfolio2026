@@ -1,33 +1,21 @@
 'use client'
 
 import { useCallback } from 'react'
+import { subscribeLenisScroll } from '@/lib/lenis-scroll'
 import { usePageInit } from '@/lib/use-page-init'
 
-type LenisInstance = {
-  on: (event: 'scroll', callback: () => void) => void
-  off?: (event: 'scroll', callback: () => void) => void
-}
-
-function getLenis(): LenisInstance | undefined {
-  const lenis = (window as unknown as { lenis?: LenisInstance }).lenis
-  if (lenis && typeof lenis.on === 'function') return lenis
-  return undefined
-}
-
 /**
- * OSMO "Check Section Theme on Scroll" — probe line at half the nav bar height.
+ * OSMO "Check Section Theme on Scroll" — probe at half the nav bar height.
  * @see https://www.osmo.supply/ (Check Section Theme on Scroll)
  */
 function initCheckSectionThemeScroll() {
   let ticking = false
   let currentTheme: string | null = null
   let currentBg: string | null = null
-  let lenisBound = false
-  let lenisRetryId: number | null = null
 
   function getThemeObserverOffset() {
     const navBarHeight = document.querySelector<HTMLElement>('[data-nav-bar-height]')
-    return navBarHeight ? navBarHeight.offsetHeight / 2 : 0
+    return navBarHeight ? navBarHeight.offsetHeight / 2 : 48
   }
 
   function updateThemeAttributes(theme: string) {
@@ -38,29 +26,29 @@ function initCheckSectionThemeScroll() {
     })
   }
 
-  function findActiveSection(sections: NodeListOf<HTMLElement>, offset: number): HTMLElement | null {
+  function findActiveSection(sections: HTMLElement[], offset: number): HTMLElement | null {
+    const probeY = Math.max(0, offset)
+    const hit = document.elementFromPoint(window.innerWidth * 0.5, probeY)
+    const fromPoint = hit?.closest<HTMLElement>('[data-theme-section]')
+    if (fromPoint) return fromPoint
+
     for (const section of sections) {
       const rect = section.getBoundingClientRect()
-      if (rect.top <= offset && rect.bottom >= offset) {
-        return section
-      }
+      if (rect.top <= probeY && rect.bottom >= probeY) return section
     }
 
-    // Past the last section or in a gap: use the last section whose top passed the probe
     for (let i = sections.length - 1; i >= 0; i--) {
       const section = sections[i]!
-      if (section.getBoundingClientRect().top <= offset) {
-        return section
-      }
+      if (section.getBoundingClientRect().top <= probeY) return section
     }
 
     return sections[0] ?? null
   }
 
-  function checkThemeSection() {
+  function checkThemeSection(force = false) {
     const offset = getThemeObserverOffset()
     const themeSections = document.querySelectorAll<HTMLElement>('[data-theme-section]')
-    const active = findActiveSection(themeSections, offset)
+    const active = findActiveSection(Array.from(themeSections), offset)
 
     if (!active) {
       ticking = false
@@ -68,14 +56,14 @@ function initCheckSectionThemeScroll() {
     }
 
     const themeSectionActive = active.getAttribute('data-theme-section')
-    const bgSectionActive = active.getAttribute('data-bg-section')
+    const bgSectionActive = active.getAttribute('data-bg-section') ?? themeSectionActive
 
-    if (themeSectionActive && themeSectionActive !== currentTheme) {
+    if (themeSectionActive && (force || themeSectionActive !== currentTheme)) {
       updateThemeAttributes(themeSectionActive)
       currentTheme = themeSectionActive
     }
 
-    if (bgSectionActive && bgSectionActive !== currentBg) {
+    if (bgSectionActive && (force || bgSectionActive !== currentBg)) {
       document.body.setAttribute('data-bg-nav', bgSectionActive)
       currentBg = bgSectionActive
     }
@@ -86,46 +74,36 @@ function initCheckSectionThemeScroll() {
   function onScroll() {
     if (!ticking) {
       ticking = true
-      requestAnimationFrame(checkThemeSection)
+      requestAnimationFrame(() => checkThemeSection(false))
     }
   }
 
-  function bindLenis() {
-    const lenis = getLenis()
-    if (!lenis || lenisBound) return
-    lenis.on('scroll', onScroll)
-    lenisBound = true
+  function scheduleThemeChecks() {
+    currentTheme = null
+    currentBg = null
+    requestAnimationFrame(() => {
+      checkThemeSection(true)
+      requestAnimationFrame(() => checkThemeSection(true))
+    })
+    window.setTimeout(() => checkThemeSection(true), 120)
+    window.setTimeout(() => checkThemeSection(true), 400)
   }
 
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', onScroll)
 
-  bindLenis()
-  if (!lenisBound) {
-    lenisRetryId = window.setInterval(() => {
-      bindLenis()
-      if (lenisBound && lenisRetryId) {
-        window.clearInterval(lenisRetryId)
-        lenisRetryId = null
-      }
-    }, 50)
-    window.setTimeout(() => {
-      if (lenisRetryId) {
-        window.clearInterval(lenisRetryId)
-        lenisRetryId = null
-      }
-    }, 2000)
-  }
+  const unsubscribeLenis = subscribeLenisScroll(() => onScroll())
 
-  checkThemeSection()
+  const onNavigate = () => scheduleThemeChecks()
+  document.addEventListener('page-navigation-complete', onNavigate)
+
+  scheduleThemeChecks()
 
   return () => {
     window.removeEventListener('scroll', onScroll)
     window.removeEventListener('resize', onScroll)
-    if (lenisRetryId) window.clearInterval(lenisRetryId)
-    const lenis = getLenis()
-    if (lenis?.off && lenisBound) lenis.off('scroll', onScroll)
-    lenisBound = false
+    document.removeEventListener('page-navigation-complete', onNavigate)
+    unsubscribeLenis()
   }
 }
 

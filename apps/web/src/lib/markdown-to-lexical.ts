@@ -147,9 +147,9 @@ export function parseMarkdown(md: string): ParsedContent {
       i++ // skip closing ```
 
       const code = codeLines.join('\n')
-      // Insert a placeholder node so Lexical knows where the block goes
       const blockIndex = blocks.length
-      blocks.push({ blockType: 'codeBlock', code, language, title, _order: blockIndex })
+      const blockType = language === 'tree' ? 'directoryTree' : 'codeBlock'
+      blocks.push({ blockType, code, language, title, _order: blockIndex })
       children.push({
         type: 'block-ref',
         tag: String(blockIndex),

@@ -1,6 +1,12 @@
 // Per-article case studies — one source file per article for easy writing and git history.
 // These are converted to Lexical format (what the project detail renderer expects).
 import { atomWebflowMeta, atomWebflowI18n, atomWebflowMarkdown_en, atomWebflowMarkdown_es } from '@/content/projects/atom-webflow'
+import {
+  designSystemShipsItselfMeta,
+  designSystemShipsItselfI18n,
+  designSystemShipsItselfMarkdown_en,
+  designSystemShipsItselfMarkdown_es,
+} from '@/content/projects/design-system-ships-itself'
 import { PLACEHOLDER_PROJECT_I18N } from '@/content/projects/placeholder-i18n'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
@@ -54,21 +60,30 @@ export const STICKERS = [
 
 const atomWebflowParsed_en = parseMarkdown(atomWebflowMarkdown_en)
 const atomWebflowParsed_es = parseMarkdown(atomWebflowMarkdown_es)
+const designSystemParsed_en = parseMarkdown(designSystemShipsItselfMarkdown_en)
+const designSystemParsed_es = parseMarkdown(designSystemShipsItselfMarkdown_es)
 
 export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
-  withPlaceholderI18n({
-    id: '1', title: 'Token-First Design at Scale', slug: 'token-first-design-at-scale', status: 'published',
-    category: 'design_system', role: 'Lead Designer & Engineer', year: '2025', featured: true,
-    summary: 'A token-first design system powering consistent UI across web and mobile products.',
-    description: { root: { type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text', text: 'Prism is a comprehensive design system built with a token-first approach. It includes a component library, documentation site, and Figma plugin for seamless designer-developer handoff. The system serves 4 product teams and has reduced UI inconsistencies by 80%.', format: 0, direction: null, indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 } },
-    tags: [{ tag: 'React' }, { tag: 'Tokens' }, { tag: 'Figma' }, { tag: 'Storybook' }],
-    coverImage: { url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e49a704afe5e3f4a55d_Fluid%20Abstract%20Design.avif', alt: 'Prism' },
-    liveUrl: 'https://example.com', repoUrl: 'https://github.com/example',
-    services: 'Development',
-    createdAt: '2025-01-01', updatedAt: '2025-01-01',
-  }),
-  // The actual article content lives in one dedicated file: src/content/projects/atom-webflow.ts
-  // This is how we will write all future case studies / artículos de portafolio.
+  // Long-form articles first (home links to /articulos/…)
+  {
+    ...designSystemShipsItselfMeta,
+    title: designSystemShipsItselfI18n.en.title,
+    summary: designSystemShipsItselfI18n.en.summary,
+    description: designSystemParsed_en.lexical,
+    blocks: designSystemParsed_en.blocks,
+    i18n: {
+      en: {
+        ...designSystemShipsItselfI18n.en,
+        lexical: designSystemParsed_en.lexical,
+        blocks: designSystemParsed_en.blocks,
+      },
+      es: {
+        ...designSystemShipsItselfI18n.es,
+        lexical: designSystemParsed_es.lexical,
+        blocks: designSystemParsed_es.blocks,
+      },
+    },
+  },
   {
     ...atomWebflowMeta,
     title: atomWebflowI18n.en.title,
@@ -80,6 +95,17 @@ export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
       es: { ...atomWebflowI18n.es, lexical: atomWebflowParsed_es.lexical, blocks: atomWebflowParsed_es.blocks },
     },
   },
+  withPlaceholderI18n({
+    id: '1', title: 'Token-First Design at Scale', slug: 'token-first-design-at-scale', status: 'published',
+    category: 'design_system', role: 'Lead Designer & Engineer', year: '2025', featured: true,
+    summary: 'A token-first design system powering consistent UI across web and mobile products.',
+    description: { root: { type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text', text: 'Prism is a comprehensive design system built with a token-first approach. It includes a component library, documentation site, and Figma plugin for seamless designer-developer handoff. The system serves 4 product teams and has reduced UI inconsistencies by 80%.', format: 0, direction: null, indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 } },
+    tags: [{ tag: 'React' }, { tag: 'Tokens' }, { tag: 'Figma' }, { tag: 'Storybook' }],
+    coverImage: { url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e49a704afe5e3f4a55d_Fluid%20Abstract%20Design.avif', alt: 'Prism' },
+    liveUrl: 'https://example.com', repoUrl: 'https://github.com/example',
+    services: 'Development',
+    createdAt: '2025-01-01', updatedAt: '2025-01-01',
+  }),
   withPlaceholderI18n({
     id: '2', title: 'Real-Time Product Intelligence with AI', slug: 'real-time-product-intelligence-with-ai', status: 'published',
     category: 'web', role: 'Frontend Engineer', year: '2025', featured: true,

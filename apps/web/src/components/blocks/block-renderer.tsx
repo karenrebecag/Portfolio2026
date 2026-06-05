@@ -5,6 +5,7 @@ import { CalloutRenderer } from './callout-renderer'
 import { DividerRenderer } from './divider-renderer'
 import { ImageBlockRenderer } from './image-block-renderer'
 import { CodeBlockPlaceholder, MermaidBlockPlaceholder } from './block-placeholder'
+import { DirectoryTreeRenderer } from './directory-tree-renderer'
 
 const CodeBlockRenderer = dynamic(
   () => import('./code-block-renderer').then((mod) => mod.CodeBlockRenderer),
@@ -51,7 +52,14 @@ function RenderBlock({ block }: { block: Block }) {
           imageUrl={block.imageUrl as string | undefined}
           imageAlt={block.imageAlt as string | undefined}
           caption={block.caption as string | undefined}
-          size={block.size as string}
+          size={block.size as string | undefined}
+        />
+      )
+    case 'directoryTree':
+      return (
+        <DirectoryTreeRenderer
+          code={block.code as string}
+          title={block.title as string | undefined}
         />
       )
     default:

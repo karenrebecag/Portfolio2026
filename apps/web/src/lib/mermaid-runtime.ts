@@ -29,8 +29,18 @@ function themeKey(colors: MermaidThemeColors): string {
   return [colors.dark, colors.bg, colors.fg, colors.plantation, colors.border].join('|')
 }
 
+/** Match `.code-block__body` (0.875rem ≈ 14px). */
+const MERMAID_FONT_SIZE = '14px'
+
 export function buildMermaidThemeVariables(colors: MermaidThemeColors) {
   return {
+    fontSize: MERMAID_FONT_SIZE,
+    labelFontSize: MERMAID_FONT_SIZE,
+    actorFontSize: MERMAID_FONT_SIZE,
+    noteFontSize: MERMAID_FONT_SIZE,
+    messageFontSize: MERMAID_FONT_SIZE,
+    taskFontSize: MERMAID_FONT_SIZE,
+    sectionFontSize: MERMAID_FONT_SIZE,
     primaryColor: colors.dark ? colors.surface : colors.bg,
     primaryTextColor: colors.fg,
     primaryBorderColor: colors.border,
@@ -75,6 +85,7 @@ export async function renderMermaidDiagram(
       theme: 'base',
       themeVariables: buildMermaidThemeVariables(colors),
       fontFamily: 'var(--font-sans), ui-sans-serif, system-ui, sans-serif',
+      flowchart: { curve: 'basis', htmlLabels: true },
       suppressErrorRendering: true,
     })
     lastThemeKey = key
@@ -93,6 +104,13 @@ export async function renderArticleMermaidDiagram(code: string, id: string): Pro
     startOnLoad: false,
     theme: 'base',
     themeVariables: {
+      fontSize: MERMAID_FONT_SIZE,
+      labelFontSize: MERMAID_FONT_SIZE,
+      actorFontSize: MERMAID_FONT_SIZE,
+      noteFontSize: MERMAID_FONT_SIZE,
+      messageFontSize: MERMAID_FONT_SIZE,
+      taskFontSize: MERMAID_FONT_SIZE,
+      sectionFontSize: MERMAID_FONT_SIZE,
       primaryColor: '#11221f',
       primaryTextColor: '#fdf9ed',
       primaryBorderColor: '#458776',

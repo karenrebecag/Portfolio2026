@@ -1174,7 +1174,7 @@ body[data-section-theme='light'] .icon-button {
 
 /* Fixed SVG pointer */
 .cursor-pointer {
-  z-index: 1001;
+  z-index: 1201;
   opacity: 0;
   pointer-events: none;
   position: fixed;
@@ -1198,7 +1198,7 @@ body[data-section-theme='light'] .icon-button {
 
 /* Text pill */
 .cursor-text {
-  z-index: 1000;
+  z-index: 1200;
   opacity: 0;
   pointer-events: none;
   color: #fdf9ed;
@@ -1856,9 +1856,24 @@ body[data-section-theme='dark'] .underlay-nav__header {
   }
 }
 
-/* Legacy CSS marquee lists (unused by scroll-direction marquees) */
-@keyframes marquee-translateX {
-  to { transform: translateX(-100%); }
+/* Pure-CSS marquee (top bar) -- no GSAP, no ScrollTrigger.
+   --marquee-shift = -(one group width), --marquee-duration set from JS. */
+.marquee-rail {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-rail var(--marquee-duration, 24s) linear infinite;
+}
+
+@keyframes marquee-rail {
+  from { transform: translateX(0); }
+  to { transform: translateX(var(--marquee-shift, -100%)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-rail {
+    animation: none;
+  }
 }
 
 /* Section-aware marquee inversion -- with transition */
@@ -1914,46 +1929,58 @@ body[data-section-theme='light'] [data-css-marquee] {
   }
 }
 
-/* Table of Contents for Article - Osmo style, adapted for our theme */
-.toc-layout {
-  gap: 3em;
-  flex-flow: row;
-  justify-content: center;
-  align-items: flex-start;
-  max-width: 72em;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  display: flex;
-  position: relative;
+/* -- Article page (editorial layout) -- */
+.article-page {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.article-page__container {
+  max-width: 76rem;
+}
+
+.article-body,
+.toc-layout.article-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+  align-items: start;
 }
 
 @media (min-width: 1024px) {
-  .toc-layout {
-    padding-left: 3em;
-    padding-right: 3em;
+  .article-body,
+  .toc-layout.article-body {
+    grid-template-columns: 12.5rem minmax(0, 42rem);
+    column-gap: clamp(2rem, 5vw, 4rem);
+    row-gap: 0;
   }
 }
 
-.toc-article {
-  flex: 1;
-  max-width: 44em;
+.toc-main {
   min-width: 0;
-  order: 1;
 }
 
-.toc-sidebar {
-  order: 2;
+.toc-article {
+  min-width: 0;
+}
+
+.article-prose {
+  color: var(--foreground);
 }
 
 .toc-article h2 {
   letter-spacing: -.01em;
-  margin-top: 2em;
+  margin-top: 2.25em;
   margin-bottom: .75em;
-  font-size: 1.75rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   font-weight: 700;
   line-height: 1.2;
+}
+
+.toc-article h2:first-child {
+  margin-top: 0;
 }
 
 .toc-article h3 {
@@ -1965,9 +1992,10 @@ body[data-section-theme='light'] [data-css-marquee] {
 
 .toc-article p {
   margin-bottom: 1.25em;
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: color-mix(in oklab, var(--foreground) 88%, transparent);
+  max-width: 68ch;
 }
 
 .toc-article blockquote {
@@ -1979,12 +2007,160 @@ body[data-section-theme='light'] [data-css-marquee] {
   margin: 1.5rem 0;
 }
 
-.toc-article code {
+.toc-article :where(p, li, blockquote, h2, h3, td, th) code {
   background-color: var(--muted);
   padding: 0.1em 0.4em 0.15em;
-  font-family: var(--font-accent);
-  font-size: 0.85em;
-  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88em;
+  display: inline;
+  border-radius: 2px;
+}
+
+/* Shiki code blocks — full column width, larger mono */
+.code-block {
+  width: 100%;
+  max-width: none;
+  margin-block: 1.5rem;
+}
+
+.code-block__body {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  tab-size: 2;
+  background-color: var(--background);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 768px) {
+  .code-block__body {
+    font-size: 0.90625rem;
+  }
+}
+
+.code-block__body--plain code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  color: color-mix(in oklab, var(--foreground) 80%, transparent);
+}
+
+.code-block__body .shiki {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  overflow: visible !important;
+}
+
+.code-block__body .shiki code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  padding: 0 !important;
+  margin: 0;
+  background: transparent !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  font-weight: 400 !important;
+  border-radius: 0;
+}
+
+.code-block__body .shiki .line,
+.code-block__body .shiki span.line {
+  display: block;
+  min-height: 0;
+  line-height: 1.35;
+}
+
+/* Mermaid diagrams — same scale as code blocks */
+.mermaid-block {
+  width: 100%;
+  max-width: none;
+  margin-block: 1.5rem;
+}
+
+.mermaid-block__body {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  background-color: var(--background);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 768px) {
+  .mermaid-block__body {
+    font-size: 0.90625rem;
+  }
+}
+
+.mermaid-block__body--plain code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: inherit;
+  line-height: inherit;
+  color: color-mix(in oklab, var(--foreground) 80%, transparent);
+}
+
+.mermaid-block__body svg {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .mermaid-block__body svg {
+    font-size: 0.90625rem;
+  }
+}
+
+.mermaid-block__body svg text,
+.mermaid-block__body svg tspan,
+.mermaid-block__body svg .nodeLabel,
+.mermaid-block__body svg .label,
+.mermaid-block__body svg .messageText,
+.mermaid-block__body svg .loopText,
+.mermaid-block__body svg .noteText,
+.mermaid-block__body svg .actor {
+  font-size: 0.875rem !important;
+}
+
+@media (min-width: 768px) {
+  .mermaid-block__body svg text,
+  .mermaid-block__body svg tspan,
+  .mermaid-block__body svg .nodeLabel,
+  .mermaid-block__body svg .label,
+  .mermaid-block__body svg .messageText,
+  .mermaid-block__body svg .loopText,
+  .mermaid-block__body svg .noteText,
+  .mermaid-block__body svg .actor {
+    font-size: 0.90625rem !important;
+  }
+}
+
+.mermaid-block__body .nodeLabel,
+.mermaid-block__body .edgeLabel {
+  font-size: 0.875rem !important;
+  line-height: 1.35 !important;
+}
+
+@media (min-width: 768px) {
+  .mermaid-block__body .nodeLabel,
+  .mermaid-block__body .edgeLabel {
+    font-size: 0.90625rem !important;
+  }
 }
 
 .toc-article ul {
@@ -1998,20 +2174,40 @@ body[data-section-theme='light'] [data-css-marquee] {
   line-height: 1.5;
 }
 
+.toc-read-time {
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+  font-family: var(--font-accent);
+}
+
+.toc-read-time__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--foreground);
+  font-weight: 600;
+}
+
 .toc-sidebar {
   flex-flow: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 12em;
-  display: none;
-  position: sticky;
-  top: 6em;
+  width: 100%;
+  display: flex;
+  position: static;
   flex-shrink: 0;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
 }
 
 @media (min-width: 1024px) {
   .toc-sidebar {
-    display: flex;
+    width: 12.5rem;
+    position: sticky;
+    top: 5.5rem;
+    padding-bottom: 0;
+    border-bottom: none;
   }
 }
 
@@ -2024,14 +2220,14 @@ body[data-section-theme='light'] [data-css-marquee] {
 }
 
 .toc-link {
-  color: var(--muted-foreground);
-  border-left: 1px solid var(--border);
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  border-left: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
   padding: 0.4rem 0.5em 0.4rem 1em;
   font-family: var(--font-accent);
   font-size: 0.75rem;
   text-decoration: none;
-  transition: all 0.2s ease;
-  line-height: 1.3;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  line-height: 1.35;
 }
 
 .toc-link:hover {
@@ -2052,8 +2248,221 @@ body[data-section-theme='light'] [data-css-marquee] {
 }
 
 @media screen and (max-width: 1023px) {
-  .toc-layout {
-    flex-flow: column;
-    justify-content: flex-start;
+  .toc-list {
+    max-height: 12rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
   }
+}
+
+/* Social Share Bar — Osmo utility, theme tokens */
+.social-share {
+  grid-column-gap: 0.5em;
+  grid-row-gap: 0.5em;
+  flex-flow: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.social-share__button {
+  color: var(--foreground);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  justify-content: center;
+  align-items: center;
+  width: 3em;
+  height: 3em;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.social-share__button:hover {
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
+
+.social-share__icon {
+  width: 1.5em;
+  display: flex;
+  pointer-events: none;
+}
+
+.social-share__icon.is--success {
+  position: absolute;
+}
+
+[data-social-share-type="clipboard"] .social-share__icon {
+  transition: transform 0.4s cubic-bezier(0.625, 0.05, 0, 1);
+  transform: translateY(0%) rotate(0.001deg);
+}
+
+[data-social-share-type="clipboard"] .social-share__icon.is--success {
+  color: var(--foreground);
+  transform: translateY(200%) rotate(0.001deg);
+}
+
+[data-social-share-type="clipboard"][data-social-share-success] .social-share__icon {
+  transform: translateY(-200%) rotate(0.001deg);
+}
+
+[data-social-share-type="clipboard"][data-social-share-success] .social-share__icon.is--success {
+  transform: translateY(0%) rotate(0.001deg);
+}
+
+[data-social-share-type] {
+  transition: all 0.4s cubic-bezier(0.625, 0.05, 0, 1);
+  transform: scale(1) rotate(0.001deg);
+}
+
+[data-social-share]:has([data-social-share-type]:hover) [data-social-share-type] {
+  transform: scale(0.9) rotate(0.001deg);
+}
+
+[data-social-share]:has([data-social-share-type]:hover) [data-social-share-type]:hover {
+  transform: scale(1.1) rotate(0.001deg);
+}
+
+/* Non-hovered buttons soften while one is hovered */
+[data-social-share]:has([data-social-share-type]:hover) [data-social-share-type]:not(:hover) {
+  color: var(--muted-foreground);
+}
+
+.article-share,
+.social-share-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 68ch;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
+.toc-article .article-share {
+  padding-top: 2.5rem;
+  margin-top: 2.5rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+}
+
+.social-share__heading {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
+/* Sonner — design tokens (light / dark / mono via :root) */
+[data-sonner-toaster] {
+  z-index: 1100 !important;
+  --normal-bg: var(--background);
+  --normal-border: var(--border);
+  --normal-text: var(--foreground);
+  --success-bg: var(--background);
+  --success-border: var(--border);
+  --success-text: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+[data-sonner-toast] [data-icon] {
+  color: var(--foreground);
+}
+
+/* Directory tree — article repo structure */
+.dir-tree {
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 1.25rem 1.5rem;
+}
+
+.dir-tree__root {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 1rem;
+}
+
+.dir-tree__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.75rem;
+}
+
+.dir-tree__group {
+  border: 1px solid var(--border);
+  padding: 0.75rem 0.85rem;
+  background: var(--secondary);
+}
+
+.dir-tree__group--base {
+  background: color-mix(in srgb, var(--plantation) 12%, var(--background));
+  border-color: color-mix(in srgb, var(--plantation) 35%, var(--border));
+}
+
+.dir-tree__group--sections {
+  background: color-mix(in srgb, var(--foreground) 4%, var(--background));
+}
+
+.dir-tree__group--components {
+  background: color-mix(in srgb, var(--muted-foreground) 8%, var(--background));
+}
+
+.dir-tree__group--modules {
+  background: color-mix(in srgb, var(--plantation) 8%, var(--secondary));
+}
+
+.dir-tree__group--entry {
+  border-color: var(--foreground);
+  background: var(--background);
+}
+
+.dir-tree__group--docs {
+  background: var(--muted);
+}
+
+.dir-tree__group-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.dir-tree__badge {
+  font-family: var(--font-accent);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+
+.dir-tree__path {
+  font-size: 0.65rem;
+  color: var(--muted-foreground);
+  word-break: break-all;
+}
+
+.dir-tree__files {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dir-tree__file {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--foreground);
 }

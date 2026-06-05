@@ -23,7 +23,7 @@ export function CodeBlockRenderer({
       })
       .catch(() => {
         if (!cancelled) {
-          setHtml(`<pre><code>${code.replace(/</g, '&lt;')}</code></pre>`)
+          setHtml(`<pre class="shiki"><code>${code.replace(/</g, '&lt;')}</code></pre>`)
         }
       })
 
@@ -33,22 +33,22 @@ export function CodeBlockRenderer({
   }, [code, language])
 
   return (
-    <div className="relative my-4 border border-border overflow-hidden" style={{ borderRadius: '2px' }}>
+    <figure
+      className="code-block not-prose w-full max-w-none border border-border overflow-hidden"
+      style={{ borderRadius: '2px' }}
+    >
       {title && (
-        <div className="px-4 py-2 border-b border-border text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
+        <figcaption className="code-block__title px-4 py-2 border-b border-border text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
           {title}
-        </div>
+        </figcaption>
       )}
       {html ? (
-        <pre
-          className="overflow-x-auto p-4 text-sm font-accent bg-background [&_code]:bg-transparent [&_pre]:bg-transparent"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <div className="code-block__body" dangerouslySetInnerHTML={{ __html: html }} />
       ) : (
-        <pre className="overflow-x-auto p-4 text-sm font-accent bg-background text-muted-foreground">
+        <pre className="code-block__body code-block__body--plain">
           <code>{code}</code>
         </pre>
       )}
-    </div>
+    </figure>
   )
 }

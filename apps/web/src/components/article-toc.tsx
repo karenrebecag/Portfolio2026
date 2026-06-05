@@ -1,7 +1,9 @@
 'use client'
 
-import { useEffect, useId, type ComponentPropsWithoutRef } from 'react'
+import { useCallback, type ComponentPropsWithoutRef } from 'react'
 import { initTableOfContents } from '@/lib/toc'
+import { initDisplayReadTime } from '@/lib/read-time'
+import { usePageInit } from '@/lib/use-page-init'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -26,6 +28,10 @@ interface ArticleTOCProps {
   children: React.ReactNode // the actual article content with h2/h3 inside
   tocWrapProps?: ComponentPropsWithoutRef<'div'>
   reveal?: ArticleTOCRevealProps
+  /** Pairs article body with targets via data-read-time-* (default "main"). Set false to disable. */
+  readTimeId?: string | false
+  readTimeLabel?: string
+  readTimeUnit?: string
 }
 
 export function ArticleTOC({
@@ -35,46 +41,59 @@ export function ArticleTOC({
   children,
   tocWrapProps,
   reveal,
+  readTimeId = 'main',
+  readTimeLabel,
+  readTimeUnit = 'min',
 }: ArticleTOCProps) {
-  const templateId = useId()
+  const readTimeMatch = readTimeId === false ? null : (readTimeId || 'main')
 
-  useEffect(() => {
-    // Run after the DOM (with headings) is painted
-    const raf = requestAnimationFrame(() => {
-      initTableOfContents()
-    })
-    return () => cancelAnimationFrame(raf)
-  }, [])
+  usePageInit(
+    useCallback(() => {
+      const raf = requestAnimationFrame(() => {
+        initTableOfContents()
+        if (readTimeMatch) initDisplayReadTime()
+      })
+      return () => cancelAnimationFrame(raf)
+    }, [readTimeMatch]),
+  )
 
   return (
     <div
       data-toc-wrap
       data-toc-levels={levels}
       data-toc-offset={offset}
-      className="toc-layout"
+      className="toc-layout article-body"
       {...(reveal ? { 'data-reveal-group': '', 'data-stagger': reveal.stagger, 'data-start': reveal.start, 'data-distance': reveal.distance } : {})}
       {...tocWrapProps}
     >
-      {/* Sidebar */}
-      <aside className="toc-sidebar">
-        <p className="toc-hero__label text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">
+      <aside className="toc-sidebar" aria-label={title}>
+        <p className="toc-sidebar__label text-[10px] font-bold uppercase tracking-widest font-accent text-white/40">
           {title}
         </p>
+        {readTimeMatch && readTimeLabel && (
+          <p className="toc-read-time">
+            {readTimeLabel}:{' '}
+            <span data-read-time-target={readTimeMatch} className="toc-read-time__value">
+              —
+            </span>{' '}
+            {readTimeUnit}
+          </p>
+        )}
         <nav data-toc-list className="toc-list">
-          {/* Template link — will be cloned by JS for every heading and then removed */}
-          <a
-            data-toc-link
-            href="#"
-            className="toc-link"
-          >
+          <a data-toc-link href="#" className="toc-link">
             <span data-toc-text="">Example heading</span>
           </a>
         </nav>
       </aside>
 
-      {/* Article content — all h2/h3 here will be picked up automatically */}
-      <div data-toc-content className="toc-article w-richtext">
-        {children}
+      <div className="toc-main">
+        <div
+          data-toc-content
+          className="toc-article w-richtext"
+          {...(readTimeMatch ? { 'data-read-time-article': readTimeMatch } : {})}
+        >
+          {children}
+        </div>
       </div>
     </div>
   )

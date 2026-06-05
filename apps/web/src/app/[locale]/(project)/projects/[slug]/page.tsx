@@ -9,6 +9,7 @@ import { ScrollHighlight } from '@/components/scroll-highlight'
 import { ArticleTOC } from '@/components/article-toc'
 import { Button061 } from '@/components/ui/button-061'
 import { ContactSection } from '@/components/contact-section'
+import { SocialShare } from '@/components/social-share'
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>
@@ -66,6 +67,8 @@ export default async function ProjectPage({ params }: Props) {
       <ArticleTOC
         title={t('toc_title')}
         offset={80}
+        readTimeLabel={t('read_time')}
+        readTimeUnit={t('read_time_unit')}
       >
         <header className="mb-10">
           <Button061 href="/#projects" arrow="left">
@@ -119,6 +122,12 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           )}
         </ScrollHighlight>
+
+        <SocialShare
+          className="article-share"
+          heading={t('share_heading')}
+          title={`${title} | Karen Ortiz`}
+        />
       </ArticleTOC>
     </section>
 

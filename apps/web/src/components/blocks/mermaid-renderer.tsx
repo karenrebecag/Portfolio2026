@@ -72,21 +72,32 @@ export function MermaidRenderer({ code, title }: { code: string; title?: string 
 
   if (error) {
     return (
-      <figure className="not-prose my-4">
-        {title && <figcaption className="text-xs text-muted-foreground mb-2 font-medium">{title}</figcaption>}
-        <pre className="overflow-x-auto rounded-none border border-border bg-muted p-4 text-xs font-mono text-muted-foreground">
-          {code}
+      <figure className="mermaid-block not-prose w-full max-w-none border border-border overflow-hidden" style={{ borderRadius: '2px' }}>
+        {title && (
+          <figcaption className="mermaid-block__title px-4 py-2 border-b border-border text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
+            {title}
+          </figcaption>
+        )}
+        <pre className="mermaid-block__body mermaid-block__body--plain">
+          <code>{code}</code>
         </pre>
       </figure>
     )
   }
 
   return (
-    <figure className="not-prose my-4">
-      {title && <figcaption className="text-xs text-muted-foreground mb-2 font-medium">{title}</figcaption>}
+    <figure
+      className="mermaid-block not-prose w-full max-w-none border border-border overflow-hidden"
+      style={{ borderRadius: '2px' }}
+    >
+      {title && (
+        <figcaption className="mermaid-block__title px-4 py-2 border-b border-border text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
+          {title}
+        </figcaption>
+      )}
       <div
         ref={containerRef}
-        className="overflow-x-auto rounded-none border border-border p-4 [&_svg]:mx-auto [&_svg]:max-w-full bg-background"
+        className="mermaid-block__body"
         dangerouslySetInnerHTML={{ __html: svg }}
       />
     </figure>

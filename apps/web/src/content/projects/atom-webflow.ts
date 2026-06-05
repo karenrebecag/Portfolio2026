@@ -12,6 +12,7 @@ import enMarkdown from './atom-webflow-en.md'
 export const atomWebflowMeta = {
   id: '6',
   slug: 'context-driven-visual-development',
+  articleSlug: 'atom-webflow',
   status: 'published' as const,
   category: 'web' as const,
   role: 'Product Engineer & Webflow Architect',

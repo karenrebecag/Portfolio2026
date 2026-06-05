@@ -198,6 +198,10 @@
   "project_detail": {
     "back": "Proyectos",
     "case_study": "Caso de estudio",
+    "read_time": "Tiempo de lectura",
+    "read_time_unit": "min",
+    "share_heading": "Compartir artículo",
+    "link_copied": "Enlace copiado al portapapeles",
     "toc_title": "En esta página",
     "archived_title": "Proyecto archivado",
     "archived_text": "Este proyecto ya no está disponible.",

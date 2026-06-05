@@ -17,6 +17,7 @@ import { RotatingTextProvider } from '@/components/rotating-text'
 import { SectionThemeObserver } from '@/components/section-theme-observer'
 import { MarqueeScrollInit } from '@/components/marquee-scroll-init'
 import { PageTransition } from '@/components/page-transition'
+import { Toaster } from '@/components/ui/sonner'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -114,6 +115,7 @@ export default async function LocaleLayout({
               </TextRevealProvider>
             </ParallaxProvider>
           </LenisProvider>
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>
