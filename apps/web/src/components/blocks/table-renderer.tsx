@@ -1,3 +1,5 @@
+import { ArticleInlineContent } from '@/components/article-inline-content'
+
 interface TableHeader {
   label: string
   _order: number
@@ -26,15 +28,16 @@ function ColorSwatch({ hex }: { hex: string }) {
 }
 
 function CellValue({ value }: { value: string }) {
-  if (HEX_RE.test(value.trim())) {
+  const trimmed = value.trim()
+  if (HEX_RE.test(trimmed)) {
     return (
       <span className="inline-flex items-center gap-1">
-        <ColorSwatch hex={value.trim()} />
+        <ColorSwatch hex={trimmed} />
         <code className="text-xs font-accent">{value}</code>
       </span>
     )
   }
-  return <>{value}</>
+  return <ArticleInlineContent value={value} />
 }
 
 export function TableRenderer({
@@ -58,7 +61,7 @@ export function TableRenderer({
                     key={i}
                     className="px-4 py-2.5 text-left text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground whitespace-nowrap border-b border-border"
                   >
-                    {h.label}
+                    <ArticleInlineContent value={h.label} />
                   </th>
                 ))}
               </tr>

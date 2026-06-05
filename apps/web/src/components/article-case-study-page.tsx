@@ -34,13 +34,7 @@ export async function ArticleCaseStudyPage({ locale, articleSlug }: ArticleCaseS
     <>
     <article data-theme-section="light" className="article-page">
       <Container className="article-page__container px-4 lg:px-6">
-        <header
-          className="article-hero border-b border-border pb-10 pt-28 lg:pt-36"
-          data-reveal-group
-          data-stagger="80"
-          data-start="top 92%"
-          data-distance="1.25em"
-        >
+        <header className="article-hero border-b border-border pb-10 pt-28 lg:pt-36">
           <Button061 href="/#projects" arrow="left">
             {t('back')}
           </Button061>

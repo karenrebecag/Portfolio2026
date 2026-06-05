@@ -3,6 +3,7 @@
 import { useCallback } from 'react'
 import { subscribeLenisScroll } from '@/lib/lenis-scroll'
 import { usePageInit } from '@/lib/use-page-init'
+import { syncThemeColorMeta } from '@/lib/update-theme-color-meta'
 
 /**
  * OSMO "Check Section Theme on Scroll" — probe at half the nav bar height.
@@ -66,6 +67,10 @@ function initCheckSectionThemeScroll() {
     if (bgSectionActive && (force || bgSectionActive !== currentBg)) {
       document.body.setAttribute('data-bg-nav', bgSectionActive)
       currentBg = bgSectionActive
+    }
+
+    if (themeSectionActive) {
+      syncThemeColorMeta()
     }
 
     ticking = false

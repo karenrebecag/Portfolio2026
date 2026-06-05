@@ -1,47 +1,21 @@
 import React from 'react'
 import type { Block } from '@/components/blocks/types'
 import { BlockRenderer } from '@/components/blocks/block-renderer'
-import { ArticleNavLink } from '@/components/ui/article-nav-link'
+import { renderInlineNode } from '@/components/article-inline-content'
+import type { LexicalInlineNode } from '@/lib/markdown-to-lexical'
 
-interface LexicalNode {
-  type: string
-  tag?: string
-  text?: string
-  format?: number | string
-  children?: LexicalNode[]
-  url?: string
-  listType?: string
-  value?: number
-  language?: string
-  direction?: string
-  indent?: number
-  version?: number
-  fields?: { url?: string; newTab?: boolean; linkType?: string }
+interface LexicalNode extends LexicalInlineNode {
   [key: string]: unknown
 }
 
 function renderNode(node: LexicalNode, index: number, blocks?: Block[]): React.ReactNode {
-  if (node.type === 'text') {
-    let el: React.ReactNode = node.text ?? ''
-    const fmt = typeof node.format === 'number' ? node.format : 0
-    if (fmt & 1) el = <strong key={`b${index}`}>{el}</strong>
-    if (fmt & 2) el = <em key={`i${index}`}>{el}</em>
-    if (fmt & 4) el = <s key={`s${index}`}>{el}</s>
-    if (fmt & 8) el = <u key={`u${index}`}>{el}</u>
-    if (fmt & 16) el = <code key={`c${index}`}>{el}</code>
-    if (fmt & 32) el = <sub key={`sub${index}`}>{el}</sub>
-    if (fmt & 64) el = <sup key={`sup${index}`}>{el}</sup>
-    return el
-  }
-
-  if (node.type === 'highlight') {
-    return <mark key={index} data-highlight>{node.text}</mark>
+  if (node.type === 'text' || node.type === 'highlight' || node.type === 'link' || node.type === 'autolink') {
+    return renderInlineNode(node, index)
   }
 
   if (node.type === 'linebreak') return <br key={index} />
   if (node.type === 'horizontalrule') return <hr key={index} />
 
-  // Block reference — render the corresponding block component
   if (node.type === 'block-ref' && blocks) {
     const blockIndex = parseInt(node.tag || '0', 10)
     const block = blocks[blockIndex]
@@ -49,7 +23,7 @@ function renderNode(node: LexicalNode, index: number, blocks?: Block[]): React.R
     return null
   }
 
-  const children = node.children?.map((child, i) => renderNode(child, i, blocks))
+  const children = node.children?.map((child, i) => renderNode(child as LexicalNode, i, blocks))
 
   switch (node.type) {
     case 'root':
@@ -83,16 +57,6 @@ function renderNode(node: LexicalNode, index: number, blocks?: Block[]): React.R
 
     case 'listitem':
       return <li key={index}>{children}</li>
-
-    case 'link':
-    case 'autolink': {
-      const href = node.fields?.url || (node.url as string) || '#'
-      return (
-        <ArticleNavLink key={index} href={href}>
-          {children}
-        </ArticleNavLink>
-      )
-    }
 
     case 'quote':
       return <blockquote key={index}>{children}</blockquote>

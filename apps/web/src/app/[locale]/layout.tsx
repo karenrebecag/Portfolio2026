@@ -15,6 +15,7 @@ import { ContentRevealProvider } from '@/components/content-reveal'
 import { CustomCursor } from '@/components/custom-cursor'
 import { RotatingTextProvider } from '@/components/rotating-text'
 import { SectionThemeObserver } from '@/components/section-theme-observer'
+import { ThemeColorSync } from '@/components/theme-color-sync'
 import { MarqueeScrollInit } from '@/components/marquee-scroll-init'
 import { PageTransition } from '@/components/page-transition'
 import { Toaster } from '@/components/ui/sonner'
@@ -52,10 +53,14 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
+/** SSR fallback for mobile browser chrome (client sync refines per section + theme). */
 export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  colorScheme: 'light dark',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#fdf9ed' },
-    { media: '(prefers-color-scheme: dark)', color: '#0c0e0a' },
+    { media: '(prefers-color-scheme: light)', color: '#11221f' },
+    { media: '(prefers-color-scheme: dark)', color: '#070806' },
   ],
 }
 
@@ -90,6 +95,11 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: m.title,
       description: m.description,
+    },
+    appleWebApp: {
+      capable: true,
+      title: 'Karen Ortiz',
+      statusBarStyle: 'black',
     },
     robots: {
       index: true,
@@ -128,14 +138,18 @@ export default async function LocaleLayout({
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#11221f" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t&&matchMedia('(prefers-color-scheme:dark)').matches)t='dark';if(t==='dark')document.documentElement.classList.add('dark');else if(t==='mono')document.documentElement.classList.add('mono')}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t&&matchMedia('(prefers-color-scheme:dark)').matches)t='dark';if(t==='dark')document.documentElement.classList.add('dark');else if(t==='mono')document.documentElement.classList.add('mono');var s='dark',c={light:{dark:'#11221f',light:'#fdf9ed'},dark:{dark:'#070806',light:'#0c0e0a'},mono:{dark:'#14171d',light:'#e8e6e1'}},site=t==='dark'?'dark':t==='mono'?'mono':'light',color=c[site][s],m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',color);var a=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(a)a.setAttribute('content','black')}catch(e){}})()`,
           }}
         />
       </head>
       <body data-section-theme="dark" data-theme-nav="dark" data-bg-nav="dark" className="min-h-screen antialiased font-sans">
         <NextIntlClientProvider messages={messages}>
+          <ThemeColorSync />
           <CustomCursor />
           <TransitionOverlay />
           <LenisProvider>

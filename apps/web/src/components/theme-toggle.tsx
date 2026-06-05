@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { syncThemeColorMeta } from '@/lib/update-theme-color-meta'
 
 const THEMES = [
   { id: 'light', label: 'Plantation', swatch: '#366B5E' },
@@ -22,6 +23,7 @@ function applyTheme(theme: ThemeId) {
   const cls = THEME_CLASSES[theme]
   if (cls) html.classList.add(cls)
   localStorage.setItem('theme', theme)
+  syncThemeColorMeta(theme)
 }
 
 function getStoredTheme(): ThemeId {

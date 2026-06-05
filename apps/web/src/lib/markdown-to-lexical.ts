@@ -5,12 +5,12 @@
 
 import type { Block } from '@/components/blocks/types'
 
-interface LexicalNode {
+export interface LexicalInlineNode {
   type: string
   tag?: string
   text?: string
   format?: number
-  children?: LexicalNode[]
+  children?: LexicalInlineNode[]
   listType?: string
   direction?: string | null
   indent?: number
@@ -19,16 +19,32 @@ interface LexicalNode {
   fields?: { url?: string; newTab?: boolean; linkType?: string }
 }
 
+type LexicalNode = LexicalInlineNode
+
 export interface ParsedContent {
   lexical: { root: LexicalNode }
   blocks: Block[]
 }
 
-function parseInline(text: string): LexicalNode[] {
+function pushLink(nodes: LexicalNode[], url: string, label: string) {
+  const trimmed = url.trim()
+  const external = /^https?:\/\//i.test(trimmed) || trimmed.startsWith('mailto:')
+  nodes.push({
+    type: 'link',
+    fields: { url: trimmed, newTab: external, linkType: external ? 'custom' : 'internal' },
+    children: [{ type: 'text', text: label, format: 0, direction: null, indent: 0, version: 1 }],
+    direction: null,
+    format: 0,
+    indent: 0,
+    version: 1,
+  })
+}
+
+export function parseInline(text: string): LexicalInlineNode[] {
   const nodes: LexicalNode[] = []
-  // Combined pass: [label](url), ==highlight==, **bold**, *italic*, `code`
+  // [label](url), ==highlight==, **bold**, *italic*, `code`, bare https/mailto URLs
   const re =
-    /(\[([^\]]+)\]\(([^)]+)\)|==(.+?)==|\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`)/g
+    /(\[([^\]]+)\]\(([^)]+)\)|==(.+?)==|\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`|(https?:\/\/[^\s|<>)\]]+)|mailto:[^\s|<>)\]]+)/g
   let lastIndex = 0
   let m: RegExpExecArray | null
 
@@ -37,17 +53,7 @@ function parseInline(text: string): LexicalNode[] {
       nodes.push({ type: 'text', text: text.slice(lastIndex, m.index), format: 0, direction: null, indent: 0, version: 1 })
     }
     if (m[2] !== undefined && m[3] !== undefined) {
-      const url = m[3].trim()
-      const external = /^https?:\/\//i.test(url) || url.startsWith('mailto:')
-      nodes.push({
-        type: 'link',
-        fields: { url, newTab: external, linkType: external ? 'custom' : 'internal' },
-        children: [{ type: 'text', text: m[2], format: 0, direction: null, indent: 0, version: 1 }],
-        direction: null,
-        format: 0,
-        indent: 0,
-        version: 1,
-      })
+      pushLink(nodes, m[3], m[2])
     } else if (m[4]) {
       nodes.push({ type: 'highlight', text: m[4], format: 0, direction: null, indent: 0, version: 1 })
     } else if (m[5]) {
@@ -56,6 +62,14 @@ function parseInline(text: string): LexicalNode[] {
       nodes.push({ type: 'text', text: m[6], format: 2, direction: null, indent: 0, version: 1 })
     } else if (m[7]) {
       nodes.push({ type: 'text', text: m[7], format: 16, direction: null, indent: 0, version: 1 })
+    } else if (m[8]) {
+      const raw = m[8]
+      const url = raw.replace(/[.,;:!?)]+$/, '')
+      const trailing = raw.slice(url.length)
+      pushLink(nodes, url, url)
+      if (trailing) {
+        nodes.push({ type: 'text', text: trailing, format: 0, direction: null, indent: 0, version: 1 })
+      }
     }
     lastIndex = m.index + m[0].length
   }

@@ -1,3 +1,5 @@
+import { ArticleInlineContent } from '@/components/article-inline-content'
+
 const typeConfig: Record<string, { accent: string; label: string }> = {
   info: { accent: 'var(--plantation)', label: 'Info' },
   warning: { accent: 'var(--plantation)', label: 'Warning' },
@@ -20,7 +22,9 @@ export function CalloutRenderer({
       style={{ borderColor: config.accent }}
     >
       <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{config.label}</span>
-      <p className="mt-1 text-sm leading-relaxed">{text}</p>
+      <p className="mt-1 text-sm leading-relaxed">
+        <ArticleInlineContent value={text} />
+      </p>
     </div>
   )
 }
