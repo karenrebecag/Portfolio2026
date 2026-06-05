@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId } from 'react'
+import { useEffect, useId, type ComponentPropsWithoutRef } from 'react'
 import { initTableOfContents } from '@/lib/toc'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -13,11 +13,19 @@ if (typeof window !== 'undefined') {
   ;(window as any).gsap = gsap
 }
 
+interface ArticleTOCRevealProps {
+  stagger?: string
+  start?: string
+  distance?: string
+}
+
 interface ArticleTOCProps {
   title?: string
   levels?: string // "h2,h3"
   offset?: number
   children: React.ReactNode // the actual article content with h2/h3 inside
+  tocWrapProps?: ComponentPropsWithoutRef<'div'>
+  reveal?: ArticleTOCRevealProps
 }
 
 export function ArticleTOC({
@@ -25,6 +33,8 @@ export function ArticleTOC({
   levels = 'h2,h3',
   offset = 80,
   children,
+  tocWrapProps,
+  reveal,
 }: ArticleTOCProps) {
   const templateId = useId()
 
@@ -42,6 +52,8 @@ export function ArticleTOC({
       data-toc-levels={levels}
       data-toc-offset={offset}
       className="toc-layout"
+      {...(reveal ? { 'data-reveal-group': '', 'data-stagger': reveal.stagger, 'data-start': reveal.start, 'data-distance': reveal.distance } : {})}
+      {...tocWrapProps}
     >
       {/* Sidebar */}
       <aside className="toc-sidebar">

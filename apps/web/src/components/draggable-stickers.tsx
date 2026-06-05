@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 
@@ -47,6 +48,8 @@ function initDraggableStickers() {
 }
 
 export function DraggableStickers({ stickers }: DraggableStickersProps) {
+  const t = useTranslations('common')
+
   useEffect(() => {
     function start() {
       initDraggableStickers()
@@ -73,7 +76,7 @@ export function DraggableStickers({ stickers }: DraggableStickersProps) {
         <div
           key={i}
           data-sticker="item"
-          data-cursor="Drag"
+          data-cursor={t('drag')}
           className={`sticker-item sticker-item--${i + 1}`}
         >
           <img src={s.src} alt={s.alt} className="sticker-item__img" draggable={false} />

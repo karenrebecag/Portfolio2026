@@ -2,10 +2,18 @@
 
 import { useEffect, useRef, useCallback } from 'react'
 import gsap from 'gsap'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LocaleToggle } from '@/components/locale-toggle'
+import type Lenis from 'lenis'
+import { subscribeLenisScroll } from '@/lib/lenis-scroll'
+import {
+  getNavbarHeader,
+  resetNavbarScrollState,
+  updateNavbarHeaderVisibility,
+  type NavbarScrollState,
+} from '@/lib/navbar-scroll'
 
 const SOCIAL_LINKS = [
   { label: 'GitHub', href: 'https://github.com/karenrebecag', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.247C9.62482 2.24599 7.32683 3.09045 5.51745 4.62917C3.70808 6.16789 2.50547 8.30041 2.12495 10.6449C1.74442 12.9894 2.21083 15.3928 3.44066 17.4248C4.67049 19.4568 6.58343 20.9847 8.83701 21.735C9.33701 21.829 9.52101 21.52 9.52101 21.254C9.52101 21.017 9.51201 20.387 9.50801 19.554C6.72701 20.154 6.14001 18.212 6.14001 18.212C5.9554 17.6074 5.56062 17.0889 5.02701 16.75C4.12201 16.13 5.09801 16.142 5.09801 16.142C5.41478 16.1858 5.71737 16.3013 5.9827 16.4798C6.24803 16.6583 6.46908 16.8951 6.62901 17.172C6.7649 17.4186 6.94832 17.6359 7.16868 17.8112C7.38904 17.9866 7.64197 18.1165 7.91284 18.1935C8.18371 18.2705 8.46715 18.293 8.74679 18.2598C9.02642 18.2266 9.2967 18.1383 9.54201 18C9.58642 17.493 9.81098 17.0187 10.175 16.663C7.95401 16.413 5.62001 15.553 5.62001 11.721C5.60586 10.7289 5.97437 9.76951 6.64901 9.042C6.33796 8.18271 6.36947 7.23668 6.73701 6.4C6.73701 6.4 7.57401 6.132 9.48701 7.425C11.1232 6.97435 12.8508 6.97435 14.487 7.425C16.387 6.132 17.224 6.4 17.224 6.4C17.5874 7.23872 17.6231 8.18324 17.324 9.047C17.9972 9.77674 18.3641 10.7373 18.349 11.73C18.349 15.572 16.012 16.417 13.787 16.663C14.024 16.9061 14.2066 17.1967 14.323 17.5156C14.4394 17.8345 14.4867 18.1744 14.462 18.513C14.462 19.852 14.449 20.927 14.449 21.252C14.449 21.514 14.624 21.827 15.137 21.727C17.3976 20.9868 19.3197 19.464 20.5576 17.4329C21.7955 15.4017 22.2679 12.9954 21.8897 10.647C21.5115 8.29856 20.3076 6.16221 18.4947 4.62233C16.6817 3.08245 14.3787 2.24015 12 2.247Z"/></svg> },
@@ -16,10 +24,12 @@ const SOCIAL_LINKS = [
 
 export function Navbar() {
   const t = useTranslations('nav')
+  const common = useTranslations('common')
   const toggleRef = useRef<HTMLButtonElement>(null)
   const tlRef = useRef<gsap.core.Timeline | null>(null)
   const isOpenRef = useRef(false)
   const enterEndTimeRef = useRef(0)
+  const scrollStateRef = useRef<NavbarScrollState>({ headerVisible: true, lastScrollY: 0 })
 
   const NAV_LINKS = [
     { href: '/', label: t('home'), active: true },
@@ -37,11 +47,22 @@ export function Navbar() {
     const isOpen = isOpenRef.current
 
     btn.setAttribute('aria-expanded', String(isOpen))
-    btn.setAttribute('aria-label', isOpen ? 'close menu' : 'open menu')
+    btn.setAttribute('aria-label', isOpen ? t('close') : t('menu'))
     document.body.setAttribute('data-menu-status', isOpen ? 'open' : '')
 
-    const header = document.querySelector<HTMLElement>('.underlay-nav__header')
-    if (header) header.classList.toggle('is--hidden', isOpen)
+    const header = getNavbarHeader()
+    if (header) {
+      if (isOpen) {
+        header.classList.add('is--hidden')
+        scrollStateRef.current.headerVisible = false
+      } else {
+        scrollStateRef.current = updateNavbarHeaderVisibility(
+          header,
+          scrollStateRef.current,
+          false,
+        )
+      }
+    }
 
     if (isOpen) {
       tl.invalidate()
@@ -51,7 +72,7 @@ export function Navbar() {
       if (tl.time() < enterEndTimeRef.current) tl.timeScale(1).reverse()
       else tl.timeScale(1).play()
     }
-  }, [])
+  }, [t])
 
   useEffect(() => {
     const btn = toggleRef.current
@@ -71,7 +92,6 @@ export function Navbar() {
 
     if (!btn || !menuEl || !mainEl || !overlayEl || !darkEl || !menuBorder) return
 
-    const closedColor = getComputedStyle(document.documentElement).getPropertyValue('--foreground').trim() || '#fff'
     const openColor = '#fdf9ed'
 
     const getMenuOffset = () => -menuEl.offsetWidth
@@ -134,7 +154,7 @@ export function Navbar() {
       .to(corners, { scale: 0, duration: 0.5 }, '<')
       .to(overlayBorders[0], { yPercent: -100, duration: 0.5 }, '<')
       .to(overlayBorders[1], { yPercent: 100, duration: 0.5 }, '<')
-      .to(btn, { color: closedColor, duration: 0.25 }, '<+=0.1')
+      .to(btn, { color: () => getComputedStyle(document.documentElement).getPropertyValue('--foreground').trim() || '#fff', duration: 0.25 }, '<+=0.1')
       .to(toggleLabels, { yPercent: 0, duration: 0.25, ease: 'power3.in' }, '<')
       .to(toggleBars, { y: 0, rotation: 0, duration: 0.25, ease: 'power3.in' }, '<')
 
@@ -167,39 +187,42 @@ export function Navbar() {
       }, 150)
     }
 
-    const header = document.querySelector<HTMLElement>('.underlay-nav__header')
-    let lastScrollY = 0
-    let headerVisible = true
+    const header = getNavbarHeader()
 
-    const handleScroll = () => {
+    const handleLenisScroll = (lenis: Lenis) => {
       if (!header) return
-      const scrollY = window.scrollY
-      const atTop = scrollY <= 10
-      const scrollingUp = scrollY < lastScrollY
+      scrollStateRef.current = updateNavbarHeaderVisibility(
+        header,
+        scrollStateRef.current,
+        isOpenRef.current,
+        lenis,
+      )
+    }
 
-      header.classList.toggle('is--scrolled', !atTop)
-
-      const shouldShow = (atTop || scrollingUp) && !isOpenRef.current
-      if (shouldShow !== headerVisible) {
-        headerVisible = shouldShow
-        header.classList.toggle('is--hidden', !shouldShow)
-      }
-
-      lastScrollY = scrollY
+    const onNavigateComplete = () => {
+      scrollStateRef.current = resetNavbarScrollState()
     }
 
     overlayEl.addEventListener('click', handleOverlayClick)
     document.addEventListener('keydown', handleKeydown)
     window.addEventListener('resize', handleResize)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
+    document.addEventListener('page-navigation-complete', onNavigateComplete)
+    const unsubscribeLenis = subscribeLenisScroll(handleLenisScroll)
+    if (header) {
+      scrollStateRef.current = updateNavbarHeaderVisibility(
+        header,
+        scrollStateRef.current,
+        isOpenRef.current,
+      )
+    }
 
     return () => {
       tl.kill()
       overlayEl.removeEventListener('click', handleOverlayClick)
       document.removeEventListener('keydown', handleKeydown)
       window.removeEventListener('resize', handleResize)
-      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('page-navigation-complete', onNavigateComplete)
+      unsubscribeLenis()
     }
   }, [toggle])
 
@@ -209,9 +232,9 @@ export function Navbar() {
 
   return (
     <div className="underlay-nav">
-      <header className="underlay-nav__header">
-        <div className="underlay-nav__bar">
-          <div className="underlay-nav__container">
+      <header className="underlay-nav__header" data-theme-nav>
+        <div data-nav-bar-height className="underlay-nav__bar">
+            <div className="underlay-nav__container">
             <Link href="/" className="underlay-nav__logo font-display font-bold uppercase tracking-tight">
               Karen Ortiz
             </Link>
@@ -221,7 +244,7 @@ export function Navbar() {
               <button
                 ref={toggleRef}
                 aria-expanded="false"
-                aria-label="open menu"
+                aria-label={t('menu')}
                 className="underlay-nav__toggle"
                 onClick={toggle}
               >
@@ -244,20 +267,20 @@ export function Navbar() {
           <ul className="underlay-nav__list">
             {NAV_LINKS.map((link) => (
               <li key={link.label} data-reveal-l>
-                <a
+                <Link
                   href={link.href}
                   className={`underlay-nav__link-large${link.active ? ' is--active' : ''}`}
                   onClick={handleLinkClick}
                 >
                   <span className="underlay-nav__link-label">{link.label}</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
           <div className="underlay-nav__bottom">
             <div className="underlay-nav__bottom-col">
               <div data-reveal-s>
-                <span className="underlay-nav__link-small is--faded">Socials</span>
+                <span className="underlay-nav__link-small is--faded">{common('socials')}</span>
               </div>
               <ul className="underlay-nav__list is--small">
                 {SOCIAL_LINKS.map((link) => (

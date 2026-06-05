@@ -7,11 +7,14 @@ import { ProjectsSection } from '@/components/projects-section'
 import { ContactSection } from '@/components/contact-section'
 import { Pill } from '@/components/ui/pill'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
+import { getLocalizedProject } from '@/lib/project-i18n'
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
-  const projects = PLACEHOLDER_PROJECTS.filter((p) => p.status === 'published')
+  const projects = PLACEHOLDER_PROJECTS
+    .filter((p) => p.status === 'published')
+    .map((p) => getLocalizedProject(p, locale))
   const t = await getTranslations()
 
   return (

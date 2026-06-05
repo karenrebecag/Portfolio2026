@@ -3,6 +3,21 @@
     "title": "Karen Ortiz - Software Engineer & Product Designer",
     "description": "I design and build AI-powered web products, from architecture to the last pixel."
   },
+  "common": {
+    "socials": "Socials",
+    "navigate": "Navigate",
+    "drag": "Drag",
+    "cursor_scroll": "Scroll",
+    "cursor_email": "Email",
+    "cursor_call": "Call",
+    "cursor_open": "Open",
+    "cursor_view": "View",
+    "cursor_click": "Click",
+    "cursor_focus": "Focus"
+  },
+  "page_transition": {
+    "welcome": "Welcome"
+  },
   "nav": {
     "home": "Home",
     "projects": "Projects",
@@ -77,7 +92,10 @@
     "heading": "Product work I'm proud of.",
     "description": "A few projects where I've led product thinking, UX, systems, and engineering. From early exploration to production.",
     "empty": "Coming soon.",
-    "view_all": "View all projects"
+    "view_all": "View all projects",
+    "col_project": "Project",
+    "col_year": "Year",
+    "col_services": "Services"
   },
   "additional": {
     "pill": "02 / Additional work",
@@ -139,7 +157,11 @@
     "volunteering_heading_before": "Beyond ",
     "volunteering_rotating": "work, code, the screen, the job",
     "education_eyebrow": "Education",
-    "stack_eyebrow": "Stack"
+    "stack_eyebrow": "Stack",
+    "hero_greeting_words": "Hello, Hola, Bonjour, Ciao, Hallo, Ola, Namaste, Merhaba, Hej, Aloha, Salut, Ahoj, Sawubona, Jambo, Kamusta, Saluton, Ndewo, Szia, Xin chao, Sawasdee, Annyeong, Konnichiwa, Ni hao, Shalom, Privet, Salam",
+    "hero_greeting_default": "Hello",
+    "hero_name_suffix": ", I'm Karen.",
+    "thats_me": "that's me"
   },
   "contact": {
     "label": "Contact",
@@ -167,10 +189,16 @@
     "tagline_1": "Built to ship.",
     "tagline_2": "Designed to last.",
     "bio": "Software Engineer focused on Product Engineering & Web Experiences. I design systems, components, and agents that connect UX, infrastructure, and AI into production-ready products.",
-    "rights": "All rights reserved"
+    "rights": "All rights reserved",
+    "location": "Cuernavaca, MX",
+    "location_remote": "Remote worldwide",
+    "built_by": "Designed & built by Karen Ortiz",
+    "stack": "Next.js + GSAP + Tailwind"
   },
   "project_detail": {
     "back": "Projects",
+    "case_study": "Case study",
+    "toc_title": "On this page",
     "archived_title": "Archived project",
     "archived_text": "This project is no longer available.",
     "view_projects": "View projects",

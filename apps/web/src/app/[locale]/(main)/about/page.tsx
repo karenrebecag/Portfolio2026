@@ -1,180 +1,28 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { getAboutContent } from '@/content/about'
 import { Container } from '@/components/ui/container'
 import { ContactSection } from '@/components/contact-section'
 import { Pill } from '@/components/ui/pill'
 import { Button061 } from '@/components/ui/button-061'
 import { IconButton } from '@/components/ui/icon-button'
+import dynamic from 'next/dynamic'
 import { ScrollHighlight } from '@/components/scroll-highlight'
-import { InfiniteGrid } from '@/components/infinite-grid'
-import { DraggableMarqueeStrip } from '@/components/additional-work'
 
-const ALBUMS = [
-  { title: 'Djent Is Not a Genre', type: 'Periphery', image: '/albums/periphery-v.webp' },
-  { title: 'DATA', type: 'Tainy', image: '/albums/tainy-data.webp' },
-  { title: 'Quest for Fire', type: 'Skrillex', image: '/albums/skrillex-quest.webp' },
-  { title: 'To Pimp a Butterfly', type: 'Kendrick Lamar', image: '/albums/kendrick-tpab.jpg' },
-  { title: 'The Life of Pablo', type: 'Kanye West', image: '/albums/kanye-tlop.jpg' },
-  { title: 'Fauna', type: 'Haken', image: '/albums/haken-fauna.jpg' },
-  { title: 'Alive 2007', type: 'Daft Punk', image: '/albums/daftpunk-alive.webp' },
-  { title: 'Post Human: Nex Gen', type: 'Bring Me the Horizon', image: '/albums/bmth-nexgen.webp' },
-  { title: 'All Eyez on Me', type: '2Pac', image: '/albums/2pac-alleyez.webp' },
-  { title: 'Terraformer', type: 'Thank You Scientist', image: '/albums/tys-terraformer.jpg' },
-  { title: 'Black Radio 2', type: 'Robert Glasper Experiment', image: '/albums/glasper-blackradio2.webp' },
-  { title: 'Volition', type: 'Protest the Hero', image: '/albums/pth-volition.webp' },
-  { title: 'Meteora', type: 'Linkin Park', image: '/albums/lp-meteora.webp' },
-  { title: 'AM', type: 'Arctic Monkeys', image: '/albums/am-am.jpg' },
-]
+const InfiniteGrid = dynamic(
+  () => import('@/components/infinite-grid').then((mod) => mod.InfiniteGrid),
+  { loading: () => <div className="infinite-grid h-[50svh] animate-pulse bg-muted/20" aria-hidden /> },
+)
 
-const EXPERIENCE = [
-  {
-    period: 'Feb 2026 - Present',
-    title: 'Web Engineer',
-    subtitle: 'Growth & Infrastructure',
-    company: 'Atom',
-    location: 'South Carolina, US (Remote)',
-    highlights: [
-      'Sole technical owner of the web marketing pipeline for a WhatsApp funnel automation SaaS across 14+ LATAM countries.',
-      'Architected a token-first design system with custom npm packages: 1,865 tokens, 46 components, 4 frameworks, indexed for AI consumption via MCP server.',
-      'Empowered non-technical growth teams to compose high-converting landing pages autonomously via Starlight docs and vibe-code snippets.',
-      'Manage hybrid web infrastructure across Vercel and Cloudflare: DNS, rulesets, workers, CDN caching for Astro/Next.js and legacy stacks.',
-    ],
-  },
-  {
-    period: 'Dec 2025 - Present',
-    title: 'Senior Web Platform Architect',
-    subtitle: 'LATAM Regional Lead',
-    company: 'ATFX',
-    location: 'Mexico City (Hybrid)',
-    highlights: [
-      'Tech lead of the LATAM web pipeline: marketing sites, lead-gen funnels, email workflows, Salesforce integrations, and MCP skills.',
-      'Architected ATFX Educacao, a Brazilian financial education SaaS, proposing Next.js + Supabase + Stripe over WordPress + WooCommerce.',
-      'Design and maintain dual Figma design systems for 5 LATAM countries with tokens mirrored in code.',
-      'Implement lead-gen and webinar funnels end-to-end: Figma flows, accessible HTML/CSS/JS, Power Automate, GA4 attribution, consent management.',
-    ],
-  },
-  {
-    period: 'Jun 2025 - Present',
-    title: 'Founder & Lead Product/Design Engineer',
-    subtitle: 'AI Automation & Web Systems',
-    company: 'Draft Studio',
-    location: 'Remote',
-    highlights: [
-      'Founded a remote creative studio with 5 specialists delivering AI-powered automation, scalable web platforms and e-commerce flows.',
-      'Designed a zero-trust LLM architecture where AI acts purely as a reasoning engine with tool-calling.',
-      'Built intelligent appointment systems integrating Google Calendar with automated proposal and booking flows.',
-    ],
-  },
-  {
-    period: 'Jul 2024 - Feb 2026',
-    title: 'Full-Stack Developer & UX/UI Consultant',
-    subtitle: 'AI Automation & Internal Tools',
-    company: 'Aurin',
-    location: 'Cuernavaca, MX',
-    highlights: [
-      'Engineered the Aurin.mx platform (Astro + AI chatbot) achieving 95+ Lighthouse score and <1.5s TTI.',
-      'Built 8 production automation workflows processing 1,500+ monthly operations, reducing manual work by 25 hrs/week.',
-      'Delivered a full-stack case-management system for a 292-attorney Chambers-ranked firm on Next.js, Supabase and Clerk.',
-    ],
-  },
-  {
-    period: 'Jul 2024 - Feb 2026',
-    title: 'UX/UI Design Consultant',
-    subtitle: 'Fintech & Banking Interfaces',
-    company: 'Ancient Technologies',
-    location: 'Austin, TX (Remote)',
-    highlights: [
-      'Led UX engineering for ancient.global, a marketing platform serving 15+ countries across LATAM, US and Europe.',
-      'Architected a unified design system for 4 fintech products: 80+ reusable Figma components with comprehensive design tokens.',
-      'Engineered a GPT-4 conversational chatbot with modular multi-assistant orchestration across 15+ service pages.',
-    ],
-  },
-  {
-    period: 'Apr - Nov 2024',
-    title: 'UX/UI Designer & Frontend Developer',
-    subtitle: 'E-commerce & Shopify',
-    company: 'Spil Creative',
-    location: 'Brooklyn, NY (Remote)',
-    highlights: [
-      'Designed and developed Shopify storefronts for Goslings Rum Bermuda, Health-Ade Kombucha and Leaders in Global Energy Insurance.',
-      'Built custom Shopify templates using Liquid with flexible, brand-specific component architectures.',
-    ],
-  },
-  {
-    period: 'Apr - Nov 2023',
-    title: 'Web Designer',
-    subtitle: 'Wix Studio & Google Partnership',
-    company: 'Zoek Marketing',
-    location: 'San Francisco, CA (Remote)',
-    highlights: [
-      'Coordinated UX, design and development teams for website redesign projects across US clients.',
-      'Translated Figma designs into production Wix Studio implementations with improved visual quality and responsiveness.',
-    ],
-  },
-]
-
-const VOLUNTEERING = [
-  {
-    period: 'Oct 2024 - Present',
-    title: 'Senior UX Designer',
-    company: 'Athenis AI',
-    label: 'Education',
-    text: 'Design UX for an AI-powered e-learning platform with immersive 3D simulations, personalized learning paths, and real-time AI guidance.',
-  },
-  {
-    period: 'Feb - Apr 2025',
-    title: 'Frontend Developer',
-    company: 'Opinator',
-    label: 'CX Technology',
-    text: 'Designed and implemented interactive, branded CX feedback interfaces (OPIs) for major clients across Europe and the Americas, working with the Madrid core team.',
-  },
-  {
-    period: 'Apr - Oct 2024',
-    title: 'Computer Science Teacher',
-    company: 'Algorithmics Global',
-    label: 'Education',
-    text: 'Taught web design, Python, programming logic and digital literacy to 50+ students ages 6-17 through engaging, age-appropriate lessons.',
-  },
-  {
-    period: 'Mar 2023 - May 2024',
-    title: 'Software Engineer',
-    company: 'CCyTEM',
-    label: 'Social Impact',
-    text: 'Programmed NAO robots with Python/C++ for 1,200+ students across 15+ underserved rural communities via the Science Trailer mobile outreach program.',
-  },
-]
-
-const INVOLVEMENT = [
-  { text: 'Designed AWE Nites CDMX website (awexr.mx) for Mexico City\'s largest XR/VR/AI community (425+ members). Awarded GSAP \'Site of the Day\'.', label: 'Community' },
-  { text: 'Taught web design, Python and programming logic to 50+ students (ages 6-17) through Algorithmics Global.', label: 'Education' },
-  { text: 'Programmed NAO robots with Python/C++ for 1,200+ students across 15+ underserved rural communities via CCyTEM\'s mobile science museum.', label: 'Social Impact' },
-]
-
-const EDUCATION = [
-  'M.S. Software Engineering Management (UTEL, 2024)',
-  'B.S. Computer Software Engineering (UTEL, 2023)',
-  'AI Certificate (MIT via Santander Open Academy, 2024)',
-  'IoT Certificate (MIT via Santander Open Academy, 2024)',
-  'Data Science (BEDU + Microsoft + TecnolochicasPro)',
-  'Film & Cinema Studies (UAM, 2022)',
-  'Advanced English C1 (Platzi)',
-  'Machine Learning with Python (Platzi, 2024)',
-  'AWS & Azure Cloud Certifications (Platzi)',
-  'Fullstack JS + React (Platzi)',
-]
-
-const STACK = {
-  'Product & Design': ['Figma', 'Figma AI', 'Design Tokens', 'Atomic Design', 'Radix UI', 'Shadcn/UI', 'WCAG 2.1 AA', 'Spline', 'Three.js'],
-  'Frontend': ['Next.js', 'React', 'Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Framer Motion', 'Zustand', 'Shopify Liquid'],
-  'Marketing & Analytics': ['GA4', 'GTM', 'Salesforce', 'Resend', 'UTM', 'Conversion Tracking', 'Meta Ads', 'Google Ads', 'Power Automate'],
-  'CMS & APIs': ['Payload', 'Strapi', 'Webflow', 'WordPress (headless)', 'GraphQL', 'REST', 'n8n', 'OpenAI API', 'Claude API'],
-  'Infrastructure': ['Vercel', 'Cloudflare', 'Supabase', 'PostgreSQL', 'Docker', 'Sentry', 'CI/CD', 'AWS', 'GCP'],
-  'AI & Automation': ['MCP Servers', 'LLM Orchestration', 'n8n', 'Python', 'Tool-calling Agents'],
-}
+const DraggableMarqueeStrip = dynamic(
+  () => import('@/components/additional-work').then((mod) => mod.DraggableMarqueeStrip),
+  { loading: () => <div className="h-48 animate-pulse bg-muted/20" aria-hidden /> },
+)
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('about')
+  const content = getAboutContent(locale)
 
   return (
     <>
@@ -195,20 +43,29 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           />
         </div>
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/20 via-black/30 via-40% to-transparent" />
-        <Container className="relative z-[1] mb-6">
-          <Pill>{t('eyebrow')}</Pill>
+        <Container
+          data-reveal-group
+          data-stagger="100"
+          data-start="top 88%"
+          data-distance="1.5em"
+          className="relative z-[1] mb-6"
+        >
+          <div>
+            <Pill>{t('eyebrow')}</Pill>
+          </div>
+          <div>
           <h1
             data-rotating-title
             data-step-duration="1.5"
             className="mt-6 text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-tight max-w-[25ch]"
           >
             <span
-              data-rotating-words="Hello, Hola, Bonjour, Ciao, Hallo, Ola, Namaste, Merhaba, Hej, Aloha, Salut, Ahoj, Sawubona, Jambo, Kamusta, Saluton, Ndewo, Szia, Xin chao, Sawasdee, Annyeong, Konnichiwa, Ni hao, Shalom, Privet, Salam"
+              data-rotating-words={t('hero_greeting_words')}
               className="rotating-text__highlight"
-            >Hello</span>, I'm Karen.
+            >{t('hero_greeting_default')}</span>{t('hero_name_suffix')}
           </h1>
+          </div>
 
-          {/* Divider */}
           <div className="mt-8 mb-8 h-[5px] w-full bg-current" />
 
           <div className="flex items-center gap-3">
@@ -242,9 +99,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             />
           </div>
 
-          <p className="mt-8 text-base leading-relaxed text-white/70 max-w-[55ch]">
-            {t('hero_subtitle')}
-          </p>
+          <div>
+            <p className="mt-8 text-base leading-relaxed text-white/70 max-w-[55ch]">
+              {t('hero_subtitle')}
+            </p>
+          </div>
           <div className="mt-10 flex flex-wrap gap-3">
             <Button061 href="#personal">{t('hero_cta_personal')}</Button061>
             <Button061 href="#professional" variant="secondary">{t('hero_cta_professional')}</Button061>
@@ -255,16 +114,21 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       {/* Personal statement */}
       <section id="personal" data-theme-section="light" className="px-4 lg:px-6 py-32 lg:py-48 scroll-mt-20">
-        <ScrollHighlight>
-          <Container>
+        <Container
+          data-reveal-group
+          data-stagger="140"
+          data-start="top 78%"
+          data-distance="2.5em"
+        >
+          <ScrollHighlight>
             <p className="font-display text-[clamp(1.75rem,4.5vw,4rem)] font-bold leading-[1.15] tracking-tight">
               {t('statement_before')}<span data-highlight>{t('statement_hl_1')}</span>{t('statement_mid_1')}<span data-highlight>{t('statement_hl_2')}</span>{t('statement_mid_2')}<span data-highlight>{t('statement_hl_3')}</span>{t('statement_mid_3')}<span data-highlight>{t('statement_hl_4')}</span>{t('statement_mid_4')}<span data-highlight>{t('statement_hl_5')}</span>{t('statement_after')}
             </p>
-            <p className="mt-12 text-sm leading-relaxed text-muted-foreground max-w-[48ch]">
-              {t('statement_sub')}
-            </p>
-          </Container>
-        </ScrollHighlight>
+          </ScrollHighlight>
+          <p className="mt-12 text-sm leading-relaxed text-muted-foreground max-w-[48ch]">
+            {t('statement_sub')}
+          </p>
+        </Container>
       </section>
 
       {/* Gallery */}
@@ -272,19 +136,30 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       {/* Personal quote */}
       <section data-theme-section="light" className="px-4 lg:px-6 py-32 lg:py-48">
-        <ScrollHighlight>
-          <Container className="flex flex-col items-center text-center">
-            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('quote_eyebrow')}</span>
+        <Container
+          data-reveal-group
+          data-stagger="120"
+          data-start="top 82%"
+          className="flex flex-col items-center text-center"
+        >
+          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('quote_eyebrow')}</span>
+          <ScrollHighlight>
             <p className="mt-10 font-display text-[clamp(1.75rem,4.5vw,4rem)] font-bold leading-[1.15] tracking-tight max-w-[22ch]">
               {t('quote_before')}<span data-highlight>{t('quote_hl_1')}</span>{t('quote_mid_1')}<span data-highlight>{t('quote_hl_2')}</span>{t('quote_mid_2')}<span data-highlight>{t('quote_hl_3')}</span>{t('quote_after')}
             </p>
-          </Container>
-        </ScrollHighlight>
+          </ScrollHighlight>
+        </Container>
       </section>
 
       {/* Baby photo — emotional */}
-      <section data-theme-section="light" data-reveal-group className="px-4 lg:px-6 py-10 lg:py-14 overflow-hidden">
-        <Container className="flex flex-col items-center">
+      <section data-theme-section="light" className="px-4 lg:px-6 py-10 lg:py-14 overflow-hidden">
+        <Container
+          data-reveal-group
+          data-stagger="90"
+          data-start="top 85%"
+          data-distance="2em"
+          className="flex flex-col items-center"
+        >
           <div className="relative inline-block">
             {/* Photo with slight rotation */}
             <div className="relative bg-white p-3 shadow-[0_2px_20px_rgba(0,0,0,0.08)] rotate-[-2deg] max-w-[320px] md:max-w-[380px]">
@@ -297,7 +172,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
             {/* "that's me" label + arrow — handwritten font */}
             <div className="absolute -top-16 -left-36 md:-left-52 flex items-end gap-2">
-              <span className="text-5xl md:text-7xl text-foreground/50 whitespace-nowrap" style={{ fontFamily: 'var(--font-handwritten)' }}>that&apos;s me</span>
+              <span className="text-5xl md:text-7xl text-foreground/50 whitespace-nowrap" style={{ fontFamily: 'var(--font-handwritten)' }}>{t('thats_me')}</span>
               <svg width="48" height="32" viewBox="0 0 48 32" fill="none" className="text-foreground/40 translate-y-1">
                 <path d="M2 4C8 8 18 16 30 18C34 18.5 38 18 40 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
                 <path d="M36 12L41 17L35 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -321,9 +196,13 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             </svg>
           </div>
 
-          {/* Origin story */}
           <ScrollHighlight>
-            <div className="mt-16 max-w-[72ch]">
+            <div
+              data-reveal-group-nested
+              data-stagger="80"
+              data-distance="1.25em"
+              className="mt-16 max-w-[72ch]"
+            >
               <p className="text-base md:text-lg leading-[2] text-foreground/80">
                 {t('origin_p1_before')}<span data-highlight>{t('origin_p1_hl_1')}</span>{t('origin_p1_mid_1')}<span data-highlight>{t('origin_p1_hl_2')}</span>{t('origin_p1_after')}
               </p>
@@ -346,48 +225,60 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       {/* Music albums */}
       <section data-theme-section="light" className="py-20 lg:py-28">
         <div className="px-4 lg:px-6 mb-8">
-          <Container>
+          <Container
+            data-reveal-group
+            data-stagger="100"
+            data-start="top 88%"
+          >
             <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('albums_eyebrow')}</span>
             <h2 className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight">{t('albums_heading')}</h2>
           </Container>
         </div>
-        <DraggableMarqueeStrip items={ALBUMS} duration="30" />
+        <DraggableMarqueeStrip items={content.albums} duration="30" />
       </section>
 
       {/* Bridge + Experience */}
-      <section id="professional" data-theme-section="light" data-reveal-group className="px-4 lg:px-6 py-24 lg:py-40 scroll-mt-20">
-        <ScrollHighlight>
-        <Container>
-          <p
-            data-rotating-title
-            data-step-duration="2"
-            className="font-display text-[clamp(1.5rem,3.5vw,3rem)] font-bold leading-[1.15] tracking-tight max-w-[22ch]"
-          >
-            {t('bridge_before')}
-            <span
-              data-rotating-words={t('bridge_rotating')}
-              className="rotating-text__highlight"
-            >{t('bridge_rotating').split(',')[0].trim()}</span>{t('bridge_after')}
-          </p>
+      <section id="professional" data-theme-section="light" className="px-4 lg:px-6 py-24 lg:py-40 scroll-mt-20">
+        <Container
+          data-reveal-group
+          data-stagger="110"
+          data-start="top 80%"
+          data-distance="2em"
+        >
+          <ScrollHighlight>
+            <p
+              data-rotating-title
+              data-step-duration="2"
+              className="font-display text-[clamp(1.5rem,3.5vw,3rem)] font-bold leading-[1.15] tracking-tight max-w-[22ch]"
+            >
+              {t('bridge_before')}
+              <span
+                data-rotating-words={t('bridge_rotating')}
+                className="rotating-text__highlight"
+              >{t('bridge_rotating').split(',')[0].trim()}</span>{t('bridge_after')}
+            </p>
+          </ScrollHighlight>
 
           <div className="mt-16 mb-16 h-px w-full bg-border" />
 
-          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('experience_eyebrow')}</span>
-          <h2
-            data-rotating-title
-            data-step-duration="2.5"
-            className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight max-w-[24ch]"
-          >
-            {t('experience_heading_before')}
-            <span
-              data-rotating-words={t('experience_rotating')}
-              className="rotating-text__highlight"
-            >{t('experience_rotating').split(',')[0].trim()}</span>
-          </h2>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('experience_eyebrow')}</span>
+            <h2
+              data-rotating-title
+              data-step-duration="2.5"
+              className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight max-w-[24ch]"
+            >
+              {t('experience_heading_before')}
+              <span
+                data-rotating-words={t('experience_rotating')}
+                className="rotating-text__highlight"
+              >{t('experience_rotating').split(',')[0].trim()}</span>
+            </h2>
+          </div>
 
-          <div className="mt-16 space-y-0">
-            {EXPERIENCE.map((item, idx) => (
-              <div key={item.company} className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-10 ${idx < EXPERIENCE.length - 1 ? 'border-b border-border' : ''}`}>
+          <div data-reveal-group-nested data-stagger="70" data-distance="1.5em" className="mt-16 space-y-0">
+            {content.experience.map((item, idx) => (
+              <div key={item.company} className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-10 ${idx < content.experience.length - 1 ? 'border-b border-border' : ''}`}>
                 {/* Left col */}
                 <div className="md:col-span-3">
                   <p className="text-sm font-semibold"><span data-highlight>{item.company}</span></p>
@@ -408,14 +299,16 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             ))}
           </div>
         </Container>
-        </ScrollHighlight>
       </section>
 
       {/* Beyond work + Education */}
-      <section data-theme-section="light" data-reveal-group className="px-4 lg:px-6 py-24 lg:py-40">
-        <ScrollHighlight>
-        <Container>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-10">
+      <section data-theme-section="light" className="px-4 lg:px-6 py-24 lg:py-40">
+        <Container
+          data-reveal-group
+          data-stagger="100"
+          data-start="top 82%"
+          className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-10"
+        >
             {/* Volunteering */}
             <div className="md:col-span-7">
               <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('volunteering_eyebrow')}</span>
@@ -430,9 +323,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   className="rotating-text__highlight"
                 >{t('volunteering_rotating').split(',')[0].trim()}</span>
               </h2>
-              <div className="mt-10 space-y-0">
-                {VOLUNTEERING.map((item, idx) => (
-                  <div key={item.company} className={`py-6 ${idx < VOLUNTEERING.length - 1 ? 'border-b border-border' : ''}`}>
+              <div data-reveal-group-nested data-stagger="65" data-distance="1.25em" className="mt-10 space-y-0">
+                {content.volunteering.map((item, idx) => (
+                  <div key={item.company} className={`py-6 ${idx < content.volunteering.length - 1 ? 'border-b border-border' : ''}`}>
                     <div className="flex items-baseline gap-2">
                       <p className="text-sm font-semibold"><span data-highlight>{item.company}</span></p>
                       <span className="text-[10px] font-accent text-muted-foreground uppercase tracking-wide">{item.label}</span>
@@ -446,34 +339,27 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
             {/* Education + Stack */}
             <div className="md:col-span-5">
-              <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('education_eyebrow')}</span>
-              <div className="mt-6 space-y-3">
-                {EDUCATION.map((item) => (
-                  <p key={item} className="text-sm leading-relaxed text-foreground/70">{item}</p>
+              <div data-reveal-group-nested data-stagger="55" data-distance="1.25em">
+                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('education_eyebrow')}</span>
+                {content.education.map((item, idx) => (
+                  <p key={item} className={`text-sm leading-relaxed text-foreground/70 ${idx === 0 ? 'mt-6' : 'mt-3'}`}>{item}</p>
+                ))}
+                <span className="mt-16 block text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('stack_eyebrow')}</span>
+                {Object.entries(content.stack).map(([category, tools], idx) => (
+                  <div key={category} className={`space-y-2 ${idx === 0 ? 'mt-6' : 'mt-8'}`}>
+                    <span className="text-[11px] font-accent text-muted-foreground/60 uppercase tracking-wide">{category}</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {tools.map((tech) => (
+                        <span key={tech} className="px-2.5 py-1 text-[11px] font-accent bg-secondary text-secondary-foreground">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
-
-              <div className="mt-16">
-                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('stack_eyebrow')}</span>
-                <div className="mt-6 space-y-8">
-                  {Object.entries(STACK).map(([category, tools]) => (
-                    <div key={category}>
-                      <span className="text-[11px] font-accent text-muted-foreground/60 uppercase tracking-wide">{category}</span>
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {tools.map((tech) => (
-                          <span key={tech} className="px-2.5 py-1 text-[11px] font-accent bg-secondary text-secondary-foreground">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
-          </div>
         </Container>
-        </ScrollHighlight>
       </section>
 
       {/* Contact */}

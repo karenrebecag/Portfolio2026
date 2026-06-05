@@ -16,7 +16,7 @@ export function TransitionOverlay() {
     const lines = wrap.querySelector<HTMLElement>('.transition__lines')
 
     const tl = gsap.timeline({
-      delay: 0.2,
+      delay: 0.08,
       onComplete: () => {
         document.body.setAttribute('data-page-ready', '')
         document.dispatchEvent(new CustomEvent('page-ready'))
@@ -25,13 +25,13 @@ export function TransitionOverlay() {
 
     tl.to(columns, {
       yPercent: 100,
-      duration: 0.5,
-      stagger: 0.05,
+      duration: 0.38,
+      stagger: 0.04,
       ease: 'power3.inOut',
     })
 
     if (lines) {
-      tl.to(lines, { autoAlpha: 0, duration: 0.3 }, '-=0.2')
+      tl.to(lines, { autoAlpha: 0, duration: 0.22 }, '-=0.18')
     }
   }, [])
 

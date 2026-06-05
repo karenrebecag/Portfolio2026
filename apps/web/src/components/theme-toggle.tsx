@@ -21,7 +21,6 @@ function applyTheme(theme: ThemeId) {
   html.classList.remove('dark', 'mono')
   const cls = THEME_CLASSES[theme]
   if (cls) html.classList.add(cls)
-  document.body.setAttribute('data-theme-status', theme)
   localStorage.setItem('theme', theme)
 }
 
@@ -66,10 +65,8 @@ export function ThemeToggle() {
     setCurrent(theme)
   }
 
-  if (!mounted) return null
-
   return (
-    <div className="theme-palette" role="radiogroup" aria-label="Theme">
+    <div className={`theme-palette${!mounted ? ' invisible' : ''}`} role="radiogroup" aria-label="Theme">
       {THEMES.map((t) => (
         <button
           key={t.id}

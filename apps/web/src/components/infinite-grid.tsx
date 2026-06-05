@@ -1,9 +1,13 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { Observer } from 'gsap/Observer'
-import { usePageInit } from '@/lib/use-page-init'
+import {
+  captureScrollLayoutSnapshot,
+  scheduleScrollTriggerRefresh,
+  shouldRefreshScrollLayout,
+} from '@/lib/scroll-trigger-refresh'
 
 gsap.registerPlugin(Observer)
 
@@ -14,7 +18,6 @@ const IMAGES = [
   { src: 'https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/jj.webp', landscape: true },
   { src: '/gallery/3.webp', landscape: false },
   { src: 'https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/Artboard%201.webp', landscape: true },
-  { src: '/gallery/3.webp', landscape: false },
   { src: '/gallery/4.webp', landscape: false },
   { src: '/gallery/5.webp', landscape: false },
   { src: '/gallery/6.webp', landscape: false },
@@ -25,7 +28,6 @@ const IMAGES = [
 function initInfiniteDraggableGrid() {
   const wrappers = document.querySelectorAll<HTMLElement>('[data-infinite-grid-init]')
 
-  const wheelSpeed = 0.75
   const dragSpeed = 1.25
 
   const cleanups: (() => void)[] = []
@@ -39,7 +41,6 @@ function initInfiniteDraggableGrid() {
 
     let observer: Observer | null = null
     let resizeTimer: ReturnType<typeof setTimeout>
-    let scrollTimeout: ReturnType<typeof setTimeout>
     let hasMouseLeaveListener = false
     let tileWidth = 0
     let tileHeight = 0
@@ -61,22 +62,13 @@ function initInfiniteDraggableGrid() {
     }
 
     function handleMovement(self: Observer, axis: 'x' | 'y') {
-      const isWheel = (self.event as Event).type === 'wheel'
-
-      if (isWheel) {
-        setStatus('scrolling')
-        clearTimeout(scrollTimeout)
-        scrollTimeout = setTimeout(() => setStatus('idle'), 200)
-      }
-
-      const multiplier = isWheel ? wheelSpeed : dragSpeed
-      const delta = gsap.utils.clamp(-80, 80, self[`delta${axis.toUpperCase() as 'X' | 'Y'}`] * multiplier)
+      const delta = gsap.utils.clamp(-80, 80, self[`delta${axis.toUpperCase() as 'X' | 'Y'}`] * dragSpeed)
 
       if (axis === 'x') {
-        currentX += isWheel ? -delta : delta
+        currentX += delta
         xTo(currentX)
       } else {
-        currentY += isWheel ? -delta : delta
+        currentY += delta
         yTo(currentY)
       }
     }
@@ -144,6 +136,7 @@ function initInfiniteDraggableGrid() {
 
     function buildGrid() {
       if (observer) observer.kill()
+      gsap.killTweensOf(collection!)
       setStatus('loading')
       collection!.innerHTML = ''
 
@@ -160,10 +153,10 @@ function initInfiniteDraggableGrid() {
 
       if (!itemWidth || !itemHeight) return
 
-      const columns = Math.max(1, Math.ceil(wrapper.clientWidth / itemWidth) + 1)
-      const rows = Math.max(1, Math.ceil(wrapper.clientHeight / itemHeight) + 1)
+      const columns = Math.min(8, Math.max(1, Math.ceil(wrapper.clientWidth / itemWidth) + 1))
+      const rows = Math.min(6, Math.max(1, Math.ceil(wrapper.clientHeight / itemHeight) + 1))
       const requiredItems = columns * rows
-      const wantedItems = Math.max(requiredItems, originalItems.length)
+      const wantedItems = Math.min(requiredItems, originalItems.length * 6)
       const itemsPerList = Math.ceil(wantedItems / columns) * columns
       const fragment = document.createDocumentFragment()
 
@@ -198,17 +191,92 @@ function initInfiniteDraggableGrid() {
       if (hasMouseLeaveListener) {
         document.documentElement.removeEventListener('mouseleave', handleMouseLeave)
       }
+      collection!.innerHTML = ''
+      const seedList = sourceList!.cloneNode(true) as HTMLElement
+      collection!.appendChild(seedList)
+      setStatus('loading')
     })
   })
 
   return () => cleanups.forEach((fn) => fn())
 }
 
+const IO_MARGIN = '180px 0px'
+
 export function InfiniteGrid() {
-  usePageInit(useCallback(() => initInfiniteDraggableGrid(), []))
+  const sectionRef = useRef<HTMLElement>(null)
+  const gridCleanupRef = useRef<(() => void) | null>(null)
+  const ioRef = useRef<IntersectionObserver | null>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    let cancelled = false
+
+    function teardownGrid() {
+      gridCleanupRef.current?.()
+      gridCleanupRef.current = null
+    }
+
+    function mountGrid() {
+      if (gridCleanupRef.current || cancelled) return
+      const layoutBefore = captureScrollLayoutSnapshot()
+      gridCleanupRef.current = initInfiniteDraggableGrid()
+      requestAnimationFrame(() => {
+        const layoutAfter = captureScrollLayoutSnapshot()
+        if (shouldRefreshScrollLayout(layoutBefore, layoutAfter)) {
+          scheduleScrollTriggerRefresh()
+        }
+      })
+    }
+
+    function armObserver() {
+      const target = sectionRef.current
+      if (!target) return
+      ioRef.current?.disconnect()
+      ioRef.current = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.some((e) => e.isIntersecting)
+          if (visible) mountGrid()
+          else teardownGrid()
+        },
+        { rootMargin: IO_MARGIN, threshold: 0 },
+      )
+      ioRef.current.observe(target)
+    }
+
+    function onPageReady() {
+      if (!cancelled) armObserver()
+    }
+
+    function onNavigate() {
+      teardownGrid()
+      requestAnimationFrame(() => {
+        if (!cancelled) armObserver()
+      })
+    }
+
+    if (document.body.hasAttribute('data-page-ready')) {
+      onPageReady()
+    } else {
+      document.addEventListener('page-ready', onPageReady, { once: true })
+    }
+
+    document.addEventListener('page-navigation-complete', onNavigate)
+
+    return () => {
+      cancelled = true
+      ioRef.current?.disconnect()
+      teardownGrid()
+      document.removeEventListener('page-ready', onPageReady)
+      document.removeEventListener('page-navigation-complete', onNavigate)
+    }
+  }, [])
 
   return (
     <section
+      ref={sectionRef}
       data-infinite-grid-status="loading"
       data-infinite-grid-init=""
       className="infinite-grid"
@@ -216,11 +284,13 @@ export function InfiniteGrid() {
       <div data-infinite-grid-collection="" className="infinite-grid__collection">
         <div data-infinite-grid-list="" className="infinite-grid__list">
           {IMAGES.map((img, i) => (
-            <div key={i} data-infinite-grid-item="" className="infinite-grid__item">
+            <div key={img.src + i} data-infinite-grid-item="" className="infinite-grid__item">
               <div className={`infinite-grid__card${img.landscape ? ' is--landscape' : ''}`}>
                 <img
                   src={img.src}
                   loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
                   alt=""
                   className="infinite-grid__card-img"
                 />

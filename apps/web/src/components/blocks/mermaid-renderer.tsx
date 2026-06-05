@@ -1,11 +1,17 @@
 'use client'
 
-import { useEffect, useRef, useState, useId } from 'react'
-import mermaid from 'mermaid'
+import { useEffect, useId, useRef, useState } from 'react'
+import { loadMermaid, renderMermaidDiagram, type MermaidThemeColors } from '@/lib/mermaid-runtime'
 
-function useThemeColors() {
-  const [colors, setColors] = useState<{ dark: boolean; bg: string; fg: string; muted: string; border: string; plantation: string; surface: string }>({
-    dark: false, bg: '#fdf9ed', fg: '#11221f', muted: '#71717a', border: '#e4dfcf', plantation: '#366B5E', surface: '#11221f',
+function useThemeColors(): MermaidThemeColors {
+  const [colors, setColors] = useState<MermaidThemeColors>({
+    dark: false,
+    bg: '#fdf9ed',
+    fg: '#11221f',
+    muted: '#71717a',
+    border: '#e4dfcf',
+    plantation: '#366B5E',
+    surface: '#11221f',
   })
 
   useEffect(() => {
@@ -35,59 +41,33 @@ function useThemeColors() {
 
 export function MermaidRenderer({ code, title }: { code: string; title?: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [svg, setSvg] = useState<string>('')
+  const [svg, setSvg] = useState('')
   const [error, setError] = useState(false)
   const uniqueId = useId().replace(/:/g, '')
   const colors = useThemeColors()
 
   useEffect(() => {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'base',
-      themeVariables: {
-        primaryColor: colors.dark ? colors.surface : colors.bg,
-        primaryTextColor: colors.fg,
-        primaryBorderColor: colors.border,
-        lineColor: colors.muted,
-        secondaryColor: colors.dark ? '#161814' : '#f3eedf',
-        tertiaryColor: colors.dark ? colors.surface : colors.bg,
-        background: colors.bg,
-        mainBkg: colors.dark ? colors.surface : '#f3eedf',
-        nodeBorder: colors.plantation,
-        clusterBkg: colors.bg,
-        clusterBorder: colors.border,
-        titleColor: colors.fg,
-        edgeLabelBackground: colors.bg,
-        textColor: colors.fg,
-        labelTextColor: colors.fg,
-        actorTextColor: colors.fg,
-        actorBkg: colors.dark ? colors.surface : '#f3eedf',
-        actorBorder: colors.plantation,
-        actorLineColor: colors.muted,
-        signalColor: colors.fg,
-        signalTextColor: colors.fg,
-        noteBkgColor: colors.dark ? colors.surface : '#f3eedf',
-        noteTextColor: colors.fg,
-        noteBorderColor: colors.border,
-        activationBkgColor: colors.dark ? colors.surface : '#f3eedf',
-        activationBorderColor: colors.plantation,
-        sequenceNumberColor: colors.fg,
-      },
-      fontFamily: 'var(--font-sans), ui-sans-serif, system-ui, sans-serif',
-      suppressErrorRendering: true,
-    })
-
-    const cleaned = code.replace(/\\n/g, '\n').trim()
+    let cancelled = false
     const id = `mermaid-${uniqueId}-${Date.now()}`
 
-    mermaid.render(id, cleaned)
-      .then(({ svg: rendered }) => {
-        setSvg(rendered)
-        setError(false)
-      })
-      .catch(() => {
-        setError(true)
-      })
+    async function render() {
+      try {
+        await loadMermaid()
+        const rendered = await renderMermaidDiagram(code, id, colors)
+        if (!cancelled) {
+          setSvg(rendered)
+          setError(false)
+        }
+      } catch {
+        if (!cancelled) setError(true)
+      }
+    }
+
+    render()
+
+    return () => {
+      cancelled = true
+    }
   }, [code, colors, uniqueId])
 
   if (error) {

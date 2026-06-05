@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { usePageInit } from '@/lib/use-page-init'
 import gsap from 'gsap'
@@ -132,13 +132,13 @@ export function ProjectsSection({ projects, cmsBase }: { projects: Project[]; cm
             {/* Table header -- desktop only */}
             <div className="hidden lg:flex flex-wrap items-center w-full mb-2">
               <div className="flex-1 min-w-0 max-w-[45%]">
-                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">Project</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">{t('col_project')}</span>
               </div>
               <div className="flex-1 min-w-0 max-w-[15%]">
-                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">Year</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">{t('col_year')}</span>
               </div>
               <div className="flex-1 min-w-0 max-w-[30%]">
-                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">Services</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/30">{t('col_services')}</span>
               </div>
             </div>
 

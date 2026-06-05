@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import { Pill } from '@/components/ui/pill'
 import { Container } from '@/components/ui/container'
 import { DraggableStickers } from '@/components/draggable-stickers'
+import { WhyToolsMarquee } from '@/components/why-tools-marquee'
 import { STICKERS } from '@/lib/constants'
 
 const ROWS = [
@@ -11,25 +12,6 @@ const ROWS = [
   { key: 'row_3', glyph: '-> 03' },
   { key: 'row_4', glyph: '<> 04' },
 ] as const
-
-const TOOLS = [
-  'Next.js', 'React', 'TypeScript', 'Astro', 'Tailwind CSS',
-  'Figma', 'GSAP', 'Payload CMS', 'Supabase', 'Vercel',
-  'Node.js', 'PostgreSQL', 'Docker', 'Python', 'Git',
-]
-
-function ToolsMarqueeList() {
-  return (
-    <div data-css-marquee-list className="flex items-center flex-none">
-      {TOOLS.map((tool) => (
-        <div key={tool} className="flex items-center gap-3 flex-none pr-4">
-          <span className="whitespace-nowrap text-xs font-semibold font-display text-[#fdf9ed]/70">{tool}</span>
-          <span className="w-1 h-1 rounded-full bg-[#fdf9ed]/20 shrink-0" />
-        </div>
-      ))}
-    </div>
-  )
-}
 
 export function WhySection() {
   const t = useTranslations('why')
@@ -86,10 +68,7 @@ export function WhySection() {
           <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-[#fdf9ed]/30 shrink-0 flex items-center gap-2">
             {t('tools_label')} <ArrowRight className="w-3 h-3 inline" strokeWidth={1.5} />
           </span>
-          <div className="why-tools-marquee flex overflow-hidden flex-1">
-            <ToolsMarqueeList />
-            <ToolsMarqueeList />
-          </div>
+          <WhyToolsMarquee />
         </div>
       </Container>
       </div>

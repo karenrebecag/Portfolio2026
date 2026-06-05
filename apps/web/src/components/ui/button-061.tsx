@@ -2,6 +2,14 @@
 
 import { useEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
+import { Link } from '@/i18n/navigation'
+
+function isLocaleAwareHref(href?: string) {
+  if (!href) return false
+  if (href.startsWith('#')) return false
+  if (/^(https?:|mailto:|tel:)/i.test(href)) return false
+  return href.startsWith('/')
+}
 
 interface Button061Props {
   href?: string
@@ -132,16 +140,17 @@ export function Button061({
     return () => mm.revert()
   }, [colors])
 
-  return (
-    <a
-      ref={buttonRef}
-      href={href}
-      target={target}
-      rel={rel}
-      onClick={onClick}
-      className={`button-061 ${variantClass} ${className}`}
-      data-button-061
-    >
+  const sharedProps = {
+    ref: buttonRef,
+    target,
+    rel,
+    onClick,
+    className: `button-061 ${variantClass} ${className}`,
+    'data-button-061': true,
+  } as const
+
+  const inner = (
+    <>
       <span className="button-061__bg" />
       <span className="button-061__bg-circle">
         <span className="button-061__circle-wrap" data-button-061-circle>
@@ -157,6 +166,20 @@ export function Button061({
           </span>
         </span>
       </span>
+    </>
+  )
+
+  if (href && isLocaleAwareHref(href)) {
+    return (
+      <Link {...sharedProps} href={href}>
+        {inner}
+      </Link>
+    )
+  }
+
+  return (
+    <a {...sharedProps} href={href}>
+      {inner}
     </a>
   )
 }

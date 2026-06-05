@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
+import { getLocalizedProject } from '@/lib/project-i18n'
 import { RichTextRenderer } from '@/components/rich-text-renderer'
 import { ScrollHighlight } from '@/components/scroll-highlight'
 import { ArticleTOC } from '@/components/article-toc'
@@ -36,10 +37,12 @@ export default async function ProjectPage({ params }: Props) {
   const { slug, locale } = await params
   setRequestLocale(locale)
 
-  const project = findProject(slug)
+  const found = findProject(slug)
   const t = await getTranslations('project_detail')
 
-  if (!project) notFound()
+  if (!found) notFound()
+
+  const project = getLocalizedProject(found, locale)
 
   if (project.status === 'archived') {
     return (
@@ -57,13 +60,11 @@ export default async function ProjectPage({ params }: Props) {
   const description = localized?.lexical || project.description
   const blocks = localized?.blocks || (project as any).blocks
 
-  const caseStudyLabel = locale === 'es' ? 'Caso de estudio' : 'Case study'
-
   return (
     <>
     <section data-theme-section="light" className="pt-32 pb-16">
       <ArticleTOC
-        title={locale === 'es' ? 'En esta pagina' : 'On this page'}
+        title={t('toc_title')}
         offset={80}
       >
         <header className="mb-10">
@@ -98,7 +99,7 @@ export default async function ProjectPage({ params }: Props) {
           <div className="mt-8 h-px w-full bg-border" />
 
           <div className="mt-6">
-            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{caseStudyLabel}</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('case_study')}</span>
           </div>
         </header>
 

@@ -4,17 +4,22 @@ import { useCallback } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePageInit } from '@/lib/use-page-init'
+import { clampScrollPosition } from '@/lib/scroll-trigger-position'
+import { scheduleScrollTriggerRefresh } from '@/lib/scroll-trigger-refresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
+type PendingReveal = { scrollTrigger: ScrollTrigger; reveal: () => void }
+
 function initContentRevealScroll() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const pending: PendingReveal[] = []
 
   const ctx = gsap.context(() => {
     document.querySelectorAll<HTMLElement>('[data-reveal-group]').forEach((groupEl) => {
       const groupStaggerSec = (parseFloat(groupEl.getAttribute('data-stagger') || '100')) / 1000
       const groupDistance = groupEl.getAttribute('data-distance') || '2em'
-      const triggerStart = groupEl.getAttribute('data-start') || 'top 80%'
+      const triggerStart = clampScrollPosition(groupEl.getAttribute('data-start') ?? '')
       const animDuration = 0.8
       const animEase = 'power4.inOut'
 
@@ -23,12 +28,30 @@ function initContentRevealScroll() {
         return
       }
 
+      let revealed = false
+      const registerReveal = (reveal: () => void) => {
+        const scrollTrigger = ScrollTrigger.create({
+          trigger: groupEl,
+          start: triggerStart,
+          once: true,
+          onEnter: reveal,
+        })
+        pending.push({ scrollTrigger, reveal })
+      }
+
       const directChildren = Array.from(groupEl.children).filter((el) => el.nodeType === 1) as HTMLElement[]
       if (!directChildren.length) {
         gsap.set(groupEl, { y: groupDistance, autoAlpha: 0 })
-        ScrollTrigger.create({
-          trigger: groupEl, start: triggerStart, once: true,
-          onEnter: () => gsap.to(groupEl, { y: 0, autoAlpha: 1, duration: animDuration, ease: animEase, onComplete: () => gsap.set(groupEl, { clearProps: 'all' }) }),
+        registerReveal(() => {
+          if (revealed) return
+          revealed = true
+          gsap.to(groupEl, {
+            y: 0,
+            autoAlpha: 1,
+            duration: animDuration,
+            ease: animEase,
+            onComplete: () => gsap.set(groupEl, { clearProps: 'all' }),
+          })
         })
         return
       }
@@ -66,29 +89,39 @@ function initContentRevealScroll() {
         if (slot.type === 'nested' && slot.includeParent) gsap.set(slot.parentEl, { y: groupDistance })
       })
 
-      ScrollTrigger.create({
-        trigger: groupEl, start: triggerStart, once: true,
-        onEnter: () => {
-          const tl = gsap.timeline()
-          slots.forEach((slot, slotIndex) => {
-            const slotTime = slotIndex * groupStaggerSec
-            if (slot.type === 'item') {
-              tl.to(slot.el, { y: 0, autoAlpha: 1, duration: animDuration, ease: animEase, onComplete: () => gsap.set(slot.el, { clearProps: 'all' }) }, slotTime)
-            } else {
-              if (slot.includeParent) {
-                tl.to(slot.parentEl, { y: 0, autoAlpha: 1, duration: animDuration, ease: animEase, onComplete: () => gsap.set(slot.parentEl, { clearProps: 'all' }) }, slotTime)
-              }
-              const nestedMs = parseFloat(slot.nestedEl.getAttribute('data-stagger') || '')
-              const nestedStaggerSec = isNaN(nestedMs) ? groupStaggerSec : nestedMs / 1000
-              slot.nestedChildren.forEach((nestedChild, nestedIndex) => {
-                tl.to(nestedChild, { y: 0, autoAlpha: 1, duration: animDuration, ease: animEase, onComplete: () => gsap.set(nestedChild, { clearProps: 'all' }) }, slotTime + nestedIndex * nestedStaggerSec)
-              })
+      registerReveal(() => {
+        if (revealed) return
+        revealed = true
+        const tl = gsap.timeline()
+        slots.forEach((slot, slotIndex) => {
+          const slotTime = slotIndex * groupStaggerSec
+          if (slot.type === 'item') {
+            tl.to(slot.el, { y: 0, autoAlpha: 1, duration: animDuration, ease: animEase, onComplete: () => gsap.set(slot.el, { clearProps: 'all' }) }, slotTime)
+          } else {
+            if (slot.includeParent) {
+              tl.to(slot.parentEl, { y: 0, autoAlpha: 1, duration: animDuration, ease: animEase, onComplete: () => gsap.set(slot.parentEl, { clearProps: 'all' }) }, slotTime)
             }
-          })
-        },
+            const nestedMs = parseFloat(slot.nestedEl.getAttribute('data-stagger') || '')
+            const nestedStaggerSec = isNaN(nestedMs) ? groupStaggerSec : nestedMs / 1000
+            slot.nestedChildren.forEach((nestedChild, nestedIndex) => {
+              tl.to(nestedChild, { y: 0, autoAlpha: 1, duration: animDuration, ease: animEase, onComplete: () => gsap.set(nestedChild, { clearProps: 'all' }) }, slotTime + nestedIndex * nestedStaggerSec)
+            })
+          }
+        })
       })
     })
   })
+
+  const revealIfInView = () => {
+    pending.forEach(({ scrollTrigger, reveal }) => {
+      const trigger = scrollTrigger.trigger as HTMLElement
+      if (scrollTrigger.isActive || ScrollTrigger.isInViewport(trigger, 0.12)) reveal()
+    })
+  }
+
+  revealIfInView()
+  scheduleScrollTriggerRefresh(true)
+  requestAnimationFrame(revealIfInView)
 
   return () => ctx.revert()
 }

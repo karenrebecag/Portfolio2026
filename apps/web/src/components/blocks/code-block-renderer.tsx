@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { highlightPortfolioCode } from '@/lib/shiki-highlighter'
 
 export function CodeBlockRenderer({
   code,
@@ -16,30 +17,19 @@ export function CodeBlockRenderer({
   useEffect(() => {
     let cancelled = false
 
-    async function highlight() {
-      try {
-        const [{ createHighlighter }, { portfolioLight, portfolioDark }] = await Promise.all([
-          import('shiki'),
-          import('@/lib/shiki-themes'),
-        ])
-        const h = await createHighlighter({
-          themes: [portfolioLight, portfolioDark],
-          langs: [language === 'text' ? 'javascript' : language],
-        })
-        const lang = h.getLoadedLanguages().includes(language as any) ? language : 'text'
-        const result = h.codeToHtml(code, {
-          lang,
-          themes: { light: 'portfolio-light', dark: 'portfolio-dark' },
-          defaultColor: false,
-        })
+    highlightPortfolioCode(code, language)
+      .then((result) => {
         if (!cancelled) setHtml(result)
-      } catch {
-        if (!cancelled) setHtml(`<pre><code>${code.replace(/</g, '&lt;')}</code></pre>`)
-      }
-    }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setHtml(`<pre><code>${code.replace(/</g, '&lt;')}</code></pre>`)
+        }
+      })
 
-    highlight()
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [code, language])
 
   return (

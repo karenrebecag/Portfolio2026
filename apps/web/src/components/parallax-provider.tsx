@@ -4,10 +4,16 @@ import { useCallback } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePageInit } from '@/lib/use-page-init'
+import {
+  captureScrollLayoutSnapshot,
+  scheduleScrollTriggerRefresh,
+  shouldRefreshScrollLayout,
+} from '@/lib/scroll-trigger-refresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
 function initParallax() {
+  const layoutBefore = captureScrollLayoutSnapshot()
   const mm = gsap.matchMedia()
   mm.add(
     { isMobile: '(max-width:479px)', isMobileLandscape: '(max-width:767px)', isTablet: '(max-width:991px)', isDesktop: '(min-width:992px)' },
@@ -28,7 +34,10 @@ function initParallax() {
           const scrollEnd = `clamp(${trigger.getAttribute('data-parallax-scroll-end') || 'bottom top'})`
           gsap.fromTo(target, { [prop]: startVal }, { [prop]: endVal, ease: 'none', scrollTrigger: { trigger, start: scrollStart, end: scrollEnd, scrub } })
         })
-        ScrollTrigger.refresh()
+        const layoutAfter = captureScrollLayoutSnapshot()
+        if (shouldRefreshScrollLayout(layoutBefore, layoutAfter)) {
+          scheduleScrollTriggerRefresh()
+        }
       })
       return () => ctx.revert()
     },

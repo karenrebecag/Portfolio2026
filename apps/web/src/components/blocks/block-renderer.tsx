@@ -1,16 +1,31 @@
+import dynamic from 'next/dynamic'
 import type { Block } from './types'
-import { CodeBlockRenderer } from './code-block-renderer'
-import { MermaidRenderer } from './mermaid-renderer'
 import { TableRenderer } from './table-renderer'
 import { CalloutRenderer } from './callout-renderer'
 import { DividerRenderer } from './divider-renderer'
 import { ImageBlockRenderer } from './image-block-renderer'
+import { CodeBlockPlaceholder, MermaidBlockPlaceholder } from './block-placeholder'
+
+const CodeBlockRenderer = dynamic(
+  () => import('./code-block-renderer').then((mod) => mod.CodeBlockRenderer),
+  { loading: () => <CodeBlockPlaceholder /> },
+)
+
+const MermaidRenderer = dynamic(
+  () => import('./mermaid-renderer').then((mod) => mod.MermaidRenderer),
+  { loading: () => <MermaidBlockPlaceholder /> },
+)
 
 function RenderBlock({ block }: { block: Block }) {
   switch (block.blockType) {
     case 'codeBlock':
       if ((block.language as string) === 'mermaid') {
-        return <MermaidRenderer code={block.code as string} title={block.title as string | undefined} />
+        return (
+          <MermaidRenderer
+            code={block.code as string}
+            title={block.title as string | undefined}
+          />
+        )
       }
       return (
         <CodeBlockRenderer

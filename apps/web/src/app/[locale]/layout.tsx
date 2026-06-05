@@ -3,7 +3,9 @@ import type { ReactNode } from 'react'
 import { Inter_Tight } from 'next/font/google'
 import localFont from 'next/font/local'
 import { NextIntlClientProvider } from 'next-intl'
+import { hasLocale } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { LenisProvider } from '@/components/lenis-provider'
 import { ParallaxProvider } from '@/components/parallax-provider'
@@ -13,6 +15,7 @@ import { ContentRevealProvider } from '@/components/content-reveal'
 import { CustomCursor } from '@/components/custom-cursor'
 import { RotatingTextProvider } from '@/components/rotating-text'
 import { SectionThemeObserver } from '@/components/section-theme-observer'
+import { MarqueeScrollInit } from '@/components/marquee-scroll-init'
 import { PageTransition } from '@/components/page-transition'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
@@ -22,44 +25,24 @@ const interTight = Inter_Tight({
   variable: '--font-sans',
 })
 
+/** Display / headings: audit found 400, 600, 700 only (18 files → 3). */
 const grift = localFont({
   src: [
-    { path: '../../fonts/grift/Grift-Thin.woff2', weight: '100', style: 'normal' },
-    { path: '../../fonts/grift/Grift-ThinItalic.woff2', weight: '100', style: 'italic' },
-    { path: '../../fonts/grift/Grift-ExtraLight.woff2', weight: '200', style: 'normal' },
-    { path: '../../fonts/grift/Grift-ExtraLightItalic.woff2', weight: '200', style: 'italic' },
-    { path: '../../fonts/grift/Grift-Light.woff2', weight: '300', style: 'normal' },
-    { path: '../../fonts/grift/Grift-LightItalic.woff2', weight: '300', style: 'italic' },
     { path: '../../fonts/grift/Grift-Regular.woff2', weight: '400', style: 'normal' },
-    { path: '../../fonts/grift/Grift-Italic.woff2', weight: '400', style: 'italic' },
-    { path: '../../fonts/grift/Grift-Medium.woff2', weight: '500', style: 'normal' },
-    { path: '../../fonts/grift/Grift-MediumItalic.woff2', weight: '500', style: 'italic' },
     { path: '../../fonts/grift/Grift-SemiBold.woff2', weight: '600', style: 'normal' },
-    { path: '../../fonts/grift/Grift-SemiBoldItalic.woff2', weight: '600', style: 'italic' },
     { path: '../../fonts/grift/Grift-Bold.woff2', weight: '700', style: 'normal' },
-    { path: '../../fonts/grift/Grift-BoldItalic.woff2', weight: '700', style: 'italic' },
-    { path: '../../fonts/grift/Grift-ExtraBold.woff2', weight: '800', style: 'normal' },
-    { path: '../../fonts/grift/Grift-ExtraBoldItalic.woff2', weight: '800', style: 'italic' },
-    { path: '../../fonts/grift/Grift-Black.woff2', weight: '900', style: 'normal' },
-    { path: '../../fonts/grift/Grift-BlackItalic.woff2', weight: '900', style: 'italic' },
   ],
   variable: '--font-display',
   display: 'swap',
 })
 
+/** Accent / labels: audit found 400 + 700 only. */
 const interval = localFont({
   src: [
-    { path: '../../fonts/interval/TBJInterval-Light.woff2', weight: '300', style: 'normal' },
     { path: '../../fonts/interval/TBJInterval-Regular.woff2', weight: '400', style: 'normal' },
     { path: '../../fonts/interval/TBJInterval-Bold.woff2', weight: '700', style: 'normal' },
   ],
   variable: '--font-accent',
-  display: 'swap',
-})
-
-const gantol = localFont({
-  src: [{ path: '../../fonts/gantol/Gantol.otf', weight: '400', style: 'normal' }],
-  variable: '--font-handwritten',
   display: 'swap',
 })
 
@@ -92,11 +75,14 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) {
+    notFound()
+  }
   setRequestLocale(locale)
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={cn(interTight.variable, grift.variable, interval.variable, gantol.variable)} suppressHydrationWarning>
+    <html lang={locale} className={cn(interTight.variable, grift.variable, interval.variable)} suppressHydrationWarning>
       <head>
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -110,7 +96,7 @@ export default async function LocaleLayout({
           }}
         />
       </head>
-      <body className="min-h-screen antialiased font-sans">
+      <body data-section-theme="dark" data-theme-nav="dark" data-bg-nav="dark" className="min-h-screen antialiased font-sans">
         <NextIntlClientProvider messages={messages}>
           <CustomCursor />
           <TransitionOverlay />
@@ -120,6 +106,7 @@ export default async function LocaleLayout({
                 <ContentRevealProvider>
                   <RotatingTextProvider>
                     <SectionThemeObserver>
+                      <MarqueeScrollInit />
                       <PageTransition>{children}</PageTransition>
                     </SectionThemeObserver>
                   </RotatingTextProvider>

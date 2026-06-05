@@ -1,9 +1,43 @@
 // Per-article case studies — one source file per article for easy writing and git history.
 // These are converted to Lexical format (what the project detail renderer expects).
 import { atomWebflowMeta, atomWebflowI18n, atomWebflowMarkdown_en, atomWebflowMarkdown_es } from '@/content/projects/atom-webflow'
+import { PLACEHOLDER_PROJECT_I18N } from '@/content/projects/placeholder-i18n'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
 import type { Block } from '@/components/blocks/types'
+
+type PlaceholderProject = Project & {
+  services?: string
+  blocks?: Block[]
+  i18n?: Record<string, { title: string; summary: string; role?: string; services?: string; lexical?: unknown; blocks?: Block[] }>
+}
+
+function withPlaceholderI18n(project: PlaceholderProject): PlaceholderProject {
+  const localized = PLACEHOLDER_PROJECT_I18N[project.slug]
+  if (!localized) return project
+
+  return {
+    ...project,
+    title: localized.en.title,
+    summary: localized.en.summary,
+    role: localized.en.role,
+    services: localized.en.services,
+    i18n: {
+      en: {
+        title: localized.en.title,
+        summary: localized.en.summary,
+        role: localized.en.role,
+        services: localized.en.services,
+      },
+      es: {
+        title: localized.es.title,
+        summary: localized.es.summary,
+        role: localized.es.role,
+        services: localized.es.services,
+      },
+    },
+  }
+}
 
 export const STICKERS = [
   { src: '/stickers/astrosticker.webp', alt: 'Astro' },
@@ -21,12 +55,8 @@ export const STICKERS = [
 const atomWebflowParsed_en = parseMarkdown(atomWebflowMarkdown_en)
 const atomWebflowParsed_es = parseMarkdown(atomWebflowMarkdown_es)
 
-export const PLACEHOLDER_PROJECTS: (Project & {
-  services?: string
-  blocks?: Block[]
-  i18n?: Record<string, { title: string; summary: string; lexical: any; blocks: Block[] }>
-})[] = [
-  {
+export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
+  withPlaceholderI18n({
     id: '1', title: 'Token-First Design at Scale', slug: 'token-first-design-at-scale', status: 'published',
     category: 'design_system', role: 'Lead Designer & Engineer', year: '2025', featured: true,
     summary: 'A token-first design system powering consistent UI across web and mobile products.',
@@ -36,7 +66,7 @@ export const PLACEHOLDER_PROJECTS: (Project & {
     liveUrl: 'https://example.com', repoUrl: 'https://github.com/example',
     services: 'Development',
     createdAt: '2025-01-01', updatedAt: '2025-01-01',
-  },
+  }),
   // The actual article content lives in one dedicated file: src/content/projects/atom-webflow.ts
   // This is how we will write all future case studies / artículos de portafolio.
   {
@@ -50,7 +80,7 @@ export const PLACEHOLDER_PROJECTS: (Project & {
       es: { ...atomWebflowI18n.es, lexical: atomWebflowParsed_es.lexical, blocks: atomWebflowParsed_es.blocks },
     },
   },
-  {
+  withPlaceholderI18n({
     id: '2', title: 'Real-Time Product Intelligence with AI', slug: 'real-time-product-intelligence-with-ai', status: 'published',
     category: 'web', role: 'Frontend Engineer', year: '2025', featured: true,
     summary: 'AI-powered analytics dashboard for product teams to understand user behavior in real-time.',
@@ -60,8 +90,8 @@ export const PLACEHOLDER_PROJECTS: (Project & {
     liveUrl: 'https://example.com', repoUrl: '',
     services: 'Design, Development',
     createdAt: '2025-01-01', updatedAt: '2025-01-01',
-  },
-  {
+  }),
+  withPlaceholderI18n({
     id: '3', title: 'Component Libraries That Ship', slug: 'component-libraries-that-ship', status: 'published',
     category: 'web', role: 'Engineer', year: '2024', featured: false,
     summary: 'Component library and npm package for distributed product teams building with React.',
@@ -71,8 +101,8 @@ export const PLACEHOLDER_PROJECTS: (Project & {
     liveUrl: '', repoUrl: 'https://github.com/example',
     services: 'Development',
     createdAt: '2024-01-01', updatedAt: '2024-01-01',
-  },
-  {
+  }),
+  withPlaceholderI18n({
     id: '4', title: 'AI Agents for Non-Technical Teams', slug: 'ai-agents-for-non-technical-teams', status: 'published',
     category: 'web', role: 'Designer & Engineer', year: '2024', featured: true,
     summary: 'MCP server integrations and AI agent tools that enable non-technical teams to automate workflows.',
@@ -82,8 +112,8 @@ export const PLACEHOLDER_PROJECTS: (Project & {
     liveUrl: 'https://example.com', repoUrl: 'https://github.com/example',
     services: 'Strategy, Design',
     createdAt: '2024-01-01', updatedAt: '2024-01-01',
-  },
-  {
+  }),
+  withPlaceholderI18n({
     id: '5', title: 'Automating Operations with LLMs', slug: 'automating-operations-with-llms', status: 'published',
     category: 'web', role: 'Engineer', year: '2024', featured: false,
     summary: 'Automation platform connecting LLMs with internal tools for product operations teams.',
@@ -93,5 +123,5 @@ export const PLACEHOLDER_PROJECTS: (Project & {
     liveUrl: '', repoUrl: 'https://github.com/example',
     services: 'AI, Development',
     createdAt: '2024-01-01', updatedAt: '2024-01-01',
-  },
+  }),
 ]
