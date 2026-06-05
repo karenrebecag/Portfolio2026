@@ -1,3 +1,5 @@
+import type { MetadataRoute } from 'next'
+
 /** Canonical production origin. Used for metadataBase, sitemap, robots and JSON-LD. */
 export const SITE_URL = 'https://karenrebecaortiz.com'
 
@@ -24,6 +26,35 @@ export function buildAlternates(locale: string, path: string) {
       es: localizedPath('es', path),
       en: localizedPath('en', path),
       'x-default': localizedPath('es', path),
+    },
+  }
+}
+
+type SitemapEntryOptions = {
+  path: string
+  lastModified?: Date | string
+  changeFrequency?: MetadataRoute.Sitemap[number]['changeFrequency']
+  priority?: number
+}
+
+/** One sitemap row with Spanish loc + hreflang alternates (es / en / x-default). */
+export function buildSitemapEntry({
+  path,
+  lastModified = new Date('2026-06-04'),
+  changeFrequency = 'monthly',
+  priority = 0.7,
+}: SitemapEntryOptions): MetadataRoute.Sitemap[number] {
+  return {
+    url: `${SITE_URL}${localizedPath('es', path)}`,
+    lastModified,
+    changeFrequency,
+    priority,
+    alternates: {
+      languages: {
+        es: `${SITE_URL}${localizedPath('es', path)}`,
+        en: `${SITE_URL}${localizedPath('en', path)}`,
+        'x-default': `${SITE_URL}${localizedPath('es', path)}`,
+      },
     },
   }
 }

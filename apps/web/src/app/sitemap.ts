@@ -1,24 +1,32 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL, localizedPath } from '@/lib/seo'
+import { getAllArticleSlugs, getArticleProjectByArticleSlug } from '@/lib/article-projects'
+import { buildSitemapEntry } from '@/lib/seo'
 
-// Main portfolio surfaces only. Article/project-detail routes are intentionally
-// excluded here per scope.
-const PATHS = ['/', '/about']
-
-const LAST_MODIFIED = new Date('2026-06-04')
+const STATIC_PAGES: {
+  path: string
+  priority: number
+  changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']
+}[] = [
+  { path: '/', priority: 1, changeFrequency: 'monthly' },
+  { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
+]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return PATHS.map((path) => ({
-    url: `${SITE_URL}${localizedPath('es', path)}`,
-    lastModified: LAST_MODIFIED,
-    changeFrequency: 'monthly',
-    priority: path === '/' ? 1 : 0.8,
-    alternates: {
-      languages: {
-        es: `${SITE_URL}${localizedPath('es', path)}`,
-        en: `${SITE_URL}${localizedPath('en', path)}`,
-        'x-default': `${SITE_URL}${localizedPath('es', path)}`,
-      },
-    },
-  }))
+  const staticEntries = STATIC_PAGES.map(({ path, priority, changeFrequency }) =>
+    buildSitemapEntry({ path, priority, changeFrequency }),
+  )
+
+  const articleEntries = getAllArticleSlugs().map((slug) => {
+    const project = getArticleProjectByArticleSlug(slug)
+    const lastModified = project?.updatedAt ? new Date(project.updatedAt) : new Date('2026-06-04')
+
+    return buildSitemapEntry({
+      path: `/articulos/${slug}`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    })
+  })
+
+  return [...staticEntries, ...articleEntries]
 }
