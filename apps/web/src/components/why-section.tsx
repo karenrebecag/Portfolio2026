@@ -17,7 +17,13 @@ export function WhySection() {
   const t = useTranslations('why')
 
   return (
-    <section data-theme-section="dark" data-reveal-group className="relative bg-surface text-surface-foreground py-40">
+    <section
+      data-semantic-role="services"
+      data-llm-context="capabilities-offerings"
+      data-theme-section="dark"
+      data-reveal-group
+      className="relative bg-surface text-surface-foreground py-40"
+    >
       <div data-sticker-bounds className="relative">
       <DraggableStickers stickers={STICKERS} />
       <Container className="relative px-4 lg:px-6">

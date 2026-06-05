@@ -90,7 +90,14 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
   const clientWork = published.filter((p) => !isArticleProject(p.slug)).slice(0, MAX_CLIENT)
 
   return (
-    <section id="projects" data-theme-section="light" data-reveal-group className="px-4 lg:px-6 py-40 scroll-mt-20">
+    <section
+      id="projects"
+      data-semantic-role="portfolio"
+      data-llm-context="work-examples-case-studies"
+      data-theme-section="light"
+      data-reveal-group
+      className="px-4 lg:px-6 py-40 scroll-mt-20"
+    >
       <Container>
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">

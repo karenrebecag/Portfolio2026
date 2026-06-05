@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { Link } from '@/i18n/navigation'
+import { Link, redirect } from '@/i18n/navigation'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
@@ -10,6 +10,15 @@ import { ArticleTOC } from '@/components/article-toc'
 import { Button061 } from '@/components/ui/button-061'
 import { ContactSection } from '@/components/contact-section'
 import { SocialShare } from '@/components/social-share'
+import { JsonLdScript } from '@/components/seo/json-ld'
+import { getArticleSlugForProject } from '@/lib/article-projects'
+import { buildAlternates, localizedPath, ogLocale } from '@/lib/seo'
+import { articleOgImages, defaultOgImages } from '@/lib/seo/metadata-helpers'
+import {
+  getArticleSchema,
+  getProjectBreadcrumbSchema,
+} from '@/lib/seo/structured-data'
+import { SITE_AUTHOR } from '@/lib/seo/site-config'
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>
@@ -21,12 +30,54 @@ function findProject(slug: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params
+  const articleSlug = getArticleSlugForProject(slug)
+  if (articleSlug) {
+    const project = findProject(slug)
+    if (!project) return { title: 'Not found' }
+    const localized = project.i18n?.[locale]
+    const title = localized?.title ?? project.title
+    const description = localized?.summary ?? project.summary
+    const path = `/articulos/${articleSlug}`
+    const coverUrl = project.coverImage?.url
+    const ogImages = coverUrl
+      ? articleOgImages(coverUrl, project.coverImage?.alt ?? title)
+      : defaultOgImages(title)
+
+    return {
+      title,
+      description,
+      alternates: buildAlternates(locale, path),
+    }
+  }
+
   const project = findProject(slug)
   if (!project) return { title: 'Not found' }
   const localized = project.i18n?.[locale]
+  const title = localized?.title || project.title
+  const description = localized?.summary || project.summary
+  const path = `/projects/${slug}`
+  const coverUrl = project.coverImage?.url
+  const ogImages = coverUrl
+    ? articleOgImages(coverUrl, project.coverImage?.alt ?? title)
+    : defaultOgImages(title)
+
   return {
-    title: localized?.title || project.title,
-    description: localized?.summary || project.summary,
+    title,
+    description,
+    alternates: buildAlternates(locale, path),
+    openGraph: {
+      type: 'article',
+      locale: ogLocale(locale),
+      url: localizedPath(locale, path),
+      title,
+      description,
+      images: ogImages,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   }
 }
 
@@ -37,6 +88,11 @@ export async function generateStaticParams() {
 export default async function ProjectPage({ params }: Props) {
   const { slug, locale } = await params
   setRequestLocale(locale)
+
+  const articleSlug = getArticleSlugForProject(slug)
+  if (articleSlug) {
+    redirect({ href: `/articulos/${articleSlug}`, locale })
+  }
 
   const found = findProject(slug)
   const t = await getTranslations('project_detail')
@@ -59,10 +115,26 @@ export default async function ProjectPage({ params }: Props) {
   const title = localized?.title || project.title
   const summary = localized?.summary || project.summary
   const description = localized?.lexical || project.description
-  const blocks = localized?.blocks || (project as any).blocks
+  const blocks = localized?.blocks || (found as { blocks?: unknown[] }).blocks
+
+  const jsonLd = [
+    getArticleSchema({
+      locale,
+      slug,
+      path: `/projects/${slug}`,
+      title,
+      description: summary,
+      imageUrl: project.coverImage?.url,
+      datePublished: found.createdAt,
+      dateModified: found.updatedAt ?? found.createdAt,
+      tags: project.tags?.map((tag) => tag.tag),
+    }),
+    getProjectBreadcrumbSchema(locale, slug, title),
+  ]
 
   return (
     <>
+      <JsonLdScript data={jsonLd} />
     <section data-theme-section="light" className="pt-32 pb-16">
       <ArticleTOC
         title={t('toc_title')}
@@ -108,7 +180,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <ScrollHighlight>
           <div className="prose">
-            <RichTextRenderer content={description as any} blocks={blocks} />
+            <RichTextRenderer content={description as any} blocks={blocks as any} />
           </div>
 
           {(project.liveUrl || project.repoUrl) && (

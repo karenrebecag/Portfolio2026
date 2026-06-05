@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildAlternates, localizedPath } from '@/lib/seo'
+import { defaultOgImages } from '@/lib/seo/metadata-helpers'
+import { getAboutPageSchema, getSpeakableWebPageSchema } from '@/lib/seo/structured-data'
+import { ABOUT_SPEAKABLE_SELECTORS, SITE_AUTHOR } from '@/lib/seo/site-config'
+import { JsonLdScript } from '@/components/seo/json-ld'
 import { getAboutContent } from '@/content/about'
 import { Container } from '@/components/ui/container'
 import { ContactSection } from '@/components/contact-section'
@@ -32,10 +36,13 @@ export async function generateMetadata({
     title: t('about_title'),
     description: t('about_description'),
     alternates: buildAlternates(locale, '/about'),
+    authors: [{ name: SITE_AUTHOR.name }],
     openGraph: {
+      type: 'profile',
       url: localizedPath(locale, '/about'),
       title: t('about_title'),
       description: t('about_description'),
+      images: defaultOgImages(t('about_title')),
     },
     twitter: {
       title: t('about_title'),
@@ -50,8 +57,17 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   const t = await getTranslations('about')
   const content = getAboutContent(locale)
 
+  const metaT = await getTranslations({ locale, namespace: 'metadata' })
+
   return (
     <>
+      <JsonLdScript
+        data={[
+          getAboutPageSchema(locale, metaT('about_description')),
+          getSpeakableWebPageSchema(ABOUT_SPEAKABLE_SELECTORS),
+        ]}
+      />
+      <div id="about-page" data-semantic-role="about" data-llm-context="biography-experience">
       {/* Hero */}
       <section data-theme-section="dark" className="relative min-h-[53vh] md:min-h-[64vh] lg:min-h-[71vh] px-4 lg:px-6 pt-20 overflow-hidden flex flex-col justify-center text-white">
         <div
@@ -390,6 +406,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       {/* Contact */}
       <ContactSection />
+      </div>
     </>
   )
 }

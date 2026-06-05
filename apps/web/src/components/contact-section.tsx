@@ -30,7 +30,14 @@ export async function ContactSection() {
   const t = await getTranslations()
 
   return (
-    <section id="contact" data-theme-section="dark" data-reveal-group className="bg-surface text-surface-foreground py-40 scroll-mt-20 overflow-hidden">
+    <section
+      id="contact"
+      data-semantic-role="contact"
+      data-llm-context="contact-availability"
+      data-theme-section="dark"
+      data-reveal-group
+      className="bg-surface text-surface-foreground py-40 scroll-mt-20 overflow-hidden"
+    >
       <Container className="px-4 lg:px-6">
         <div className="flex flex-col gap-16 md:grid md:grid-cols-12">
           <div className="md:col-span-4">

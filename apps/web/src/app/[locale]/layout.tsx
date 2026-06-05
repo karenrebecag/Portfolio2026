@@ -21,6 +21,13 @@ import { PageTransition } from '@/components/page-transition'
 import { Toaster } from '@/components/ui/sonner'
 import { routing } from '@/i18n/routing'
 import { SITE_URL, ogLocale, localizedPath } from '@/lib/seo'
+import {
+  baseSiteKeywords,
+  defaultOgImages,
+  llmDiscoveryMeta,
+  twitterCreator,
+} from '@/lib/seo/metadata-helpers'
+import { SITE_AUTHOR, SITE_OG_IMAGE } from '@/lib/seo/site-config'
 import '../globals.css'
 
 const interTight = Inter_Tight({
@@ -80,9 +87,11 @@ export async function generateMetadata({
       template: `%s | Karen Ortiz`,
     },
     description: m.description,
+    keywords: baseSiteKeywords(),
     applicationName: 'Karen Rebeca Ortiz',
-    authors: [{ name: 'Karen Rebeca Ortiz', url: SITE_URL }],
-    creator: 'Karen Rebeca Ortiz',
+    authors: [{ name: SITE_AUTHOR.name, url: SITE_URL }],
+    creator: SITE_AUTHOR.name,
+    other: llmDiscoveryMeta(),
     openGraph: {
       type: 'website',
       siteName: 'Karen Rebeca Ortiz',
@@ -90,11 +99,14 @@ export async function generateMetadata({
       url: localizedPath(locale, '/'),
       title: m.title,
       description: m.description,
+      images: defaultOgImages(),
     },
     twitter: {
       card: 'summary_large_image',
+      creator: twitterCreator(),
       title: m.title,
       description: m.description,
+      images: [SITE_OG_IMAGE],
     },
     appleWebApp: {
       capable: true,

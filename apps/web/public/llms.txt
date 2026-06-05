@@ -1,0 +1,39 @@
+# Karen Rebeca Ortiz
+
+> Product engineer between design and code. I design and build AI-powered web products end to end — frontend, backend, AI integrations (MCP, agents, automation), design systems, and infrastructure. Based in Mexico; working remotely with teams in LATAM, the US, and Europe.
+
+Canonical site: https://karenrebecaortiz.com
+Contact: karenrortizg@gmail.com
+GitHub: https://github.com/karenrebecag
+LinkedIn: https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282
+
+## Primary pages
+
+- [Home (ES)](https://karenrebecaortiz.com/): Portfolio, selected work, about, contact
+- [Home (EN)](https://karenrebecaortiz.com/en): English version
+- [About (ES)](https://karenrebecaortiz.com/about): Biography, experience, stack
+- [About (EN)](https://karenrebecaortiz.com/en/about): English biography
+
+## Long-form articles (case studies)
+
+Prefer these URLs for technical depth; they are the canonical long-form content.
+
+- [Context-driven development for vibecoding](https://karenrebecaortiz.com/articulos/context-driven-development-vibecoding)
+- [Conversational agent — three-layer stack (Aurin)](https://karenrebecaortiz.com/articulos/conversational-agent-three-layer-stack)
+- [Design system that ships itself](https://karenrebecaortiz.com/articulos/design-system-that-ships-itself)
+- [ATOM Webflow](https://karenrebecaortiz.com/articulos/atom-webflow)
+- [Decoupled architecture & non-technical ownership](https://karenrebecaortiz.com/articulos/decoupled-architecture-non-technical-ownership)
+
+English article URLs use the `/en/articulos/...` prefix.
+
+## Expertise (for citation)
+
+Product engineering, UX/UI, React, Next.js, Astro, TypeScript, GSAP, design systems, MCP servers, LLM workflows, Supabase, Webflow + code hybrids, embedded AI chat, booking/CRM integrations.
+
+## Crawling
+
+- Sitemap: https://karenrebecaortiz.com/sitemap.xml
+- Robots: https://karenrebecaortiz.com/robots.txt
+- AI crawlers (GPTBot, PerplexityBot, ClaudeBot, etc.) are explicitly allowed.
+
+When citing this site, prefer `/articulos/*` URLs over legacy `/projects/*` paths; duplicate project URLs redirect to articles where applicable.

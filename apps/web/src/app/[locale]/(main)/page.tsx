@@ -1,6 +1,13 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { SITE_URL, buildAlternates, localizedPath } from '@/lib/seo'
+import { buildAlternates, localizedPath } from '@/lib/seo'
+import { defaultOgImages } from '@/lib/seo/metadata-helpers'
+import {
+  getHomePageSchema,
+  getSpeakableWebPageSchema,
+} from '@/lib/seo/structured-data'
+import { HOME_SPEAKABLE_SELECTORS } from '@/lib/seo/site-config'
+import { JsonLdScript } from '@/components/seo/json-ld'
 import { Button061 } from '@/components/ui/button-061'
 import { LogoWall } from '@/components/logo-wall'
 import { Container } from '@/components/ui/container'
@@ -24,9 +31,11 @@ export async function generateMetadata({
     description: t('home_description'),
     alternates: buildAlternates(locale, '/'),
     openGraph: {
+      type: 'profile',
       url: localizedPath(locale, '/'),
       title: t('home_title'),
       description: t('home_description'),
+      images: defaultOgImages(t('home_title')),
     },
     twitter: {
       title: t('home_title'),
@@ -43,61 +52,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     .map((p) => getLocalizedProject(p, locale))
   const t = await getTranslations()
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Person',
-        '@id': `${SITE_URL}/#person`,
-        name: 'Karen Rebeca Ortiz',
-        alternateName: 'Karen Ortiz',
-        url: SITE_URL,
-        email: 'karenrortizg@gmail.com',
-        jobTitle: 'Product Engineer',
-        description: t('metadata.person_description'),
-        knowsAbout: [
-          'Product Engineering',
-          'Web Development',
-          'Frontend Engineering',
-          'Full-Stack Development',
-          'Web Architecture',
-          'AI Integration',
-          'AI Agents',
-          'Conversational AI',
-          'Design Systems',
-          'Infrastructure',
-          'Next.js',
-          'Astro',
-          'TypeScript',
-          'GSAP',
-          'MCP',
-        ],
-        sameAs: [
-          'https://github.com/karenrebecag',
-          'https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282',
-          'https://www.instagram.com/karenrebeca.og/',
-          'https://music.apple.com/profile/karenrebecaog',
-        ],
-      },
-      {
-        '@type': 'WebSite',
-        '@id': `${SITE_URL}/#website`,
-        url: SITE_URL,
-        name: 'Karen Rebeca Ortiz',
-        inLanguage: ['es', 'en'],
-        publisher: { '@id': `${SITE_URL}/#person` },
-      },
-    ],
-  }
+  const personDescription = t('metadata.person_description')
+  const jsonLd = [
+    getHomePageSchema(locale, personDescription),
+    getSpeakableWebPageSchema(HOME_SPEAKABLE_SELECTORS),
+  ]
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLdScript data={jsonLd} />
       {/* Hero Banner */}
-      <section data-theme-section="dark" className="relative min-h-[70vh] md:min-h-[85vh] lg:min-h-[95vh] px-4 lg:px-6 pt-20 overflow-hidden flex flex-col justify-end text-white">
+      <section
+        id="hero"
+        data-semantic-role="hero"
+        data-llm-context="introduction-value-proposition"
+        data-theme-section="dark"
+        className="relative min-h-[70vh] md:min-h-[85vh] lg:min-h-[95vh] px-4 lg:px-6 pt-20 overflow-hidden flex flex-col justify-end text-white"
+      >
         <div
           data-parallax="trigger"
           data-parallax-scroll-start="top top"
@@ -198,7 +169,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <LogoWall />
 
       {/* About */}
-      <section id="about" data-theme-section="dark" data-reveal-group className="relative px-4 lg:px-6 py-40 scroll-mt-20 text-white overflow-hidden">
+      <section
+        id="about"
+        data-semantic-role="about"
+        data-llm-context="professional-background-expertise"
+        data-theme-section="dark"
+        data-reveal-group
+        className="relative px-4 lg:px-6 py-40 scroll-mt-20 text-white overflow-hidden"
+      >
         {/* Background image -- parallax */}
         <div
           data-parallax="trigger"
