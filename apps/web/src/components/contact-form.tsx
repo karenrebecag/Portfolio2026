@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { toast } from 'sonner'
 import { User, Mail, Phone, Globe, Heart, DollarSign, MessageSquare, Paperclip } from 'lucide-react'
-import { Button061 } from '@/components/ui/button-061'
 import { Chip } from '@/components/ui/chip'
 
 const SERVICES = [
@@ -21,21 +21,72 @@ const BUDGETS = [
   '> $20,000',
 ]
 
-const labelClass = 'flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-surface-foreground mb-3 font-accent'
+const labelClass =
+  'flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-surface-foreground mb-3 font-accent'
+const optionalBadgeClass =
+  'ml-1.5 text-[10px] font-normal normal-case tracking-normal text-surface-foreground/40'
 const inputClass = 'w-full min-w-0 bg-transparent border-none outline-none text-surface-foreground text-sm md:text-base font-sans py-3 placeholder:text-surface-foreground/25'
 const underlineClass = 'h-px w-full bg-surface-foreground/15 transition-colors duration-300 group-focus-within:bg-brand'
 
 export function ContactForm() {
   const t = useTranslations('contact')
+  const formRef = useRef<HTMLFormElement>(null)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [selectedBudget, setSelectedBudget] = useState<string | null>(null)
+  const [status, setStatus] = useState<'idle' | 'sending'>('idle')
 
   function toggleService(s: string) {
     setSelectedServices((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s])
   }
 
+  async function handleSubmit(e?: React.SyntheticEvent) {
+    e?.preventDefault()
+    const form = formRef.current
+    if (!form || status === 'sending') return
+
+    const fd = new FormData(form)
+    const payload = {
+      name: String(fd.get('name') ?? '').trim(),
+      email: String(fd.get('email') ?? '').trim(),
+      phone: String(fd.get('phone') ?? '').trim(),
+      country: String(fd.get('country') ?? '').trim(),
+      services: selectedServices,
+      budget: selectedBudget,
+      message: String(fd.get('message') ?? '').trim(),
+    }
+
+    if (!payload.name || !payload.email || !payload.message) {
+      toast.error(t('form_error_required'))
+      return
+    }
+
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const json = await res.json().catch(() => ({}))
+      if (res.ok && json.ok) {
+        toast.success(t('form_success'))
+        form.reset()
+        setSelectedServices([])
+        setSelectedBudget(null)
+      } else if (json.error === 'not_configured' || json.error === 'sandbox_restricted') {
+        toast.error(t('form_error_config'))
+      } else {
+        toast.error(t('form_error'))
+      }
+    } catch {
+      toast.error(t('form_error'))
+    } finally {
+      setStatus('idle')
+    }
+  }
+
   return (
-    <form className="space-y-8 min-w-0" onSubmit={(e) => e.preventDefault()}>
+    <form ref={formRef} className="space-y-8 min-w-0" onSubmit={handleSubmit}>
       {/* Inputs 2x2 */}
       <div className="grid grid-cols-2 gap-6 max-[767px]:grid-cols-1">
         <div>
@@ -44,7 +95,7 @@ export function ContactForm() {
             {t('form_name')}
           </label>
           <div className="relative group">
-            <input type="text" placeholder={t('form_name_placeholder')} className={inputClass} />
+            <input type="text" name="name" autoComplete="name" placeholder={t('form_name_placeholder')} className={inputClass} />
             <div className={underlineClass} />
           </div>
         </div>
@@ -54,7 +105,7 @@ export function ContactForm() {
             {t('form_email')}
           </label>
           <div className="relative group">
-            <input type="email" placeholder={t('form_email_placeholder')} className={inputClass} />
+            <input type="email" name="email" autoComplete="email" placeholder={t('form_email_placeholder')} className={inputClass} />
             <div className={underlineClass} />
           </div>
         </div>
@@ -62,9 +113,16 @@ export function ContactForm() {
           <label className={labelClass}>
             <Phone className="w-4 h-4 shrink-0" strokeWidth={1.5} />
             {t('form_phone')}
+            <span className={optionalBadgeClass}>({t('form_optional')})</span>
           </label>
           <div className="relative group">
-            <input type="tel" placeholder={t('form_phone_placeholder')} className={inputClass} />
+            <input
+              type="tel"
+              name="phone"
+              autoComplete="tel"
+              placeholder={t('form_phone_placeholder')}
+              className={inputClass}
+            />
             <div className={underlineClass} />
           </div>
         </div>
@@ -72,9 +130,16 @@ export function ContactForm() {
           <label className={labelClass}>
             <Globe className="w-4 h-4 shrink-0" strokeWidth={1.5} />
             {t('form_country')}
+            <span className={optionalBadgeClass}>({t('form_optional')})</span>
           </label>
           <div className="relative group">
-            <input type="text" placeholder={t('form_country_placeholder')} className={inputClass} />
+            <input
+              type="text"
+              name="country"
+              autoComplete="country-name"
+              placeholder={t('form_country_placeholder')}
+              className={inputClass}
+            />
             <div className={underlineClass} />
           </div>
         </div>
@@ -118,6 +183,7 @@ export function ContactForm() {
         </label>
         <div className="relative group mt-1">
           <textarea
+            name="message"
             placeholder={t('form_message_placeholder')}
             rows={4}
             className={`${inputClass} resize-y min-h-24 max-w-full`}
@@ -138,9 +204,19 @@ export function ContactForm() {
         </label>
 
         <div className="shrink-0">
-          <Button061 href="#" className="footer-cta" onClick={(e) => e.preventDefault()}>
-            {t('form_submit')}
-          </Button061>
+          <button
+            type="submit"
+            disabled={status === 'sending'}
+            className="button-061 footer-cta disabled:pointer-events-none disabled:opacity-60"
+            data-button-061
+          >
+            <span className="button-061__bg" />
+            <span className="button-061__inner font-accent">
+              <span className="button-061__text" data-button-061-text>
+                {status === 'sending' ? t('form_sending') : t('form_submit')}
+              </span>
+            </span>
+          </button>
         </div>
       </div>
     </form>

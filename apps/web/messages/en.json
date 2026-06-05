@@ -2,11 +2,11 @@
   "metadata": {
     "title": "Karen Ortiz - Software Engineer & Product Designer",
     "description": "I design and build AI-powered web products, from architecture to the last pixel.",
-    "home_title": "Karen Rebeca Ortiz — Product Engineer, Design Systems & AI",
-    "home_description": "Product engineer living between design and code. I build web experiences, design systems, and AI-powered tools, from architecture to the last pixel.",
+    "home_title": "Karen Rebeca Ortiz — Product Engineer, Web & AI",
+    "home_description": "Product engineer between design and code. I design and build AI-powered web products end to end: frontend, backend, AI integrations, and infrastructure. From architecture to the last pixel.",
     "about_title": "About",
-    "about_description": "Meet Karen Rebeca Ortiz: a product engineer between design and code. Web experiences, design systems, and AI-powered tools for teams across LATAM, the US, and Europe.",
-    "person_description": "Product engineer between design and code. I build web experiences, design systems, and AI-powered tools for product teams."
+    "about_description": "Meet Karen Rebeca Ortiz: a product engineer between design and code. I build AI-powered web products end to end — web experiences, full-stack, AI integrations, and infrastructure — for teams across LATAM, the US, and Europe.",
+    "person_description": "Product engineer between design and code. I build AI-powered web products end to end: web experiences, full-stack, AI integrations, design systems, and infrastructure."
   },
   "common": {
     "socials": "Socials",
@@ -54,6 +54,8 @@
     "bullet_1": "Remote-first collaboration with founders, PMs, designers, and engineers worldwide.",
     "bullet_2": "Production work: landing pages, design systems, AI-powered tools, and full-stack platforms.",
     "bullet_3": "Focus on craft, performance, and fast iteration across time zones.",
+    "impact_1": "Typical wins: faster campaign and copy launches when marketing owns the CMS—often days → hours for non-code changes.",
+    "impact_2": "Recurring themes: higher conversion-quality surfaces, less design→dev rework, and lower surprise debt from unowned production code.",
     "cta": "Let's work together"
   },
   "why": {
@@ -93,11 +95,19 @@
     "svc_6_body": "I guide founders and small teams to make good stack, architecture, and integration decisions. Thinking about what you'll need in 6 to 12 months, not just the next sprint."
   },
   "projects": {
-    "pill": "01 / Selected projects",
-    "heading": "Product work I'm proud of.",
-    "description": "A few projects where I've led product thinking, UX, systems, and engineering. From early exploration to production.",
+    "pill": "01 / Product essays & case studies",
+    "heading": "How I think — and what I've shipped.",
+    "description": "Long-form essays on architecture and AI workflows, plus selected client builds. Essays go deep on decisions; case studies focus on outcomes.",
+    "essays_heading": "Product essays",
+    "essays_description": "In-depth pieces for hiring managers and engineers — readable in plain language, technical when you want the detail.",
+    "client_heading": "Client work",
+    "client_description": "Shipped products and platforms where I led product thinking, UX, and engineering.",
+    "badge_essay": "Essay",
+    "badge_case_study": "Case study",
     "empty": "Coming soon.",
-    "view_all": "View all projects",
+    "empty_essays": "Essays coming soon.",
+    "empty_client": "Case studies coming soon.",
+    "view_all": "View all work",
     "col_project": "Project",
     "col_year": "Year",
     "col_services": "Services"
@@ -105,7 +115,11 @@
   "additional": {
     "pill": "02 / Additional work",
     "heading": "Smaller builds, launch pages, and experiments.",
-    "description": "A rotating selection of shorter projects that didn't need a full case study, but still show the range of things I design and build."
+    "description": "Shorter engagements—hover any card to see what I delivered (UX, UI, frontend, Webflow, AI), not just a Figma thumbnail or link.",
+    "hover_contributions": "What I did",
+    "hover_stack": "Stack",
+    "hover_outcome": "Outcome",
+    "hover_deliverable": "Deliverable"
   },
   "about": {
     "eyebrow": "About me",
@@ -177,6 +191,7 @@
     "form_name_placeholder": "John Smith",
     "form_email": "Your Email",
     "form_email_placeholder": "john@company.com",
+    "form_optional": "optional",
     "form_phone": "Your Phone",
     "form_phone_placeholder": "+1 123 456 7890",
     "form_country": "Country",
@@ -187,7 +202,12 @@
     "form_message_placeholder": "What are your goals, timeline, and any references or inspiration?",
     "form_attachment": "Add an Attachment",
     "form_attachment_specs": "Max 10MB - PDF, DOC, JPG, PNG",
-    "form_submit": "Send My Project Brief"
+    "form_submit": "Send My Project Brief",
+    "form_sending": "Sending…",
+    "form_success": "Done! Your brief was sent. I'll get back to you soon.",
+    "form_error": "Something went wrong. Try again or email karenrortizg@gmail.com.",
+    "form_error_config": "The form is not fully configured yet. Please email karenrortizg@gmail.com directly.",
+    "form_error_required": "Please fill in name, email, and message."
   },
   "footer": {
     "name": "Karen Ortiz",

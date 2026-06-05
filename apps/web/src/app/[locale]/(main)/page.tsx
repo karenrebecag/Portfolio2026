@@ -57,12 +57,19 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         description: t('metadata.person_description'),
         knowsAbout: [
           'Product Engineering',
-          'Design Systems',
-          'AI Agents',
           'Web Development',
+          'Frontend Engineering',
+          'Full-Stack Development',
+          'Web Architecture',
+          'AI Integration',
+          'AI Agents',
+          'Conversational AI',
+          'Design Systems',
+          'Infrastructure',
           'Next.js',
           'Astro',
           'TypeScript',
+          'GSAP',
           'MCP',
         ],
         sameAs: [
@@ -120,7 +127,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="mb-8 h-[5px] w-full bg-current" />
 
           {/* Hero content grid */}
-          <div className="mb-10 grid grid-cols-8 gap-x-6 gap-y-8 md:grid-cols-16 md:gap-6">
+          <div className="mb-10 grid grid-cols-8 gap-x-6 gap-y-6 md:grid-cols-16 md:gap-6">
             {/* Title */}
             <div className="col-span-8 md:col-span-10">
               <h2 data-split="heading" data-split-reveal="lines" data-split-trigger="mount" className="text-xl sm:text-2xl font-semibold leading-snug tracking-tight">
@@ -138,15 +145,30 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             {/* Subtitle */}
-            <div className="col-span-8 md:col-span-8">
-              <p className="text-sm font-normal leading-relaxed tracking-tight opacity-80">
+            <div className="col-span-8 md:col-span-16">
+              <p className="text-sm font-normal leading-relaxed tracking-tight opacity-80 max-w-[52ch]">
                 {t('hero.subtitle')}
               </p>
             </div>
 
+            {/* CTA — above the fold, before narrative bullets */}
+            <div className="col-span-8 md:col-span-16">
+              <div className="inline-flex flex-col gap-4 rounded-sm border border-white/20 bg-black/35 backdrop-blur-sm px-5 py-5 sm:px-6 sm:py-6 max-w-full sm:max-w-md">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:items-center">
+                  <Button061 href="#contact" className="hero-cta-primary shrink-0">
+                    {t('hero.cta_button')}
+                  </Button061>
+                  <Button061 href="/about" variant="secondary" className="shrink-0">
+                    {t('hero.cta_secondary')}
+                  </Button061>
+                </div>
+                <p className="text-[11px] leading-relaxed opacity-55 max-w-[42ch]">{t('hero.subcopy')}</p>
+              </div>
+            </div>
+
             {/* Bullets */}
-            <div className="col-span-8 md:col-span-8">
-              <ul className="space-y-2 text-xs leading-relaxed opacity-75">
+            <div className="col-span-8 md:col-span-16">
+              <ul className="space-y-2 text-xs leading-relaxed opacity-75 max-w-[56ch]">
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
                   {t('hero.bullet_1')}
@@ -160,15 +182,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   {t('hero.bullet_3')}
                 </li>
               </ul>
-            </div>
-
-            {/* CTA */}
-            <div className="col-span-8 md:col-span-16 flex flex-col gap-3 items-start">
-              <div className="flex flex-wrap gap-3">
-                <Button061 href="/about" variant="secondary">{t('hero.cta_secondary')}</Button061>
-                <Button061 href="#contact">{t('hero.cta_button')}</Button061>
-              </div>
-              <p className="text-xs opacity-40">{t('hero.subcopy')}</p>
             </div>
           </div>
         </Container>

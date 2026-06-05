@@ -2,16 +2,11 @@
 
 import { useCallback, useRef } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { getAdditionalWorkItems } from '@/content/additional-work-items'
+import { getAdditionalWorkItems, type AdditionalWorkItem } from '@/content/additional-work-items'
 import { mountMarquee, teardownMarquee } from '@/lib/draggable-marquee-controller'
 import { usePageInit } from '@/lib/use-page-init'
 
-interface MarqueeItem {
-  title: string
-  type: string
-  url?: string
-  image: string
-}
+interface MarqueeItem extends AdditionalWorkItem {}
 
 interface DraggableMarqueeProps {
   items?: MarqueeItem[]
@@ -28,6 +23,7 @@ export function AdditionalWorkMarquee() {
 export function DraggableMarqueeStrip({ items, duration = '45', className = '' }: DraggableMarqueeProps) {
   const locale = useLocale()
   const t = useTranslations('common')
+  const tAdditional = useTranslations('additional')
   const resolvedItems = items ?? getAdditionalWorkItems(locale)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
@@ -73,6 +69,34 @@ export function DraggableMarqueeStrip({ items, duration = '45', className = '' }
                 <div className="draggable-marquee__item-overlay">
                   <span className="item-tag">{item.type}</span>
                   <span className="block text-base font-bold text-surface-foreground mt-2">{item.title}</span>
+                  {(item.contributions || item.outcome) && (
+                    <dl className="draggable-marquee__item-meta mt-3 space-y-1.5">
+                      {item.contributions && (
+                        <div>
+                          <dt className="item-meta-label">{tAdditional('hover_contributions')}</dt>
+                          <dd className="item-meta-value item-meta-value--emphasis">{item.contributions}</dd>
+                        </div>
+                      )}
+                      {item.deliverable && (
+                        <div>
+                          <dt className="item-meta-label">{tAdditional('hover_deliverable')}</dt>
+                          <dd className="item-meta-value">{item.deliverable}</dd>
+                        </div>
+                      )}
+                      {item.outcome && (
+                        <div>
+                          <dt className="item-meta-label">{tAdditional('hover_outcome')}</dt>
+                          <dd className="item-meta-value">{item.outcome}</dd>
+                        </div>
+                      )}
+                      {item.stack && (
+                        <div>
+                          <dt className="item-meta-label">{tAdditional('hover_stack')}</dt>
+                          <dd className="item-meta-value item-meta-value--muted">{item.stack}</dd>
+                        </div>
+                      )}
+                    </dl>
+                  )}
                 </div>
               </Tag>
             )

@@ -1,18 +1,22 @@
+> [!tip] In 30 seconds
+> - **Who this is for:** Design engineers and leads on Webflow sites that outgrew paste-in custom code (animations, modules, brand tokens) but still need marketing to publish copy alone.
+> - **Problem it solves:** Production JavaScript in a Webflow text area has no git history, no environments, and every publish hits production immediately.
+> - **What changes if you apply this:** Dual-control contract — Webflow owns CMS/SEO; Git owns tokens and `src/js/modules/*`. Ship JS with **git push + two jsDelivr purges** (~minutes) instead of a full Webflow republish; copy changes never touch the repo.
+
 There is a specific moment in nearly every Webflow project. It is not during onboarding. It is not during the first publish. It happens when someone on the team opens the site's custom code settings for the first time and pastes a block of JavaScript into a text area.
 
 At that moment, without anyone deciding it explicitly, ==the project has just acquired technical debt.==
 
 The code that was just pasted has no history. No author. No diff. No rollback. If something breaks, the only way to know is for a user to report it -- or for you to catch it before it reaches production. But chances are you will not catch it, because Webflow has no environments. ==The publish goes straight to production. Always.==
 
-I spent a lot of time thinking about this problem while working on the Atomchat site -- an AI product that needed a site with high-fidelity animations, a very specific brand visual language, and a content team that could publish autonomously without coordinating with development every time. Three requirements that, within default Webflow, contradict each other.
-
-This article documents what I built to solve it. It is not a solution specific to Atomchat -- it is a workflow any engineer or design engineer can bring to their next Webflow project. After you read it, pasting production JavaScript into a Webflow text area should feel as wrong as deploying over FTP after you have learned git -- not as a punchline, but as a signal that the boundary is missing.
+I spent a lot of time on this while building the Atomchat site — high-fidelity animations, a strict brand language, and a content team publishing without engineering on every headline. Three requirements that default Webflow contradicts. The workflow below is **reusable on any Webflow project**, not Atom-specific: pasting production JavaScript into a Webflow text area should feel as wrong as deploying over FTP after you have learned git — a signal that the boundary is missing.
 
 > [!info] Industry docs that back the workflow
 > Webflow documents [custom code in head and footer](https://help.webflow.com/hc/en-us/articles/33961357265299-Custom-code-in-head-and-body-tags) and [embed limits](https://help.webflow.com/hc/en-us/articles/33961332238611-Custom-code-embed). [jsDelivr](https://www.jsdelivr.com/documentation) documents GitHub `@main` URLs and [cache purge](https://www.jsdelivr.com/documentation#id-purge-cache). Cloudflare documents [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/) and [ignoring scripts with `data-cfasync="false"`](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/ignore-javascripts/). The repo map below is our implementation; the reference table at the end is what I send to teams evaluating the same split.
 
 ## First, understanding why Webflow behaves this way
 
+> **In plain terms:** Webflow is built for marketers, not for complex app logic — and that is fine until a project crosses the line.
 Before talking about solutions, I want to be fair to Webflow because it has a bad reputation for reasons that are actually correct design decisions for its original use case.
 
 Webflow was built to give autonomy to marketing and content teams. The core promise is: you can launch and update a high-quality website without depending on a developer every time you need to change a title or add a page. That promise works. It works very well, in fact, for 80% of use cases.
@@ -25,6 +29,7 @@ The question I asked myself was: ==what if instead of fighting against that limi
 
 ## The core idea: dual control
 
+> **In plain terms:** Marketing keeps the website; engineering keeps code in git — two lanes that do not block each other.
 The answer is what I call a dual-control model. Two systems with completely separated responsibilities, an explicit contract between them, and no ambiguity about who owns what.
 
 ```mermaid Dual control architecture
@@ -68,7 +73,8 @@ The connection point between both is [jsDelivr](https://www.jsdelivr.com/documen
 
 ## Repository map — documentation that enforces the contract
 
-The workflow in this article is implemented in [AtomWebflow_2026Site](https://github.com/karenrebecag/AtomWebflow_2026Site). The point of the repo is not "lots of code" — it is ==written boundaries== so Webflow, jsDelivr, and agents do not fight over the same territory.
+> **In plain terms:** Where the written rules live so new teammates (human or AI) do not paste code into the wrong place.
+The workflow is implemented in [AtomWebflow_2026Site](https://github.com/karenrebecag/AtomWebflow_2026Site). The point of the repo is not "lots of code" — it is ==written boundaries== so Webflow, jsDelivr, and agents do not fight over the same territory.
 
 | Path | What it documents |
 |------|-------------------|
@@ -103,6 +109,7 @@ curl -s "https://purge.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/sr
 
 ## Why @main and not @latest
 
+> **In plain terms:** A boring CDN choice that prevents surprise breakages when someone publishes unrelated work.
 This is one of those details that seems trivial until you learn it the hard way.
 
 jsDelivr has two ways to reference GitHub files that look equivalent and are not at all:
@@ -143,6 +150,7 @@ sequenceDiagram
 
 ## Design tokens: the only shared artifact
 
+> **In plain terms:** Colors and spacing both sides agree on — the handshake between design and the live site.
 If the dual-control model is the architecture, ==design tokens are the shared language== between the two systems.
 
 Tokens are not "CSS variables with nice names." They are the contract that guarantees what the designer configures in Webflow and what the external code produces are exactly the same thing. Without that contract, drift between systems is inevitable -- and it is subtle, which is the worst part. Colors that approximate but do not match. Spacing that looks similar but is different. Animations with slightly different timing depending on who touched what.
@@ -180,6 +188,7 @@ What I love about this file is that ==every constraint is encoded, not documente
 
 ## The module loader: elegant by necessity
 
+> **In plain terms:** How the site loads only the JavaScript each page needs instead of one giant script everywhere.
 Webflow has no native way to tell JavaScript "initialize this component when it appears on the page." The common solution is one massive file that runs everything on every page -- which is both inefficient and fragile.
 
 The solution I built is a 54-line entry point that does one thing: scans the DOM, identifies which modules the current page needs, and dynamically imports them. Only those. Only when needed.
@@ -221,6 +230,7 @@ The distinction between the two patterns has a very specific reason: ==Webflow d
 
 ## GSAP + Cloudflare Rocket Loader: the bug that only exists in production
 
+> **In plain terms:** A real launch story: animations worked in staging and broke live because of a hosting feature nobody remembered.
 I want to talk about this problem with some affection because it was the most frustrating to solve and also the one that taught me the most about what it means to do production engineering.
 
 The setup: Webflow loads GSAP automatically from its own CDN. Our external JS modules depend on `window.gsap` existing to initialize. In local, in staging, in any test environment -- everything works perfectly.
@@ -253,6 +263,7 @@ What matters about this example is not the polling function -- that is trivial. 
 
 ## The agent system: AI with explicit constraints
 
+> **In plain terms:** How AI helpers get a rulebook so they improve the repo instead of improvising in Webflow.
 The repository includes an agent orchestration system -- a set of 34 skills organized by category with an ORCHESTRATOR that decides which skills to load based on the task type.
 
 But before talking about the implementation, I need to talk about the philosophy behind it.
@@ -276,6 +287,7 @@ The result is an agent I can let run on CMS tasks, asset audits, and controlled 
 
 ## What the team gains
 
+> **In plain terms:** The organizational win: fewer emergencies, clearer ownership, faster campaigns.
 Without this workflow, every week there are interruptions of the kind "hey, can you change this text in Webflow?" that are not actually text changes -- they are changes someone does not dare to make alone because the last time they touched something in Webflow, something else broke. The developer becomes the site's guardian not because it is necessary but because nobody has confidence in the system's boundaries.
 
 With this workflow, ==that category of interruption disappears.== Marketing knows exactly what they can touch -- the Designer, the CMS, the pages -- and knows their changes will not break anything in the repository because the repository is a separate system with its own lifecycle. Engineering knows they can iterate on code with full confidence because they have git history, code review, and immediate rollback. Nobody blocks anyone.
@@ -284,6 +296,7 @@ In the first two weeks after we drew the boundary explicitly, those pings stoppe
 
 ## How to replicate it on your next project
 
+> **In plain terms:** A practical checklist if you want the same split on another Webflow site.
 - **Repository with clear structure.** `src/css/` and `src/js/`. Inside CSS: `base/` for tokens, reset and utilities; `sections/` for nav, hero, footer; `components/` for components with their own logic. A `site.css` as entry point that imports everything. A `site.js` with the module loader pattern. If you skip this split, every new feature becomes an ad-hoc negotiation about whether it lives in Webflow or Git -- until someone breaks production and nobody can say who owns the fix.
 
 ```tree Repository structure
@@ -315,6 +328,7 @@ In the first two weeks after we drew the boundary explicitly, those pings stoppe
 
 ## References (external — worth bookmarking)
 
+> **In plain terms:** Vendor docs for teams validating the approach.
 | Topic | Source |
 |-------|--------|
 | Custom code in site head/footer | [Webflow Help — Custom code in head and body](https://help.webflow.com/hc/en-us/articles/33961357265299-Custom-code-in-head-and-body-tags) |
@@ -330,6 +344,7 @@ In the first two weeks after we drew the boundary explicitly, those pings stoppe
 
 ## The real takeaway
 
+> **In plain terms:** Respect Webflow’s strength; put engineering work where git and review already exist.
 Software projects fail at the boundaries between tools, not inside them. Webflow works. Git works. jsDelivr works. AI agents work. ==The point of failure is when it is not clear who owns what==, and two systems end up competing over the same territory without explicit rules.
 
 Designing that boundary from the start is not overengineering. It is exactly the work that makes everything else predictable -- that marketing can publish with confidence, that engineering can iterate with confidence, that an AI agent can operate with confidence, and that you can go on vacation without leaving your phone number "in case something breaks."

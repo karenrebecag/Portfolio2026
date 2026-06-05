@@ -225,12 +225,12 @@ export function LogoWall() {
                 {t('bullet_1')}
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
-                {t('bullet_2')}
+                <span className="mt-1.5 w-1 h-1 rounded-full bg-brand shrink-0" />
+                <span>{t('impact_1')}</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
-                {t('bullet_3')}
+                <span className="mt-1.5 w-1 h-1 rounded-full bg-brand shrink-0" />
+                <span>{t('impact_2')}</span>
               </li>
             </ul>
 

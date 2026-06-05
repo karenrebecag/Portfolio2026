@@ -1,14 +1,20 @@
+> [!tip] En 30 segundos
+> - **Para quién es:** Leads de design system y plataforma donde **todos vibecodean** (marketing, producto, founders) y la UI fuera de marca sigue cayendo en ingeniería para rescate.
+> - **Qué problema resuelve:** Los agentes ven metadata del componente pero no el source — inventan hex, espaciados y variantes que pasan review visual y entran a producción como mentiras sutiles sobre el sistema.
+> - **Qué cambia si aplicas esto:** Tokens legibles por máquina (**~500 → ~350**, mismo rango visual); modelo shadcn copy-not-npm; split MCP (listar vs implementar) → **menos PRs con CSS fuera del sistema de tokens**; una sola fuente de verdad en lugar de tres catálogos compitiendo.
+
 Un agente de IA genera un botón. Compila. Renderiza. Se ve bien. El violeta del fondo es `#534AB7` -- un color que no existe en ninguna parte del design system.
 
 Nadie lo decidió. El agente tenía la metadata del componente -- sabía que existía una variante, sabía que aceptaba un tamaño -- pero no tenía el código real. Así que ==inventó el resto.== Un hex plausible. Un padding de 36px donde el sistema usa 40px. Un font-size que se aproxima pero no coincide. El resultado pasa el code review humano porque se ve correcto. Y entra a producción siendo, sutilmente, una mentira sobre el sistema.
 
-Este artículo es sobre cómo construí un design system que un agente de IA no puede alucinar. Pero la versión honesta de esa historia no empieza con la solución -- empieza con tres problemas que descubrí en orden, donde cada uno solo se volvió visible después de resolver el anterior. Primero tomé un sistema existente y lo reinterpreté para que lo leyera una máquina. Luego conecté agentes y descubrí que alucinaban de todos modos. Luego, al arreglar eso, descubrí que mi propia arquitectura tenía la verdad duplicada en tres lugares. Lo que sigue es ese recorrido, y lo que me enseñó sobre la relación entre design systems y AI.
+El camino honesto hacia un design system que los agentes no pueden alucinar son **tres problemas en secuencia** — cada uno visible solo tras resolver el anterior: reinterpretar un sistema existente para lectores máquina; conectar agentes y ver que alucinan igual; descubrir que la arquitectura tenía la verdad duplicada en tres sitios. Abajo va esa secuencia y lo que implica para design systems e IA.
 
 > [!info] Sustento externo (no solo el monorepo)
-> El modelo de distribución sigue el [registry de shadcn/ui](https://ui.shadcn.com/docs/registry) (copiar source, no instalar caja negra por npm). El acceso para agentes sigue el [Model Context Protocol](https://modelcontextprotocol.io/specification/2025-11-25/server/tools). Los tokens siguen el [formato W3C Design Tokens](https://www.designtokens.org/). El auth corporativo para MCP sigue las [guías MCP de Clerk](https://clerk.com/docs/guides/ai/mcp/build-mcp-server). Los snippets muestran *nuestro* cableado; la tabla de referencias es lo que uso cuando el argumento debe valer fuera del repo.
+> El modelo de distribución sigue el [registry de shadcn/ui](https://ui.shadcn.com/docs/registry) (copiar source, no instalar caja negra por npm). El acceso para agentes sigue el [Model Context Protocol](https://modelcontextprotocol.io/specification/2025-11-25/server/tools). Los tokens siguen el [formato W3C Design Tokens](https://www.designtokens.org/). El auth corporativo para MCP sigue las [guías MCP de Clerk](https://clerk.com/docs/guides/ai/mcp/build-mcp-server). Los snippets de abajo muestran *nuestro* cableado; la tabla de referencias es lo que uso cuando el argumento debe valer fuera del repo.
 
 ## Dónde empezó esto: una empresa que vibecodea
 
+> **En pocas palabras:** Todos generaban UI con IA; ingeniería seguía corrigiendo el mismo desvío visual en páginas de marketing.
 Llegué a Atom en un momento preciso. El equipo de producto -- un grupo de gente muy talentosa -- estaba terminando la primera etapa de su design system: un sistema con la estética de shadcn, construido para la plataforma de Atom. Buen trabajo, base sólida. Pero vivía dentro del producto.
 
 Atom es una empresa de agentes de IA multimodales para WhatsApp. AI-first no es un eslogan ahí -- es la forma en que todo el mundo trabaja, y eso incluye una práctica que define la cultura: ==todos vibecodean.== Marketing, producto, founders. Generar código con IA es la norma, no la excepción.
@@ -21,6 +27,7 @@ Tomé el design system de producto como base y lo reinterpreté. No para reempla
 
 ## Primero: un design system diseñado para lectores que no son humanos
 
+> **En pocas palabras:** Simplificar el reglamento para que humanos e IA elijan los mismos colores y espaciados a la primera.
 El ATOM UIKit no es una copia del sistema de producto. Es una reinterpretación -- mismo lenguaje visual, arquitectura distinta -- optimizada para dos lectores al mismo tiempo: el developer y el LLM.
 
 El sistema original tenía ~500 tokens. Variantes por plataforma, tokens de CRM, estados interactivos mezclados en la capa semántica, escalas lineales con pasos que nadie podía distinguir a simple vista. Lo reduje a ~350 tokens en tres capas estrictas, ==sin perder una sola capacidad visual.==
@@ -38,6 +45,7 @@ Esa frase -- "diseño para que la IA genere correcto" -- suena a marketing hasta
 
 ## Distribución shadcn, no npm
 
+> **En pocas palabras:** Por qué los componentes viven como archivos visibles en lugar de un paquete oculto que la IA no puede inspeccionar.
 Los componentes del UIKit no están en npm. Esto está escrito, textual, en la primera línea del CLAUDE.md del monorepo:
 
 > [!note] "Distributes via private registry (shadcn model) -- source copied to consumer projects, not installed as npm dependencies."
@@ -66,6 +74,7 @@ Seis packages, pero una sola fuente de valores. Los tokens no están atados a ni
 
 ## Mapa de documentación multi-repo
 
+> **En pocas palabras:** Qué repositorio guarda tokens, componentes y el puente del agente — sáltalo si no vas a implementar.
 El design system no es un solo repositorio — son ==cuatro repos coordinados== con contratos escritos en cada `CLAUDE.md`. Esta tabla es el índice que uso al onboardar ingeniería o agentes.
 
 | Repositorio | Docs canónicos | Qué gobiernan |
@@ -113,6 +122,7 @@ La separación anti-alucinación no es idea de blog — está en el output estru
 
 ## Los tokens como contrato, no como variables bonitas
 
+> **En pocas palabras:** Reglas de marca escritas para que los errores se noten, no se escondan.
 Si la distribución shadcn es la forma, ==los tokens en tres capas son el contrato.== Y un contrato solo sirve si nadie puede romperlo por accidente.
 
 Las tres capas referencian hacia atrás, nunca hacia los lados:
@@ -168,6 +178,7 @@ Todo esto sigue el [formato del W3C Design Tokens Community Group](https://www.d
 
 ## Segundo problema: los agentes alucinaban de todos modos
 
+> **En pocas palabras:** Aun con buena documentación, la IA seguía inventando componentes hasta cambiar qué podía tocar.
 Había construido un sistema deliberadamente predecible. Menos tokens, naming consistente, source siempre disponible. Y aun así, la primera vez que dejé a un agente generar interfaces, pasó lo del principio.
 
 No mal como "roto". ==Mal como "fuera de contexto."== El agente usó un violeta inventado porque parecía razonable. Usó 36px porque es un valor común. Eligió un font-size que casi coincidía. Cada decisión, aislada, era defendible. En conjunto, eran un sistema distinto al mío que se hacía pasar por el mío.
@@ -178,6 +189,7 @@ El problema no era que el agente supiera poco. Era que ==yo le estaba pidiendo q
 
 ## La idea central: separar lo que un agente puede saber de lo que puede hacer
 
+> **En pocas palabras:** Como catálogo de biblioteca versus llaves del archivo — mirar libre, cambiar solo con herramientas aprobadas.
 La solución es un MCP server con separación deliberada entre dos clases de herramientas — la misma idea que [Anthropic describió al lanzar MCP](https://www.anthropic.com/news/model-context-protocol): dar al cliente una **superficie de tools pequeña y tipada** en lugar de volcar contexto opaco. El capítulo [Tools](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) del spec es el contrato; nuestro split discovery/implementation es cómo lo aplicamos al CSS.
 
 > [!note] DS `CLAUDE.md`: "This split enforces the anti-hallucination pattern: LLMs see enough to discover components but must call atom_uikit_source for actual implementation details."
@@ -259,6 +271,7 @@ El cambio fue medible. ==Antes: el agente generaba `#534AB7`, 36px, font-sizes e
 
 ## Quinta capa: quién puede conectarse (Clerk, OAuth, solo la empresa)
 
+> **En pocas palabras:** Quién puede conectar una herramienta de IA al design system — decisión de acceso, no detalle de diseño.
 El anti-alucinación controla *qué* sale del agente. El auth controla ==quién puede preguntar.== El MCP no es un CDN público del design system. Es infraestructura para personas dentro de la empresa (y sus clientes de IA aprobados) — con un flujo de punta a punta: login en el browser → bearer token → cuerpo completo de docs restringidos.
 
 El artículo ya tenía mermaid para **capas de tokens** (primitivos → semánticos → componente), **anti-alucinación en cuatro pasos**, y ahora la **secuencia de auth**. Abajo va el **mapa de plataforma** — cómo se conectan repos y servicios — y cómo la capa 5 envuelve todo lo anterior.
@@ -329,7 +342,7 @@ flowchart TB
   L5 --> Agent["El agente recibe CSS real<br/>solo si el humano entró"]
 ```
 
-> [!info] Índice de diagramas en este artículo
+> [!info] Índice de diagramas
 > **Tokens:** jerarquía de capas, cadena de resolución · **Anti-alucinación:** cuatro capas de tools · **Auth y plataforma:** mapa de arquitectura, envoltura de cinco capas, secuencia OAuth/CLI más abajo.
 
 ### Por qué Clerk y no un login hecho en casa
@@ -440,6 +453,8 @@ La separación discovery vs implementation responde "¿el modelo puede inventar 
 
 ## Tercer problema: mi propia arquitectura tenía la verdad duplicada
 
+> **En pocas palabras:** Tres sitios decían ser “la lista de componentes” — receta para desvío silencioso.
+
 Aquí es donde la historia deja de ser sobre el agente y pasa a ser sobre mí.
 
 La primera versión del MCP funcionaba, pero por dentro era frágil de una forma que tardé en ver. La metadata del componente vivía en el DS. Pero el MCP la re-embebía en build-time con un script (`embed-source.ts`), generaba un manifest, y encima le aplicaba un archivo de `component-overrides.ts` para parchar campos que el extractor todavía no sacaba. ==La fuente de verdad estaba en tres lugares a la vez.==
@@ -469,6 +484,7 @@ La consolidación fue un proceso de cuatro waves a lo largo de tres días. No fu
 
 ## El detalle que comunica madurez: build-time sync
 
+> **En pocas palabras:** Chequeos automáticos para que catálogo y código real no se contradigan mucho tiempo.
 De todas las decisiones, la que más me gusta es la más pequeña. El sitio de documentación ya no commitea los JSONs del registry. Los sincroniza desde el DS cada vez que buildeas.
 
 ```bash package.json del sitio de docs
@@ -483,6 +499,7 @@ El script de sync tiene dos fuentes con fallback: primero el filesystem (el DS c
 
 ## Qué cambió en cómo pienso
 
+> **En pocas palabras:** Cambio de mentalidad para quienes financian design systems en equipos con mucha IA.
 Empecé creyendo que un design system para IA era un design system normal con una API encima. Terminé entendiendo que es otra cosa.
 
 Un design system para humanos puede tolerar ambigüedad. Un humano ve dos naranjas casi iguales y elige el correcto por contexto, por gusto, por haber visto el Figma. Un agente no tiene ese contexto -- ==tiene exactamente lo que el sistema le expone, ni un bit más.== Eso convierte cada ambigüedad de tu arquitectura en un error garantizado, no en un error probable.
@@ -495,6 +512,7 @@ Y hay un efecto que no anticipé. El mismo sistema que construí para que un age
 
 ## Cómo replicarlo en tu próximo design system
 
+> **En pocas palabras:** Pasos iniciales si quieres las mismas barandillas sin copiar cada decisión técnica.
 - **El registry es la única fuente de verdad.** Toda la metadata -- variantes, sizes, props, clases, peer deps -- se extrae del source, no se mantiene a mano en paralelo. Si tienes un manifest, un override y el source diciendo cosas sobre el mismo componente, ya tienes tres versiones de la verdad y la pregunta no es si van a divergir, sino cuándo.
 
 - **Separa discovery de implementation.** Da a los agentes una capa de metadata para descubrir qué existe, y una capa de source -- accesible de una sola forma -- para construirlo. Que la capa de discovery declare explícitamente que oculta el código y cómo pedirlo. Un agente que sabe que no debe inventar es la mitad de la solución; un sistema que no le deja inventar es la otra mitad.
@@ -511,6 +529,7 @@ Y hay un efecto que no anticipé. El mismo sistema que construí para que un age
 
 ## Referencias (externas — para guardar)
 
+> **En pocas palabras:** Referencias de industria detrás de las decisiones de MCP y tokens.
 | Tema | Fuente |
 |------|--------|
 | shadcn: copiar vs instalar por npm | [shadcn/ui — CLI](https://ui.shadcn.com/docs/cli) |
@@ -531,6 +550,7 @@ Y hay un efecto que no anticipé. El mismo sistema que construí para que un age
 
 ## El aprendizaje real
 
+> **En pocas palabras:** Un design system para equipos con IA es historia de permisos tanto como de paleta.
 Los design systems no fallan en el componente. Fallan en la pregunta "¿cuál es la versión correcta de esto?" cuando hay más de una respuesta posible. Un humano navega esa ambigüedad sin darse cuenta. Un agente de IA la convierte en `#534AB7` en producción.
 
 Construir para que una máquina lea tu sistema no es una restricción molesta -- es el ejercicio que te obliga a hacer explícito todo lo que antes resolvías con criterio. Cuando el único lector posible es uno que no tiene tu contexto, no te queda más remedio que poner el contexto en el sistema. Y un sistema donde el contexto es explícito es, resulta, mejor también para los humanos.

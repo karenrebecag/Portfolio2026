@@ -37,12 +37,12 @@ export const designSystemShipsItselfI18n = {
   en: {
     title: "The Design System an AI Can't Hallucinate",
     summary:
-      'Layered tokens, a single source of truth, and an MCP that separates what an agent can know from what it can do.',
+      'When everyone on a team uses AI to generate interfaces, small visual mistakes slip through review and pile up in production. I extended a design system so people and tools pull from the same rules—colors, spacing, components—instead of guessing. The story walks through what broke first, what we fixed next, and why separating "what you can look up" from "what you can change" reduced rework for engineering and kept marketing pages on brand.',
   },
   es: {
     title: 'El design system que una IA no puede alucinar',
     summary:
-      'Tokens en capas, una sola fuente de verdad y un MCP que separa lo que un agente puede saber de lo que puede hacer.',
+      'Cuando todo el equipo usa IA para generar interfaces, errores visuales chicos pasan el review y se acumulan en producción. Extendí un design system para que personas y herramientas tiren de las mismas reglas—colores, espaciado, componentes—en lugar de adivinar. La historia recorre qué se rompió primero, qué arreglamos después, y por qué separar "lo que puedes consultar" de "lo que puedes cambiar" redujo retrabajo en ingeniería y mantuvo las páginas de marketing alineadas a marca.',
   },
 }
 

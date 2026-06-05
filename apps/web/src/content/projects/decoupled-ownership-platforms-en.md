@@ -1,14 +1,20 @@
+> [!tip] In 30 seconds
+> - **Who this is for:** Architects and senior engineers scoping greenfield products or escaping plugin-heavy CMS setups where marketing and compliance both need to move fast.
+> - **Problem it solves:** When experience edits and payment/audit changes share one deployable surface, every headline tweak risks touching Stripe webhooks, identity, or LGPD/GDPR evidence.
+> - **What changes if you apply this:** Three planes (experience / transaction / record) with **non-overlapping integration paths** — a CMS publish does not redeploy enrollment logic; BFF + RLS so the experience plane **cannot invoke** transaction primitives; ADRs that survive team churn.
+
 Most architecture discussions start with a framework poll: monolith or microservices, WordPress or Next.js, build or buy. That is the wrong first question.
 
 The right first question is organizational and technical at once: ==which changes must non-technical people make without asking engineering, and which changes must engineering be able to prove in an audit?== When those two sets overlap in one deployable unit, you do not have "a stack" — you have a bottleneck dressed as a platform.
 
-This article is a field guide to **decoupled architecture by ownership**: how to split systems so marketing, education, and operations teams can publish autonomously while engineering retains control of money, identity, and data contracts. It is written for architects and senior engineers scoping greenfield products or escapes from plugin-heavy CMS setups. Two real engagements illustrate the pattern — a production marketing site with a conversational agent, and an executive LMS proposal for regulated financial education in Brazil — but the models here stand alone.
+Below is **decoupled architecture by ownership**: split systems so marketing, education, and operations publish autonomously while engineering retains money, identity, and data contracts. [aurin.mx](https://aurin.mx) and the public [ATFX Educacao proposal](https://atfxeducacao-porposal.vercel.app/) illustrate the pattern; the models stand alone without those case names.
 
 > [!info] External grounding
 > Concepts below cite published material: [Conway's Law](https://martinfowler.com/bliki/ConwaysLaw.html), [Team Topologies](https://teamtopologies.com/key-concepts), [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions), [Backends for Frontends](https://learn.microsoft.com/en-us/azure/architecture/patterns/backends-for-frontends), [defense in depth](https://csrc.nist.gov/glossary/term/defense_in_depth), and data-protection law ([GDPR Art. 20](https://gdpr-info.eu/art-20-gdpr/), [LGPD Art. 18](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm#art18)). Case details come from [aurin.mx](https://aurin.mx) and the public [ATFX Educacao proposal](https://atfxeducacao-porposal.vercel.app/).
 
 ## Decoupling is not the same as "more services"
 
+> **In plain terms:** More microservices is not automatically more freedom — the goal is fewer surprise side effects.
 In engineering literature, **decoupling** means reducing *change amplification*: a modification in one area should not force redeploys, migrations, or compliance rewrites in unrelated areas.
 
 That is different from:
@@ -38,6 +44,7 @@ flowchart TB
 
 ## The ownership model: three planes
 
+> **In plain terms:** Three zones: what marketing edits, what money touches, what lawyers care about — kept apart on purpose.
 A practical way to teach this in architecture reviews is to name **three planes**. Each plane has one primary owner and one integration contract.
 
 | Plane | Typical non-technical owner | Engineering must own |
@@ -68,6 +75,7 @@ This is how ADRs become operational. Michael Nygard's [Architecture Decision Rec
 
 ## Team Topologies mapped to software boundaries
 
+> **In plain terms:** How org chart and system diagram should rhyme so teams do not step on each other.
 [Team Topologies](https://teamtopologies.com/key-concepts) (Skelton & Pais) names four team types. You do not need the book to apply the mapping:
 
 | Team type | Software they should align with | Anti-pattern |
@@ -81,6 +89,7 @@ When a non-technical department needs autonomy, you are usually creating a **str
 
 ## Patterns that implement ownership decoupling
 
+> **In plain terms:** Concrete patterns (headless CMS, API middle layer, row-level security) in plain business language.
 ### 1. Backends for Frontends (BFF)
 
 The [BFF pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/backends-for-frontends) keeps each client type behind a dedicated server-side API shaped for that client. The browser for a marketing site should not hold n8n webhook URLs, Stripe secrets, or service-role database keys.
@@ -127,6 +136,7 @@ WordPress can still win the **experience plane** for a marketing landing — esp
 
 ## Failure modes architects should recognize
 
+> **In plain terms:** Red flags in reviews — when “decoupled” still means one team blocks another.
 | Symptom | Likely cause | Fix direction |
 | --- | --- | --- |
 | "Small copy change broke checkout" | Experience and transaction planes share DB or deploy | Split deploy paths; BFF + CMS |
@@ -137,6 +147,7 @@ WordPress can still win the **experience plane** for a marketing landing — esp
 
 ## Compliance as an architectural constraint (not a legal footnote)
 
+> **In plain terms:** Privacy law shapes where data lives — not something you paste on at the end.
 Privacy law turns vague "we should own our data" into testable requirements.
 
 | Requirement (examples) | Architectural implication |
@@ -153,6 +164,7 @@ Privacy law turns vague "we should own our data" into testable requirements.
 
 ## Reference architecture: regulated LMS (from proposal)
 
+> **In plain terms:** Example: financial education in Brazil — marketing site separate from enrollments and payments.
 The following compresses a modern LMS split suitable for LATAM financial education — useful even if you never work on ATFX.
 
 ```mermaid Three deployables — one record plane
@@ -210,6 +222,7 @@ Marketing changing a hero image does not appear in that sequence — by design.
 
 ## Reference architecture: editorial vs automation (production site)
 
+> **In plain terms:** Example: live marketing site where editors publish copy and automation handles chat separately.
 On a services marketing site, the same three planes appear with different vendors:
 
 - **Experience:** headless CMS drives pages (projects, services, legal).
@@ -220,6 +233,7 @@ The engineering lesson from operating keyword-driven side effects: ==decoupling 
 
 ## Checklist: architecture review before build
 
+> **In plain terms:** Questions to ask in the room before anyone commits to a vendor stack.
 Use this in design reviews without referencing any proprietary repo:
 
 1. **Planes** — Can you name experience, transaction, and record owners in one sentence each?
@@ -233,6 +247,7 @@ Use this in design reviews without referencing any proprietary repo:
 
 ## What to measure after launch
 
+> **In plain terms:** Simple metrics executives can track — not only uptime charts for engineers.
 | Metric | Healthy signal | Ownership failure signal |
 | --- | --- | --- |
 | Median time for copy publish without engineering | Hours | Multi-day tickets |
@@ -243,6 +258,7 @@ Use this in design reviews without referencing any proprietary repo:
 
 ## References (external — core reading)
 
+> **In plain terms:** Foundational reading if you want to go deeper with your architecture team.
 | Topic | Source |
 | --- | --- |
 | Conway's Law | [Martin Fowler — Conway's Law](https://martinfowler.com/bliki/ConwaysLaw.html) |
@@ -271,6 +287,7 @@ Use this in design reviews without referencing any proprietary repo:
 
 ## Closing
 
+> **In plain terms:** Pick boundaries by who must change what — frameworks come second.
 Decoupled architecture for engineering is not maximizing the number of boxes. It is **minimizing the blast radius of routine work** by aligning software boundaries with who actually owns change — editors, marketers, finance, platform engineers, and compliance.
 
 Frameworks are interchangeable. Ownership is not. Start with planes, surface contracts, and ADRs; choose WordPress, Next.js, or microservices only after you know which plane each tool is allowed to own. When non-technical teams can ship on their surface and engineering can prove every other surface in code and queries, you have built something teachable — not a closing slide that only makes sense if the audience read five other case studies first.

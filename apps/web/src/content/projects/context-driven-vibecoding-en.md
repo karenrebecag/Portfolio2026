@@ -1,11 +1,17 @@
+> [!tip] In 30 seconds
+> - **Who this is for:** Instructors and mixed teams (product, growth, ops) at client companies where vibecoding is already the default but production handoff keeps breaking.
+> - **Problem it solves:** Fast codegen with **context trapped in the chat** — Tuesday's decisions vanish Wednesday; scope explosions and plausible-but-wrong auth/RLS patterns follow.
+> - **What changes if you apply this:** Versioned specs and `CLAUDE.md` in git (**hours on orchestration before codegen** → less token burn and fewer blind rewrites); explicit **explore vs ship** modes; a reference repo cohorts can rebuild against without pretending migrations do not exist.
+
 The first workshop exercise in vibecoding is always exciting. Someone describes a dashboard in plain language, the model generates files, the browser refreshes, and for a moment it feels like the old gate around software has disappeared.
 
 Then week two arrives. The same person asks for "a small fix" and the assistant rewrites three unrelated modules, drops a `service_role` key into a client component, or adds a migration that will never apply cleanly on the team's Supabase history. The demo still runs on their laptop. ==Production would not survive the afternoon.==
 
-That gap — fast generation versus durable engineering — is not a flaw in the models. It is what happens when ==context lives only in the chat window.== The industry has spent the last year naming the problem and shipping tools for it. My work has been the third piece: ==upskilling people inside client companies== so vibecoding stays fast *and* survivable. This article covers that shift, the references worth citing in 2026, and the reference repo I use when I train non-engineering and mixed teams to rebuild a real internal dashboard without pretending the code does not exist.
+That gap — fast generation versus durable engineering — is not a flaw in the models. It is what happens when ==context lives only in the chat window.== The industry spent the last year naming the problem and shipping tools. The missing piece in client work is ==upskilling inside the company== so vibecoding stays fast *and* survivable: 2026 references, managed context artifacts in git, and a reference repo for mixed teams rebuilding a real internal dashboard without pretending migrations and RLS do not exist.
 
 ## What the industry taught me about developing with AI
 
+> **In plain terms:** How the conversation moved from “fun demos” to “who owns the rules when everyone codes with AI.”
 I did not arrive at "context-driven development" as a branding exercise. I arrived tired of cleaning up the same failure modes across client engagements.
 
 In several companies I have worked with — product-led SaaS, growth teams, AI-native startups — ==vibecoding is already the default.== Marketing ships landings, product prototypes features, ops scripts automations. That culture delivers speed. From the engineering side I kept seeing the other face: UI that needed rescue, touchpoints that drifted apart, TypeScript that compiled in the editor but broke under real data, and repos where nobody could explain what last Tuesday's chat session changed.
@@ -26,6 +32,7 @@ When those ideas clicked together, my client work stopped being "better prompts 
 
 ## The problem with vibecoding without context
 
+> **In plain terms:** Symptoms hiring managers recognize: repeated rework, mysterious breakages, nobody sure what changed last week.
 Embedded chatbots fail when the integration boundary is wrong. Vibecoding fails when the ==knowledge boundary== is wrong.
 
 Typical symptoms in workshops and in production teams:
@@ -39,6 +46,7 @@ None of that is fixed by a smarter model alone. It is fixed by ==treating contex
 
 ## Enabling vibecoding inside client companies
 
+> **In plain terms:** What changes when product and growth can ship inside guardrails instead of throwing work over the wall to engineering.
 The pattern repeats across clients:
 
 | Without enablement | With context-driven upskilling |
@@ -52,6 +60,7 @@ I run this as ==live working sessions==, not slide decks: we rebuild a real inte
 
 ## The spec-and-orchestration phase (hours before a single line of code)
 
+> **In plain terms:** The unglamorous planning hours that prevent expensive AI rewrites later.
 The part that does not fit in a 30-second demo is the ==front-loaded work.== On a typical client rebuild I spend **hours** — sometimes a full day — adjusting spec documents, the ROADMAP, architecture notes, `CLAUDE.md`, and which skills the agent should load for which kind of task. **No application code until that layer is stable.**
 
 That is not procrastination. It is the job shifting from *typing* to *architecting and orchestrating.*
@@ -206,22 +215,25 @@ That is the antidote to vibe coding in Willison's narrow sense in production: na
 
 ## A workshop story: the migration that looked fine
 
+> **In plain terms:** A true classroom moment: green checkmarks in the UI hid a database history mess.
 In an early cohort, a participant used an MCP helper to "apply" SQL locally. The UI showed success. `supabase migration list` did not match what Studio displayed — the history was polluted. The fix was not reverting one table; it was replaying the ==documented workflow== from `CLAUDE.md`: iterate without writing migration entries, then `supabase db pull` with a clean name, then verify with `migration list --local`.
 
 We turned the incident into a checklist item on every PR at that client: "How was this migration produced?" That is context-driven development in practice: ==the failure mode is named in the repo, so the next agent session does not repeat it.== I have since reused that checklist verbatim at two other companies.
 
-## How this differs from my other "context" articles
+## How this differs from my other context pieces
 
+> **In plain terms:** Where this article sits next to Webflow and design-system work — different problem, same discipline.
 | Piece | Focus |
 |-------|--------|
 | [Webflow in production](/en/articulos/atom-webflow) | Context for *visual* delivery — tokens, jsDelivr, dual control with marketing |
 | [Design system that ships itself](/en/articulos/design-system-that-ships-itself) | Context for *brand* — MCP read vs write, HTTP for vibecoded landings |
-| **This article** | Context for *full-stack product* and **upskilling client teams** — specs, DB, auth, webhooks, shared governance |
+| **Full-stack CDD (here)** | Context for *product* and **upskilling client teams** — specs, DB, auth, webhooks, shared governance |
 
 Same philosophy, different altitude.
 
 ## What I would do again (and what I am tightening)
 
+> **In plain terms:** Lessons for leaders budgeting workshops and engineering oversight.
 **Would repeat:**
 
 - Blocking Phase B until Phase A is signed off — even when it feels slow; it is what makes "press play" real
@@ -240,6 +252,7 @@ Same philosophy, different altitude.
 
 ## References (current, worth bookmarking)
 
+> **In plain terms:** Sources I cite when teaching or defending the approach to executives.
 | Topic | Source |
 |-------|--------|
 | Origin of "vibe coding" | [Karpathy, X/Twitter, Feb 2025](https://twitter.com/karpathy/status/1886192184808149383) |
@@ -253,6 +266,7 @@ Same philosophy, different altitude.
 
 ## Closing
 
+> **In plain terms:** Fast AI coding plus shared rules beats either extreme: ban AI or trust it blindly.
 The industry did not teach me to replace engineering with prompts. It taught me to ==relocate engineering into artifacts the model can reload==: specs, roadmaps, architecture samples, skills, and verification hooks — then use conversation for judgment, not for memory.
 
 Vibecoding is still worth celebrating for discovery inside client companies. ==Capacitating teams== is different: they need the same discipline I use in production chat stacks and marketing-engineering hybrids, but here the layers are **orchestration (specs + skills), execution (press play), and proof** — not widget, proxy, and n8n.

@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Karen Rebeca Ortiz — Product Engineer, Design Systems & AI'
+export const alt = 'Karen Rebeca Ortiz — Product Engineer, Web & AI'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -37,7 +37,7 @@ export default function OpengraphImage() {
             Karen Rebeca Ortiz
           </div>
           <div style={{ fontSize: 40, fontWeight: 600, color: ACCENT, lineHeight: 1.1 }}>
-            Product Engineer · Design Systems · AI
+            Product Engineer · AI-Powered Web Products
           </div>
         </div>
 

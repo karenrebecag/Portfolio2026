@@ -1,14 +1,20 @@
+> [!tip] En 30 segundos
+> - **Para quién es:** Product engineers que despliegan chat embebido en un sitio propio (booking, CRM, UX bilingüe) — no un widget FAQ en una landing.
+> - **Qué problema resuelve:** El chat SaaS posee la orquestación; tu stack no puede compartir estado de sesión, webhooks controlados ni Google Calendar sin filtrar endpoints de integración al navegador.
+> - **Qué cambia si aplicas esto:** Astro `/api/*` como única frontera de confianza (**0** URLs de webhook en el bundle del cliente); cambios en workflows n8n sin redesplegar el frontend; doble capa de intents (regex del usuario + keywords del bot) → menos llamadas espurias a APIs de calendario que un booking solo por prompt.
+
 Pegas un script. El widget carga. La conversación arranca. El agendamiento, si existe, vive en el dashboard de otro proveedor. Tu sitio se convierte en anfitrión de una caja negra que no comparte estado con tus APIs, tu calendario ni tu modelo de contenido.
 
 Ese intercambio sirve para una landing con FAQ. No sirve cuando el chatbot debe ==calificar leads, explicar servicios y agendar llamadas en Google Calendar== -- en un sitio que controlas por completo, en español e inglés, con una voz de marca propia.
 
-Para [aurin.mx](https://aurin.mx) necesitaba exactamente eso: un agente conversacional dentro de la superficie del producto, no pegado como chrome de un SaaS. Este artículo documenta el stack en tres capas que corre en producción hoy -- Astro SSR en el edge, TypeScript en el cliente y n8n self-hosted en un VPS con Docker vía Dockploy/Coolify -- y las decisiones de arquitectura que solo tienen sentido cuando esas capas permanecen separadas.
+Para [aurin.mx](https://aurin.mx) necesitaba un agente dentro de la superficie del producto, no pegado como chrome de un SaaS. Hoy en producción son **tres capas**: Astro SSR en el edge, TypeScript en el cliente y n8n self-hosted en un VPS (Docker vía Dockploy/Coolify) — separadas para que cada una pueda cambiar sin derrumbar las demás. En ese sitio, chat y calendario **cortan a los 30s con retry** (sin cuelgues silenciosos) y el historial queda **acotado a 50 mensajes** por id `sess_*`.
 
 > [!info] Sustentado en documentación pública, no solo en nuestro repo
 > Los patrones coinciden con lo que documentan los proveedores: [webhooks de producción en n8n](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/), [endpoints de servidor en Astro](https://docs.astro.build/es/guides/endpoints/) para ocultar secretos, y el [Model Context Protocol](https://modelcontextprotocol.io/specification/latest) como marco de *herramientas que el cliente puede invocar* frente a *datos que solo posee el servidor*. Nuestro código es una implementación; las referencias al final son las que cito al justificar la arquitectura con clientes.
 
 ## Primero: por qué los chatbots embebidos rompen el stack
 
+> **En pocas palabras:** Los chats empaquetados se instalan rápido, pero tu equipo no posee reservas, calendarios ni datos del cliente cuando alguien quiere una reunión de verdad.
 Intercom, Tidio y herramientas similares optimizan velocidad de instalación, no profundidad de integración. Obtienes UI de chat y un panel admin. No obtienes:
 
 - Una URL de webhook que controlas, con secretos que nunca van al bundle del navegador
@@ -22,6 +28,7 @@ El objetivo no fue "añadir IA al sitio". Fue: ==construir un agente que viva en
 
 ## El modelo de tres capas
 
+> **En pocas palabras:** Piensa en navegador, servidor intermedio y cerebro de automatización — cada uno con un rol claro para que un cambio no rompa secretos ni reservas.
 ```mermaid Stack de produccion en tres capas
 flowchart TB
   subgraph L1["Capa 1 — TypeScript en el navegador"]
@@ -61,8 +68,9 @@ flowchart TB
 
 > [!info] El frontend nunca llama a n8n directamente. Cada mensaje va a `/api/chat`, que reenvía al webhook configurado en `N8N_WEBHOOK_URL`. La documentación de n8n separa [URLs de test vs producción](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/workflow-development/) y exige el workflow **Active** antes de que responda la URL de producción — la misma clase de 404 que manejamos en `chat.ts`.
 
-## Mapa del repositorio — archivos que sustentan este artículo
+## Mapa del repositorio
 
+> **En pocas palabras:** Tabla de qué archivo hace qué — útil si eres técnica; puedes saltarla si solo te importan resultados.
 Todo lo siguiente está en [AurinWebsite](https://github.com/AurinExperience/AurinWebsite) salvo que se indique otro. El split con [aurin-cms](https://github.com/AurinExperience/aurin-cms) es intencional: contenido editorial vs agente en runtime.
 
 | Ruta | Capa | Qué documenta |
@@ -102,6 +110,7 @@ Para depurar producción leemos ese doc primero, luego los logs de `chat.ts` (`S
 
 ## Capa 2 — Proxy SSR como seguridad y lógica de producto
 
+> **En pocas palabras:** La capa intermedia del sitio oculta contraseñas y reglas — como una recepcionista que decide qué puede hacer la IA antes de responder.
 El proxy no es un pass-through delgado. Valida `message` y `sessionId`, aplica timeout de 30s con `AbortController` e implementa ==modo búsqueda vs modo completo== antes de que el payload llegue a n8n:
 
 ```typescript Inyeccion de modo search en /api/chat
@@ -138,6 +147,7 @@ La URL del webhook vive solo en variables de entorno del servidor. Si el workflo
 
 ## Capa 1 — Sesión, resiliencia y seguridad SSR
 
+> **En pocas palabras:** Qué pasa en el navegador del visitante si se cae el Wi‑Fi o recarga la pestaña — para que la conversación no se reinicie al azar.
 `SessionManager` genera IDs `sess_` con nanoid, persiste en `sessionStorage`, limita el historial a 50 mensajes y devuelve sesión nueva durante SSR (`typeof window === 'undefined'`). Sesiones de más de una hora rotan solas.
 
 `ChatApiClient` replica los timeouts del servidor (30s), usa `AbortController` e implementa `sendMessageWithRetry` con backoff exponencial (2 reintentos por defecto). Errores 400/401/403 no reintentan -- ==no tiene sentido martillar un fallo de validación.==
@@ -159,6 +169,7 @@ Esta capa es aburrida a propósito. El chat en producción es sobre todo modos d
 
 ## Detección de intents distribuida — el estado del booking en el frontend
 
+> **En pocas palabras:** Cómo el sitio sabe que alguien quiere agendar aunque la IA hable con frases amables, no con códigos de sistema.
 La parte inusual de esta arquitectura es *dónde vive el estado de conversación para booking*.
 
 n8n conduce el diálogo: tono, pasos, cuándo pedir nombre y email. Pero el frontend observa la *salida del bot* por keywords y dispara las APIs de calendario:
@@ -219,6 +230,7 @@ El flujo sigue por Google Calendar (`googleapis`), tokens de confirmación y Res
 
 ## Capa 3 — n8n self-hosted en VPS
 
+> **En pocas palabras:** Dónde vive el “pensamiento” y el flujo en infraestructura propia — y qué se rompe si alguien olvida activar el workflow.
 n8n.cloud habría sido más rápido para arrancar ([opciones de hosting en n8n](https://docs.n8n.io/hosting/) comparan cloud vs self-hosted). Elegimos VPS con Docker y Dockploy/Coolify porque:
 
 - Sin ansiedad de facturación por ejecución en chat con tráfico real
@@ -276,6 +288,7 @@ Hoy no hay blue-green en n8n; ser honestos sobre el blip de minutos sale más ba
 
 ## Español e inglés en el mismo stack
 
+> **En pocas palabras:** Cómo páginas bilingües y un solo chat se mantienen alineados sin duplicar productos enteros por idioma.
 La intro prometía sitio en español e inglés con voz de marca controlada. Así se reparte en la práctica.
 
 **Capa UI (Astro + React):** Rutas por locale -- español en `/`, inglés en `/en`. `ChatbotContainer.astro` usa `getLangFromUrl` y pasa `lang` y `translations[lang].chatbot` al widget: bienvenida, placeholders, errores. La **barra de búsqueda** del hero usa `chatbotSearch.services` por idioma en el typewriter.
@@ -290,6 +303,7 @@ La intro prometía sitio en español e inglés con voz de marca controlada. Así
 
 ## Payload CMS y qué sabe realmente el agente
 
+> **En pocas palabras:** Quién actualiza el copy del sitio versus qué puede decir el bot — y por qué hoy esas dos cosas van separadas a propósito.
 [Payload CMS](https://payloadcms.com/docs) es la fuente editorial de proyectos, categorías y contenido — nuestro admin en [aurin-payload-cms.vercel.app](https://aurin-payload-cms.vercel.app). `lib/payload.ts` consume esa API en páginas Astro en build/request -- portfolio y servicios reflejan lo que publica el equipo.
 
 El chat es otro canal. **`/api/chat` no llama a Payload en cada mensaje.** El reenvío a n8n es solo `message`, `sessionId`, `fileUrl` y `metadata`. No hay salto RAG en el proxy Astro hoy — un split deliberado entre [contenido headless](https://payloadcms.com/docs/getting-started/what-is-payload) y contexto del agente en runtime.
@@ -310,6 +324,7 @@ Los repos siguen separados:
 
 ## Qué repetiría (y qué apretaría)
 
+> **En pocas palabras:** Retro honesta: qué funcionó para el negocio y qué formalizaría después para menos sorpresas.
 **Repetiría:**
 
 - Proxy SSR como único punto de integración público
@@ -327,6 +342,7 @@ Los repos siguen separados:
 
 ## Referencias (externas — para guardar)
 
+> **En pocas palabras:** Enlaces a documentación oficial para quien quiera verificar afirmaciones o informar a ingeniería.
 | Tema | Fuente |
 |------|--------|
 | Nodo Webhook n8n (producción vs test, activación) | [n8n Docs — Webhook](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/) |
@@ -343,6 +359,7 @@ Los repos siguen separados:
 
 ## Cierre
 
+> **En pocas palabras:** Conclusión de negocio: poseer el camino de la conversación en lugar de alquilar una caja negra.
 Los chatbots embebidos optimizan la instalación. Este stack optimiza la ==propiedad==: tus URLs, tu calendario, tus modos, tus workflows en VPS. La ingeniería interesante no es el widget -- son las líneas de frontera: qué puede saber el navegador, qué debe ocultar el servidor y qué puede decidir la capa de automatización.
 
 Si estás evaluando Intercom para un sitio que ya tiene Astro SSR y booking real, pregúntate si la caja negra será tan flexible como tres capas explícitas que controlas. En aurin.mx la respuesta fue no -- así que construimos las capas.

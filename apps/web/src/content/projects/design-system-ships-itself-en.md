@@ -1,14 +1,20 @@
+> [!tip] In 30 seconds
+> - **Who this is for:** Design-system and platform leads where **everyone vibecodes** (marketing, product, founders) and off-brand UI keeps landing on engineering for rescue.
+> - **Problem it solves:** Agents see component metadata but not source — they invent hex values, spacing, and variants that pass visual review and ship as subtle lies about the system.
+> - **What changes if you apply this:** Machine-readable tokens (**~500 → ~350**, same visual range); shadcn-style copy-not-npm; MCP split (list vs implement) → **fewer PRs with CSS outside the token system**; one source of truth instead of three competing catalogs.
+
 An AI agent generates a button. It compiles. It renders. It looks right. The background violet is `#534AB7` -- a color that exists nowhere in the design system.
 
 Nobody decided that. The agent had the component's metadata -- it knew a variant existed, it knew it took a size -- but it didn't have the real code. So ==it made up the rest.== A plausible hex. A 36px padding where the system uses 40px. A font-size that approximates but doesn't match. The result passes human code review because it looks correct. And it ships to production as a subtle lie about the system.
 
-This article is about how I built a design system that an AI agent can't hallucinate. But the honest version of that story doesn't start with the solution -- it starts with three problems I discovered in order, where each one only became visible after solving the previous one. First I took an existing design system and reinterpreted it to be read by a machine. Then I connected agents and found they hallucinated anyway. Then, while fixing that, I discovered my own architecture had the source of truth duplicated in three places. What follows is that journey, and what it taught me about the relationship between design systems and AI.
+The honest path to a design system agents cannot hallucinate is **three problems in sequence** — each visible only after fixing the previous one: reinterpret an existing system for machine readers; connect agents and watch them hallucinate anyway; discover the architecture had truth duplicated in three places. Below is that sequence and what it implies for design systems and AI.
 
 > [!info] External grounding (not just our monorepo)
-> The distribution model follows [shadcn/ui's registry](https://ui.shadcn.com/docs/registry) (copy source, don't npm-install a black box). Agent access follows the [Model Context Protocol](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) tool surface. Tokens follow the [W3C Design Tokens format](https://www.designtokens.org/). Company auth for MCP follows [Clerk's MCP guides](https://clerk.com/docs/guides/ai/mcp/build-mcp-server). Code snippets in this article show *our* wiring; the reference table is what I use when the argument has to stand outside the repo.
+> The distribution model follows [shadcn/ui's registry](https://ui.shadcn.com/docs/registry) (copy source, don't npm-install a black box). Agent access follows the [Model Context Protocol](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) tool surface. Tokens follow the [W3C Design Tokens format](https://www.designtokens.org/). Company auth for MCP follows [Clerk's MCP guides](https://clerk.com/docs/guides/ai/mcp/build-mcp-server). Code snippets below show *our* wiring; the reference table is what I use when the argument has to stand outside the repo.
 
 ## Where this started: a company that vibecodes
 
+> **In plain terms:** Everyone was generating UI with AI; engineering kept fixing the same visual drift on marketing pages.
 I joined Atom at a precise moment. The product team -- a group of very talented people -- was finishing the first stage of their design system: a system with shadcn's aesthetic, built for Atom's platform. Good work, solid base. But it lived inside the product.
 
 Atom is a multimodal-AI-agents-for-WhatsApp company. AI-first isn't a slogan there -- it's how everyone works, and that includes a practice that defines the culture: ==everyone vibecodes.== Marketing, product, founders. Generating code with AI is the norm, not the exception.
@@ -21,6 +27,7 @@ I took the product design system as a base and reinterpreted it. Not to replace 
 
 ## First: a design system designed for non-human readers
 
+> **In plain terms:** Simplifying the rulebook so humans and AI pick the same colors and spacing the first time.
 The ATOM UIKit is not a copy of the product system. It's a reinterpretation -- same visual language, different architecture -- optimized for two readers at once: the developer and the LLM.
 
 The original system had ~500 tokens. Per-platform variants, CRM tokens, interactive states mixed into the semantic layer, linear scales with steps nobody could tell apart by eye. I reduced it to ~350 tokens across three strict layers, ==without losing a single visual capability.==
@@ -38,6 +45,7 @@ That phrase -- "designed so AI generates correct code" -- sounds like marketing 
 
 ## shadcn distribution, not npm
 
+> **In plain terms:** Why components live as visible source files instead of a hidden package AI cannot inspect.
 The UIKit components are not on npm. This is written, verbatim, in the first line of the monorepo's CLAUDE.md:
 
 > [!note] "Distributes via private registry (shadcn model) -- source copied to consumer projects, not installed as npm dependencies."
@@ -66,6 +74,7 @@ Six packages, but a single source of values. The tokens aren't tied to any frame
 
 ## Multi-repo documentation map
 
+> **In plain terms:** Which repository holds tokens, components, and the agent bridge — skip if you are not implementing.
 The design system is not one repository — it is ==four coordinated repos== with written contracts in each `CLAUDE.md`. This table is the index I use when onboarding engineers or agents.
 
 | Repository | Canonical docs | What they govern |
@@ -113,6 +122,7 @@ The anti-hallucination split is not a blog post idea — it is enforced in `comp
 
 ## Tokens as a contract, not as pretty variables
 
+> **In plain terms:** Brand rules written so mistakes are obvious, not subtle.
 If shadcn distribution is the form, ==the three-layer tokens are the contract.== And a contract only works if nobody can break it by accident.
 
 The three layers reference backward, never sideways:
@@ -168,6 +178,7 @@ All of this follows the [W3C Design Tokens Community Group format](https://www.d
 
 ## Second problem: the agents hallucinated anyway
 
+> **In plain terms:** Even with good docs, AI still invented components until we changed what it was allowed to touch.
 I had built a deliberately predictable system. Fewer tokens, consistent naming, source always available. And still, the first time I let an agent generate interfaces, the opening scene happened.
 
 Not wrong as in "broken". ==Wrong as in "out of context."== The agent used a made-up violet because it seemed reasonable. It used 36px because it's a common value. It picked a font-size that almost matched. Each decision, in isolation, was defensible. Together, they were a different system impersonating mine.
@@ -178,6 +189,7 @@ The problem wasn't that the agent knew too little. It was that ==I was asking it
 
 ## The core idea: separate what an agent can know from what it can do
 
+> **In plain terms:** Like a library catalog versus the keys to the archive — browse freely, change only through approved tools.
 The solution is an MCP server that exposes the design system with a deliberate separation between two classes of tools — the same separation [Anthropic described when launching MCP](https://www.anthropic.com/news/model-context-protocol): give clients a **small, typed tool surface** instead of dumping opaque context. The MCP spec's [Tools](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) chapter is the contract; our discovery vs implementation split is how we enforce it for CSS.
 
 > [!note] DS `CLAUDE.md`: "This split enforces the anti-hallucination pattern: LLMs see enough to discover components but must call atom_uikit_source for actual implementation details."
@@ -264,6 +276,7 @@ The change was measurable. ==Before: the agent generated `#534AB7`, 36px, wrong 
 
 ## Fifth layer: who is allowed to connect (Clerk, OAuth, company-only)
 
+> **In plain terms:** Who may plug an AI tool into the design system at all — an access decision, not a design detail.
 Anti-hallucination controls *what* an agent outputs. Auth controls ==who may ask at all.== The MCP is not a public CDN for the design system. It is infrastructure for people inside the company (and their approved AI clients) — with an end-to-end flow from browser login to bearer token to restricted doc bodies.
 
 The article already had mermaid for **token layers** (primitives → semantic → component), **anti-hallucination in four steps**, and now the **auth sequence**. Below is the **platform map** — how repos and services connect — plus how layer 5 wraps everything that came before.
@@ -334,7 +347,7 @@ flowchart TB
   L5 --> Agent["Agent receives real CSS<br/>only if human was allowed in"]
 ```
 
-> [!info] Diagram index in this article
+> [!info] Diagram index
 > **Tokens:** layer hierarchy, resolution chain · **Anti-hallucination:** four tool layers · **Auth & platform:** architecture map, five-layer wrap, OAuth/CLI sequence below.
 
 ### Why Clerk instead of building login
@@ -445,6 +458,7 @@ Discovery vs implementation split answers "can the model invent CSS?" Company au
 
 ## Third problem: my own architecture had the truth duplicated
 
+> **In plain terms:** Three places claimed to be “the list of components” — a recipe for silent drift.
 This is where the story stops being about the agent and becomes about me.
 
 The first version of the MCP worked, but inside it was fragile in a way I was slow to see. The component metadata lived in the DS. But the MCP re-embedded it at build time with a script (`embed-source.ts`), generated a manifest, and on top of that applied a `component-overrides.ts` file to patch fields the extractor didn't yet produce. ==The source of truth was in three places at once.==
@@ -474,6 +488,7 @@ The consolidation was a four-wave process over three days. It wasn't a redesign 
 
 ## The detail that signals maturity: build-time sync
 
+> **In plain terms:** Automated checks so the catalog and the real code cannot disagree for long.
 Of all the decisions, the one I like most is the smallest. The documentation site no longer commits the registry JSONs. It syncs them from the DS every time you build.
 
 ```bash docs site package.json
@@ -488,6 +503,7 @@ The sync script has two sources with fallback: first the filesystem (the DS as a
 
 ## What changed in how I think
 
+> **In plain terms:** Mindset shift for leaders funding design systems in AI-heavy teams.
 I started believing a design system for AI was a normal design system with an API on top. I ended up understanding it's something else.
 
 A design system for humans can tolerate ambiguity. A human sees two nearly-identical oranges and picks the right one by context, by taste, by having seen the Figma. An agent has none of that context -- ==it has exactly what the system exposes to it, not one bit more.== That turns every ambiguity in your architecture into a guaranteed error, not a probable one.
@@ -500,6 +516,7 @@ And there's an effect I didn't anticipate. The same system I built so an agent w
 
 ## How to replicate it in your next design system
 
+> **In plain terms:** Starter steps if you want the same guardrails without copying every technical choice.
 - **The registry is the single source of truth.** All metadata -- variants, sizes, props, classes, peer deps -- is extracted from the source, not maintained by hand in parallel. If you have a manifest, an override, and the source all saying things about the same component, you already have three versions of the truth, and the question isn't whether they'll diverge but when.
 
 - **Separate discovery from implementation.** Give agents a metadata layer to discover what exists, and a source layer -- accessible one way only -- to build it. Have the discovery layer explicitly declare that it hides the code and how to ask for it. An agent that knows not to invent is half the solution; a system that won't let it invent is the other half.
@@ -516,6 +533,7 @@ And there's an effect I didn't anticipate. The same system I built so an agent w
 
 ## References (external — worth bookmarking)
 
+> **In plain terms:** Industry references behind the MCP and token decisions.
 | Topic | Source |
 |-------|--------|
 | shadcn: copy vs npm install | [shadcn/ui — CLI](https://ui.shadcn.com/docs/cli) |
@@ -536,6 +554,7 @@ And there's an effect I didn't anticipate. The same system I built so an agent w
 
 ## The real lesson
 
+> **In plain terms:** A design system for AI-era teams is a permissions story as much as a color palette.
 Design systems don't fail in the component. They fail at the question "which is the correct version of this?" when there's more than one possible answer. A human navigates that ambiguity without noticing. An AI agent turns it into `#534AB7` in production.
 
 Building so a machine can read your system isn't an annoying constraint -- it's the exercise that forces you to make explicit everything you used to resolve with judgment. When the only possible reader is one without your context, you have no choice but to put the context into the system. And a system where the context is explicit turns out to be better for humans too.

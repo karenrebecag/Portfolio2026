@@ -2,11 +2,11 @@
   "metadata": {
     "title": "Karen Ortiz - Software Engineer & Product Designer",
     "description": "Diseño y construyo productos web impulsados por IA, de la arquitectura al último píxel.",
-    "home_title": "Karen Rebeca Ortiz — Product Engineer, Design Systems & AI",
-    "home_description": "Product engineer entre diseño y código. Construyo experiencias web, design systems y herramientas con IA, de la arquitectura al último píxel.",
+    "home_title": "Karen Rebeca Ortiz — Product Engineer, Web & AI",
+    "home_description": "Product engineer entre diseño y código. Diseño y construyo productos web impulsados por IA de punta a punta: frontend, backend, integraciones de IA e infraestructura. De la arquitectura al último píxel.",
     "about_title": "Sobre mí",
-    "about_description": "Conoce a Karen Rebeca Ortiz: product engineer entre diseño y código. Experiencias web, design systems y herramientas con IA para equipos en LATAM, EE. UU. y Europa.",
-    "person_description": "Product engineer entre diseño y código. Construyo experiencias web, design systems y herramientas con IA para equipos de producto."
+    "about_description": "Conoce a Karen Rebeca Ortiz: product engineer entre diseño y código. Construyo productos web con IA de punta a punta — experiencias web, full-stack, integraciones de IA e infraestructura — para equipos en LATAM, EE. UU. y Europa.",
+    "person_description": "Product engineer entre diseño y código. Construyo productos web impulsados por IA de punta a punta: experiencias web, full-stack, integraciones de IA, design systems e infraestructura."
   },
   "common": {
     "socials": "Redes",
@@ -54,6 +54,8 @@
     "bullet_1": "Colaboración remote-first con founders, PMs, diseñadores e ingenieros en todo el mundo.",
     "bullet_2": "Trabajo en producción: landing pages, design systems, herramientas con IA y plataformas full-stack.",
     "bullet_3": "Foco en craft, performance e iteración rápida a través de zonas horarias.",
+    "impact_1": "Victorias típicas: campañas y copy más rápidos cuando marketing posee el CMS—a menudo días → horas sin tocar código.",
+    "impact_2": "Temas recurrentes: superficies con mejor calidad de conversión, menos retrabajo diseño→dev y menos deuda sorpresa por código en producción sin dueño.",
     "cta": "Trabajemos juntos"
   },
   "why": {
@@ -93,11 +95,19 @@
     "svc_6_body": "Guío a founders y equipos pequeños a tomar buenas decisiones de stack, arquitectura e integraciones. Pensando en lo que necesitarás en 6 a 12 meses, no solo en el próximo sprint."
   },
   "projects": {
-    "pill": "01 / Proyectos seleccionados",
-    "heading": "Trabajo de producto del que estoy orgullosa.",
-    "description": "Proyectos donde he liderado product thinking, UX, sistemas e ingeniería. Desde la exploración inicial hasta producción.",
+    "pill": "01 / Ensayos de producto y casos de estudio",
+    "heading": "Cómo pienso — y lo que he lanzado.",
+    "description": "Ensayos largos sobre arquitectura y flujos con IA, más builds seleccionados para clientes. Los ensayos profundizan decisiones; los casos de estudio, resultados.",
+    "essays_heading": "Ensayos de producto",
+    "essays_description": "Piezas extensas para hiring managers e ingeniería — lenguaje claro al inicio, detalle técnico cuando quieras profundizar.",
+    "client_heading": "Trabajo con clientes",
+    "client_description": "Productos y plataformas donde lideré product thinking, UX e ingeniería.",
+    "badge_essay": "Ensayo",
+    "badge_case_study": "Caso de estudio",
     "empty": "Próximamente.",
-    "view_all": "Ver todos los proyectos",
+    "empty_essays": "Ensayos próximamente.",
+    "empty_client": "Casos de estudio próximamente.",
+    "view_all": "Ver todo el trabajo",
     "col_project": "Proyecto",
     "col_year": "Año",
     "col_services": "Servicios"
@@ -105,7 +115,11 @@
   "additional": {
     "pill": "02 / Trabajo adicional",
     "heading": "Builds cortos, landing pages y experimentos.",
-    "description": "Una selección de proyectos más cortos que no necesitaron un caso de estudio completo, pero muestran el rango de lo que diseño y construyo."
+    "description": "Encargos más cortos—pasa el cursor sobre cada tarjeta para ver qué entregué (UX, UI, frontend, Webflow, IA), no solo un thumbnail o link de Figma.",
+    "hover_contributions": "Qué hice yo",
+    "hover_stack": "Stack",
+    "hover_outcome": "Resultado",
+    "hover_deliverable": "Entregable"
   },
   "about": {
     "eyebrow": "Sobre mí",
@@ -177,6 +191,7 @@
     "form_name_placeholder": "Karen Ortiz",
     "form_email": "Tu email",
     "form_email_placeholder": "karen@empresa.com",
+    "form_optional": "opcional",
     "form_phone": "Teléfono",
     "form_phone_placeholder": "+52 123 456 7890",
     "form_country": "País",
@@ -187,7 +202,12 @@
     "form_message_placeholder": "¿Cuáles son tus objetivos, timeline y referencias o inspiración?",
     "form_attachment": "Adjuntar archivo",
     "form_attachment_specs": "Máx 10MB - PDF, DOC, JPG, PNG",
-    "form_submit": "Enviar brief del proyecto"
+    "form_submit": "Enviar brief del proyecto",
+    "form_sending": "Enviando…",
+    "form_success": "¡Listo! Tu brief fue enviado. Te responderé pronto.",
+    "form_error": "Algo salió mal. Intenta de nuevo o escríbeme a karenrortizg@gmail.com.",
+    "form_error_config": "El formulario aún no está configurado por completo. Escríbeme directo a karenrortizg@gmail.com.",
+    "form_error_required": "Completa nombre, email y mensaje."
   },
   "footer": {
     "name": "Karen Ortiz",

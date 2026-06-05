@@ -1,14 +1,20 @@
+> [!tip] In 30 seconds
+> - **Who this is for:** Product engineers shipping embedded chat on a site you own (booking, CRM, bilingual UX) — not a FAQ widget on a landing.
+> - **Problem it solves:** SaaS chat owns orchestration; your stack cannot share session state, controlled webhooks, or Google Calendar without leaking integration endpoints to the browser.
+> - **What changes if you apply this:** Astro `/api/*` as the only trust boundary (**0** webhook URLs in the client bundle); n8n workflow changes without a frontend redeploy; dual intent layers (user regex + bot keywords) → fewer spurious calendar API calls than prompt-only booking.
+
 You paste a script tag. The widget loads. The conversation starts. Booking, if it exists at all, happens inside someone else's dashboard. Your site becomes a host for a black box that does not share state with your APIs, your calendar, or your content model.
 
 That trade-off is acceptable for a landing page with a FAQ. It is not acceptable when the chatbot is supposed to ==qualify leads, explain services, and book calls on Google Calendar== -- on a site you fully own, in Spanish and English, with a brand voice you control.
 
-For [aurin.mx](https://aurin.mx), I needed exactly that: a conversational agent embedded in the product surface, not bolted on as SaaS chrome. This article documents the three-layer stack that runs in production today -- Astro SSR on the edge, TypeScript on the client, and self-hosted n8n on a VPS orchestrated with Docker via Dockploy/Coolify -- and the architectural decisions that only make sense when those layers stay separate.
+For [aurin.mx](https://aurin.mx) I needed a conversational agent embedded in the product surface, not bolted on as SaaS chrome. Production today is **three layers**: Astro SSR on the edge, TypeScript on the client, and self-hosted n8n on a VPS (Docker via Dockploy/Coolify) — separated so each layer can change without collapsing the others. On that site, chat and calendar calls **time out at 30s with retry** (no silent hangs), and session history is **capped at 50 messages** per `sess_*` id.
 
 > [!info] Grounded in public docs, not only our repo
 > The patterns below match what vendors and frameworks document: [n8n production webhooks](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/), [Astro server endpoints](https://docs.astro.build/en/guides/endpoints/) for hiding secrets, and the [Model Context Protocol](https://modelcontextprotocol.io/specification/latest) idea of separating *tools the client may call* from *data the server owns*. Our code illustrates one implementation; the references at the end are what I cite when justifying the architecture to clients.
 
 ## First, why embedded chatbots break the stack
 
+> **In plain terms:** Off-the-shelf chat tools install fast, but your team does not own bookings, calendars, or customer data when someone wants a real meeting.
 Intercom, Tidio, and similar tools optimize for speed of installation, not integration depth. You get a conversation UI and an admin panel. You do not get:
 
 - A webhook URL you fully control, with secrets that never ship to the browser
@@ -22,6 +28,7 @@ So the goal was not "add AI to the site." It was: ==build an agent that lives in
 
 ## The three-layer model
 
+> **In plain terms:** Think browser, middle server, and automation brain — each with a clear job so one team can fix chat copy without breaking payments or secrets.
 ```mermaid Three-layer production stack
 flowchart TB
   subgraph L1["Layer 1 — Browser TypeScript"]
@@ -61,8 +68,9 @@ flowchart TB
 
 > [!info] The frontend never calls n8n directly. Every message goes to `/api/chat`, which forwards to the webhook configured in `N8N_WEBHOOK_URL`. n8n's own docs distinguish [test vs production webhook URLs](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/workflow-development/) and require the workflow to be **Active** before the production URL answers — which is exactly the 404 class we handle in `chat.ts`.
 
-## Repository map — files that back this article
+## Repository map
 
+> **In plain terms:** A table of which files do what — useful if you are technical; skip if you only care about outcomes.
 Everything below is in [AurinWebsite](https://github.com/AurinExperience/AurinWebsite) unless noted. The split with [aurin-cms](https://github.com/AurinExperience/aurin-cms) is intentional: editorial content vs runtime agent.
 
 | Path | Layer | What it documents |
@@ -102,6 +110,7 @@ When debugging production, we read that doc first, then `chat.ts` logs (`Sending
 
 ## Layer 2 — SSR proxy as security and product logic
 
+> **In plain terms:** The website’s middle layer hides passwords and rules — like a receptionist who decides what the AI is allowed to do before it answers.
 The proxy is not a thin pass-through. It validates `message` and `sessionId`, applies a 30s `AbortController` timeout, and implements ==search mode vs full mode== before the payload reaches n8n:
 
 ```typescript Search mode injection in /api/chat
@@ -138,6 +147,7 @@ The webhook URL defaults in development but production uses env vars only on the
 
 ## Layer 1 — Session, resilience, and SSR safety
 
+> **In plain terms:** What happens in the visitor’s browser when Wi‑Fi drops or the tab reloads — keeping the conversation from resetting randomly.
 `SessionManager` generates `sess_` IDs with nanoid, persists to `sessionStorage`, caps history at 50 messages, and returns a fresh session during SSR (`typeof window === 'undefined'`). Sessions older than one hour roll over automatically.
 
 `ChatApiClient` mirrors server timeouts (30s), uses `AbortController`, and implements `sendMessageWithRetry` with exponential backoff (2 retries by default). Client errors 400/401/403 skip retry -- ==there is no point hammering a validation failure.==
@@ -159,6 +169,7 @@ This layer is boring on purpose. Production chat is mostly failure modes: slow L
 
 ## Distributed intent detection — booking state in the frontend
 
+> **In plain terms:** How the site knows someone is trying to book a call even when the AI speaks in friendly sentences, not database codes.
 The unusual part of this architecture is where ==conversation state for booking lives.==
 
 n8n runs the dialog: tone, steps, when to ask for name and email. But the frontend watches *bot output* for keywords and drives calendar APIs:
@@ -219,6 +230,7 @@ The calendar path continues through Google Calendar (`googleapis`), confirmation
 
 ## Layer 3 — Self-hosted n8n on a VPS
 
+> **In plain terms:** Where the “thinking” and workflow live on infrastructure the client pays for — and what breaks if someone forgets to turn the workflow on.
 n8n.cloud would have been faster to start ([n8n hosting options](https://docs.n8n.io/hosting/) compare cloud vs self-hosted). We chose a VPS with Docker and Dockploy/Coolify instead because:
 
 - No per-execution billing anxiety on high-traffic chat
@@ -276,6 +288,7 @@ We do not run blue-green for n8n today; honesty about a minutes-long blip is che
 
 ## Spanish and English on the same stack
 
+> **In plain terms:** How bilingual marketing pages and one chat experience stay aligned without duplicating entire products per language.
 The intro promised a site in Spanish and English with a controlled brand voice. Here is how that actually splits across layers.
 
 **UI layer (Astro + React):** Routes follow locale -- Spanish at `/`, English under `/en`. `ChatbotContainer.astro` reads `getLangFromUrl` and passes `lang` plus `translations[lang].chatbot` into the widget: welcome message, placeholders, errors. The hero **search bar** uses the same pattern with `chatbotSearch.services` per locale for the typewriter placeholders.
@@ -290,6 +303,7 @@ The intro promised a site in Spanish and English with a controlled brand voice. 
 
 ## Payload CMS and what the agent actually knows
 
+> **In plain terms:** Who updates website copy versus who updates what the bot is allowed to say — and why those are intentionally separate today.
 [Payload CMS](https://payloadcms.com/docs) is the editorial source for projects, categories, and site content — our admin runs at [aurin-payload-cms.vercel.app](https://aurin-payload-cms.vercel.app). `lib/payload.ts` fetches that API for Astro pages at build/request time -- the portfolio and service pages reflect what editors publish.
 
 The chat path is different. **`/api/chat` does not call Payload on every message.** The forward to n8n is only `message`, `sessionId`, `fileUrl`, and `metadata`. There is no RAG hop in the Astro proxy today — a deliberate split between [headless CMS content](https://payloadcms.com/docs/getting-started/what-is-payload) and runtime agent context, similar to how many teams keep marketing copy out of the LLM prompt until they opt into sync jobs.
@@ -310,6 +324,7 @@ Repos stay split on purpose:
 
 ## What I would do again (and what I would tighten)
 
+> **In plain terms:** Honest retrospective: what paid off for the business and what I would formalize next for fewer surprises.
 **Would repeat:**
 
 - SSR proxy as the only public integration point
@@ -327,6 +342,7 @@ Repos stay split on purpose:
 
 ## References (external — worth bookmarking)
 
+> **In plain terms:** Official documentation links for readers who want to verify claims or brief their engineering team.
 | Topic | Source |
 |-------|--------|
 | n8n Webhook node (production vs test, activation) | [n8n Docs — Webhook](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/) |
@@ -343,6 +359,7 @@ Repos stay split on purpose:
 
 ## Closing
 
+> **In plain terms:** The business takeaway: own the conversation path instead of renting a black box.
 Embedded chatbots optimize for installation. This stack optimizes for ==ownership==: your URLs, your calendar, your modes, your VPS workflows. The interesting engineering is not the widget -- it is the boundary lines: what the browser may know, what the server must hide, and what the automation layer is allowed to decide.
 
 If you are evaluating Intercom for a site that already has Astro SSR and real booking requirements, ask whether the black box will ever be as flexible as three explicit layers you control. On aurin.mx, the answer was no -- so we built the layers instead.

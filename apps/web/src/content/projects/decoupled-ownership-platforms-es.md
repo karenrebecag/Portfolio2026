@@ -1,14 +1,20 @@
+> [!tip] En 30 segundos
+> - **Para quién es:** Arquitectos e ingeniería senior en productos greenfield o salidas de CMS con plugins, donde marketing y compliance necesitan velocidad a la vez.
+> - **Qué problema resuelve:** Cuando ediciones de experiencia y cambios de pago/auditoría comparten una superficie desplegable, cada titular puede tocar webhooks de Stripe, identidad o evidencia LGPD/GDPR.
+> - **Qué cambia si aplicas esto:** Tres planos (experiencia / transacción / registro) con **caminos de integración que no se solapan** — un publish en CMS no redespliega lógica de matrícula; BFF + RLS para que el plano experiencia **no pueda invocar** primitivas de transacción; ADRs que sobreviven rotación de equipo.
+
 La mayoría de discusiones de arquitectura empiezan con una encuesta de frameworks: monolito o microservicios, WordPress o Next.js, build o buy. Esa es la primera pregunta equivocada.
 
 La primera pregunta correcta es organizacional y técnica a la vez: ==¿qué cambios deben poder hacer personas no técnicas sin pedirle a ingeniería, y qué cambios debe poder demostrar ingeniería en una auditoría?== Cuando esos dos conjuntos se solapan en una sola unidad desplegable, no tienes "un stack" — tienes un cuello de botella disfrazado de plataforma.
 
-Este artículo es una guía de **arquitectura desacoplada por ownership**: cómo partir sistemas para que marketing, educación y operaciones publiquen con autonomía mientras ingeniería conserva el control del dinero, la identidad y los contratos de datos. Está escrito para arquitectos e ingeniería senior que definen productos greenfield o salidas de CMS cargados de plugins. Dos trabajos reales ilustran el patrón — un sitio de marketing en producción con agente conversacional y una propuesta ejecutiva de LMS para educación financiera regulada en Brasil — pero los modelos valen por sí solos.
+Abajo va **arquitectura desacoplada por ownership**: partir sistemas para que marketing, educación y operaciones publiquen con autonomía mientras ingeniería conserva dinero, identidad y contratos de datos. [aurin.mx](https://aurin.mx) y la [propuesta pública ATFX Educacao](https://atfxeducacao-porposal.vercel.app/) ilustran el patrón; los modelos valen sin depender de esos nombres.
 
 > [!info] Sustento externo
 > Los conceptos citan material publicado: [Ley de Conway](https://martinfowler.com/bliki/ConwaysLaw.html), [Team Topologies](https://teamtopologies.com/key-concepts), [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions), [Backends for Frontends](https://learn.microsoft.com/es-es/azure/architecture/patterns/backends-for-frontends), [defense in depth](https://csrc.nist.gov/glossary/term/defense_in_depth) y ley de protección de datos ([GDPR Art. 20](https://gdpr-info.eu/art-20-gdpr/), [LGPD Art. 18](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm#art18)). Los casos provienen de [aurin.mx](https://aurin.mx) y la [propuesta pública ATFX Educacao](https://atfxeducacao-porposal.vercel.app/).
 
 ## Desacoplar no es lo mismo que "más servicios"
 
+> **En pocas palabras:** Más microservicios no es automáticamente más libertad — el objetivo es menos efectos secundarios sorpresa.
 En literatura de ingeniería, **desacoplar** significa reducir la *amplificación del cambio*: una modificación en un área no debería forzar redespliegues, migraciones ni reescrituras de compliance en áreas no relacionadas.
 
 Eso es distinto de:
@@ -38,6 +44,7 @@ flowchart TB
 
 ## El modelo de ownership: tres planos
 
+> **En pocas palabras:** Tres zonas: lo que edita marketing, lo que toca dinero, lo que importa a legal — separadas a propósito.
 Una forma práctica de enseñarlo en revisiones de arquitectura es nombrar **tres planos**. Cada plano tiene un dueño principal y un contrato de integración.
 
 | Plano | Dueño no técnico típico | Ingeniería debe poseer |
@@ -68,6 +75,7 @@ Así los ADR se vuelven operativos. El formato de [Architecture Decision Records
 
 ## Team Topologies aplicado a límites de software
 
+> **En pocas palabras:** Cómo organigrama y diagrama deberían rimar para que los equipos no se pisen.
 [Team Topologies](https://teamtopologies.com/key-concepts) (Skelton & Pais) define cuatro tipos de equipo. No necesitas el libro para el mapeo:
 
 | Tipo | Software con el que debe alinearse | Anti-patrón |
@@ -81,6 +89,7 @@ Cuando un área no técnica necesita autonomía, sueles crear una **experiencia 
 
 ## Patrones que implementan desacoplamiento por ownership
 
+> **En pocas palabras:** Patrones concretos (CMS headless, capa API, seguridad por fila) en lenguaje de negocio.
 ### 1. Backends for Frontends (BFF)
 
 El [patrón BFF](https://learn.microsoft.com/es-es/azure/architecture/patterns/backends-for-frontends) pone cada tipo de cliente detrás de una API server-side adaptada a ese cliente. El navegador de marketing no debe cargar URLs de webhook n8n, secretos Stripe ni service-role de base de datos.
@@ -127,6 +136,7 @@ WordPress puede ganar el **plano de experiencia** de una landing — sobre todo 
 
 ## Modos de fallo que el arquitecto debe reconocer
 
+> **En pocas palabras:** Banderas rojas en reviews — cuando “desacoplado” sigue significando que un equipo bloquea a otro.
 | Síntoma | Causa probable | Dirección de arreglo |
 | --- | --- | --- |
 | "Un cambio de copy rompió checkout" | Planos experiencia y transacción comparten DB o deploy | Separar deploy; BFF + CMS |
@@ -137,6 +147,7 @@ WordPress puede ganar el **plano de experiencia** de una landing — sobre todo 
 
 ## Compliance como restricción arquitectónica (no nota legal al pie)
 
+> **En pocas palabras:** La ley de privacidad define dónde viven los datos — no algo que pegas al final.
 La ley de privacidad convierte el "debemos ser dueños de los datos" en requisitos verificables.
 
 | Requisito (ejemplos) | Implicación arquitectónica |
@@ -153,6 +164,7 @@ La ley de privacidad convierte el "debemos ser dueños de los datos" en requisit
 
 ## Arquitectura de referencia: LMS regulado (desde propuesta)
 
+> **En pocas palabras:** Ejemplo: educación financiera en Brasil — sitio de marketing separado de matrículas y pagos.
 Compresión de un split LMS moderno para educación financiera LATAM — útil aunque no trabajes en ATFX.
 
 ```mermaid Tres desplegables — un plano registro
@@ -210,6 +222,7 @@ Cambiar imagen del hero en marketing no aparece en esa secuencia — por diseño
 
 ## Arquitectura de referencia: editorial vs automatización (sitio en producción)
 
+> **En pocas palabras:** Ejemplo: sitio en vivo donde editores publican copy y la automatización del chat va aparte.
 En un sitio de servicios aparecen los mismos tres planos con vendors distintos:
 
 - **Experiencia:** CMS headless alimenta páginas (proyectos, servicios, legales).
@@ -220,6 +233,7 @@ La lección operativa con side effects por keywords del bot: ==desacoplar no eli
 
 ## Checklist: revision de arquitectura antes de construir
 
+> **En pocas palabras:** Preguntas para la sala antes de que alguien se comprometa con un stack de proveedores.
 Úsalo en design reviews sin depender de repos propietarios:
 
 1. **Planos** — ¿Puedes nombrar dueños de experiencia, transacción y registro en una frase cada uno?
@@ -233,6 +247,7 @@ La lección operativa con side effects por keywords del bot: ==desacoplar no eli
 
 ## Qué medir después del lanzamiento
 
+> **En pocas palabras:** Métricas simples que ejecutivos pueden seguir — no solo gráficas de uptime para ingeniería.
 | Métrica | Señal sana | Señal de fallo de ownership |
 | --- | --- | --- |
 | Tiempo mediano de publish de copy sin ingeniería | Horas | Tickets de varios días |
@@ -243,6 +258,7 @@ La lección operativa con side effects por keywords del bot: ==desacoplar no eli
 
 ## Referencias (externas — lectura núcleo)
 
+> **En pocas palabras:** Lectura base si quieres profundizar con tu equipo de arquitectura.
 | Tema | Fuente |
 | --- | --- |
 | Conway's Law | [Martin Fowler — Conway's Law](https://martinfowler.com/bliki/ConwaysLaw.html) |
@@ -271,6 +287,7 @@ La lección operativa con side effects por keywords del bot: ==desacoplar no eli
 
 ## Cierre
 
+> **En pocas palabras:** Elige límites por quién debe cambiar qué — los frameworks van después.
 Arquitectura desacoplada para ingeniería no es maximizar cajas en un diagrama. Es **minimizar el radio de explosión del trabajo rutinario** alineando límites de software con quién realmente posee el cambio — editores, marketers, finanzas, plataforma y compliance.
 
 Los frameworks son intercambiables. El ownership no. Empieza por planos, contratos de superficie y ADR; elige WordPress, Next.js o microservicios solo cuando sepas qué plano puede poseer cada herramienta. Cuando equipos no técnicos publican en su superficie e ingeniería puede demostrar el resto en código y queries, construiste algo enseñable — no una diapositiva de cierre que solo se entiende si la audiencia leyó otros cinco casos antes.

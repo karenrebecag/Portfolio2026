@@ -1,11 +1,17 @@
+> [!tip] En 30 segundos
+> - **Para quién es:** Instructoras y equipos mixtos (producto, growth, ops) en empresas cliente donde vibecodear ya es el default pero el handoff a producción sigue rompiéndose.
+> - **Qué problema resuelve:** Generación rápida con **contexto atrapado en el chat** — lo decidido el martes desaparece el miércoles; explosiones de scope y patrones de auth/RLS creíbles pero incorrectos.
+> - **Qué cambia si aplicas esto:** Specs versionadas y `CLAUDE.md` en git (**horas de orquestación antes del codegen** → menos tokens quemados y menos reescrituras a ciegas); modos explícitos **explorar vs ship**; repo de referencia para cohortes sin fingir que las migraciones no existen.
+
 El primer ejercicio en un taller de vibecoding siempre emociona. Alguien describe un dashboard en lenguaje natural, el modelo genera archivos, el navegador refresca y por un momento parece que el muro alrededor del software desapareció.
 
 Luego llega la semana dos. La misma persona pide "un fix chico" y el asistente reescribe tres módulos que no tocaban, mete una `service_role` en un client component o agrega una migración que nunca va a aplicar limpio sobre el historial de Supabase del equipo. El demo sigue corriendo en su laptop. ==Producción no sobreviviría la tarde.==
 
-Esa brecha — generación rápida versus ingeniería durable — no es un defecto de los modelos. Pasa cuando ==el contexto vive solo en la ventana del chat.== La industria llevó el último año nombrando el problema y lanzando herramientas. Mi trabajo ha sido la tercera pieza: ==capacitar a personas dentro de empresas cliente== para que el vibecoding siga siendo rápido *y* sobrevivable. Este artículo trata ese giro, las referencias que valen la pena citar en 2026, y el repo de referencia que uso cuando entreno equipos mixtos (producto, growth, ops) a reconstruir un dashboard interno real sin fingir que el código no existe.
+Esa brecha — generación rápida versus ingeniería durable — no es un defecto de los modelos. Pasa cuando ==el contexto vive solo en la ventana del chat.== La industria llevó el último año nombrando el problema y lanzando herramientas. La pieza que falta en trabajo con clientes es ==capacitar dentro de la empresa== para que el vibecoding siga siendo rápido *y* sobrevivable: referencias 2026, artefactos de contexto en git, y un repo de referencia para equipos mixtos que reconstruyen un dashboard interno real sin fingir que migraciones y RLS no existen.
 
 ## Lo que la industria me enseñó sobre desarrollar con IA
 
+> **En pocas palabras:** Cómo pasó la conversación de “demos divertidos” a “quién posee las reglas cuando todos codean con IA”.
 No llegué al "desarrollo guiado por contexto" como ejercicio de marca. Llegué cansada de limpiar los mismos modos de fallo en distintos clientes.
 
 En varias empresas donde he trabajado — SaaS product-led, equipos de growth, startups AI-first — ==vibecodear ya es el default.== Marketing publica landings, producto prototipa features, ops automatiza con scripts. Esa cultura da velocidad. Del lado ingeniería seguía viendo la otra cara: UI que necesitaba rescate, touchpoints desalineados, TypeScript que compilaba en el editor pero se rompía con datos reales, y repos donde nadie podía explicar qué cambió el chat del martes pasado.
@@ -26,6 +32,7 @@ Cuando esas ideas encajaron, el trabajo con clientes dejó de ser "mejores promp
 
 ## El problema con vibecodear sin contexto
 
+> **En pocas palabras:** Síntomas que reconocen hiring managers: retrabajo, roturas misteriosas, nadie seguro de qué cambió la semana pasada.
 Los chatbots embebidos fallan cuando el límite de integración está mal. El vibecoding falla cuando el ==límite del conocimiento== está mal.
 
 Síntomas típicos en talleres y en equipos en producción:
@@ -39,6 +46,7 @@ Eso no se arregla solo con un modelo más listo. Se arregla ==tratando el contex
 
 ## Habilitar el vibecoding dentro de empresas cliente
 
+> **En pocas palabras:** Qué cambia cuando producto y growth publican dentro de barandillas en lugar de tirar todo a ingeniería.
 El patrón se repite en clientes:
 
 | Sin habilitación | Con upskilling guiado por contexto |
@@ -52,6 +60,7 @@ Lo hago como ==sesiones de trabajo en vivo==, no diapositivas: reconstruimos una
 
 ## La fase de specs y orquestación (horas antes de la primera línea de código)
 
+> **En pocas palabras:** Las horas de planificación poco glamorosas que evitan reescrituras caras de IA después.
 Lo que no entra en un demo de 30 segundos es el ==trabajo adelantado.== En un rebuild típico con cliente paso **horas** — a veces un día entero — ajustando documentos de spec, el ROADMAP, notas de arquitectura, `CLAUDE.md` y qué skills debe cargar el agente según el tipo de tarea. **Cero código de aplicación hasta que esa capa esté estable.**
 
 No es procrastinar. Es que el rol pasa de *teclear* a *arquitectar y orquestar.*
@@ -206,22 +215,25 @@ Es el antídoto al vibe coding en sentido estricto de Willison en producción: l
 
 ## Historia de taller: la migración que se veía bien
 
+> **En pocas palabras:** Momento real en taller: palomitas en la UI escondían un desorden en el historial de base de datos.
 En una cohorte temprana, un participante usó un helper MCP para "aplicar" SQL local. La UI mostró éxito. `supabase migration list` no coincidía con Studio — el historial estaba contaminado. El arreglo no fue revertir una tabla; fue repetir el ==workflow documentado== en `CLAUDE.md`: iterar sin escribir entradas de migración, luego `supabase db pull` con nombre limpio, luego verificar con `migration list --local`.
 
 Convertimos el incidente en ítem de checklist en cada PR en ese cliente: "¿Cómo se produjo esta migración?" Eso es desarrollo guiado por contexto en práctica: ==el modo de fallo está nombrado en el repo para que la siguiente sesión del agente no lo repita.== Desde entonces reutilicé ese checklist casi igual en otras dos empresas.
 
-## Cómo se diferencia de mis otros artículos de "contexto"
+## Cómo se diferencia de mis otras piezas de contexto
 
+> **En pocas palabras:** Dónde encaja esta pieza junto al trabajo Webflow y design system — problema distinto, misma disciplina.
 | Pieza | Enfoque |
 |-------|---------|
 | [Webflow en producción](/es/articulos/atom-webflow) | Contexto para entrega *visual* — tokens, jsDelivr, control dual con marketing |
 | [Design system que se despliega solo](/es/articulos/design-system-that-ships-itself) | Contexto para *marca* — MCP lectura vs escritura, HTTP para landings vibecodeadas |
-| **Este artículo** | Contexto para *producto full-stack* y **capacitar equipos cliente** — specs, DB, auth, webhooks, gobernanza compartida |
+| **CDD full-stack (aquí)** | Contexto para *producto* y **capacitar equipos cliente** — specs, DB, auth, webhooks, gobernanza compartida |
 
 Misma filosofía, distinta altitud.
 
 ## Qué repetiría (y qué estoy apretando)
 
+> **En pocas palabras:** Lecciones para quienes presupuestan talleres y supervisión de ingeniería.
 **Repetiría:**
 
 - Bloquear la Fase B hasta firmar la Fase A — aunque se sienta lento; es lo que hace real el "darle play"
@@ -240,6 +252,7 @@ Misma filosofía, distinta altitud.
 
 ## Referencias (actuales, para guardar)
 
+> **En pocas palabras:** Fuentes que cito al enseñar o defender el enfoque ante ejecutivos.
 | Tema | Fuente |
 |------|--------|
 | Origen de "vibe coding" | [Karpathy, X/Twitter, feb 2025](https://twitter.com/karpathy/status/1886192184808149383) |
@@ -253,6 +266,7 @@ Misma filosofía, distinta altitud.
 
 ## Cierre
 
+> **En pocas palabras:** Codificación rápida con IA más reglas compartidas vence los extremos: prohibir IA o confiar a ciegas.
 La industria no me enseñó a reemplazar ingeniería con prompts. Me enseñó a ==reubicar la ingeniería en artefactos que el modelo puede recargar==: specs, roadmaps, muestras de arquitectura, skills y ganchos de verificación — y usar la conversación para criterio, no para memoria.
 
 El vibecoding sigue valiendo la pena para descubrir dentro de empresas cliente. ==Capacitar equipos== es otra cosa: necesitan la misma disciplina que uso en chatbots en producción y híbridos marketing-ingeniería, pero aquí las capas son **orquestación (specs + skills), ejecución (darle play) y prueba** — no widget, proxy y n8n.

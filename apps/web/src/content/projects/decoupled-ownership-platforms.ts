@@ -36,12 +36,12 @@ export const decoupledOwnershipPlatformsI18n = {
   en: {
     title: 'Decoupled Architecture by Ownership | A Field Guide for Engineers',
     summary:
-      'Conway\'s Law, three planes (experience / transaction / record), BFF, headless CMS, RLS, and ADRs — how to let non-technical teams ship without breaking payments or audits. Illustrated with LMS and production splits.',
+      'The wrong architecture meeting asks "which framework?" The useful one asks who must change what without breaking the rest. This guide is for leaders and senior engineers planning products where marketing or education must publish often, while payments and privacy stay under engineering control. You will see how to draw boundaries so a headline change does not accidentally touch checkout or audit evidence—with examples from a live marketing site and a regulated learning proposal.',
   },
   es: {
     title: 'Arquitectura desacoplada por ownership | Guía para ingeniería',
     summary:
-      'Ley de Conway, tres planos (experiencia / transacción / registro), BFF, CMS headless, RLS y ADR — cómo equipos no técnicos publican sin romper pagos ni auditorías. Con ejemplos LMS y producción.',
+      'La reunión de arquitectura equivocada pregunta "¿qué framework?". La útil pregunta quién debe cambiar qué sin romper el resto. Esta guía es para líderes e ingeniería senior que planean productos donde marketing o educación deben publicar seguido, mientras pagos y privacidad quedan en ingeniería. Verás cómo trazar límites para que un cambio de titular no toque checkout ni evidencia de auditoría por accidente, con ejemplos de un sitio en producción y una propuesta de aprendizaje regulada.',
   },
 }
 

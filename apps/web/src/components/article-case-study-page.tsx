@@ -55,7 +55,7 @@ export async function ArticleCaseStudyPage({ locale, articleSlug }: ArticleCaseS
             ))}
           </h1>
 
-          <p className="mt-6 text-base leading-relaxed text-foreground/80 max-w-[58ch]">
+          <p className="mt-6 text-base md:text-lg leading-relaxed text-foreground/80 max-w-[72ch]">
             {summary}
           </p>
 
