@@ -170,12 +170,18 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             {/* CTA */}
-            <div className="col-span-8 md:col-span-16 flex flex-col gap-3 items-start">
-              <div className="flex flex-wrap gap-3">
-                <Button061 href="/about" variant="secondary">{t('hero.cta_secondary')}</Button061>
-                <Button061 href="#contact">{t('hero.cta_button')}</Button061>
+            <div className="col-span-8 md:col-span-16">
+              <div className="inline-flex flex-col gap-4 rounded-sm border border-white/20 bg-black/35 backdrop-blur-sm px-5 py-5 sm:px-6 sm:py-6 max-w-full sm:max-w-md">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:items-center">
+                  <Button061 href="#contact" className="hero-cta-primary shrink-0">
+                    {t('hero.cta_button')}
+                  </Button061>
+                  <Button061 href="/about" variant="secondary" className="shrink-0">
+                    {t('hero.cta_secondary')}
+                  </Button061>
+                </div>
+                <p className="text-[11px] leading-relaxed opacity-55 max-w-[42ch]">{t('hero.subcopy')}</p>
               </div>
-              <p className="text-xs opacity-40">{t('hero.subcopy')}</p>
             </div>
           </div>
         </Container>
