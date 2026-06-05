@@ -19,6 +19,12 @@ import {
   designSystemShipsItselfMarkdown_en,
   designSystemShipsItselfMarkdown_es,
 } from '@/content/projects/design-system-ships-itself'
+import {
+  decoupledOwnershipPlatformsMeta,
+  decoupledOwnershipPlatformsI18n,
+  decoupledOwnershipPlatformsMarkdown_en,
+  decoupledOwnershipPlatformsMarkdown_es,
+} from '@/content/projects/decoupled-ownership-platforms'
 import { PLACEHOLDER_PROJECT_I18N } from '@/content/projects/placeholder-i18n'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
@@ -78,6 +84,8 @@ const contextDrivenVibecodingParsed_en = parseMarkdown(contextDrivenVibecodingMa
 const contextDrivenVibecodingParsed_es = parseMarkdown(contextDrivenVibecodingMarkdown_es)
 const designSystemParsed_en = parseMarkdown(designSystemShipsItselfMarkdown_en)
 const designSystemParsed_es = parseMarkdown(designSystemShipsItselfMarkdown_es)
+const decoupledOwnershipParsed_en = parseMarkdown(decoupledOwnershipPlatformsMarkdown_en)
+const decoupledOwnershipParsed_es = parseMarkdown(decoupledOwnershipPlatformsMarkdown_es)
 
 export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
   // Long-form articles first (home links to /articulos/…)
@@ -147,6 +155,25 @@ export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
     i18n: {
       en: { ...atomWebflowI18n.en, lexical: atomWebflowParsed_en.lexical, blocks: atomWebflowParsed_en.blocks },
       es: { ...atomWebflowI18n.es, lexical: atomWebflowParsed_es.lexical, blocks: atomWebflowParsed_es.blocks },
+    },
+  },
+  {
+    ...decoupledOwnershipPlatformsMeta,
+    title: decoupledOwnershipPlatformsI18n.en.title,
+    summary: decoupledOwnershipPlatformsI18n.en.summary,
+    description: decoupledOwnershipParsed_en.lexical,
+    blocks: decoupledOwnershipParsed_en.blocks,
+    i18n: {
+      en: {
+        ...decoupledOwnershipPlatformsI18n.en,
+        lexical: decoupledOwnershipParsed_en.lexical,
+        blocks: decoupledOwnershipParsed_en.blocks,
+      },
+      es: {
+        ...decoupledOwnershipPlatformsI18n.es,
+        lexical: decoupledOwnershipParsed_es.lexical,
+        blocks: decoupledOwnershipParsed_es.blocks,
+      },
     },
   },
   withPlaceholderI18n({

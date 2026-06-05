@@ -2,6 +2,7 @@ import { atomWebflowMeta } from '@/content/projects/atom-webflow'
 import { aurinChatbotThreeLayerMeta } from '@/content/projects/aurin-chatbot-three-layer'
 import { contextDrivenVibecodingMeta } from '@/content/projects/context-driven-vibecoding'
 import { designSystemShipsItselfMeta } from '@/content/projects/design-system-ships-itself'
+import { decoupledOwnershipPlatformsMeta } from '@/content/projects/decoupled-ownership-platforms'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import type { Project } from '@karen-portfolio/shared'
 
@@ -32,6 +33,11 @@ export const ARTICLE_PROJECT_REGISTRY: ArticleProjectMeta[] = [
     slug: designSystemShipsItselfMeta.slug,
     articleSlug: designSystemShipsItselfMeta.articleSlug,
     year: designSystemShipsItselfMeta.year,
+  },
+  {
+    slug: decoupledOwnershipPlatformsMeta.slug,
+    articleSlug: decoupledOwnershipPlatformsMeta.articleSlug,
+    year: decoupledOwnershipPlatformsMeta.year,
   },
 ]
 
