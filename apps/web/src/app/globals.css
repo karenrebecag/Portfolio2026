@@ -495,6 +495,7 @@
   --button-061-hover-color: var(--primary);
   --button-061-color-focus: #458776;
   --button-061-padding: 0.75em 1.25em;
+  --button-061-text-line-height: 1.25em;
   --button-061-text-duplicate-distance: 2em;
   --button-061-border-radius: 2px;
   --button-061-focus-inset: -0.125em;
@@ -607,8 +608,30 @@
 }
 
 .button-061__text {
-  text-shadow: 0 var(--button-061-text-duplicate-distance) 0 var(--button-061-hover-color);
+  overflow: hidden;
+  display: block;
+  height: var(--button-061-text-line-height);
+  line-height: 1;
+}
+
+.button-061__text-stack {
+  display: flex;
+  flex-direction: column;
   transition: translate 0.65s var(--button-061-ease-spring);
+}
+
+.button-061__text-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: var(--button-061-text-line-height);
+  min-height: var(--button-061-text-line-height);
+  line-height: 1;
+}
+
+.button-061__text-line--hover {
+  color: var(--button-061-hover-color);
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -631,9 +654,9 @@
     transition: scale 0.425s 0.05s var(--button-061-ease-hover), transform 0.15s var(--button-061-ease-click);
   }
 
-  .button-061:is(:hover, :focus-visible) .button-061__text,
-  [data-hover]:is(:hover, :focus-visible) .button-061 .button-061__text {
-    translate: 0 calc(var(--button-061-text-duplicate-distance) * -1) 0;
+  .button-061:is(:hover, :focus-visible) .button-061__text-stack,
+  [data-hover]:is(:hover, :focus-visible) .button-061 .button-061__text-stack {
+    translate: 0 -50% 0;
     transition-delay: 0.05s;
   }
 }
