@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useRef, useCallback } from 'react'
 import { usePageInit } from '@/lib/use-page-init'
 import { useTranslations } from 'next-intl'
 import { Pill } from '@/components/ui/pill'
@@ -48,11 +48,9 @@ export function LogoWall() {
   const rootRef = useRef<HTMLDivElement>(null)
   const t = useTranslations('stack')
 
-  useEffect(() => {
-    const root = rootRef.current
-    if (!root) return
-
-    function init() {
+  usePageInit(
+    useCallback(() => {
+      const root = rootRef.current
       if (!root) return
 
       const loopDelay = 1.5
@@ -64,7 +62,7 @@ export function LogoWall() {
 
       const shuffleFront = root.getAttribute('data-logo-wall-shuffle') !== 'false'
       const originalTargets = items
-        .map(item => item.querySelector('[data-logo-wall-target]'))
+        .map((item) => item.querySelector('[data-logo-wall-target]'))
         .filter(Boolean) as HTMLElement[]
 
       let visibleItems: HTMLElement[] = []
@@ -81,8 +79,8 @@ export function LogoWall() {
       function shuffleArray<T>(arr: T[]): T[] {
         const a = arr.slice()
         for (let i = a.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [a[i], a[j]] = [a[j], a[i]]
+          const j = Math.floor(Math.random() * (i + 1))
+          ;[a[i], a[j]] = [a[j], a[i]]
         }
         return a
       }
@@ -96,13 +94,14 @@ export function LogoWall() {
         pattern = shuffleArray(Array.from({ length: visibleCount }, (_, i) => i))
         patternIndex = 0
 
-        items.forEach(item => {
-          item.querySelectorAll('[data-logo-wall-target]').forEach(old => old.remove())
+        items.forEach((item) => {
+          item.querySelectorAll('[data-logo-wall-target]').forEach((old) => old.remove())
         })
 
-        pool = originalTargets.map(n => n.cloneNode(true) as HTMLElement)
+        pool = originalTargets.map((n) => n.cloneNode(true) as HTMLElement)
 
-        let front: HTMLElement[], rest: HTMLElement[]
+        let front: HTMLElement[]
+        let rest: HTMLElement[]
         if (shuffleFront) {
           const shuffledAll = shuffleArray(pool)
           front = shuffledAll.slice(0, visibleCount)
@@ -126,7 +125,10 @@ export function LogoWall() {
 
       function swapNext() {
         const nowCount = items.filter(isVisible).length
-        if (nowCount !== visibleCount) { setup(); return }
+        if (nowCount !== visibleCount) {
+          setup()
+          return
+        }
         if (!pool.length) return
 
         const idx = pattern[patternIndex % visibleCount]
@@ -146,19 +148,29 @@ export function LogoWall() {
 
         if (current) {
           gsap.to(current, {
-            yPercent: -50, autoAlpha: 0, duration, ease: 'expo.inOut',
-            onComplete: () => { current.remove(); pool.push(current as HTMLElement) },
+            yPercent: -50,
+            autoAlpha: 0,
+            duration,
+            ease: 'expo.inOut',
+            onComplete: () => {
+              current.remove()
+              pool.push(current as HTMLElement)
+            },
           })
         }
 
         gsap.to(incoming, {
-          yPercent: 0, autoAlpha: 1, duration, delay: 0.1, ease: 'expo.inOut',
+          yPercent: 0,
+          autoAlpha: 1,
+          duration,
+          delay: 0.1,
+          ease: 'expo.inOut',
         })
       }
 
       setup()
 
-      ScrollTrigger.create({
+      const scrollTrigger = ScrollTrigger.create({
         trigger: root,
         start: 'top bottom',
         end: 'bottom top',
@@ -168,28 +180,30 @@ export function LogoWall() {
         onLeaveBack: () => tl.pause(),
       })
 
-      const handleVisibility = () => { document.hidden ? tl.pause() : tl.play() }
+      const handleVisibility = () => {
+        if (document.hidden) tl.pause()
+        else tl.play()
+      }
       document.addEventListener('visibilitychange', handleVisibility)
 
       return () => {
         tl.kill()
+        scrollTrigger.kill()
         document.removeEventListener('visibilitychange', handleVisibility)
+        items.forEach((item, index) => {
+          item.querySelectorAll('[data-logo-wall-target]').forEach((node) => {
+            gsap.killTweensOf(node)
+            node.remove()
+          })
+          const original = originalTargets[index]
+          if (original) {
+            const parent = item.querySelector('[data-logo-wall-target-parent]') || item
+            parent.appendChild(original.cloneNode(true))
+          }
+        })
       }
-    }
-
-    if (document.body.hasAttribute('data-page-ready')) {
-      init()
-    } else {
-      document.addEventListener('page-ready', () => init(), { once: true })
-    }
-
-    function onNavigate() { init() }
-    document.addEventListener('page-navigation-complete', onNavigate)
-
-    return () => {
-      document.removeEventListener('page-navigation-complete', onNavigate)
-    }
-  }, [])
+    }, []),
+  )
 
   return (
     <section data-theme-section="light" className="px-4 lg:px-6 py-20 lg:pt-60 lg:pb-40">

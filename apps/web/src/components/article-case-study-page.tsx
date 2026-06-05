@@ -24,6 +24,8 @@ export async function ArticleCaseStudyPage({ locale, articleSlug }: ArticleCaseS
   const localized = project.i18n?.[locale]
   const title = localized?.title ?? project.title
   const summary = localized?.summary ?? project.summary
+  const heroDescription =
+    (project as { description?: string }).description ?? summary
   const description = localized?.lexical ?? project.description
   const blocks = localized?.blocks ?? (found as { blocks?: unknown[] }).blocks
   const year = articleMeta?.year ?? (found as { year?: string }).year ?? '2026'
@@ -54,8 +56,13 @@ export async function ArticleCaseStudyPage({ locale, articleSlug }: ArticleCaseS
             ))}
           </h1>
 
-          <p className="mt-6 text-base md:text-lg leading-relaxed text-foreground/80 max-w-[72ch]">
-            {summary}
+          {summary && heroDescription !== summary && (
+            <p className="mt-6 text-sm md:text-base font-medium leading-relaxed text-foreground/70 w-full">
+              {summary}
+            </p>
+          )}
+          <p className="mt-4 text-base md:text-lg leading-relaxed text-foreground/80 w-full max-w-none">
+            {heroDescription}
           </p>
 
           {project.tags && project.tags.length > 0 && (

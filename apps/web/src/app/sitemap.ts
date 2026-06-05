@@ -1,5 +1,10 @@
 import type { MetadataRoute } from 'next'
-import { getAllArticleSlugs, getArticleProjectByArticleSlug } from '@/lib/article-projects'
+import {
+  getAllArticleSlugs,
+  getArticleProjectByArticleSlug,
+  getClientWorkProjectBySlug,
+  getClientWorkSlugs,
+} from '@/lib/article-projects'
 import { buildSitemapEntry } from '@/lib/seo'
 
 const STATIC_PAGES: {
@@ -28,5 +33,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   })
 
-  return [...staticEntries, ...articleEntries]
+  const clientWorkEntries = getClientWorkSlugs().map((slug) => {
+    const project = getClientWorkProjectBySlug(slug)
+    const lastModified = project?.updatedAt ? new Date(project.updatedAt) : new Date('2026-06-04')
+
+    return buildSitemapEntry({
+      path: `/projects/${slug}`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    })
+  })
+
+  return [...staticEntries, ...articleEntries, ...clientWorkEntries]
 }

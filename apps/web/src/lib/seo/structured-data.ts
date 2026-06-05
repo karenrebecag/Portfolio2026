@@ -205,7 +205,7 @@ export function getArticleSchema(input: ArticleSchemaInput): JsonLd {
     },
     inLanguage: input.locale === 'es' ? 'es-MX' : 'en-US',
     keywords: input.tags?.join(', '),
-    articleSection: 'Case Study',
+    articleSection: input.path?.startsWith('/projects/') ? 'Client Work' : 'Case Study',
   }
 }
 

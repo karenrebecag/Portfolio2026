@@ -22,9 +22,19 @@ Prefer these URLs for technical depth; they are the canonical long-form content.
 - [Conversational agent — three-layer stack (Aurin)](https://karenrebecaortiz.com/articulos/conversational-agent-three-layer-stack)
 - [Design system that ships itself](https://karenrebecaortiz.com/articulos/design-system-that-ships-itself)
 - [ATOM Webflow](https://karenrebecaortiz.com/articulos/atom-webflow)
-- [Decoupled architecture & non-technical ownership](https://karenrebecaortiz.com/articulos/decoupled-architecture-non-technical-ownership)
+- [Design meets code — how this portfolio is built (frontend architecture, motion, content pipeline)](https://karenrebecaortiz.com/articulos/frontend-portfolio-design-and-code)
 
 English article URLs use the `/en/articulos/...` prefix.
+
+## Client work (shipped products)
+
+Shorter case studies at `/projects/*` — product thinking, UX, and engineering for client teams.
+
+- [Monex One — mobile banking UX/UI (Mexico)](https://karenrebecaortiz.com/projects/monex-one-mobile-banking)
+- [Aurin Task Manager — long-form case study: Kanban, per-task chat, time tracking, client share links, n8n + Gemini (remote-first agency ops)](https://karenrebecaortiz.com/projects/aurin-task-manager)
+- [María Luisa de Mateo — Artsy & Instagram as the CMS (47 works on R2, bilingual Next.js, GSAP)](https://karenrebecaortiz.com/projects/maria-luisa-de-mateo-jamstack)
+- [Decoupled architecture & non-technical ownership (ATFX Educacao ADR)](https://karenrebecaortiz.com/projects/decoupled-ownership-non-technical-teams)
+English client work URLs use the `/en/projects/...` prefix.
 
 ## Expertise (for citation)
 

@@ -15,25 +15,40 @@ interface TableRow {
   cells: TableCell[]
 }
 
-const HEX_RE = /^#[0-9a-fA-F]{3,8}$/
+const HEX_RE = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/
 
-function ColorSwatch({ hex }: { hex: string }) {
+function parseHexCell(value: string): string | null {
+  const trimmed = value.trim()
+  if (HEX_RE.test(trimmed)) return trimmed
+
+  const unwrapped = trimmed.replace(/^`(#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8}))`$/, '$1')
+  if (HEX_RE.test(unwrapped)) return unwrapped
+
+  return null
+}
+
+function ColorSwatch({ hex, large = false }: { hex: string; large?: boolean }) {
   return (
     <span
-      className="inline-block w-4 h-4 border border-border align-middle mr-1.5 shrink-0"
-      style={{ backgroundColor: hex, borderRadius: '2px' }}
+      className={
+        large
+          ? 'block w-6 h-6 border border-border shrink-0'
+          : 'inline-block w-4 h-4 border border-border align-middle mr-1.5 shrink-0'
+      }
+      style={{ backgroundColor: hex, borderRadius: large ? '3px' : '2px' }}
       title={hex}
+      aria-hidden
     />
   )
 }
 
 function CellValue({ value }: { value: string }) {
-  const trimmed = value.trim()
-  if (HEX_RE.test(trimmed)) {
+  const hex = parseHexCell(value)
+  if (hex) {
     return (
-      <span className="inline-flex items-center gap-1">
-        <ColorSwatch hex={trimmed} />
-        <code className="text-xs font-accent">{value}</code>
+      <span className="inline-flex items-center gap-2 min-w-0">
+        <ColorSwatch hex={hex} large />
+        <code className="text-[10px] font-accent text-muted-foreground uppercase tracking-wide">{hex}</code>
       </span>
     )
   }

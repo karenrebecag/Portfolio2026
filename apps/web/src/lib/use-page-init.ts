@@ -10,6 +10,15 @@ function scheduleInit(run: () => void) {
   }
 }
 
+/** Wait for React commit + paint before querying the DOM (route transitions). */
+function scheduleInitAfterPaint(run: () => void) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      scheduleInit(run)
+    })
+  })
+}
+
 export function usePageInit(init: () => (() => void) | void) {
   useEffect(() => {
     let cleanup: (() => void) | void
@@ -33,7 +42,7 @@ export function usePageInit(init: () => (() => void) | void) {
     function onNavigate() {
       if (typeof cleanup === 'function') cleanup()
       cleanup = undefined
-      startDeferred()
+      scheduleInitAfterPaint(start)
     }
 
     document.addEventListener('page-navigation-complete', onNavigate)

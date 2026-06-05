@@ -41,12 +41,27 @@ function revertHeading(heading: HTMLElement) {
   activeHeadingSplits.delete(heading)
 }
 
+function pruneDetachedHeadingSplits() {
+  for (const heading of managedHeadings.keys()) {
+    if (!document.contains(heading)) {
+      managedHeadings.delete(heading)
+      activeHeadingSplits.delete(heading)
+    }
+  }
+}
+
+function headingInRevealViewport(heading: HTMLElement) {
+  const rect = heading.getBoundingClientRect()
+  return rect.top < window.innerHeight * 0.8 && rect.bottom > 0
+}
+
 /** Tear down all heading splits (call on route change cleanup). */
 export function destroyAllHeadingSplits() {
-  for (const heading of activeHeadingSplits) {
+  for (const heading of [...activeHeadingSplits]) {
     revertHeading(heading)
   }
   activeHeadingSplits.clear()
+  pruneDetachedHeadingSplits()
 }
 
 function mountHeadingSplit(heading: HTMLElement) {
@@ -94,12 +109,36 @@ function mountHeadingSplit(heading: HTMLElement) {
         duration: config.duration,
         stagger: config.stagger,
         ease: 'expo.out',
-        scrollTrigger: { trigger: heading, start: 'clamp(top 80%)', once: true },
+        scrollTrigger: {
+          trigger: heading,
+          start: 'clamp(top 80%)',
+          once: true,
+          invalidateOnRefresh: true,
+        },
       })
 
       if (tween.scrollTrigger) {
         scrollTriggers.push(tween.scrollTrigger)
       }
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        const st = tween.scrollTrigger
+        if (!st || st.progress > 0) return
+        if (!headingInRevealViewport(heading)) return
+
+        st.kill()
+        const idx = scrollTriggers.indexOf(st)
+        if (idx >= 0) scrollTriggers.splice(idx, 1)
+        gsap.killTweensOf(targets)
+        gsap.to(targets, {
+          yPercent: 0,
+          duration: config.duration,
+          stagger: config.stagger,
+          ease: 'expo.out',
+          overwrite: 'auto',
+        })
+      })
     },
   })
 
@@ -117,5 +156,7 @@ function mountHeadingSplit(heading: HTMLElement) {
 
 /** Split only new or changed headings; skip unchanged nodes. */
 export function initHeadingSplits(root: ParentNode = document) {
+  pruneDetachedHeadingSplits()
   root.querySelectorAll<HTMLElement>('[data-split="heading"]').forEach(mountHeadingSplit)
+  ScrollTrigger.refresh()
 }

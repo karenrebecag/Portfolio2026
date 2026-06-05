@@ -61,9 +61,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? articleOgImages(coverUrl, project.coverImage?.alt ?? title)
     : defaultOgImages(title)
 
+  const tagKeywords = project.tags?.map((t) => t.tag) ?? []
+  const published = project.createdAt
+  const modified = project.updatedAt ?? project.createdAt
+
   return {
     title,
     description,
+    keywords: tagKeywords.length > 0 ? tagKeywords : undefined,
+    authors: [{ name: SITE_AUTHOR.name }],
     alternates: buildAlternates(locale, path),
     openGraph: {
       type: 'article',
@@ -72,11 +78,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: ogImages,
+      publishedTime: published,
+      modifiedTime: modified,
+      authors: [SITE_AUTHOR.name],
+      section: 'Client Work',
+      tags: tagKeywords,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: ogImages.map((img) => img.url),
     },
   }
 }
@@ -114,6 +126,7 @@ export default async function ProjectPage({ params }: Props) {
   const localized = project.i18n?.[locale]
   const title = localized?.title || project.title
   const summary = localized?.summary || project.summary
+  const heroDescription = (project as { description?: string }).description ?? summary
   const description = localized?.lexical || project.description
   const blocks = localized?.blocks || (found as { blocks?: unknown[] }).blocks
 
@@ -135,7 +148,12 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <>
       <JsonLdScript data={jsonLd} />
-    <section data-theme-section="light" className="pt-32 pb-16">
+    <section
+      data-theme-section="light"
+      data-semantic-role="portfolio"
+      data-llm-context="client-work-case-study"
+      className="pt-32 pb-16"
+    >
       <ArticleTOC
         title={t('toc_title')}
         offset={80}
@@ -167,8 +185,10 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           )}
 
-          {summary && (
-            <p className="mt-8 text-base leading-relaxed text-foreground/80 max-w-[55ch]">{summary}</p>
+          {heroDescription && (
+            <p className="mt-8 text-base md:text-lg leading-relaxed text-foreground/80 w-full max-w-none">
+              {heroDescription}
+            </p>
           )}
 
           <div className="mt-8 h-px w-full bg-border" />

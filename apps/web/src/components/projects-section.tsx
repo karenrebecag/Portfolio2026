@@ -35,6 +35,13 @@ function ProjectRows({
       <div className="preview-list flex flex-col w-full relative max-[767px]:gap-y-8">
         {projects.map((project) => {
           const outcome = getProjectOutcome(project.slug, locale)
+          const localized = (
+            project as Project & {
+              i18n?: Record<string, { description?: string; summary?: string }>
+            }
+          ).i18n?.[locale]
+          const blurb =
+            outcome ?? localized?.description ?? localized?.summary ?? project.summary
           return (
           <div key={project.id} className="preview-item w-full transition-opacity duration-200">
             <Link
@@ -53,9 +60,9 @@ function ProjectRows({
                       </span>
                     ))}
                   </h3>
-                  {outcome && (
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground max-w-[48ch]">
-                      {outcome}
+                  {blurb && (
+                    <p className="mt-3 w-full max-w-none text-sm leading-relaxed text-muted-foreground">
+                      {blurb}
                     </p>
                   )}
                 </div>

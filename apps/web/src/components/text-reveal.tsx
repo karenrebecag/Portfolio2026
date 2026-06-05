@@ -10,7 +10,11 @@ export function TextRevealProvider({ children }: { children: React.ReactNode }) 
     let cancelled = false
 
     whenFontsReady().then(() => {
-      if (!cancelled) initHeadingSplits()
+      if (cancelled) return
+      initHeadingSplits()
+      requestAnimationFrame(() => {
+        if (!cancelled) initHeadingSplits()
+      })
     })
 
     return () => {

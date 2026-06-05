@@ -2,7 +2,7 @@ import { atomWebflowMeta } from '@/content/projects/atom-webflow'
 import { aurinChatbotThreeLayerMeta } from '@/content/projects/aurin-chatbot-three-layer'
 import { contextDrivenVibecodingMeta } from '@/content/projects/context-driven-vibecoding'
 import { designSystemShipsItselfMeta } from '@/content/projects/design-system-ships-itself'
-import { decoupledOwnershipPlatformsMeta } from '@/content/projects/decoupled-ownership-platforms'
+import { portfolioFrontendDesignCodeMeta } from '@/content/projects/portfolio-frontend-design-code'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import type { Project } from '@karen-portfolio/shared'
 
@@ -35,9 +35,9 @@ export const ARTICLE_PROJECT_REGISTRY: ArticleProjectMeta[] = [
     year: designSystemShipsItselfMeta.year,
   },
   {
-    slug: decoupledOwnershipPlatformsMeta.slug,
-    articleSlug: decoupledOwnershipPlatformsMeta.articleSlug,
-    year: decoupledOwnershipPlatformsMeta.year,
+    slug: portfolioFrontendDesignCodeMeta.slug,
+    articleSlug: portfolioFrontendDesignCodeMeta.articleSlug,
+    year: portfolioFrontendDesignCodeMeta.year,
   },
 ]
 
@@ -72,4 +72,17 @@ export function getProjectHref(projectSlug: string) {
 
 export function isArticleProject(projectSlug: string) {
   return ARTICLE_PROJECT_REGISTRY.some((a) => a.slug === projectSlug)
+}
+
+/** Published case studies shown under “Client work” (not long-form /articulos). */
+export function getClientWorkSlugs() {
+  return PLACEHOLDER_PROJECTS.filter(
+    (p) => p.status === 'published' && !isArticleProject(p.slug),
+  ).map((p) => p.slug)
+}
+
+export function getClientWorkProjectBySlug(slug: string) {
+  const project = PLACEHOLDER_PROJECTS.find((p) => p.slug === slug)
+  if (!project || project.status !== 'published' || isArticleProject(slug)) return null
+  return project
 }

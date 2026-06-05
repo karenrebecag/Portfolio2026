@@ -25,6 +25,18 @@ import {
   decoupledOwnershipPlatformsMarkdown_en,
   decoupledOwnershipPlatformsMarkdown_es,
 } from '@/content/projects/decoupled-ownership-platforms'
+import {
+  aurinTaskManagerMeta,
+  aurinTaskManagerI18n,
+  aurinTaskManagerMarkdown_en,
+  aurinTaskManagerMarkdown_es,
+} from '@/content/projects/aurin-task-manager'
+import {
+  portfolioFrontendDesignCodeMeta,
+  portfolioFrontendDesignCodeI18n,
+  portfolioFrontendDesignCodeMarkdown_en,
+  portfolioFrontendDesignCodeMarkdown_es,
+} from '@/content/projects/portfolio-frontend-design-code'
 import { PLACEHOLDER_PROJECT_I18N } from '@/content/projects/placeholder-i18n'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
@@ -86,6 +98,10 @@ const designSystemParsed_en = parseMarkdown(designSystemShipsItselfMarkdown_en)
 const designSystemParsed_es = parseMarkdown(designSystemShipsItselfMarkdown_es)
 const decoupledOwnershipParsed_en = parseMarkdown(decoupledOwnershipPlatformsMarkdown_en)
 const decoupledOwnershipParsed_es = parseMarkdown(decoupledOwnershipPlatformsMarkdown_es)
+const aurinTaskManagerParsed_en = parseMarkdown(aurinTaskManagerMarkdown_en)
+const aurinTaskManagerParsed_es = parseMarkdown(aurinTaskManagerMarkdown_es)
+const portfolioFrontendParsed_en = parseMarkdown(portfolioFrontendDesignCodeMarkdown_en)
+const portfolioFrontendParsed_es = parseMarkdown(portfolioFrontendDesignCodeMarkdown_es)
 
 export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
   // Long-form articles first (home links to /articulos/…)
@@ -158,6 +174,25 @@ export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
     },
   },
   {
+    ...portfolioFrontendDesignCodeMeta,
+    title: portfolioFrontendDesignCodeI18n.en.title,
+    summary: portfolioFrontendDesignCodeI18n.en.summary,
+    description: portfolioFrontendParsed_en.lexical,
+    blocks: portfolioFrontendParsed_en.blocks,
+    i18n: {
+      en: {
+        ...portfolioFrontendDesignCodeI18n.en,
+        lexical: portfolioFrontendParsed_en.lexical,
+        blocks: portfolioFrontendParsed_en.blocks,
+      },
+      es: {
+        ...portfolioFrontendDesignCodeI18n.es,
+        lexical: portfolioFrontendParsed_es.lexical,
+        blocks: portfolioFrontendParsed_es.blocks,
+      },
+    },
+  },
+  {
     ...decoupledOwnershipPlatformsMeta,
     title: decoupledOwnershipPlatformsI18n.en.title,
     summary: decoupledOwnershipPlatformsI18n.en.summary,
@@ -177,58 +212,133 @@ export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
     },
   },
   withPlaceholderI18n({
-    id: '1', title: 'Token-First Design at Scale', slug: 'token-first-design-at-scale', status: 'published',
-    category: 'design_system', role: 'Lead Designer & Engineer', year: '2025', featured: true,
-    summary: 'A token-first design system powering consistent UI across web and mobile products.',
-    description: { root: { type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text', text: 'Prism is a comprehensive design system built with a token-first approach. It includes a component library, documentation site, and Figma plugin for seamless designer-developer handoff. The system serves 4 product teams and has reduced UI inconsistencies by 80%.', format: 0, direction: null, indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 } },
-    tags: [{ tag: 'React' }, { tag: 'Tokens' }, { tag: 'Figma' }, { tag: 'Storybook' }],
-    coverImage: { url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e49a704afe5e3f4a55d_Fluid%20Abstract%20Design.avif', alt: 'Prism' },
-    liveUrl: 'https://example.com', repoUrl: 'https://github.com/example',
-    services: 'Development',
-    createdAt: '2025-01-01', updatedAt: '2025-01-01',
+    id: '1',
+    title: 'Monex One | Mobile Banking UX/UI for Mexico',
+    slug: 'monex-one-mobile-banking',
+    status: 'published',
+    category: 'mobile',
+    role: 'UX/UI Designer',
+    year: '2024',
+    featured: true,
+    summary:
+      'Eight months embedded with Aurin and Ancient Global designing Monex One—the mobile banking app for Monex’s Mexico division. Shipped on the App Store within a year.',
+    description: {
+      root: {
+        type: 'root',
+        children: [
+          {
+            type: 'paragraph',
+            children: [
+              {
+                type: 'text',
+                text: 'Monex One is the mobile banking experience for Monex’s Mexico division. Over eight months I worked alongside the Aurin team and Ancient Global—mapping flows, defining UI patterns, and shipping a complete mobile product from research through high-fidelity screens and handoff. A year after the engagement, the app is live on the App Store.',
+                format: 0,
+                direction: null,
+                indent: 0,
+                version: 1,
+              },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        ],
+        direction: null,
+        format: '',
+        indent: 0,
+        version: 1,
+      },
+    },
+    tags: [{ tag: 'UX/UI' }, { tag: 'Figma' }, { tag: 'iOS' }, { tag: 'Mobile Banking' }],
+    coverImage: {
+      url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2ea2b1de5d693cf173_Elegant%20Ice%20Bottle%20Display.avif',
+      alt: 'Monex One mobile banking',
+    },
+    liveUrl: 'https://www.monex.com.mx/portal/monexone',
+    repoUrl: '',
+    services: 'UX/UI Design, Mobile Product',
+    createdAt: '2024-03-01',
+    updatedAt: '2025-06-01',
   }),
+  {
+    ...aurinTaskManagerMeta,
+    title: aurinTaskManagerI18n.en.title,
+    summary: aurinTaskManagerI18n.en.summary,
+    description: aurinTaskManagerParsed_en.lexical,
+    blocks: aurinTaskManagerParsed_en.blocks,
+    i18n: {
+      en: {
+        ...aurinTaskManagerI18n.en,
+        role: aurinTaskManagerMeta.role,
+        services: aurinTaskManagerMeta.services,
+        lexical: aurinTaskManagerParsed_en.lexical,
+        blocks: aurinTaskManagerParsed_en.blocks,
+      },
+      es: {
+        ...aurinTaskManagerI18n.es,
+        role: aurinTaskManagerMeta.role,
+        services: aurinTaskManagerMeta.services,
+        lexical: aurinTaskManagerParsed_es.lexical,
+        blocks: aurinTaskManagerParsed_es.blocks,
+      },
+    },
+  },
   withPlaceholderI18n({
-    id: '2', title: 'Real-Time Product Intelligence with AI', slug: 'real-time-product-intelligence-with-ai', status: 'published',
-    category: 'web', role: 'Frontend Engineer', year: '2025', featured: true,
-    summary: 'AI-powered analytics dashboard for product teams to understand user behavior in real-time.',
-    description: { root: { type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text', text: 'Oracle is a real-time analytics platform that uses AI to surface actionable insights from user behavior data. Built with Next.js and Supabase, it processes millions of events daily and presents them through an intuitive dashboard designed for product managers and engineers.', format: 0, direction: null, indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 } },
-    tags: [{ tag: 'Next.js' }, { tag: 'AI' }, { tag: 'Supabase' }],
-    coverImage: { url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2ea2b1de5d693cf173_Elegant%20Ice%20Bottle%20Display.avif', alt: 'Oracle' },
-    liveUrl: 'https://example.com', repoUrl: '',
-    services: 'Design, Development',
-    createdAt: '2025-01-01', updatedAt: '2025-01-01',
-  }),
-  withPlaceholderI18n({
-    id: '3', title: 'Component Libraries That Ship', slug: 'component-libraries-that-ship', status: 'published',
-    category: 'web', role: 'Engineer', year: '2024', featured: false,
-    summary: 'Component library and npm package for distributed product teams building with React.',
-    description: { root: { type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text', text: 'Mosaic is an open-source React component library distributed as an npm package. It implements the ATOM design language with full TypeScript support, tree-shaking, and accessibility baked in. Used by 3 product teams across different time zones.', format: 0, direction: null, indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 } },
-    tags: [{ tag: 'React' }, { tag: 'npm' }, { tag: 'TypeScript' }],
-    coverImage: { url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2e3a3b6987bbb92dfd_Serene%20Floral%20Arrangement.avif', alt: 'Mosaic' },
-    liveUrl: '', repoUrl: 'https://github.com/example',
-    services: 'Development',
-    createdAt: '2024-01-01', updatedAt: '2024-01-01',
-  }),
-  withPlaceholderI18n({
-    id: '4', title: 'AI Agents for Non-Technical Teams', slug: 'ai-agents-for-non-technical-teams', status: 'published',
-    category: 'web', role: 'Designer & Engineer', year: '2024', featured: true,
-    summary: 'MCP server integrations and AI agent tools that enable non-technical teams to automate workflows.',
-    description: { root: { type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text', text: 'Zenith is a suite of MCP server integrations that connect AI agents with business tools. Built with TypeScript and deployed on edge functions, it enables product and marketing teams to automate repetitive workflows without writing code.', format: 0, direction: null, indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 } },
-    tags: [{ tag: 'MCP' }, { tag: 'AI' }, { tag: 'Edge Functions' }],
-    coverImage: { url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e349d92acc75bd79fa8_Minimalist%20Green%20Stools.avif', alt: 'Zenith' },
-    liveUrl: 'https://example.com', repoUrl: 'https://github.com/example',
-    services: 'Strategy, Design',
-    createdAt: '2024-01-01', updatedAt: '2024-01-01',
-  }),
-  withPlaceholderI18n({
-    id: '5', title: 'Automating Operations with LLMs', slug: 'automating-operations-with-llms', status: 'published',
-    category: 'web', role: 'Engineer', year: '2024', featured: false,
-    summary: 'Automation platform connecting LLMs with internal tools for product operations teams.',
-    description: { root: { type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text', text: 'Nebula connects large language models with internal business tools through a clean API layer. Product operations teams use it to automate data entry, generate reports, and triage support tickets, reducing manual work by 60%.', format: 0, direction: null, indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 }], direction: null, format: '', indent: 0, version: 1 } },
-    tags: [{ tag: 'AI' }, { tag: 'Automation' }, { tag: 'APIs' }],
-    coverImage: { url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e49a704afe5e3f4a55d_Fluid%20Abstract%20Design.avif', alt: 'Nebula' },
-    liveUrl: '', repoUrl: 'https://github.com/example',
-    services: 'AI, Development',
-    createdAt: '2024-01-01', updatedAt: '2024-01-01',
+    id: '3',
+    title: 'María Luisa de Mateo | Artsy & Instagram as the CMS',
+    slug: 'maria-luisa-de-mateo-jamstack',
+    status: 'published',
+    category: 'web',
+    role: 'UX Engineer & Product Designer',
+    year: '2025',
+    featured: true,
+    summary:
+      'Most artist sites ship with a CMS the creator never opens. This one pulls live inventory from Artsy and Instagram—47 works on R2, bilingual Next.js, GSAP galleries—so María Luisa keeps selling where she already sells.',
+    description: {
+      root: {
+        type: 'root',
+        children: [
+          {
+            type: 'paragraph',
+            children: [
+              {
+                type: 'text',
+                text: 'María Luisa de Mateo sells on Artsy and shows on Instagram. She did not need another admin panel—she needed a site that reads those channels and still feels like a gallery. I shipped a lean JAMstack build on Next.js: 47 portfolio pieces on Cloudflare R2, live availability from Artsy’s GraphQL API, an Instagram strip with static fallback when the feed fails, bilingual routing, and GSAP motion that stays out of the work’s way. Small codebase, deliberate architecture—power without asking the artist to become a publisher.',
+                format: 0,
+                direction: null,
+                indent: 0,
+                version: 1,
+              },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        ],
+        direction: null,
+        format: '',
+        indent: 0,
+        version: 1,
+      },
+    },
+    tags: [
+      { tag: 'Next.js' },
+      { tag: 'JAMstack' },
+      { tag: 'GSAP' },
+      { tag: 'Artsy' },
+      { tag: 'R2' },
+      { tag: 'next-intl' },
+    ],
+    coverImage: {
+      url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2e3a3b6987bbb92dfd_Serene%20Floral%20Arrangement.avif',
+      alt: 'María Luisa de Mateo artist portfolio',
+    },
+    liveUrl: 'https://marialuisademateo.com',
+    repoUrl: 'https://github.com/karenrebecag/MariaLuisadeMateo',
+    services: 'UX Engineering, Product Design, JAMstack',
+    createdAt: '2025-06-01',
+    updatedAt: '2026-06-01',
   }),
 ]

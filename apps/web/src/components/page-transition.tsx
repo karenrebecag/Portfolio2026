@@ -88,6 +88,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
     if (!pendingNavigation.current) {
       isAnimating.current = false
+      dispatchNavigationComplete()
       return
     }
 

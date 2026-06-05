@@ -6,74 +6,52 @@ export type ProjectLocaleFields = {
 }
 
 export const PLACEHOLDER_PROJECT_I18N: Record<string, { en: ProjectLocaleFields; es: ProjectLocaleFields }> = {
-  'token-first-design-at-scale': {
+  'monex-one-mobile-banking': {
     en: {
-      title: 'Token-First Design at Scale',
-      summary: 'A token-first design system powering consistent UI across web and mobile products.',
-      role: 'Lead Designer & Engineer',
-      services: 'Development',
+      title: 'Monex One | Mobile Banking UX/UI for Mexico',
+      summary:
+        'Eight months embedded with Aurin and Ancient Global designing Monex One—the mobile banking app for Monex’s Mexico division. Shipped on the App Store within a year.',
+      role: 'UX/UI Designer',
+      services: 'UX/UI Design, Mobile Product',
     },
     es: {
-      title: 'Design system token-first a escala',
-      summary: 'Sistema de diseño token-first para UI consistente en productos web y móviles.',
-      role: 'Lead Designer & Engineer',
-      services: 'Desarrollo',
+      title: 'Monex One | UX/UI de banca móvil para México',
+      summary:
+        'Ocho meses integrada con Aurin y Ancient Global diseñando Monex One—la app de banca móvil de la división México de Monex. En App Store al año del proyecto.',
+      role: 'Diseñadora UX/UI',
+      services: 'Diseño UX/UI, Producto móvil',
     },
   },
-  'real-time-product-intelligence-with-ai': {
+  'aurin-task-manager': {
     en: {
-      title: 'Real-Time Product Intelligence with AI',
-      summary: 'AI-powered analytics dashboard for product teams to understand user behavior in real-time.',
-      role: 'Frontend Engineer',
-      services: 'Design, Development',
+      title: 'Aurin Task Manager | One Hub for Remote-First Agency Ops',
+      summary:
+        'A distributed agency cannot run on spreadsheet handoffs and scattered Slack threads. I led UX engineering on Aurin’s internal platform—Kanban and table views, per-task chat with Gemini summaries, time tracking, client share links, and an n8n assistant for natural-language task control.',
+      role: 'UX Engineer & Product Designer',
+      services: 'UX Engineering, Product Design, Full-Stack',
     },
     es: {
-      title: 'Inteligencia de producto en tiempo real con IA',
-      summary: 'Dashboard de analytics con IA para que equipos de producto entiendan el comportamiento en tiempo real.',
-      role: 'Frontend Engineer',
-      services: 'Diseño, Desarrollo',
+      title: 'Aurin Task Manager | Un hub para operar una agencia remote-first',
+      summary:
+        'Una agencia distribuida no puede operar con spreadsheets y hilos sueltos en Slack. Lideré UX engineering en la plataforma interna de Aurin—Kanban y tabla, chat por tarea con Gemini, time tracking, enlaces para clientes y asistente n8n en lenguaje natural.',
+      role: 'UX Engineer & Product Designer',
+      services: 'UX Engineering, Diseño de producto, Full-Stack',
     },
   },
-  'component-libraries-that-ship': {
+  'maria-luisa-de-mateo-jamstack': {
     en: {
-      title: 'Component Libraries That Ship',
-      summary: 'Component library and npm package for distributed product teams building with React.',
-      role: 'Engineer',
-      services: 'Development',
+      title: 'María Luisa de Mateo | Artsy & Instagram as the CMS',
+      summary:
+        'Most artist sites ship with a CMS the creator never opens. This one pulls live inventory from Artsy and Instagram—47 works on R2, bilingual Next.js, GSAP galleries—so María Luisa keeps selling where she already sells.',
+      role: 'UX Engineer & Product Designer',
+      services: 'UX Engineering, Product Design, JAMstack',
     },
     es: {
-      title: 'Librerías de componentes que llegan a producción',
-      summary: 'Librería de componentes y paquete npm para equipos de producto distribuidos con React.',
-      role: 'Engineer',
-      services: 'Desarrollo',
-    },
-  },
-  'ai-agents-for-non-technical-teams': {
-    en: {
-      title: 'AI Agents for Non-Technical Teams',
-      summary: 'MCP server integrations and AI agent tools that enable non-technical teams to automate workflows.',
-      role: 'Designer & Engineer',
-      services: 'Strategy, Design',
-    },
-    es: {
-      title: 'Agentes de IA para equipos no técnicos',
-      summary: 'Integraciones MCP y herramientas de agentes que permiten automatizar flujos sin escribir código.',
-      role: 'Designer & Engineer',
-      services: 'Estrategia, Diseño',
-    },
-  },
-  'automating-operations-with-llms': {
-    en: {
-      title: 'Automating Operations with LLMs',
-      summary: 'Automation platform connecting LLMs with internal tools for product operations teams.',
-      role: 'Engineer',
-      services: 'AI, Development',
-    },
-    es: {
-      title: 'Automatización de operaciones con LLMs',
-      summary: 'Plataforma que conecta LLMs con herramientas internas para equipos de operaciones de producto.',
-      role: 'Engineer',
-      services: 'IA, Desarrollo',
+      title: 'María Luisa de Mateo | Artsy e Instagram como CMS',
+      summary:
+        'La mayoría de sitios para artistas traen un CMS que nadie abre. Este tira inventario vivo de Artsy e Instagram—47 obras en R2, Next.js bilingüe, galerías con GSAP—para que María Luisa siga vendiendo donde ya vende.',
+      role: 'UX Engineer & Product Designer',
+      services: 'UX Engineering, Diseño de producto, JAMstack',
     },
   },
 }

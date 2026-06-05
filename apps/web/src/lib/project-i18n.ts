@@ -1,6 +1,7 @@
 type ProjectI18nEntry = {
   title: string
   summary: string
+  description?: string
   role?: string
   services?: string
   lexical?: unknown
@@ -23,6 +24,7 @@ export function getLocalizedProject<T extends LocalizableProject>(project: T, lo
     ...project,
     title: localized.title || project.title,
     summary: localized.summary || project.summary,
+    ...(localized.description ? { description: localized.description } : {}),
     ...(localized.role ? { role: localized.role } : {}),
     ...(localized.services ? { services: localized.services } : {}),
   }

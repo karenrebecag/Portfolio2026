@@ -9,36 +9,32 @@ export const PROJECT_OUTCOMES: Record<string, { en: string; es: string }> = {
     es: 'Chat y booking en infraestructura propia—sin bandeja de terceros para el calendario; cambios de workflow sin redesplegar el sitio de marketing.',
   },
   'context-driven-visual-development': {
-    en: 'Marketing publishes copy in minutes; engineering ships JS via git—animation fixes no longer need a full Webflow republish.',
-    es: 'Marketing publica copy en minutos; ingeniería despliega JS por git—fixes de animación ya no exigen republish completo de Webflow.',
+    en: 'Webflow shines until complex JavaScript lands in a textarea—with no history, no rollback, and every publish straight to production. This essay documents the split: marketers keep pages and copy; engineering keeps animations and logic in a real codebase.',
+    es: 'Webflow brilla hasta que el JavaScript complejo cae en un textarea—sin historial, sin rollback, y cada publish directo a producción. Este ensayo documenta el split: marketing conserva páginas y copy; ingeniería conserva animaciones y lógica en un codebase real.',
   },
   'context-driven-development-vibecoding': {
     en: 'Client teams ship internal tools with shared specs in git—fewer blind AI rewrites and faster path from demo to staging.',
     es: 'Equipos cliente publican herramientas internas con specs en git—menos reescrituras a ciegas con IA y camino más rápido de demo a staging.',
   },
+  'monex-one-mobile-banking': {
+    en: 'End-to-end mobile UX/UI for Monex One Mexico—App Store launch within a year of an 8-month Aurin × Ancient Global design engagement.',
+    es: 'UX/UI móvil de punta a punta para Monex One México—lanzamiento en App Store al año de un engagement de diseño de 8 meses con Aurin × Ancient Global.',
+  },
+  'aurin-task-manager': {
+    en: 'Aurin consolidated daily ops into one real-time hub—Kanban, per-task chat, time tracking, client share links, and AI triage—so the agency could run fully remote-first.',
+    es: 'Aurin unificó operaciones diarias en un hub en tiempo real—Kanban, chat por tarea, time tracking, enlaces para clientes y triage con IA—para operar 100% remote-first.',
+  },
   'decoupled-ownership-non-technical-teams': {
-    en: 'Architecture so education/marketing can publish without touching payments or audit evidence—a headline change does not imply a checkout redeploy.',
-    es: 'Arquitectura para que educación/marketing publique sin tocar pagos ni auditoría—un cambio de titular no implica redesplegar checkout.',
+    en: 'Architecture ADRs for regulated LATAM products—marketing publishes on its plane; payments, identity, and audit evidence stay on engineering’s.',
+    es: 'ADRs de arquitectura para productos LATAM regulados—marketing publica en su plano; pagos, identidad y evidencia de auditoría quedan en ingeniería.',
   },
-  'token-first-design-at-scale': {
-    en: 'Token-first system adopted across squads—UI inconsistencies down ~80% vs. pre-system baseline (internal audit).',
-    es: 'Sistema token-first adoptado por squads—inconsistencias de UI ~80% menores vs. línea base pre-sistema (auditoría interna).',
+  'portfolio-frontend-design-and-code': {
+    en: 'Most portfolios are a theme with your photo swapped in. This one documents the full product—long essays that teach, motion that survives navigation, and the open code behind the site you are browsing.',
+    es: 'La mayoría de portfolios son un theme con tu foto cambiada. Este documenta el producto entero—ensayos largos que enseñan, motion que no se rompe al navegar, y el código abierto del sitio que estás viendo.',
   },
-  'real-time-product-intelligence-with-ai': {
-    en: 'Product and growth teams self-serve dashboards—engineering no longer the bottleneck for every chart or filter change.',
-    es: 'Producto y growth consumen dashboards solos—ingeniería deja de ser cuello de botella en cada gráfica o filtro.',
-  },
-  'component-libraries-that-ship': {
-    en: 'Shared React package across time zones—one component fix propagates to three product teams without fork drift.',
-    es: 'Paquete React compartido entre zonas horarias—un fix de componente llega a tres equipos sin drift de forks.',
-  },
-  'ai-agents-for-non-technical-teams': {
-    en: 'MCP guardrails let ops and marketing automate workflows without shipping unreviewed scripts to production.',
-    es: 'Barandillas MCP permiten que ops y marketing automaticen sin subir scripts sin revisión a producción.',
-  },
-  'automating-operations-with-llms': {
-    en: 'Ops automations cut manual triage time ~60% on repetitive tickets (pilot team estimate).',
-    es: 'Automatizaciones de ops redujeron ~60% el tiempo manual en tickets repetitivos (estimación piloto).',
+  'maria-luisa-de-mateo-jamstack': {
+    en: 'The site updates when she posts on Artsy or Instagram—not when she remembers a CMS password she was never going to use.',
+    es: 'El sitio se actualiza cuando publica en Artsy o Instagram—no cuando recuerda una contraseña de CMS que nunca iba a usar.',
   },
 }
 

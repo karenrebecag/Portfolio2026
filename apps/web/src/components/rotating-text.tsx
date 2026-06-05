@@ -10,7 +10,11 @@ export function RotatingTextProvider({ children }: { children: React.ReactNode }
     let cancelled = false
 
     whenFontsReady().then(() => {
-      if (!cancelled) initRotatingText()
+      if (cancelled) return
+      initRotatingText()
+      requestAnimationFrame(() => {
+        if (!cancelled) initRotatingText()
+      })
     })
 
     return () => {

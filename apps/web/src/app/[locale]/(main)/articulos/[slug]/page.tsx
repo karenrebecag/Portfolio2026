@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
 import { setRequestLocale } from 'next-intl/server'
 import type { Metadata } from 'next'
 import { ArticleCaseStudyPage } from '@/components/article-case-study-page'
@@ -16,6 +17,11 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>
 }
 
+/** Former /articulos URLs moved to client work at /projects/* */
+const MOVED_TO_CLIENT_WORK: Record<string, string> = {
+  'decoupled-architecture-non-technical-ownership': '/projects/decoupled-ownership-non-technical-teams',
+}
+
 export async function generateStaticParams() {
   return getAllArticleSlugs().map((slug) => ({ slug }))
 }
@@ -26,7 +32,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!project) return { title: 'Not found' }
   const localized = project.i18n?.[locale]
   const title = localized?.title ?? project.title
-  const description = localized?.summary ?? project.summary
+  const description =
+    (localized as { description?: string } | undefined)?.description ??
+    localized?.summary ??
+    project.summary
   const path = `/articulos/${slug}`
   const coverUrl = project.coverImage?.url
   const ogImages = coverUrl
@@ -69,11 +78,18 @@ export default async function ArticleBySlugPage({ params }: Props) {
   setRequestLocale(locale)
 
   const project = getArticleProjectByArticleSlug(slug)
-  if (!project) notFound()
+  if (!project) {
+    const moved = MOVED_TO_CLIENT_WORK[slug]
+    if (moved) redirect({ href: moved, locale })
+    notFound()
+  }
 
   const localized = project.i18n?.[locale]
   const title = localized?.title ?? project.title
-  const description = localized?.summary ?? project.summary
+  const description =
+    (localized as { description?: string } | undefined)?.description ??
+    localized?.summary ??
+    project.summary
 
   const jsonLd = [
     getArticleSchema({

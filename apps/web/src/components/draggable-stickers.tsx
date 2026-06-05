@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
+import { usePageInit } from '@/lib/use-page-init'
 
 gsap.registerPlugin(Draggable)
 
@@ -11,20 +12,30 @@ interface DraggableStickersProps {
   stickers: readonly { src: string; alt: string }[]
 }
 
-function initDraggableStickers() {
+function destroyDraggableStickers(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-sticker="item"]').forEach((sticker) => {
+    Draggable.get(sticker)?.kill()
+    gsap.killTweensOf(sticker)
+    gsap.set(sticker, { clearProps: 'transform,filter' })
+  })
+}
+
+function initDraggableStickers(root: ParentNode = document) {
   if (window.matchMedia('(pointer: coarse)').matches) return
 
-  const wrapper = document.querySelector<HTMLElement>('[data-sticker="wrap"]')
-  const bounds = document.querySelector<HTMLElement>('[data-sticker-bounds]') || wrapper
-  const items = document.querySelectorAll<HTMLElement>('[data-sticker="item"]')
+  const wrapper = root.querySelector<HTMLElement>('[data-sticker="wrap"]')
+  const bounds = root.querySelector<HTMLElement>('[data-sticker-bounds]') || wrapper
+  const items = root.querySelectorAll<HTMLElement>('[data-sticker="item"]')
   if (!wrapper || !items.length) return
 
   items.forEach((sticker) => {
+    if (Draggable.get(sticker)) return
+
     const initialRotation = gsap.utils.random(-15, 15)
     gsap.set(sticker, { rotation: initialRotation })
 
     Draggable.create(sticker, {
-      bounds: bounds,
+      bounds: bounds ?? undefined,
       dragResistance: 0.1,
       onPress() {
         gsap.to(this.target, {
@@ -50,25 +61,12 @@ function initDraggableStickers() {
 export function DraggableStickers({ stickers }: DraggableStickersProps) {
   const t = useTranslations('common')
 
-  useEffect(() => {
-    function start() {
+  usePageInit(
+    useCallback(() => {
       initDraggableStickers()
-    }
-
-    if (document.body.hasAttribute('data-page-ready')) {
-      start()
-    } else {
-      document.addEventListener('page-ready', start, { once: true })
-    }
-
-    function onNavigate() { start() }
-    document.addEventListener('page-navigation-complete', onNavigate)
-
-    return () => {
-      document.removeEventListener('page-ready', start)
-      document.removeEventListener('page-navigation-complete', onNavigate)
-    }
-  }, [])
+      return () => destroyDraggableStickers()
+    }, []),
+  )
 
   return (
     <div data-sticker="wrap" className="sticker-wrap">
