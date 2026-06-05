@@ -1,4 +1,6 @@
+import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { SITE_URL, buildAlternates, localizedPath } from '@/lib/seo'
 import { Button061 } from '@/components/ui/button-061'
 import { LogoWall } from '@/components/logo-wall'
 import { Container } from '@/components/ui/container'
@@ -9,6 +11,30 @@ import { Pill } from '@/components/ui/pill'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { getLocalizedProject } from '@/lib/project-i18n'
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'metadata' })
+
+  return {
+    title: { absolute: t('home_title') },
+    description: t('home_description'),
+    alternates: buildAlternates(locale, '/'),
+    openGraph: {
+      url: localizedPath(locale, '/'),
+      title: t('home_title'),
+      description: t('home_description'),
+    },
+    twitter: {
+      title: t('home_title'),
+      description: t('home_description'),
+    },
+  }
+}
+
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
@@ -17,8 +43,52 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     .map((p) => getLocalizedProject(p, locale))
   const t = await getTranslations()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Person',
+        '@id': `${SITE_URL}/#person`,
+        name: 'Karen Rebeca Ortiz',
+        alternateName: 'Karen Ortiz',
+        url: SITE_URL,
+        email: 'karenrortizg@gmail.com',
+        jobTitle: 'Product Engineer',
+        description: t('metadata.person_description'),
+        knowsAbout: [
+          'Product Engineering',
+          'Design Systems',
+          'AI Agents',
+          'Web Development',
+          'Next.js',
+          'Astro',
+          'TypeScript',
+          'MCP',
+        ],
+        sameAs: [
+          'https://github.com/karenrebecag',
+          'https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282',
+          'https://www.instagram.com/karenrebeca.og/',
+          'https://music.apple.com/profile/karenrebecaog',
+        ],
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: 'Karen Rebeca Ortiz',
+        inLanguage: ['es', 'en'],
+        publisher: { '@id': `${SITE_URL}/#person` },
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Banner */}
       <section data-theme-section="dark" className="relative min-h-[70vh] md:min-h-[85vh] lg:min-h-[95vh] px-4 lg:px-6 pt-20 overflow-hidden flex flex-col justify-end text-white">
         <div
@@ -105,7 +175,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* 01 Selected Projects */}
-      <ProjectsSection projects={projects} cmsBase="" />
+      <ProjectsSection projects={projects} />
 
 
       {/* 03 Why work with me */}

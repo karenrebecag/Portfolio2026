@@ -8,6 +8,9 @@ I spent a lot of time thinking about this problem while working on the Atomchat 
 
 This article documents what I built to solve it. It is not a solution specific to Atomchat -- it is a workflow any engineer or design engineer can bring to their next Webflow project. After you read it, pasting production JavaScript into a Webflow text area should feel as wrong as deploying over FTP after you have learned git -- not as a punchline, but as a signal that the boundary is missing.
 
+> [!info] Industry docs that back the workflow
+> Webflow documents [custom code in head and footer](https://help.webflow.com/hc/en-us/articles/33961357265299-Custom-code-in-head-and-body-tags) and [embed limits](https://help.webflow.com/hc/en-us/articles/33961332238611-Custom-code-embed). [jsDelivr](https://www.jsdelivr.com/documentation) documents GitHub `@main` URLs and [cache purge](https://www.jsdelivr.com/documentation#id-purge-cache). Cloudflare documents [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/) and [ignoring scripts with `data-cfasync="false"`](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/ignore-javascripts/). The repo map below is our implementation; the reference table at the end is what I send to teams evaluating the same split.
+
 ## First, understanding why Webflow behaves this way
 
 Before talking about solutions, I want to be fair to Webflow because it has a bad reputation for reasons that are actually correct design decisions for its original use case.
@@ -59,9 +62,44 @@ flowchart LR
 
 What makes this work is not the technology -- ==it is the contract.== The explicit agreement that a copy change never touches the repository, and an animation refactor never requires marketing to wait. The two systems run in parallel, deploy independently, and neither blocks the other.
 
-The connection point between both is jsDelivr, a CDN that serves files directly from GitHub. Webflow references assets from there with a URL that never changes. What does change -- after a push and a cache purge -- is the content that URL resolves to.
+The connection point between both is [jsDelivr](https://www.jsdelivr.com/documentation), a CDN that serves files directly from GitHub ([GitHub CDN docs](https://www.jsdelivr.com/documentation#id-github)). Webflow references assets from there with a URL that never changes. What does change -- after a push and an explicit [cache purge](https://www.jsdelivr.com/documentation#id-purge-cache) -- is the content that URL resolves to.
 
 > [!tip] git push origin main -> curl purge jsDelivr cache -> site updated. No Webflow republish. No coordination. Marketing does not even know it happened because they do not need to.
+
+## Repository map — documentation that enforces the contract
+
+The workflow in this article is implemented in [AtomWebflow_2026Site](https://github.com/karenrebecag/AtomWebflow_2026Site). The point of the repo is not "lots of code" — it is ==written boundaries== so Webflow, jsDelivr, and agents do not fight over the same territory.
+
+| Path | What it documents |
+|------|-------------------|
+| `CLAUDE.md` (root) | Dual-control contract; Webflow Site ID `6890d2a7153362eed21e1c49`; Head/Footer embed with `@main` + `data-cfasync="false"` on the script |
+| `.mcp.json` | Webflow MCP token + `WEBFLOW_SITE_ID` for Designer/API tasks from this repo |
+| `ORCHESTRATOR.md` | Which agent skills load for CMS tasks, asset audits, safe publish |
+| `.agents/skills/` | 34 skills by category (constraints referenced in the agent section below) |
+| `src/css/base/tokens.css` | Brand tokens synced with ATOM DS; `#000000` prohibited in text (comment in file) |
+| `src/css/site.css` | Entry: imports base, sections, components |
+| `src/js/site.js` | Module loader v1.2.0: `[data-module]`, `autoDetect`, `data-page` on `<body>` |
+| `src/js/modules/*.js` | One file per feature (`mega-nav`, `marquee`, `button-041`, `gsap-slider`, …) |
+
+**Deploy commands documented in-repo** (not tribal knowledge):
+
+```bash
+git push origin main
+curl -s "https://purge.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/css/site.css"
+curl -s "https://purge.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/js/site.js"
+```
+
+**Webflow-side contract** (from `CLAUDE.md` — Site Settings > Custom Code):
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/css/site.css">
+<script type="module" data-cfasync="false"
+  src="https://cdn.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/js/site.js"></script>
+```
+
+`data-cfasync="false"` opts the module out of Cloudflare Rocket Loader deferral on the *repo* script (GSAP still needs `waitForGSAP` for Webflow's own GSAP tag). HTML and CMS publish stay in Webflow; ==behavior changes trace to git SHA + purge, not a Designer publish.==
+
+**Why `autoDetect` exists** (documented in `CLAUDE.md`): Webflow strips `data-*` on component *roots* after publish. Skills and orchestrator rules tell agents to bind on inner selectors like `[data-css-marquee]` instead — that detail is the kind of production-only fact we stopped leaving in Slack threads.
 
 ## Why @main and not @latest
 
@@ -109,14 +147,17 @@ If the dual-control model is the architecture, ==design tokens are the shared la
 
 Tokens are not "CSS variables with nice names." They are the contract that guarantees what the designer configures in Webflow and what the external code produces are exactly the same thing. Without that contract, drift between systems is inevitable -- and it is subtle, which is the worst part. Colors that approximate but do not match. Spacing that looks similar but is different. Animations with slightly different timing depending on who touched what.
 
-```css tokens.css
+```css tokens.css — header comment in repo
+/* ATOM Webflow — Design Tokens
+   Sincronizan con ATOM DS. Negro puro #000000 prohibido en texto. */
+
 :root {
-  /* Brand -- orange is accent only, never background or CTA */
   --color-brand:        #FF6600;
   --color-brand-hover:  #e65c00;
   --color-violet:       #8023FF;
+  --gradient-brand:     linear-gradient(90deg, #8023FF, #FF6600);
 
-  /* Text -- pure black (#000) is prohibited */
+  /* Texto — #000000 prohibido, usar estos */
   --color-text-heading: #222020;
   --color-text-body:    #27272A;
   --color-text-muted:   #71717A;
@@ -143,27 +184,35 @@ Webflow has no native way to tell JavaScript "initialize this component when it 
 
 The solution I built is a 54-line entry point that does one thing: scans the DOM, identifies which modules the current page needs, and dynamically imports them. Only those. Only when needed.
 
-```javascript site.js
-// Pattern 1: modules activated by data-module
+```javascript site.js — entry v1.2.0 (production repo)
 const modules = {
-  'nav':              () => import('./modules/nav.js'),
-  'animations':       () => import('./modules/animations.js'),
-  'scroll-animations':() => import('./modules/scroll-animations.js'),
-  'faq':              () => import('./modules/faq.js'),
+  'nav': () => import('./modules/nav.js'),
+  'animations': () => import('./modules/animations.js'),
+  'scroll-animations': () => import('./modules/scroll-animations.js'),
+  'faq': () => import('./modules/faq.js'),
+  'button-041': () => import('./modules/button-041.js'),
 };
 
-// Pattern 2: auto-detect by component selector
+document.querySelectorAll('[data-module]').forEach(el => {
+  const name = el.dataset.module;
+  if (modules[name]) {
+    modules[name]().then(m => m.init && m.init(el));
+  }
+});
+
 const autoDetect = {
-  '[data-button-041]':      () => import('./modules/button-041.js'),
-  '[data-css-marquee]':     () => import('./modules/marquee.js'),
-  '[data-menu-wrap]':       () => import('./modules/mega-nav.js'),
-  '[data-tabs-init]':       () => import('./modules/tabs.js'),
+  '[data-button-041]': () => import('./modules/button-041.js'),
+  '[data-css-marquee]': () => import('./modules/marquee.js'),
+  '[data-menu-wrap]': () => import('./modules/mega-nav.js'),
+  '[data-tabs-init]': () => import('./modules/tabs.js'),
+  '[data-gsap-slider-init]': () => import('./modules/gsap-slider.js'),
 };
 
-// Only load what exists in the DOM
-for (const [sel, loader] of Object.entries(autoDetect)) {
-  if (document.querySelector(sel)) loader();
-}
+Object.entries(autoDetect).forEach(([selector, loader]) => {
+  if (document.querySelector(selector)) {
+    loader().then(m => m.init && m.init(document));
+  }
+});
 ```
 
 No bundler. No build step. ==No JavaScript traveling to pages where it is not used.== The browser resolves ESM imports natively.
@@ -176,7 +225,7 @@ I want to talk about this problem with some affection because it was the most fr
 
 The setup: Webflow loads GSAP automatically from its own CDN. Our external JS modules depend on `window.gsap` existing to initialize. In local, in staging, in any test environment -- everything works perfectly.
 
-In production, under certain network conditions with Cloudflare Rocket Loader active, ==animations silently fail on approximately 30% of page loads.==
+In production, under certain network conditions with [Cloudflare Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/) active, ==animations silently fail on approximately 30% of page loads.== Cloudflare's own guidance is to mark scripts that must run in order with [`data-cfasync="false"`](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/ignore-javascripts/) — we use that on our module entry *and* still poll for `window.gsap` because Webflow's GSAP tag is a separate script Rocket Loader can defer.
 
 No console error. No message. The animations simply do not appear.
 
@@ -184,18 +233,16 @@ No console error. No message. The animations simply do not appear.
 
 The solution, once you understand the cause, is completely obvious:
 
-```javascript
+```javascript button-041.js — Rocket Loader + Webflow GSAP 3.15
 function waitForGSAP(timeout = 5000) {
   return new Promise((resolve, reject) => {
     if (window.gsap) return resolve(window.gsap);
     const start = Date.now();
     const check = setInterval(() => {
-      if (window.gsap) {
+      if (window.gsap) { clearInterval(check); resolve(window.gsap); }
+      else if (Date.now() - start > timeout) {
         clearInterval(check);
-        resolve(window.gsap);
-      } else if (Date.now() - start > timeout) {
-        clearInterval(check);
-        reject(new Error('[atom] gsap not found'));
+        reject(new Error('[atom] gsap not found — Webflow GSAP may be disabled'));
       }
     }, 50);
   });
@@ -265,6 +312,21 @@ In the first two weeks after we drew the boundary explicitly, those pings stoppe
 - **data-* as the only activation mechanism.** Never use Webflow classes as selectors in JavaScript. Classes change on redesigns. `data-*` attributes are explicit contracts that Webflow preserves -- but remember: put your attributes on inner elements, not on the component root. If you bind to class names, the first time someone reorganizes the Designer you will spend an hour tracing why the nav module stopped firing.
 
 > [!tip] The entire external codebase for this production site is under 400 lines of CSS and 300 lines of JavaScript. The architecture is deliberately minimal. Complexity lives in the constraints and the workflow, not in the code.
+
+## References (external — worth bookmarking)
+
+| Topic | Source |
+|-------|--------|
+| Custom code in site head/footer | [Webflow Help — Custom code in head and body](https://help.webflow.com/hc/en-us/articles/33961357265299-Custom-code-in-head-and-body-tags) |
+| Embed / custom code limits | [Webflow Help — Custom code embed](https://help.webflow.com/hc/en-us/articles/33961332238611-Custom-code-embed) |
+| Higher custom-code character limits (context) | [Webflow Updates](https://webflow.com/updates/increased-custom-code-character-limit) |
+| jsDelivr + GitHub (`@main`) | [jsDelivr — GitHub documentation](https://www.jsdelivr.com/documentation#id-github) |
+| Purge CDN cache after deploy | [jsDelivr — Purge cache](https://www.jsdelivr.com/documentation#id-purge-cache) |
+| Rocket Loader behavior | [Cloudflare — Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/) |
+| Exclude a script from Rocket Loader | [Cloudflare — Ignore JavaScripts](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/ignore-javascripts/) |
+| shadcn-style registry (parallel for DS teams) | [shadcn/ui — Registry](https://ui.shadcn.com/docs/registry) |
+| Design tokens standard (shared language with DS) | [W3C Design Tokens — first stable version](https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/) |
+| Webflow MCP (Designer/API automation) | [Webflow Developers](https://developers.webflow.com/) |
 
 ## The real takeaway
 

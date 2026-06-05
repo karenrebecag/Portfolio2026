@@ -6,6 +6,7 @@ import { ArticleTOC } from '@/components/article-toc'
 import { RichTextRenderer } from '@/components/rich-text-renderer'
 import { ScrollHighlight } from '@/components/scroll-highlight'
 import { SocialShare } from '@/components/social-share'
+import { ContactSection } from '@/components/contact-section'
 import { getArticleMetaForProject, getArticleProjectByArticleSlug } from '@/lib/article-projects'
 import { getLocalizedProject } from '@/lib/project-i18n'
 
@@ -30,7 +31,8 @@ export async function ArticleCaseStudyPage({ locale, articleSlug }: ArticleCaseS
   const t = await getTranslations('project_detail')
 
   return (
-    <main data-theme-section="light" className="article-page">
+    <>
+    <article data-theme-section="light" className="article-page">
       <Container className="article-page__container px-4 lg:px-6">
         <header
           className="article-hero border-b border-border pb-10 pt-28 lg:pt-36"
@@ -48,7 +50,9 @@ export async function ArticleCaseStudyPage({ locale, articleSlug }: ArticleCaseS
           </div>
 
           <h1 className="mt-6 text-[clamp(2rem,5vw,3.75rem)] font-bold leading-[1.05] tracking-tight max-w-[20ch]">
-            {title}
+            {title.split(/\s*\|\s*|\s+[—–·]\s+/).filter(Boolean).map((line, i) => (
+              <span key={i} className="block">{line}</span>
+            ))}
           </h1>
 
           <p className="mt-6 text-base leading-relaxed text-foreground/80 max-w-[58ch]">
@@ -108,6 +112,9 @@ export async function ArticleCaseStudyPage({ locale, articleSlug }: ArticleCaseS
           />
         </ArticleTOC>
       </Container>
-    </main>
+    </article>
+
+    <ContactSection />
+    </>
   )
 }

@@ -1,7 +1,12 @@
 {
   "metadata": {
     "title": "Karen Ortiz - Software Engineer & Product Designer",
-    "description": "Diseño y construyo productos web impulsados por IA, de la arquitectura al último píxel."
+    "description": "Diseño y construyo productos web impulsados por IA, de la arquitectura al último píxel.",
+    "home_title": "Karen Rebeca Ortiz — Product Engineer, Design Systems & AI",
+    "home_description": "Product engineer entre diseño y código. Construyo experiencias web, design systems y herramientas con IA, de la arquitectura al último píxel.",
+    "about_title": "Sobre mí",
+    "about_description": "Conoce a Karen Rebeca Ortiz: product engineer entre diseño y código. Experiencias web, design systems y herramientas con IA para equipos en LATAM, EE. UU. y Europa.",
+    "person_description": "Product engineer entre diseño y código. Construyo experiencias web, design systems y herramientas con IA para equipos de producto."
   },
   "common": {
     "socials": "Redes",
@@ -215,6 +220,6 @@
     "mode": "mode"
   },
   "marquee": {
-    "services": "Product Engineering, Design Systems, AI Integrations, Web Architecture, Component Libraries, MCP Servers, Frontend Development, UX Engineering"
+    "services": "Ingeniería de producto, Astro SSR y React, Sistemas de diseño y tokens, Arquitectura Webflow, IA conversacional, Automatización n8n, Integraciones MCP, Motion con GSAP, Ingeniería UX"
   }
 }

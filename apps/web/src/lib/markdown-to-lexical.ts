@@ -1,5 +1,5 @@
 // Markdown -> Lexical + Block converter for case study articles.
-// Supports: headings, paragraphs, **bold**, *italic*, `code`,
+// Supports: headings, paragraphs, **bold**, *italic*, `code`, [label](url) links,
 // ```code fences```, > [!type] callouts, | tables |, --- dividers,
 // ![alt](url) images, - bullet lists
 
@@ -15,6 +15,8 @@ interface LexicalNode {
   direction?: string | null
   indent?: number
   version?: number
+  url?: string
+  fields?: { url?: string; newTab?: boolean; linkType?: string }
 }
 
 export interface ParsedContent {
@@ -24,8 +26,9 @@ export interface ParsedContent {
 
 function parseInline(text: string): LexicalNode[] {
   const nodes: LexicalNode[] = []
-  // Combined pass: ==highlight==, **bold**, *italic*, `code`
-  const re = /(==(.+?)==|\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`)/g
+  // Combined pass: [label](url), ==highlight==, **bold**, *italic*, `code`
+  const re =
+    /(\[([^\]]+)\]\(([^)]+)\)|==(.+?)==|\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`)/g
   let lastIndex = 0
   let m: RegExpExecArray | null
 
@@ -33,18 +36,26 @@ function parseInline(text: string): LexicalNode[] {
     if (m.index > lastIndex) {
       nodes.push({ type: 'text', text: text.slice(lastIndex, m.index), format: 0, direction: null, indent: 0, version: 1 })
     }
-    if (m[2]) {
-      // highlight (==text==) -> uses format 128 (custom flag for data-highlight)
-      nodes.push({ type: 'highlight', text: m[2], format: 0, direction: null, indent: 0, version: 1 })
-    } else if (m[3]) {
-      // bold
-      nodes.push({ type: 'text', text: m[3], format: 1, direction: null, indent: 0, version: 1 })
+    if (m[2] !== undefined && m[3] !== undefined) {
+      const url = m[3].trim()
+      const external = /^https?:\/\//i.test(url) || url.startsWith('mailto:')
+      nodes.push({
+        type: 'link',
+        fields: { url, newTab: external, linkType: external ? 'custom' : 'internal' },
+        children: [{ type: 'text', text: m[2], format: 0, direction: null, indent: 0, version: 1 }],
+        direction: null,
+        format: 0,
+        indent: 0,
+        version: 1,
+      })
     } else if (m[4]) {
-      // italic
-      nodes.push({ type: 'text', text: m[4], format: 2, direction: null, indent: 0, version: 1 })
+      nodes.push({ type: 'highlight', text: m[4], format: 0, direction: null, indent: 0, version: 1 })
     } else if (m[5]) {
-      // inline code
-      nodes.push({ type: 'text', text: m[5], format: 16, direction: null, indent: 0, version: 1 })
+      nodes.push({ type: 'text', text: m[5], format: 1, direction: null, indent: 0, version: 1 })
+    } else if (m[6]) {
+      nodes.push({ type: 'text', text: m[6], format: 2, direction: null, indent: 0, version: 1 })
+    } else if (m[7]) {
+      nodes.push({ type: 'text', text: m[7], format: 16, direction: null, indent: 0, version: 1 })
     }
     lastIndex = m.index + m[0].length
   }

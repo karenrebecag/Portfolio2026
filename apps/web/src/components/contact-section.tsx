@@ -21,9 +21,9 @@ function LinkedInIcon({ className }: { className?: string }) {
 }
 
 const CONTACT_LINKS = [
-  { label: 'GitHub', href: 'https://github.com/karenrebecaortiz', icon: GitHubIcon },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/karenrebecaortiz', icon: LinkedInIcon },
-  { label: 'Email', href: 'mailto:hello@karenortiz.dev', icon: Mail },
+  { label: 'GitHub', href: 'https://github.com/karenrebecag', icon: GitHubIcon },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282', icon: LinkedInIcon },
+  { label: 'Email', href: 'mailto:karenrortizg@gmail.com', icon: Mail },
 ]
 
 export async function ContactSection() {

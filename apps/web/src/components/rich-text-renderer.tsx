@@ -1,6 +1,7 @@
 import React from 'react'
 import type { Block } from '@/components/blocks/types'
 import { BlockRenderer } from '@/components/blocks/block-renderer'
+import { ArticleNavLink } from '@/components/ui/article-nav-link'
 
 interface LexicalNode {
   type: string
@@ -86,15 +87,10 @@ function renderNode(node: LexicalNode, index: number, blocks?: Block[]): React.R
     case 'link':
     case 'autolink': {
       const href = node.fields?.url || (node.url as string) || '#'
-      const newTab = node.fields?.newTab
       return (
-        <a
-          key={index}
-          href={href}
-          {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
+        <ArticleNavLink key={index} href={href}>
           {children}
-        </a>
+        </ArticleNavLink>
       )
     }
 

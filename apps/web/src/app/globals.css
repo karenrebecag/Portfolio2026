@@ -412,6 +412,7 @@
 .footer-parallax-wrap {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .footer-parallax-dark {
@@ -1068,7 +1069,7 @@ body[data-section-theme='light'] .icon-button {
 
 /* -- Preview / Projects -- */
 /* Base layout/spacing is Tailwind inline. CSS here is only for: */
-/* transitions, :has() selectors, follower cursor, responsive overrides */
+/* transitions, :has() selectors, responsive overrides */
 
 .preview-item__heading {
   transition: transform 0.5s cubic-bezier(0.625, 0.05, 0, 1), color 0.3s ease;
@@ -1081,68 +1082,6 @@ body[data-section-theme='light'] .icon-button {
   }
 }
 
-.preview-item__visual {
-  aspect-ratio: 1 / 1.25;
-  width: 18em;
-  display: none;
-  position: absolute;
-  overflow: hidden;
-}
-
-.preview-follower [data-follower-visual] {
-  display: block;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.preview-follower {
-  z-index: 100;
-  aspect-ratio: 1 / 1.25;
-  pointer-events: none;
-  justify-content: center;
-  align-items: center;
-  width: 18em;
-  display: flex;
-  position: fixed;
-  inset: 0% auto auto 0%;
-  overflow: hidden;
-}
-
-.preview-follower__label {
-  z-index: 2;
-  position: absolute;
-  opacity: 0;
-  transform: translate(0px, 100%);
-  transition: opacity 0.1s ease, transform 0.6s cubic-bezier(0.65, 0.1, 0, 1);
-}
-
-.preview-follower__label-span {
-  background-color: var(--surface);
-  color: #fdf9ed;
-  border-radius: 2px;
-  padding: 0.5em 1em;
-  font-family: var(--font-accent);
-  font-size: 0.75em;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.preview-follower__inner {
-  z-index: 2;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  position: relative;
-  border: 1px solid var(--border);
-  opacity: 0;
-  transform: scale(0);
-  transition: opacity 0.1s ease, transform 0.6s cubic-bezier(0.65, 0.1, 0, 1), border-color 0.1s ease;
-}
-
 @media (min-width: 992px) {
   .preview-item:last-of-type .preview-item__inner {
     border-bottom: 1px solid var(--border);
@@ -1150,14 +1089,6 @@ body[data-section-theme='light'] .icon-button {
 }
 
 @media (hover: hover) and (min-width: 992px) {
-  body:has([data-follower-collection]:hover) .preview-follower__inner {
-    opacity: 1;
-    transform: scale(1);
-  }
-  body:has([data-follower-collection]:hover) .preview-follower__label {
-    opacity: 1;
-    transform: translate(0px, 0%);
-  }
   body:has(.preview-item:hover) .preview-item:not(:hover) {
     opacity: 0.4;
   }
@@ -1165,10 +1096,6 @@ body[data-section-theme='light'] .icon-button {
 
 /* Responsive layout for project cards is handled via Tailwind arbitrary breakpoints */
 /* max-[991px]: and max-[767px]: on the JSX elements */
-
-@media screen and (max-width: 991px) {
-  .preview-follower { display: none; }
-}
 
 /* -- Custom Cursor -- */
 
@@ -1996,6 +1923,26 @@ body[data-section-theme='light'] [data-css-marquee] {
   line-height: 1.7;
   color: color-mix(in oklab, var(--foreground) 88%, transparent);
   max-width: 68ch;
+}
+
+.toc-article .article-nav-link {
+  font-weight: 500;
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in oklab, var(--primary) 45%, transparent);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.toc-article .article-nav-link:hover {
+  color: var(--primary);
+  text-decoration-color: var(--primary);
+}
+
+.toc-article .article-nav-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .toc-article blockquote {

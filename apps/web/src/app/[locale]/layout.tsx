@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { Inter_Tight } from 'next/font/google'
 import localFont from 'next/font/local'
@@ -19,6 +19,7 @@ import { MarqueeScrollInit } from '@/components/marquee-scroll-init'
 import { PageTransition } from '@/components/page-transition'
 import { Toaster } from '@/components/ui/sonner'
 import { routing } from '@/i18n/routing'
+import { SITE_URL, ogLocale, localizedPath } from '@/lib/seo'
 import '../globals.css'
 
 const interTight = Inter_Tight({
@@ -51,6 +52,13 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fdf9ed' },
+    { media: '(prefers-color-scheme: dark)', color: '#0c0e0a' },
+  ],
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -58,13 +66,42 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const messages = (await import(`../../../messages/${locale}.json`)).default
+  const m = messages.metadata
 
   return {
+    metadataBase: new URL(SITE_URL),
     title: {
-      default: messages.metadata.title,
+      default: m.title,
       template: `%s | Karen Ortiz`,
     },
-    description: messages.metadata.description,
+    description: m.description,
+    applicationName: 'Karen Rebeca Ortiz',
+    authors: [{ name: 'Karen Rebeca Ortiz', url: SITE_URL }],
+    creator: 'Karen Rebeca Ortiz',
+    openGraph: {
+      type: 'website',
+      siteName: 'Karen Rebeca Ortiz',
+      locale: ogLocale(locale),
+      url: localizedPath(locale, '/'),
+      title: m.title,
+      description: m.description,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: m.title,
+      description: m.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
+    },
   }
 }
 

@@ -1,4 +1,6 @@
+import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { buildAlternates, localizedPath } from '@/lib/seo'
 import { getAboutContent } from '@/content/about'
 import { Container } from '@/components/ui/container'
 import { ContactSection } from '@/components/contact-section'
@@ -17,6 +19,30 @@ const DraggableMarqueeStrip = dynamic(
   () => import('@/components/additional-work').then((mod) => mod.DraggableMarqueeStrip),
   { loading: () => <div className="h-48 animate-pulse bg-muted/20" aria-hidden /> },
 )
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'metadata' })
+
+  return {
+    title: t('about_title'),
+    description: t('about_description'),
+    alternates: buildAlternates(locale, '/about'),
+    openGraph: {
+      url: localizedPath(locale, '/about'),
+      title: t('about_title'),
+      description: t('about_description'),
+    },
+    twitter: {
+      title: t('about_title'),
+      description: t('about_description'),
+    },
+  }
+}
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

@@ -38,12 +38,12 @@ export const atomWebflowMeta = {
 
 export const atomWebflowI18n = {
   en: {
-    title: 'The Problem with Webflow in Production \u2014 and How We Solve It',
+    title: 'Webflow in Production | with Engineering Discipline',
     summary: 'A replicable workflow for teams that need no-code speed with engineering discipline.',
   },
   es: {
-    title: 'El problema con Webflow en produccion \u2014 y como lo resolvemos',
-    summary: 'Un workflow replicable para equipos que necesitan velocidad de no-code con disciplina de ingenieria.',
+    title: 'Webflow en producci\u00f3n | con disciplina de ingenier\u00eda',
+    summary: 'Un workflow replicable para equipos que necesitan velocidad de no-code con disciplina de ingenier\u00eda.',
   },
 }
 

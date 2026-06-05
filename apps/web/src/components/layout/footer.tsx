@@ -11,7 +11,7 @@ export function Footer() {
 
   return (
     <div data-footer-parallax className="footer-parallax-wrap">
-    <footer data-footer-parallax-inner data-theme-section="dark" data-reveal-group data-stagger="80" className="bg-surface text-surface-foreground">
+    <footer data-footer-parallax-inner data-theme-section="dark" className="bg-surface text-surface-foreground">
       <Container className="px-4 lg:px-6 pt-20 pb-10">
         {/* Top: tagline + year */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:gap-8">
@@ -32,7 +32,7 @@ export function Footer() {
           <p className="max-w-[48ch] tracking-tight text-balance text-surface-foreground/70 md:text-lg">{t('bio')}</p>
           <div className="shrink-0">
             <Button061
-              href="mailto:hello@karenortiz.dev"
+              href="mailto:karenrortizg@gmail.com"
               className="footer-cta"
             >
               {contact('cta')}
@@ -58,8 +58,8 @@ export function Footer() {
 
           {/* Email */}
           <div className="col-span-8 md:col-span-4">
-            <a href="mailto:hello@karenortiz.dev" className="text-surface-foreground/60 hover:text-surface-foreground transition-colors max-w-fit font-accent text-xs">
-              hello@karenortiz.dev
+            <a href="mailto:karenrortizg@gmail.com" className="text-surface-foreground/60 hover:text-surface-foreground transition-colors max-w-fit font-accent text-xs">
+              karenrortizg@gmail.com
             </a>
           </div>
 

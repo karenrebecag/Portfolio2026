@@ -47,30 +47,43 @@ function initParallax() {
 
 function initFooterParallax() {
   const triggers: ScrollTrigger[] = []
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   document.querySelectorAll<HTMLElement>('[data-footer-parallax]').forEach((el) => {
     const inner = el.querySelector<HTMLElement>('[data-footer-parallax-inner]')
     const dark = el.querySelector<HTMLElement>('[data-footer-parallax-dark]')
 
+    if (prefersReduced) {
+      if (inner) gsap.set(inner, { yPercent: 0, clearProps: 'transform' })
+      if (dark) gsap.set(dark, { opacity: 0, clearProps: 'opacity' })
+      return
+    }
+
+    // fromTo: at scroll progress 0 the footer sits below (yPercent > 0), not pulled up.
+    // `from({ yPercent: -25 })` left the footer shifted up whenever progress === 0
+    // (page load, bottom of page, after navigation) — overlapping contact + grid.
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: el,
         start: 'clamp(top bottom)',
         end: 'clamp(top top)',
         scrub: true,
+        invalidateOnRefresh: true,
       },
     })
 
     if (inner) {
-      tl.from(inner, { yPercent: -25, ease: 'linear' })
+      tl.fromTo(inner, { yPercent: 24 }, { yPercent: 0, ease: 'none' })
     }
 
     if (dark) {
-      tl.from(dark, { opacity: 0.5, ease: 'linear' }, '<')
+      tl.fromTo(dark, { opacity: 1 }, { opacity: 0, ease: 'none' }, '<')
     }
 
     if (tl.scrollTrigger) triggers.push(tl.scrollTrigger)
   })
+
+  scheduleScrollTriggerRefresh(true)
 
   return () => triggers.forEach((t) => t.kill())
 }

@@ -2,6 +2,18 @@
 // These are converted to Lexical format (what the project detail renderer expects).
 import { atomWebflowMeta, atomWebflowI18n, atomWebflowMarkdown_en, atomWebflowMarkdown_es } from '@/content/projects/atom-webflow'
 import {
+  aurinChatbotThreeLayerMeta,
+  aurinChatbotThreeLayerI18n,
+  aurinChatbotThreeLayerMarkdown_en,
+  aurinChatbotThreeLayerMarkdown_es,
+} from '@/content/projects/aurin-chatbot-three-layer'
+import {
+  contextDrivenVibecodingMeta,
+  contextDrivenVibecodingI18n,
+  contextDrivenVibecodingMarkdown_en,
+  contextDrivenVibecodingMarkdown_es,
+} from '@/content/projects/context-driven-vibecoding'
+import {
   designSystemShipsItselfMeta,
   designSystemShipsItselfI18n,
   designSystemShipsItselfMarkdown_en,
@@ -60,11 +72,53 @@ export const STICKERS = [
 
 const atomWebflowParsed_en = parseMarkdown(atomWebflowMarkdown_en)
 const atomWebflowParsed_es = parseMarkdown(atomWebflowMarkdown_es)
+const aurinChatbotParsed_en = parseMarkdown(aurinChatbotThreeLayerMarkdown_en)
+const aurinChatbotParsed_es = parseMarkdown(aurinChatbotThreeLayerMarkdown_es)
+const contextDrivenVibecodingParsed_en = parseMarkdown(contextDrivenVibecodingMarkdown_en)
+const contextDrivenVibecodingParsed_es = parseMarkdown(contextDrivenVibecodingMarkdown_es)
 const designSystemParsed_en = parseMarkdown(designSystemShipsItselfMarkdown_en)
 const designSystemParsed_es = parseMarkdown(designSystemShipsItselfMarkdown_es)
 
 export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
   // Long-form articles first (home links to /articulos/…)
+  {
+    ...contextDrivenVibecodingMeta,
+    title: contextDrivenVibecodingI18n.en.title,
+    summary: contextDrivenVibecodingI18n.en.summary,
+    description: contextDrivenVibecodingParsed_en.lexical,
+    blocks: contextDrivenVibecodingParsed_en.blocks,
+    i18n: {
+      en: {
+        ...contextDrivenVibecodingI18n.en,
+        lexical: contextDrivenVibecodingParsed_en.lexical,
+        blocks: contextDrivenVibecodingParsed_en.blocks,
+      },
+      es: {
+        ...contextDrivenVibecodingI18n.es,
+        lexical: contextDrivenVibecodingParsed_es.lexical,
+        blocks: contextDrivenVibecodingParsed_es.blocks,
+      },
+    },
+  },
+  {
+    ...aurinChatbotThreeLayerMeta,
+    title: aurinChatbotThreeLayerI18n.en.title,
+    summary: aurinChatbotThreeLayerI18n.en.summary,
+    description: aurinChatbotParsed_en.lexical,
+    blocks: aurinChatbotParsed_en.blocks,
+    i18n: {
+      en: {
+        ...aurinChatbotThreeLayerI18n.en,
+        lexical: aurinChatbotParsed_en.lexical,
+        blocks: aurinChatbotParsed_en.blocks,
+      },
+      es: {
+        ...aurinChatbotThreeLayerI18n.es,
+        lexical: aurinChatbotParsed_es.lexical,
+        blocks: aurinChatbotParsed_es.blocks,
+      },
+    },
+  },
   {
     ...designSystemShipsItselfMeta,
     title: designSystemShipsItselfI18n.en.title,

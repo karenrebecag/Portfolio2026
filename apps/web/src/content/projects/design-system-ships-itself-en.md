@@ -4,6 +4,9 @@ Nobody decided that. The agent had the component's metadata -- it knew a variant
 
 This article is about how I built a design system that an AI agent can't hallucinate. But the honest version of that story doesn't start with the solution -- it starts with three problems I discovered in order, where each one only became visible after solving the previous one. First I took an existing design system and reinterpreted it to be read by a machine. Then I connected agents and found they hallucinated anyway. Then, while fixing that, I discovered my own architecture had the source of truth duplicated in three places. What follows is that journey, and what it taught me about the relationship between design systems and AI.
 
+> [!info] External grounding (not just our monorepo)
+> The distribution model follows [shadcn/ui's registry](https://ui.shadcn.com/docs/registry) (copy source, don't npm-install a black box). Agent access follows the [Model Context Protocol](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) tool surface. Tokens follow the [W3C Design Tokens format](https://www.designtokens.org/). Company auth for MCP follows [Clerk's MCP guides](https://clerk.com/docs/guides/ai/mcp/build-mcp-server). Code snippets in this article show *our* wiring; the reference table is what I use when the argument has to stand outside the repo.
+
 ## Where this started: a company that vibecodes
 
 I joined Atom at a precise moment. The product team -- a group of very talented people -- was finishing the first stage of their design system: a system with shadcn's aesthetic, built for Atom's platform. Good work, solid base. But it lived inside the product.
@@ -39,9 +42,9 @@ The UIKit components are not on npm. This is written, verbatim, in the first lin
 
 > [!note] "Distributes via private registry (shadcn model) -- source copied to consumer projects, not installed as npm dependencies."
 
-The decision has a philosophy behind it. An npm dependency is a black box: you install it, you import it, and the code lives in `node_modules` where nobody reads or modifies it. For an AI agent, a black box is exactly the worst case -- it can see the package's signature but not its inside, so ==it fills the gaps with guesses.==
+The decision has a philosophy behind it — the same one [shadcn documents for its CLI](https://ui.shadcn.com/docs/cli): components are **added to your project**, not hidden in `node_modules`. An npm dependency is a black box: you install it, you import it, and the code lives where nobody reads or modifies it. For an AI agent, a black box is exactly the worst case -- it can see the package's signature but not its inside, so ==it fills the gaps with guesses.==
 
-The shadcn model inverts that. The source is copied into the consumer's project. The code is yours, in plain sight, modifiable. And for an agent it means the real source is always available -- not as an opaque import, but as files it can read before writing.
+The [registry model](https://ui.shadcn.com/docs/registry/getting-started) inverts that. JSON items describe files to copy; the source is yours, in plain sight, modifiable. For an agent it means the real source is reachable through a single implementation tool -- not as an opaque import, but as files it must fetch before writing.
 
 The monorepo is organized into six independent packages:
 
@@ -59,7 +62,54 @@ The monorepo is organized into six independent packages:
 }
 ```
 
-Six packages, but a single source of values. The tokens aren't tied to any framework -- they're values in a standard format, agnostic to whatever technology consumes them. That's why the same system produces components in pure CSS, in React, in Astro, and even a WhatsApp widget as a self-contained IIFE. ==That agnostic layer is what makes it special:== it's not a set of React components, it's a source many stacks derive their own from. And it's consumed two ways, designed for how Atom actually works: over MCP for agents inside the editor, and over HTTP for anyone vibecoding.
+Six packages, but a single source of values. The tokens aren't tied to any framework -- they're values in a standard format, agnostic to whatever technology consumes them. That's why the same system produces components in pure CSS, in React, in Astro, and even a WhatsApp widget as a self-contained IIFE. ==That agnostic layer is what makes it special:== it's not a set of React components, it's a source many stacks derive their own from. And it's consumed two ways, designed for how client teams actually work: over MCP for agents inside the editor, and over HTTP for anyone vibecoding.
+
+## Multi-repo documentation map
+
+The design system is not one repository — it is ==four coordinated repos== with written contracts in each `CLAUDE.md`. This table is the index I use when onboarding engineers or agents.
+
+| Repository | Canonical docs | What they govern |
+|------------|----------------|------------------|
+| `atom-uikit-ds` | Root `CLAUDE.md`, `scripts/registry-schema.ts` | Tokens (3 layers), packages, `pnpm build:registry`, `atom.discovery` vs `atom.implementation` |
+| `atom-uikit-cms` | `CLAUDE.md` → *Component article standard* | Payload collections, `restricted` flag on docs, MCP-readable article sections (Button doc ID 67 = reference) |
+| `atom-uikit-docs` | `src/app/api/auth/mcp-token/route.ts`, `/auth/mcp-oauth` | Clerk login, company-domain gate, CLI token exchange |
+| `atom-uikit-db` | `mcp/CLAUDE.md`, `mcp/architecture.html`, `supabase/functions/get-docs` | Hosted MCP tools, OAuth 2.1, `x-restricted-access` header for restricted blocks |
+
+**Production URLs** (from CMS `CLAUDE.md`):
+
+| Surface | URL |
+|---------|-----|
+| Docs site | https://uikit.atomchat.io |
+| CMS admin | https://uikit-admin.atomchat.io |
+| MCP (HTTP) | https://uikit-mcp.vercel.app/mcp |
+| Registry API | https://uikit.atomchat.io/api/r |
+
+**Registry pipeline** (verbatim from DS `CLAUDE.md`):
+
+| File | Purpose |
+|------|---------|
+| `registry.json` | Internal `AtomRegistryItem` schema |
+| `scripts/extract-component-metadata.ts` | Pulls variants, props, `cssClasses` from source |
+| `scripts/build-registry.mjs` | Writes `public/r/*.json` (shadcn-compatible) |
+| `scripts/test-extract-metadata.ts` | 27 unit tests on the extractor |
+| `public/r/index.json` | Discovery catalog for MCP warm start |
+| `public/r/{name}.json` | Per-component files with full `atom` field |
+
+**MCP tools registered in code** (`atom-uikit-db/mcp/src/server.ts`):
+
+| Tool | Class | Role |
+|------|-------|------|
+| `atom_uikit_context` | Discovery | Bootstrap: components, tokens, auth status — call first |
+| `atom_uikit_search` | Discovery | Keyword search over docs (fuzzy + synonyms) |
+| `atom_uikit_component` | Discovery | Props/variants only; emits `implementationAccess: requires_atom_uikit_source` |
+| `atom_uikit_get` | Discovery | Doc body by slug; optional section filter (`install`, `usage`, `props`, …) |
+| `atom_uikit_list` | Discovery | All published doc slugs |
+| `atom_uikit_navigation` | Discovery | Full docs nav tree |
+| `atom_uikit_install` | Discovery | Install commands + imports (deduped packages) |
+| `atom_uikit_source` | Implementation | **Only** tool that returns real CSS/React source (or `tokens` / `foundation`) |
+| `atom_uikit_validate` | Implementation | Invalid variants/sizes, reimplemented components, unknown classes |
+
+The anti-hallucination split is not a blog post idea — it is enforced in `component.ts` structured output and in every component doc's *Instalación* section template in the CMS skill doc.
 
 ## Tokens as a contract, not as pretty variables
 
@@ -114,7 +164,7 @@ The button's CSS says `var(--button-bg-primary)`, which resolves to `var(--prima
 
 > [!warning] If a component token references a primitive directly, skipping the semantic layer, dark mode breaks for that component. The primitive doesn't change with the theme. Only the semantic tokens do.
 
-All of this follows the W3C DTCG format (`{ "$value": "...", "$type": "..." }`), which isn't cosmetic: it's a standard format external tools can read. The token is a machine-readable contract, not a convention living in someone's head.
+All of this follows the [W3C Design Tokens Community Group format](https://www.designtokens.org/) (`{ "$value": "...", "$type": "..." }`), which reached a [first stable specification in October 2025](https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/). That is not cosmetic: external tools ([Style Dictionary](https://styledictionary.com/info/dtcg/), Figma exporters, MCP validators) can read the same contract. The token is machine-readable, not a convention living in someone's head.
 
 ## Second problem: the agents hallucinated anyway
 
@@ -128,9 +178,9 @@ The problem wasn't that the agent knew too little. It was that ==I was asking it
 
 ## The core idea: separate what an agent can know from what it can do
 
-The solution is an MCP server that exposes the design system with a deliberate separation between two classes of tools. The exact phrasing lives in the DS's CLAUDE.md:
+The solution is an MCP server that exposes the design system with a deliberate separation between two classes of tools — the same separation [Anthropic described when launching MCP](https://www.anthropic.com/news/model-context-protocol): give clients a **small, typed tool surface** instead of dumping opaque context. The MCP spec's [Tools](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) chapter is the contract; our discovery vs implementation split is how we enforce it for CSS.
 
-> [!note] "This split enforces the anti-hallucination pattern: LLMs see enough to discover components but must call atom_uikit_source for actual implementation details."
+> [!note] DS `CLAUDE.md`: "This split enforces the anti-hallucination pattern: LLMs see enough to discover components but must call atom_uikit_source for actual implementation details."
 
 Each registry item has two sections. One is visible to discovery tools. The other only to implementation tools.
 
@@ -156,18 +206,34 @@ Each registry item has two sections. One is visible to discovery tools. The othe
 
 The **discovery** tools (`atom_uikit_context`, `atom_uikit_component`, `atom_uikit_search`) return metadata only. An agent can list components, read their props, understand what exists -- but it never sees a line of real CSS.
 
-The **implementation** tools (`atom_uikit_source`, `atom_uikit_validate`, `atom_uikit_audit`, `atom_uikit_patch_plan`) are the only ones with access to the code. `atom_uikit_source` is the single tool in the whole system that returns the real source.
+The **implementation** tools in production are `atom_uikit_source` and `atom_uikit_validate` (`atom-uikit-db/mcp/src/server.ts`, v2.2.0). `atom_uikit_source` is the single tool that returns real CSS/React; `atom_uikit_validate` checks snippets against `MERGED_MANIFEST` (invalid variants, forbidden reimplementations, missing ARIA).
 
 What closes the pattern is that discovery doesn't stay quiet about what it hides. It emits an explicit signal:
 
-```typescript Fail-closed signal
-// component.ts -- discovery instructs the agent
-implementationAccess: 'requires_atom_uikit_source'
+```typescript Fail-closed signal — component.ts
+// Structured output (JSON Schema) — every component
+implementationAccess: 'requires_atom_uikit_source',
 
-// and in the output, verbatim:
-"**To implement:** call atom_uikit_source(\"button\") -- this is
-the ONLY way to get the actual CSS, tokens, classes, and React
-code. Do NOT invent CSS values, colors, or classes."
+// Text output appended per slug (verbatim in repo)
+lines.push(
+  `**To implement:** call \`atom_uikit_source("${slug}")\` — this is the ONLY way ` +
+  `to get the actual CSS, tokens, classes, and React code. ` +
+  `Do NOT invent CSS values, colors, or classes.`,
+);
+```
+
+```typescript validate.ts — catches reimplementation and bad variants
+for (const meta of Object.values(MERGED_MANIFEST)) {
+  if (/export\s+(const|function)\s+Button\b/.test(code)) {
+    errors.push({
+      type: 'reimplementation',
+      component: meta.name,
+      detail: `${meta.name} is being reimplemented instead of imported from @atom-uikit/components-react`,
+      suggestion: `Use: ${meta.import}`,
+    });
+  }
+}
+// JSX: variant="ghost" when manifest only allows primary | secondary | …
 ```
 
 The complete system is a four-layer defense:
@@ -195,6 +261,187 @@ graph TD
 The change was measurable. ==Before: the agent generated `#534AB7`, 36px, wrong font-sizes. After: it uses the real zinc scale, 40px, 13px -- because it's forced to call `atom_uikit_source` before writing.== Not because the model got smarter. Because the system no longer lets it guess.
 
 > [!tip] The right metaphor isn't "the agent knows more". It's "the agent has nowhere left to invent". The anti-hallucination pattern doesn't improve the model -- it removes the surface where the error was possible.
+
+## Fifth layer: who is allowed to connect (Clerk, OAuth, company-only)
+
+Anti-hallucination controls *what* an agent outputs. Auth controls ==who may ask at all.== The MCP is not a public CDN for the design system. It is infrastructure for people inside the company (and their approved AI clients) — with an end-to-end flow from browser login to bearer token to restricted doc bodies.
+
+The article already had mermaid for **token layers** (primitives → semantic → component), **anti-hallucination in four steps**, and now the **auth sequence**. Below is the **platform map** — how repos and services connect — plus how layer 5 wraps everything that came before.
+
+```mermaid ATOM UIKit MCP platform architecture
+flowchart TB
+  subgraph Clients["AI clients"]
+    CW["Claude Web<br/>remote MCP"]
+    IDE["Claude Code / Cursor<br/>stdio MCP"]
+  end
+
+  subgraph AuthPlane["Auth plane — company only"]
+    Clerk["Clerk<br/>identity + SSO"]
+    DocsApp["Docs app Next.js<br/>uikit.atomchat.io"]
+    TokenRoutes["/api/auth/mcp-token<br/>/auth/mcp-oauth"]
+    OAuthEP["MCP host OAuth<br/>/api/authorize · /api/token<br/>/.well-known/*"]
+  end
+
+  subgraph MCPPlane["MCP server — Vercel"]
+    Gate["POST /mcp<br/>Bearer required"]
+    DiscTools["Discovery tools<br/>context · component · search"]
+    ImplTools["Implementation tools<br/>source · validate · audit"]
+  end
+
+  subgraph Sources["Sources of truth"]
+    DS["DS monorepo<br/>tokens · css · react · registry"]
+    RegAPI["Registry HTTP<br/>/api/r — shadcn model"]
+    SB["Supabase edge<br/>get-docs · get-navigation"]
+    CMS["Payload CMS<br/>doc prose + restricted flag"]
+  end
+
+  CW -->|401 triggers OAuth| OAuthEP
+  IDE -->|npx mcp-uikit auth| TokenRoutes
+  OAuthEP --> DocsApp
+  TokenRoutes --> Clerk
+  DocsApp --> Clerk
+  DocsApp -->|domain gate · mint JWT| TokenRoutes
+  CW --> Gate
+  IDE -->|~/.config/atom-uikit/credentials.json| Gate
+  Gate --> DiscTools
+  Gate --> ImplTools
+  DiscTools -->|anon key| SB
+  ImplTools -->|Bearer on registry fetch| RegAPI
+  ImplTools -->|x-restricted-access| SB
+  DS -->|extractor + build sync| RegAPI
+  CMS --> SB
+```
+
+```mermaid Five layers — hallucination plus access control
+flowchart TB
+  subgraph L1to4["Layers 1–4 — output correctness"]
+    L1["1 Minimize discovery data"]
+    L2["2 Single source tool"]
+    L3["3 Validate output"]
+    L4["4 Fail-closed signals"]
+    L1 --> L2 --> L3 --> L4
+  end
+
+  subgraph L5["Layer 5 — who may call the MCP"]
+    L5A["Clerk login"]
+    L5B["Company email domain"]
+    L5C["MCP JWT in Bearer header"]
+    L5D["Restricted doc bodies"]
+    L5A --> L5B --> L5C --> L5D
+  end
+
+  L4 --> L5
+  L5 --> Agent["Agent receives real CSS<br/>only if human was allowed in"]
+```
+
+> [!info] Diagram index in this article
+> **Tokens:** layer hierarchy, resolution chain · **Anti-hallucination:** four tool layers · **Auth & platform:** architecture map, five-layer wrap, OAuth/CLI sequence below.
+
+### Why Clerk instead of building login
+
+Issuing MCP tokens is not what we sell. Neither is SAML, session hardening, MFA policies, or the long tail of auth compliance. Rolling login from scratch would mean months of security work before the first designer could call `atom_uikit_source`. ==We use Clerk for velocity and compliance we do not want to own.== Clerk documents [building an MCP server in Next.js](https://clerk.com/docs/nextjs/guides/ai/mcp/build-mcp-server), [connecting MCP clients](https://clerk.com/docs/guides/ai/mcp/connect-mcp-client), and [OAuth for third-party clients](https://clerk.com/docs/guides/configure-auth-strategies/oauth/how-clerk-implements-oauth) — we followed that playbook instead of inventing a home-grown OAuth spec.
+
+Clerk protects the docs app (`ClerkProvider` on the Next.js site). Our routes call `auth()` and `currentUser()` before any token is minted.
+
+### Two doors in, one gate at the server
+
+Everyone hits the same check on the hosted MCP (`https://uikit-mcp.vercel.app/mcp`): **no Bearer token, no MCP session.** A `401` with `WWW-Authenticate: Bearer` is intentional — Claude Web uses it to start OAuth.
+
+```typescript Hosted MCP — auth required
+// api/mcp.ts
+const authHeader = (req.headers['authorization'] as string) ?? '';
+if (!authHeader.startsWith('Bearer ')) {
+  res.writeHead(401, { 'WWW-Authenticate': 'Bearer', ... });
+  return;
+}
+const identity = await verifyBearerToken(token);
+```
+
+`verifyBearerToken` accepts either a **Clerk session JWT** (verified with `@clerk/backend`, networkless when `CLERK_JWT_KEY` is set) or a **personal access token** — a 30-day JWT signed with `MCP_SIGNING_SECRET`, issuer `atom-uikit-mcp`, audience `atom-uikit-mcp`. Invalid or expired tokens get `invalid_token`; there is no anonymous read path.
+
+**Path A — Claude Web / remote MCP clients (OAuth 2.1 + PKCE)**
+
+1. Client discovers OAuth metadata at `/.well-known/oauth-authorization-server` and protected resource at `/.well-known/oauth-protected-resource/mcp`.
+2. `/api/authorize` redirects to the frontend route `/auth/mcp-oauth` with `code_challenge` (S256).
+3. User signs in with Clerk. If unauthenticated, they go to `/sign-in` with `redirect_url` back to the OAuth page.
+4. After login, the app checks **company email** — in our deployment, `primaryEmailAddress` must end with `@atomchat.io`. Others see *Access Denied*; no code is issued.
+5. The frontend mints a short-lived authorization code (JWT, issuer `atom-uikit-mcp-oauth`, embeds `code_challenge`) and redirects to the client's `redirect_uri`.
+6. Client calls `POST /api/token` with the code and PKCE verifier; the server verifies the challenge and returns access + refresh tokens.
+
+**Path B — Claude Code / Cursor / local CLI (`npx @atomchat.io/mcp-uikit auth`)**
+
+1. CLI starts a localhost callback server and opens `GET /api/auth/mcp-token?port=PORT&state=STATE`.
+2. Same Clerk sign-in and same **domain gate** on the docs API route.
+3. The server does **not** put the long-lived token in the URL. It stores a **single-use exchange code** (60s TTL) and redirects to `http://127.0.0.1:PORT/callback?code=...&state=...`.
+4. CLI `POST`s the code to `/api/auth/mcp-token` and receives the JWT; it saves to `~/.config/atom-uikit/credentials.json`.
+5. The stdio MCP process reads that file, verifies the JWT with `MCP_SIGNING_SECRET`, and only then sets `restrictedAccess` for Supabase fetches.
+
+```typescript Company-only token issuance (CLI path)
+// atom-uikit-docs — GET /api/auth/mcp-token
+const { userId } = await auth();
+if (!userId) {
+  return redirect(`/sign-in?redirect_url=${encodeURIComponent(returnUrl)}`);
+}
+const email = user?.primaryEmailAddress?.emailAddress;
+if (!email?.endsWith('@atomchat.io')) {
+  return new Response(
+    'Access denied. Only @atomchat.io accounts can generate MCP tokens.',
+    { status: 403 },
+  );
+}
+```
+
+The OAuth page (`/auth/mcp-oauth`) repeats the same domain check before signing the authorization code. ==Random internet users cannot complete either path, even if they discover the MCP URL.==
+
+### Restricted docs: auth at the edge and at the database
+
+Some CMS docs are flagged `restricted: true`. Without a valid MCP session, `get-docs` returns metadata with **empty blocks** — the agent sees that a page exists but not the implementation prose inside.
+
+```typescript supabase/functions/get-docs/index.ts
+if (doc.restricted) {
+  const restrictedSecret = Deno.env.get('RESTRICTED_CONTENT_SECRET');
+  const providedSecret = req.headers.get('x-restricted-access');
+  if (!restrictedSecret || providedSecret !== restrictedSecret) {
+    return new Response(
+      JSON.stringify({ doc, blocks: [], restricted: true }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+    );
+  }
+}
+```
+
+When the MCP handler validates a bearer token, it passes `RESTRICTED_CONTENT_SECRET` to the Supabase client as header `x-restricted-access`. Only then does the edge function return full block content. Stdio mode does the same after JWT verification from `credentials.json`; without `MCP_SIGNING_SECRET` in dev, stderr warns that restricted content is unavailable.
+
+So the chain is: **Clerk (human identity) → company domain (membership) → MCP JWT (machine session) → restricted header (content gate).** Not "MCP is public, please behave."
+
+```mermaid MCP auth end to end
+sequenceDiagram
+  participant User as Company user
+  participant Clerk as Clerk
+  participant Docs as Docs app (Next.js)
+  participant CLI as MCP CLI (optional)
+  participant MCP as MCP server (Vercel)
+  participant SB as Supabase get-docs
+
+  User->>Clerk: Sign in
+  Clerk->>Docs: Session
+  Docs->>Docs: email @company domain?
+  alt OAuth (Claude Web)
+    Docs->>Docs: Auth code JWT + PKCE
+    Docs->>MCP: POST /api/token
+  else CLI (local IDE)
+    Docs->>CLI: Single-use code → localhost
+    CLI->>Docs: POST exchange code
+    CLI->>CLI: credentials.json
+  end
+  MCP->>MCP: verifyBearerToken (Clerk or PAT)
+  MCP->>SB: x-restricted-access
+  SB-->>MCP: Full blocks for restricted docs
+```
+
+### Same pattern, two permissions
+
+Discovery vs implementation split answers "can the model invent CSS?" Company auth answers "is this caller allowed to load our source at all?" Together they are why the system works as **internal infrastructure**: marketing and agents get speed, engineering keeps brand fidelity, and compliance stays on Clerk's roadmap instead of mine.
 
 ## Third problem: my own architecture had the truth duplicated
 
@@ -263,7 +510,29 @@ And there's an effect I didn't anticipate. The same system I built so an agent w
 
 - **Fail-closed by default.** The system shouldn't depend on the agent "behaving". It should make the correct outcome the only available path. The `requires_atom_uikit_source` signal doesn't ask the model to be responsible -- it takes away the option not to be.
 
+- **Gate the MCP like a product API.** Auth before tools run; company domain before tokens mint; never ship long-lived secrets in URLs. Use Clerk (or equivalent) when login is not your differentiator — ship the design system, not a compliance program.
+
 > [!info] This system's codebase fits in your head. Six packages, one registry, an MCP with a handful of tools. The complexity doesn't live in the code -- it lives in the constraints and in who owns the truth.
+
+## References (external — worth bookmarking)
+
+| Topic | Source |
+|-------|--------|
+| shadcn: copy vs npm install | [shadcn/ui — CLI](https://ui.shadcn.com/docs/cli) |
+| Registry format & HTTP distribution | [shadcn/ui — Registry](https://ui.shadcn.com/docs/registry) |
+| Registry item JSON schema | [shadcn/ui — registry-item.json](https://ui.shadcn.com/docs/registry/registry-item-json) |
+| Private / authenticated registries | [shadcn/ui — Registry authentication](https://ui.shadcn.com/docs/registry/authentication) |
+| MCP launch + motivation | [Anthropic — Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) |
+| MCP Tools specification | [MCP Spec — Server tools](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) |
+| MCP getting started | [modelcontextprotocol.io — Intro](https://modelcontextprotocol.io/docs/getting-started/intro) |
+| Design Tokens format (DTCG) | [designtokens.org](https://www.designtokens.org/) |
+| DTCG first stable release | [W3C Design Tokens CG — Oct 2025](https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/) |
+| Style Dictionary + DTCG | [Style Dictionary — DTCG](https://styledictionary.com/info/dtcg/) |
+| Clerk: build MCP server (Next.js) | [Clerk Docs — Build MCP server](https://clerk.com/docs/nextjs/guides/ai/mcp/build-mcp-server) |
+| Clerk: connect MCP clients | [Clerk Docs — Connect MCP client](https://clerk.com/docs/guides/ai/mcp/connect-mcp-client) |
+| Clerk MCP changelog (product direction) | [Clerk Changelog — MCP server](https://clerk.com/changelog/2025-06-25-mcp-server-nextjs) |
+| Remote MCP + auth patterns | [Kapa.ai — Remote MCP best practices](https://www.kapa.ai/blog/remote-mcp-servers-hosting-authentication-best-practices) |
+| Sharing components: copy vs install (industry essay) | [Bit.dev — Copy vs install](https://dev.to/bitdev_/sharing-ui-components-copy-vs-install-4mii) |
 
 ## The real lesson
 
