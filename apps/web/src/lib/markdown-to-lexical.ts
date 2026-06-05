@@ -24,8 +24,8 @@ export interface ParsedContent {
 
 function parseInline(text: string): LexicalNode[] {
   const nodes: LexicalNode[] = []
-  // Combined pass: **bold**, *italic*, `code`
-  const re = /(\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`)/g
+  // Combined pass: ==highlight==, **bold**, *italic*, `code`
+  const re = /(==(.+?)==|\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`)/g
   let lastIndex = 0
   let m: RegExpExecArray | null
 
@@ -34,14 +34,17 @@ function parseInline(text: string): LexicalNode[] {
       nodes.push({ type: 'text', text: text.slice(lastIndex, m.index), format: 0, direction: null, indent: 0, version: 1 })
     }
     if (m[2]) {
-      // bold
-      nodes.push({ type: 'text', text: m[2], format: 1, direction: null, indent: 0, version: 1 })
+      // highlight (==text==) -> uses format 128 (custom flag for data-highlight)
+      nodes.push({ type: 'highlight', text: m[2], format: 0, direction: null, indent: 0, version: 1 })
     } else if (m[3]) {
-      // italic
-      nodes.push({ type: 'text', text: m[3], format: 2, direction: null, indent: 0, version: 1 })
+      // bold
+      nodes.push({ type: 'text', text: m[3], format: 1, direction: null, indent: 0, version: 1 })
     } else if (m[4]) {
+      // italic
+      nodes.push({ type: 'text', text: m[4], format: 2, direction: null, indent: 0, version: 1 })
+    } else if (m[5]) {
       // inline code
-      nodes.push({ type: 'text', text: m[4], format: 16, direction: null, indent: 0, version: 1 })
+      nodes.push({ type: 'text', text: m[5], format: 16, direction: null, indent: 0, version: 1 })
     }
     lastIndex = m.index + m[0].length
   }

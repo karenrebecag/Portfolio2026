@@ -1,8 +1,8 @@
-const typeStyles: Record<string, { border: string; bg: string; label: string }> = {
-  info: { border: 'border-blue-400 dark:border-blue-600', bg: 'bg-blue-50 dark:bg-blue-950/30', label: 'Info' },
-  warning: { border: 'border-amber-400 dark:border-amber-600', bg: 'bg-amber-50 dark:bg-amber-950/30', label: 'Warning' },
-  tip: { border: 'border-green-400 dark:border-green-600', bg: 'bg-green-50 dark:bg-green-950/30', label: 'Tip' },
-  caution: { border: 'border-red-400 dark:border-red-600', bg: 'bg-red-50 dark:bg-red-950/30', label: 'Caution' },
+const typeConfig: Record<string, { accent: string; label: string }> = {
+  info: { accent: 'var(--plantation)', label: 'Info' },
+  warning: { accent: 'var(--plantation)', label: 'Warning' },
+  tip: { accent: 'var(--plantation)', label: 'Tip' },
+  caution: { accent: 'var(--plantation)', label: 'Caution' },
 }
 
 export function CalloutRenderer({
@@ -12,12 +12,15 @@ export function CalloutRenderer({
   type: string
   text: string
 }) {
-  const style = typeStyles[type] ?? typeStyles.info
+  const config = typeConfig[type] ?? typeConfig.info
 
   return (
-    <div className={`my-4 rounded-lg border-l-4 ${style.border} ${style.bg} p-4`}>
-      <p className="font-semibold text-sm mb-1">{style.label}</p>
-      <p className="text-sm leading-relaxed">{text}</p>
+    <div
+      className="my-6 border-l-2 bg-muted/50 px-5 py-4"
+      style={{ borderColor: config.accent }}
+    >
+      <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{config.label}</span>
+      <p className="mt-1 text-sm leading-relaxed">{text}</p>
     </div>
   )
 }

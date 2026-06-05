@@ -4,7 +4,8 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { RichTextRenderer } from '@/components/rich-text-renderer'
-import { Container } from '@/components/ui/container'
+import { ScrollHighlight } from '@/components/scroll-highlight'
+import { ArticleTOC } from '@/components/article-toc'
 import { Button061 } from '@/components/ui/button-061'
 import { ContactSection } from '@/components/contact-section'
 
@@ -17,10 +18,14 @@ function findProject(slug: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
+  const { slug, locale } = await params
   const project = findProject(slug)
   if (!project) return { title: 'Not found' }
-  return { title: project.title, description: project.summary }
+  const localized = project.i18n?.[locale]
+  return {
+    title: localized?.title || project.title,
+    description: localized?.summary || project.summary,
+  }
 }
 
 export async function generateStaticParams() {
@@ -38,26 +43,35 @@ export default async function ProjectPage({ params }: Props) {
 
   if (project.status === 'archived') {
     return (
-      <Container className="px-4 lg:px-6 py-24 text-center">
+      <div className="px-4 lg:px-6 py-24 text-center max-w-3xl mx-auto">
         <h1 className="text-2xl font-bold">{t('archived_title')}</h1>
         <p className="mt-4 text-muted-foreground">{t('archived_text')}</p>
         <Link href="/projects" className="mt-6 inline-block text-sm underline underline-offset-4">{t('view_projects')}</Link>
-      </Container>
+      </div>
     )
   }
 
-  const imgSrc = project.coverImage?.url || null
+  const localized = project.i18n?.[locale]
+  const title = localized?.title || project.title
+  const summary = localized?.summary || project.summary
+  const description = localized?.lexical || project.description
+  const blocks = localized?.blocks || (project as any).blocks
+
+  const caseStudyLabel = locale === 'es' ? 'Caso de estudio' : 'Case study'
 
   return (
     <>
     <section data-theme-section="light" className="pt-32 pb-16">
-      <Container className="px-4 lg:px-6">
-        <Button061 href="/#projects" arrow="left">
-          {t('back')}
-        </Button061>
+      <ArticleTOC
+        title={locale === 'es' ? 'En esta pagina' : 'On this page'}
+        offset={80}
+      >
+        <header className="mb-10">
+          <Button061 href="/#projects" arrow="left">
+            {t('back')}
+          </Button061>
 
-        <header className="mt-10">
-          <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-tight leading-[1.05]">{project.title}</h1>
+          <h1 className="mt-10 text-[clamp(2rem,5vw,3.5rem)] font-bold tracking-tight leading-[1.05]">{title}</h1>
           <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
             <span className="capitalize">{project.category.replace('_', ' ')}</span>
             <span className="w-1 h-1 rounded-full bg-border" />
@@ -76,39 +90,35 @@ export default async function ProjectPage({ params }: Props) {
               ))}
             </div>
           )}
+
+          {summary && (
+            <p className="mt-8 text-base leading-relaxed text-foreground/80 max-w-[55ch]">{summary}</p>
+          )}
+
+          <div className="mt-8 h-px w-full bg-border" />
+
+          <div className="mt-6">
+            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{caseStudyLabel}</span>
+          </div>
         </header>
 
-        {imgSrc && (
-          <div className="mt-10 overflow-hidden">
-            <img src={imgSrc} alt={project.coverImage?.alt || ''} className="w-full" />
+        <ScrollHighlight>
+          <div className="prose">
+            <RichTextRenderer content={description as any} blocks={blocks} />
           </div>
-        )}
 
-        {project.summary && (
-          <p className="mt-10 text-lg leading-relaxed text-foreground/80 max-w-[60ch]">{project.summary}</p>
-        )}
-
-        <div className="mt-8 h-px w-full bg-border" />
-
-        <div className="mt-8">
-          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">Caso de estudio</span>
-        </div>
-
-        <div className="mt-6 max-w-[68ch] prose">
-          <RichTextRenderer content={project.description as any} blocks={(project as any).blocks} />
-        </div>
-
-        {(project.liveUrl || project.repoUrl) && (
-          <div className="mt-12 flex gap-4">
-            {project.liveUrl && (
-              <Button061 href={project.liveUrl} target="_blank" rel="noopener noreferrer">{t('live')}</Button061>
-            )}
-            {project.repoUrl && (
-              <Button061 href={project.repoUrl} target="_blank" rel="noopener noreferrer" variant="secondary">{t('repo')}</Button061>
-            )}
-          </div>
-        )}
-      </Container>
+          {(project.liveUrl || project.repoUrl) && (
+            <div className="mt-12 flex gap-4">
+              {project.liveUrl && (
+                <Button061 href={project.liveUrl} target="_blank" rel="noopener noreferrer">{t('live')}</Button061>
+              )}
+              {project.repoUrl && (
+                <Button061 href={project.repoUrl} target="_blank" rel="noopener noreferrer" variant="secondary">{t('repo')}</Button061>
+              )}
+            </div>
+          )}
+        </ScrollHighlight>
+      </ArticleTOC>
     </section>
 
     <ContactSection />

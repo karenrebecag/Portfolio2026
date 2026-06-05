@@ -122,6 +122,24 @@
 
 
 
+/* -- Shiki dual-theme activation -- */
+.shiki {
+  background-color: var(--background) !important;
+}
+
+.shiki span {
+  color: var(--shiki-light) !important;
+  background-color: transparent !important;
+}
+
+.dark .shiki span {
+  color: var(--shiki-dark) !important;
+}
+
+.mono .shiki span {
+  color: var(--shiki-light) !important;
+}
+
 /* -- Base -- */
 @layer base {
   html, body {
@@ -221,17 +239,6 @@
   line-height: 1;
 }
 
-.locale-toggle,
-.underlay-nav__toggle,
-.theme-palette__swatch.is--active::after {
-  transition: filter 0.4s ease;
-}
-
-.underlay-nav__header:not(.is--scrolled) .locale-toggle,
-.underlay-nav__header:not(.is--scrolled) .underlay-nav__toggle,
-.underlay-nav__header:not(.is--scrolled) .theme-palette__swatch.is--active::after {
-  filter: invert(1);
-}
 
 .locale-toggle__btn {
   background: none;
@@ -1417,6 +1424,7 @@ body:has([data-cursor]:hover) .cursor-text {
 }
 
 [data-highlight] {
+  background-color: transparent;
   background-image: linear-gradient(
     color-mix(in oklab, var(--plantation) 25%, transparent),
     color-mix(in oklab, var(--plantation) 25%, transparent)
@@ -1430,6 +1438,10 @@ body:has([data-cursor]:hover) .cursor-text {
   display: inline;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+mark[data-highlight] {
+  background-color: transparent;
 }
 
 .page-transition__spline {
@@ -1875,30 +1887,35 @@ body:has([data-cursor]:hover) .cursor-text {
 
 /* Table of Contents for Article - Osmo style, adapted for our theme */
 .toc-layout {
-  grid-column-gap: 4em;
-  grid-row-gap: 4em;
+  gap: 3em;
   flex-flow: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
-  max-width: 60em;
+  max-width: 72em;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   display: flex;
   position: relative;
 }
 
 @media (min-width: 1024px) {
   .toc-layout {
-    padding-left: 4em;
-    padding-right: 4em;
+    padding-left: 3em;
+    padding-right: 3em;
   }
 }
 
 .toc-article {
   flex: 1;
-  max-width: 40em;
+  max-width: 44em;
+  min-width: 0;
+  order: 1;
+}
+
+.toc-sidebar {
+  order: 2;
 }
 
 .toc-article h2 {
@@ -1935,9 +1952,8 @@ body:has([data-cursor]:hover) .cursor-text {
 
 .toc-article code {
   background-color: var(--muted);
-  border-radius: 0.25em;
   padding: 0.1em 0.4em 0.15em;
-  font-family: var(--font-mono, ui-monospace, monospace);
+  font-family: var(--font-accent);
   font-size: 0.85em;
   display: inline-block;
 }
@@ -1957,11 +1973,17 @@ body:has([data-cursor]:hover) .cursor-text {
   flex-flow: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 13.75em;
-  display: flex;
+  width: 12em;
+  display: none;
   position: sticky;
-  top: 2.5em;
+  top: 6em;
   flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .toc-sidebar {
+    display: flex;
+  }
 }
 
 .toc-list {
@@ -1976,7 +1998,8 @@ body:has([data-cursor]:hover) .cursor-text {
   color: var(--muted-foreground);
   border-left: 1px solid var(--border);
   padding: 0.4rem 0.5em 0.4rem 1em;
-  font-size: 0.8rem;
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
   text-decoration: none;
   transition: all 0.2s ease;
   line-height: 1.3;
@@ -1984,24 +2007,24 @@ body:has([data-cursor]:hover) .cursor-text {
 
 .toc-link:hover {
   color: var(--foreground);
-  border-left-color: var(--primary);
+  border-left-color: var(--plantation);
 }
 
 .toc-link[data-toc-status="active"] {
   color: var(--foreground);
-  border-left-color: var(--primary);
-  font-weight: 600;
+  border-left-color: var(--plantation);
+  border-left-width: 2px;
+  font-weight: 700;
 }
 
-@media screen and (max-width: 767px) {
+.toc-link[data-toc-depth="3"] {
+  padding-left: 2em;
+  font-size: 0.7rem;
+}
+
+@media screen and (max-width: 1023px) {
   .toc-layout {
     flex-flow: column;
-  }
-
-  .toc-sidebar {
-    width: 100%;
-    position: relative;
-    top: 0;
-    margin-bottom: 2rem;
+    justify-content: flex-start;
   }
 }

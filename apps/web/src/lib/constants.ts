@@ -1,6 +1,6 @@
 // Per-article case studies — one source file per article for easy writing and git history.
 // These are converted to Lexical format (what the project detail renderer expects).
-import { atomWebflowMeta, atomWebflowMarkdown } from '@/content/projects/atom-webflow'
+import { atomWebflowMeta, atomWebflowI18n, atomWebflowMarkdown_en, atomWebflowMarkdown_es } from '@/content/projects/atom-webflow'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
 import type { Block } from '@/components/blocks/types'
@@ -18,9 +18,14 @@ export const STICKERS = [
   { src: '/stickers/githubsticker.webp', alt: 'GitHub' },
 ] as const
 
-const atomWebflowParsed = parseMarkdown(atomWebflowMarkdown)
+const atomWebflowParsed_en = parseMarkdown(atomWebflowMarkdown_en)
+const atomWebflowParsed_es = parseMarkdown(atomWebflowMarkdown_es)
 
-export const PLACEHOLDER_PROJECTS: (Project & { services?: string; blocks?: Block[] })[] = [
+export const PLACEHOLDER_PROJECTS: (Project & {
+  services?: string
+  blocks?: Block[]
+  i18n?: Record<string, { title: string; summary: string; lexical: any; blocks: Block[] }>
+})[] = [
   {
     id: '1', title: 'Token-First Design at Scale', slug: 'token-first-design-at-scale', status: 'published',
     category: 'design_system', role: 'Lead Designer & Engineer', year: '2025', featured: true,
@@ -36,8 +41,14 @@ export const PLACEHOLDER_PROJECTS: (Project & { services?: string; blocks?: Bloc
   // This is how we will write all future case studies / artículos de portafolio.
   {
     ...atomWebflowMeta,
-    description: atomWebflowParsed.lexical,
-    blocks: atomWebflowParsed.blocks,
+    title: atomWebflowI18n.en.title,
+    summary: atomWebflowI18n.en.summary,
+    description: atomWebflowParsed_en.lexical,
+    blocks: atomWebflowParsed_en.blocks,
+    i18n: {
+      en: { ...atomWebflowI18n.en, lexical: atomWebflowParsed_en.lexical, blocks: atomWebflowParsed_en.blocks },
+      es: { ...atomWebflowI18n.es, lexical: atomWebflowParsed_es.lexical, blocks: atomWebflowParsed_es.blocks },
+    },
   },
   {
     id: '2', title: 'Real-Time Product Intelligence with AI', slug: 'real-time-product-intelligence-with-ai', status: 'published',

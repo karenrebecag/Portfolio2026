@@ -1,18 +1,8 @@
-import { createHighlighter } from 'shiki'
+'use client'
 
-let highlighterPromise: ReturnType<typeof createHighlighter> | null = null
+import { useEffect, useState } from 'react'
 
-function getHighlighter() {
-  if (!highlighterPromise) {
-    highlighterPromise = createHighlighter({
-      themes: ['github-dark', 'github-light'],
-      langs: ['tsx', 'typescript', 'javascript', 'css', 'json', 'html', 'bash', 'python', 'markdown', 'yaml'],
-    })
-  }
-  return highlighterPromise
-}
-
-export async function CodeBlockRenderer({
+export function CodeBlockRenderer({
   code,
   language,
   title,
@@ -21,30 +11,54 @@ export async function CodeBlockRenderer({
   language: string
   title?: string
 }) {
-  let html = ''
-  try {
-    const h = await getHighlighter()
-    const lang = h.getLoadedLanguages().includes(language as any) ? language : 'text'
-    html = h.codeToHtml(code, {
-      lang,
-      themes: { light: 'github-light', dark: 'github-dark' },
-      defaultColor: false,
-    })
-  } catch {
-    html = `<pre><code>${code.replace(/</g, '&lt;')}</code></pre>`
-  }
+  const [html, setHtml] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function highlight() {
+      try {
+        const [{ createHighlighter }, { portfolioLight, portfolioDark }] = await Promise.all([
+          import('shiki'),
+          import('@/lib/shiki-themes'),
+        ])
+        const h = await createHighlighter({
+          themes: [portfolioLight, portfolioDark],
+          langs: [language === 'text' ? 'javascript' : language],
+        })
+        const lang = h.getLoadedLanguages().includes(language as any) ? language : 'text'
+        const result = h.codeToHtml(code, {
+          lang,
+          themes: { light: 'portfolio-light', dark: 'portfolio-dark' },
+          defaultColor: false,
+        })
+        if (!cancelled) setHtml(result)
+      } catch {
+        if (!cancelled) setHtml(`<pre><code>${code.replace(/</g, '&lt;')}</code></pre>`)
+      }
+    }
+
+    highlight()
+    return () => { cancelled = true }
+  }, [code, language])
 
   return (
-    <div className="relative my-4 rounded-lg border border-zinc-300 dark:border-zinc-700 overflow-hidden">
+    <div className="relative my-4 border border-border overflow-hidden" style={{ borderRadius: '2px' }}>
       {title && (
-        <div className="px-3 py-2 border-b border-zinc-300 dark:border-zinc-700 text-sm font-mono text-zinc-500 bg-zinc-50 dark:bg-zinc-900">
+        <div className="px-4 py-2 border-b border-border text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
           {title}
         </div>
       )}
-      <pre
-        className="overflow-x-auto p-4 text-sm [&_code]:bg-transparent [&_pre]:bg-transparent bg-white dark:bg-zinc-900"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      {html ? (
+        <pre
+          className="overflow-x-auto p-4 text-sm font-accent bg-background [&_code]:bg-transparent [&_pre]:bg-transparent"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      ) : (
+        <pre className="overflow-x-auto p-4 text-sm font-accent bg-background text-muted-foreground">
+          <code>{code}</code>
+        </pre>
+      )}
     </div>
   )
 }

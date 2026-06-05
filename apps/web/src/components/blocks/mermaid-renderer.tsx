@@ -3,16 +3,34 @@
 import { useEffect, useRef, useState, useId } from 'react'
 import mermaid from 'mermaid'
 
-function useIsDark() {
-  const [dark, setDark] = useState(false)
+function useThemeColors() {
+  const [colors, setColors] = useState<{ dark: boolean; bg: string; fg: string; muted: string; border: string; plantation: string; surface: string }>({
+    dark: false, bg: '#fdf9ed', fg: '#11221f', muted: '#71717a', border: '#e4dfcf', plantation: '#366B5E', surface: '#11221f',
+  })
+
   useEffect(() => {
-    const html = document.documentElement
-    setDark(html.classList.contains('dark'))
-    const observer = new MutationObserver(() => setDark(html.classList.contains('dark')))
-    observer.observe(html, { attributes: true, attributeFilter: ['class'] })
+    function read() {
+      const html = document.documentElement
+      const style = getComputedStyle(html)
+      const dark = html.classList.contains('dark')
+      setColors({
+        dark,
+        bg: style.getPropertyValue('--background').trim() || (dark ? '#0c0e0a' : '#fdf9ed'),
+        fg: style.getPropertyValue('--foreground').trim() || (dark ? '#ECDFCC' : '#11221f'),
+        muted: style.getPropertyValue('--muted-foreground').trim() || '#71717a',
+        border: style.getPropertyValue('--border').trim() || '#e4dfcf',
+        plantation: style.getPropertyValue('--plantation').trim() || '#366B5E',
+        surface: style.getPropertyValue('--surface').trim() || '#11221f',
+      })
+    }
+
+    read()
+    const observer = new MutationObserver(read)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
     return () => observer.disconnect()
   }, [])
-  return dark
+
+  return colors
 }
 
 export function MermaidRenderer({ code, title }: { code: string; title?: string }) {
@@ -20,45 +38,41 @@ export function MermaidRenderer({ code, title }: { code: string; title?: string 
   const [svg, setSvg] = useState<string>('')
   const [error, setError] = useState(false)
   const uniqueId = useId().replace(/:/g, '')
-  const dark = useIsDark()
+  const colors = useThemeColors()
 
   useEffect(() => {
     mermaid.initialize({
       startOnLoad: false,
       theme: 'base',
-      themeVariables: dark
-        ? {
-            primaryColor: '#27272a',
-            primaryTextColor: '#fafafa',
-            primaryBorderColor: '#3f3f46',
-            lineColor: '#71717b',
-            secondaryColor: '#18181b',
-            tertiaryColor: '#27272a',
-            background: '#151313',
-            mainBkg: '#27272a',
-            nodeBorder: '#3f3f46',
-            clusterBkg: '#1a1a1e',
-            clusterBorder: '#3f3f46',
-            titleColor: '#fafafa',
-            edgeLabelBackground: '#27272a',
-            textColor: '#fafafa',
-          }
-        : {
-            primaryColor: '#f4f4f5',
-            primaryTextColor: '#09090b',
-            primaryBorderColor: '#e4e4e7',
-            lineColor: '#71717b',
-            secondaryColor: '#fafafa',
-            tertiaryColor: '#f4f4f5',
-            background: '#ffffff',
-            mainBkg: '#f4f4f5',
-            nodeBorder: '#e4e4e7',
-            clusterBkg: '#fafafa',
-            clusterBorder: '#e4e4e7',
-            titleColor: '#09090b',
-            edgeLabelBackground: '#ffffff',
-            textColor: '#09090b',
-          },
+      themeVariables: {
+        primaryColor: colors.dark ? colors.surface : colors.bg,
+        primaryTextColor: colors.fg,
+        primaryBorderColor: colors.border,
+        lineColor: colors.muted,
+        secondaryColor: colors.dark ? '#161814' : '#f3eedf',
+        tertiaryColor: colors.dark ? colors.surface : colors.bg,
+        background: colors.bg,
+        mainBkg: colors.dark ? colors.surface : '#f3eedf',
+        nodeBorder: colors.plantation,
+        clusterBkg: colors.bg,
+        clusterBorder: colors.border,
+        titleColor: colors.fg,
+        edgeLabelBackground: colors.bg,
+        textColor: colors.fg,
+        labelTextColor: colors.fg,
+        actorTextColor: colors.fg,
+        actorBkg: colors.dark ? colors.surface : '#f3eedf',
+        actorBorder: colors.plantation,
+        actorLineColor: colors.muted,
+        signalColor: colors.fg,
+        signalTextColor: colors.fg,
+        noteBkgColor: colors.dark ? colors.surface : '#f3eedf',
+        noteTextColor: colors.fg,
+        noteBorderColor: colors.border,
+        activationBkgColor: colors.dark ? colors.surface : '#f3eedf',
+        activationBorderColor: colors.plantation,
+        sequenceNumberColor: colors.fg,
+      },
       fontFamily: 'var(--font-sans), ui-sans-serif, system-ui, sans-serif',
       suppressErrorRendering: true,
     })
@@ -74,13 +88,13 @@ export function MermaidRenderer({ code, title }: { code: string; title?: string 
       .catch(() => {
         setError(true)
       })
-  }, [code, dark, uniqueId])
+  }, [code, colors, uniqueId])
 
   if (error) {
     return (
       <figure className="not-prose my-4">
-        {title && <figcaption className="text-xs text-zinc-500 mb-2 font-medium">{title}</figcaption>}
-        <pre className="overflow-x-auto rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 p-4 text-xs font-mono text-zinc-500">
+        {title && <figcaption className="text-xs text-muted-foreground mb-2 font-medium">{title}</figcaption>}
+        <pre className="overflow-x-auto rounded-none border border-border bg-muted p-4 text-xs font-mono text-muted-foreground">
           {code}
         </pre>
       </figure>
@@ -89,11 +103,10 @@ export function MermaidRenderer({ code, title }: { code: string; title?: string 
 
   return (
     <figure className="not-prose my-4">
-      {title && <figcaption className="text-xs text-zinc-500 mb-2 font-medium">{title}</figcaption>}
+      {title && <figcaption className="text-xs text-muted-foreground mb-2 font-medium">{title}</figcaption>}
       <div
         ref={containerRef}
-        className="overflow-x-auto rounded-lg border border-zinc-300 dark:border-zinc-700 p-4 [&_svg]:mx-auto [&_svg]:max-w-full"
-        style={{ background: dark ? '#151313' : '#ffffff' }}
+        className="overflow-x-auto rounded-none border border-border p-4 [&_svg]:mx-auto [&_svg]:max-w-full bg-background"
         dangerouslySetInnerHTML={{ __html: svg }}
       />
     </figure>

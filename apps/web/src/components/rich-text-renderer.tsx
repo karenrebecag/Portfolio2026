@@ -33,6 +33,10 @@ function renderNode(node: LexicalNode, index: number, blocks?: Block[]): React.R
     return el
   }
 
+  if (node.type === 'highlight') {
+    return <mark key={index} data-highlight>{node.text}</mark>
+  }
+
   if (node.type === 'linebreak') return <br key={index} />
   if (node.type === 'horizontalrule') return <hr key={index} />
 

@@ -21,15 +21,16 @@ export function ImageBlockRenderer({
         <img
           src={imageUrl}
           alt={imageAlt ?? caption ?? ''}
-          className="rounded-lg w-full object-cover"
+          className="w-full object-cover"
+          style={{ borderRadius: '2px' }}
         />
       ) : (
-        <div className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center p-8 text-zinc-500 text-sm">
+        <div className="border border-border bg-muted flex items-center justify-center p-8 text-muted-foreground text-sm" style={{ borderRadius: '2px' }}>
           No image
         </div>
       )}
       {caption && (
-        <figcaption className="mt-2 text-center text-sm text-zinc-500">
+        <figcaption className="mt-2 text-center text-[10px] font-accent uppercase tracking-widest text-muted-foreground">
           {caption}
         </figcaption>
       )}
