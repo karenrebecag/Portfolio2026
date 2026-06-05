@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import gsap from 'gsap'
+import { usePageInit } from '@/lib/use-page-init'
 
 export type CursorLabels = {
   scroll: string
@@ -12,6 +13,12 @@ export type CursorLabels = {
   view: string
   click: string
   focus: string
+}
+
+type CursorElements = {
+  pointerEl: HTMLElement
+  textEl: HTMLElement
+  labelEl: HTMLElement
 }
 
 function getAutoLabel(el: HTMLElement, labels: CursorLabels): string {
@@ -42,15 +49,21 @@ function calcRotation(dx: number, dy: number): number {
   return Math.atan2(dy, dx) * (180 / Math.PI) + 90
 }
 
-function initCustomCursor(labels: CursorLabels) {
+function resetCursorElements({ pointerEl, textEl, labelEl }: CursorElements, labels: CursorLabels) {
+  gsap.killTweensOf([pointerEl, textEl])
+  gsap.set(pointerEl, { left: 0, top: 0, opacity: 0, scale: 1, rotation: 0 })
+  gsap.set(textEl, { x: 0, y: 0, xPercent: 6, yPercent: 140 })
+  labelEl.textContent = labels.view
+  document.body.classList.remove('cursor-active')
+  document.body.removeAttribute('data-cursor-theme')
+}
+
+function initCustomCursor(elements: CursorElements, labels: CursorLabels) {
   if (isTouchDevice()) return
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-  const pointerEl = document.querySelector<HTMLElement>('.cursor-pointer')
-  const textEl = document.querySelector<HTMLElement>('.cursor-text')
-  const textLabel = document.querySelector<HTMLElement>('.cursor-text__label')
-  if (!pointerEl || !textEl || !textLabel) return
-  const labelEl = textLabel
+  const { pointerEl, textEl, labelEl } = elements
+  resetCursorElements(elements, labels)
 
   const INTERACTIVE = 'a, button, [role="button"], [data-cursor]'
   let currentTarget: HTMLElement | null = null
@@ -89,6 +102,24 @@ function initCustomCursor(labels: CursorLabels) {
   }
   gsap.ticker.add(tickerCb)
 
+  function positionTextPill(cx: number, cy: number) {
+    let xPercent = 6
+    let yPercent = 140
+
+    if (cx > windowWidth - textThreshold) xPercent = -106
+    if (cy > windowHeight * 0.9) yPercent = -140
+
+    if (pillTween) {
+      pillTween.vars.xPercent = xPercent
+      pillTween.vars.yPercent = yPercent
+      pillTween.invalidate().restart()
+    } else {
+      pillTween = gsap.to(textEl, { xPercent, yPercent, duration: 0.9, ease: 'power3' })
+    }
+    textXTo(cx)
+    textYTo(cy)
+  }
+
   function handleMouseMove(e: MouseEvent) {
     const cx = e.clientX
     const cy = e.clientY
@@ -97,8 +128,13 @@ function initCustomCursor(labels: CursorLabels) {
       activated = true
       document.body.classList.add('cursor-active')
       gsap.set(pointerEl, { left: cx, top: cy, opacity: 1 })
+      gsap.set(textEl, { x: cx, y: cy })
+      positionTextPill(cx, cy)
       lastX = cx
       lastY = cy
+      pendingCx = cx
+      pendingCy = cy
+      if (!sectionRafId) sectionRafId = requestAnimationFrame(detectSection)
       return
     }
 
@@ -117,21 +153,7 @@ function initCustomCursor(labels: CursorLabels) {
     lastX = cx
     lastY = cy
 
-    let xPercent = 6
-    let yPercent = 140
-
-    if (cx > windowWidth - textThreshold) xPercent = -106
-    if (cy > windowHeight * 0.9) yPercent = -140
-
-    if (pillTween) {
-      pillTween.vars.xPercent = xPercent
-      pillTween.vars.yPercent = yPercent
-      pillTween.invalidate().restart()
-    } else {
-      pillTween = gsap.to(textEl, { xPercent, yPercent, duration: 0.9, ease: 'power3' })
-    }
-    textXTo(cx)
-    textYTo(cy)
+    positionTextPill(cx, cy)
 
     if (currentTarget) {
       const customText = currentTarget.getAttribute('data-cursor')
@@ -146,7 +168,7 @@ function initCustomCursor(labels: CursorLabels) {
   function handleResize() {
     windowWidth = window.innerWidth
     windowHeight = window.innerHeight
-    textThreshold = textEl!.offsetWidth + 16
+    textThreshold = textEl.offsetWidth + 16
   }
   window.addEventListener('resize', handleResize)
 
@@ -171,7 +193,8 @@ function initCustomCursor(labels: CursorLabels) {
     if (!target) return
     if (currentTarget === target) {
       currentTarget = null
-      lastText = ''
+      lastText = labels.view
+      labelEl.textContent = labels.view
     }
 
     gsap.to(pointerEl, { scale: 1, duration: 0.25, ease: 'power2.out' })
@@ -194,16 +217,18 @@ function initCustomCursor(labels: CursorLabels) {
     document.removeEventListener('pointerover', handlePointerOver)
     document.removeEventListener('pointerout', handlePointerOut)
     document.documentElement.removeEventListener('mouseleave', handleMouseLeave)
-    document.body.classList.remove('cursor-active')
     gsap.ticker.remove(tickerCb)
     if (sectionRafId) cancelAnimationFrame(sectionRafId)
     pillTween?.kill()
-    gsap.killTweensOf(pointerEl)
-    gsap.killTweensOf(textEl)
+    pillTween = null
+    resetCursorElements(elements, labels)
   }
 }
 
 export function CustomCursor() {
+  const pointerRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLSpanElement>(null)
   const t = useTranslations('common')
   const labels = useMemo(
     () => ({
@@ -218,35 +243,19 @@ export function CustomCursor() {
     [t],
   )
 
-  useEffect(() => {
-    let cleanup: (() => void) | undefined
-
-    function start() {
-      cleanup = initCustomCursor(labels)
-    }
-
-    if (document.body.hasAttribute('data-page-ready')) {
-      start()
-    } else {
-      document.addEventListener('page-ready', start, { once: true })
-    }
-
-    function onNavigate() {
-      if (cleanup) cleanup()
-      cleanup = initCustomCursor(labels)
-    }
-    document.addEventListener('page-navigation-complete', onNavigate)
-
-    return () => {
-      cleanup?.()
-      document.removeEventListener('page-ready', start)
-      document.removeEventListener('page-navigation-complete', onNavigate)
-    }
+  const init = useCallback(() => {
+    const pointerEl = pointerRef.current
+    const textEl = textRef.current
+    const labelEl = labelRef.current
+    if (!pointerEl || !textEl || !labelEl) return
+    return initCustomCursor({ pointerEl, textEl, labelEl }, labels)
   }, [labels])
+
+  usePageInit(init)
 
   return (
     <>
-      <div className="cursor-pointer" aria-hidden="true">
+      <div ref={pointerRef} className="cursor-pointer" aria-hidden="true">
         <svg viewBox="0 0 40 40" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M1.8 4.4 7 36.2c.3 1.8 2.6 2.3 3.6.8l3.9-5.7c1.7-2.5 4.5-4.1 7.5-4.3l6.9-.5c1.8-.1 2.5-2.4 1.1-3.5L5 2.5c-1.4-1.1-3.5 0-3.3 1.9Z"
@@ -257,8 +266,10 @@ export function CustomCursor() {
         </svg>
       </div>
 
-      <div className="cursor-text" aria-hidden="true">
-        <span className="cursor-text__label">{labels.view}</span>
+      <div ref={textRef} className="cursor-text" aria-hidden="true">
+        <span ref={labelRef} className="cursor-text__label">
+          {labels.view}
+        </span>
       </div>
     </>
   )
