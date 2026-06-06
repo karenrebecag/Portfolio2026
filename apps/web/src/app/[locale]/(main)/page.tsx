@@ -143,8 +143,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
             {/* CTA */}
             <div className="col-span-8 md:col-span-16">
-              <div className="inline-flex flex-col gap-4 rounded-sm border border-white/20 bg-black/35 backdrop-blur-sm px-5 py-5 sm:px-6 sm:py-6 max-w-full sm:max-w-md">
-                <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:items-center">
+              <div className="inline-flex flex-col gap-4 rounded-sm border border-white/20 bg-black/35 backdrop-blur-sm px-5 py-5 sm:px-6 sm:py-6">
+                <div className="flex flex-row flex-nowrap gap-3 items-center">
                   <Button061 href="#contact" className="hero-cta-primary shrink-0">
                     {t('hero.cta_button')}
                   </Button061>
