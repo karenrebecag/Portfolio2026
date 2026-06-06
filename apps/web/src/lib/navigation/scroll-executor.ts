@@ -1,8 +1,7 @@
 /**
  * Real ScrollExecutor backed by Lenis (browser-only). Injected into ScrollPolicy
  * so the policy logic stays pure and testable while this thin adapter does the
- * actual scrolling. Mirrors the primitives in lib/scroll-session (kept for the
- * legacy path) so behavior matches until the flag flips.
+ * actual scrolling.
  */
 
 import { getLenis, getScrollY } from '@/lib/lenis-scroll'

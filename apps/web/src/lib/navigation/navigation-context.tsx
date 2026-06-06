@@ -8,7 +8,6 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from 'react'
-import { NAV_ORCHESTRATOR_ENABLED } from './flag'
 import { NavigationOrchestrator } from './orchestrator'
 import { ControllerRegistry, type ControllerSpec } from './controller-registry'
 import type { NavPhase } from './types'
@@ -22,21 +21,16 @@ const NavigationCtx = createContext<NavigationApi | null>(null)
 
 /**
  * NavigationProvider — sits below Lenis, above the GSAP providers in the layout.
- *
- * PR1: when the flag is off this is a pure passthrough (zero behavior change).
- * When on, it exposes the orchestrator + registry via context but does NOT yet
- * hijack navigation, scroll, or controllers — that wiring lands in later PRs.
+ * Owns the orchestrator + controller registry for the whole app.
  */
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const apiRef = useRef<NavigationApi | null>(null)
-  if (NAV_ORCHESTRATOR_ENABLED && !apiRef.current) {
+  if (!apiRef.current) {
     apiRef.current = {
       orchestrator: new NavigationOrchestrator('boot'),
       registry: new ControllerRegistry(),
     }
   }
-
-  if (!NAV_ORCHESTRATOR_ENABLED) return <>{children}</>
 
   return <NavigationCtx.Provider value={apiRef.current}>{children}</NavigationCtx.Provider>
 }
