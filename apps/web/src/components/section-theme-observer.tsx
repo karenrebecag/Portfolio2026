@@ -99,15 +99,14 @@ function initCheckSectionThemeScroll() {
 
   const unsubscribeLenis = subscribeLenisScroll(() => onScroll())
 
-  const onNavigate = () => scheduleThemeChecks()
-  document.addEventListener('page-navigation-complete', onNavigate)
-
+  // Navigation re-runs are handled by usePageInit, which tears down and
+  // re-inits this controller on each route change (calling scheduleThemeChecks
+  // below). No separate page-navigation-complete listener needed.
   scheduleThemeChecks()
 
   return () => {
     window.removeEventListener('scroll', onScroll)
     window.removeEventListener('resize', onScroll)
-    document.removeEventListener('page-navigation-complete', onNavigate)
     unsubscribeLenis()
   }
 }
