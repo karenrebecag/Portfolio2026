@@ -43,7 +43,13 @@ function RenderBlock({ block }: { block: Block }) {
         />
       )
     case 'callout':
-      return <CalloutRenderer type={block.type as string} text={block.text as string} />
+      return (
+        <CalloutRenderer
+          type={block.type as string}
+          title={block.title as string | undefined}
+          text={block.text as string}
+        />
+      )
     case 'divider':
       return <DividerRenderer style={block.style as string} />
     case 'imageBlock':

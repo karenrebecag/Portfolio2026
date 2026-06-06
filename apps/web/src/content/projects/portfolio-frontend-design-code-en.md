@@ -38,7 +38,7 @@ The home page shows two bands under the same visual language:
 
 It is not just file organization. It is ==a promise to the reader:== if you click an essay, you expect depth and argument. If you click client work, you expect what you built and what changed for the team.
 
-Five long pieces live at `/articulos/`. The rest—Monex, Aurin Task Manager, María Luisa, [decoupled architecture by ownership](/en/projects/decoupled-ownership-non-technical-teams)—lives at `/projects/`. When a project has an essay, the short route redirects to the canonical one. One URL per intent; no competing in SEO or in the visitor's head.
+Five long pieces live at `/articulos/`. The rest—Monex, Aurin Task Manager, [decoupled architecture by ownership](/en/projects/decoupled-ownership-non-technical-teams)—lives at `/projects/`. When a project has an essay, the short route redirects to the canonical one. One URL per intent; no competing in SEO or in the visitor's head.
 
 ```mermaid Two bands, one list
 flowchart TB
@@ -54,7 +54,7 @@ flowchart TB
   ESS --> E3["Vibecoding + context"]
   ESS --> E4["This essay"]
 
-  CLI --> C1["Monex, Aurin, María Luisa…"]
+  CLI --> C1["Monex, Aurin Task Manager…"]
 ```
 
 The question I asked was not "Next.js or Astro?" It was: ==how does someone landing from LinkedIn understand in ten seconds what kind of piece they are opening?==

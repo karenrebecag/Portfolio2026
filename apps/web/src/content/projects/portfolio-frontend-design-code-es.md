@@ -38,7 +38,7 @@ La home muestra dos bandas bajo el mismo lenguaje visual:
 
 No es solo organización de archivos. Es ==una promesa al lector:== si haces click en un ensayo, esperas profundidad y argumento. Si haces click en client work, esperas qué construiste y qué cambió para el equipo.
 
-Cinco piezas largas viven en `/articulos/`. El resto — Monex, Aurin Task Manager, María Luisa, [arquitectura desacoplada por ownership](/es/projects/decoupled-ownership-non-technical-teams) — vive en `/projects/`. Cuando un proyecto tiene ensayo, la ruta corta redirige a la canónica. Un URL por intención; sin competir en SEO ni en la cabeza del visitante.
+Cinco piezas largas viven en `/articulos/`. El resto — Monex, Aurin Task Manager, [arquitectura desacoplada por ownership](/es/projects/decoupled-ownership-non-technical-teams) — vive en `/projects/`. Cuando un proyecto tiene ensayo, la ruta corta redirige a la canónica. Un URL por intención; sin competir en SEO ni en la cabeza del visitante.
 
 ```mermaid Dos bandas, una lista
 flowchart TB
@@ -54,7 +54,7 @@ flowchart TB
   ESS --> E3["Vibecoding + contexto"]
   ESS --> E4["Este ensayo"]
 
-  CLI --> C1["Monex, Aurin, María Luisa…"]
+  CLI --> C1["Monex, Aurin Task Manager…"]
 ```
 
 La pregunta que me hice no fue "¿Next.js o Astro?" Fue: ==¿cómo hago que alguien que llega desde LinkedIn entienda en diez segundos qué tipo de pieza está abriendo?==

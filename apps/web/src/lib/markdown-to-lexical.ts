@@ -186,16 +186,33 @@ export function parseMarkdown(md: string): ParsedContent {
       continue
     }
 
-    // Callout: > [!type] text
-    const calloutMatch = line.match(/^>\s*\[!(info|warning|tip|caution)\]\s*(.+)$/i)
+    // Callout: > [!type] title + optional continuation lines (> ...)
+    const calloutMatch = line.match(/^>\s*\[!(info|warning|tip|caution)\]\s*(.*)$/i)
     if (calloutMatch) {
       paraText = flushParagraph(paraText, children)
       flushList(listItems, children)
       listItems = []
-      const blockIndex = blocks.length
-      blocks.push({ blockType: 'callout', type: calloutMatch[1].toLowerCase(), text: calloutMatch[2], _order: blockIndex })
-      children.push({ type: 'block-ref', tag: String(blockIndex), direction: null, format: 0, indent: 0, version: 1 })
+      const title = calloutMatch[2].trim()
+      const bodyLines: string[] = []
       i++
+      while (i < lines.length) {
+        const cont = lines[i].match(/^>\s+(.+)$/)
+        if (!cont) break
+        if (/^\[!(info|warning|tip|caution)\]/i.test(cont[1])) break
+        bodyLines.push(cont[1])
+        i++
+      }
+      const body = bodyLines.join('\n\n').trim()
+      const text = body || title
+      const blockIndex = blocks.length
+      blocks.push({
+        blockType: 'callout',
+        type: calloutMatch[1].toLowerCase(),
+        title: body ? title : '',
+        text,
+        _order: blockIndex,
+      })
+      children.push({ type: 'block-ref', tag: String(blockIndex), direction: null, format: 0, indent: 0, version: 1 })
       continue
     }
 

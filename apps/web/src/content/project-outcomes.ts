@@ -33,8 +33,8 @@ export const PROJECT_OUTCOMES: Record<string, { en: string; es: string }> = {
     es: 'La mayoría de portfolios son un theme con tu foto cambiada. Este documenta el producto entero—ensayos largos que enseñan, motion que no se rompe al navegar, y el código abierto del sitio que estás viendo.',
   },
   'maria-luisa-de-mateo-jamstack': {
-    en: 'The site updates when she posts on Artsy or Instagram—not when she remembers a CMS password she was never going to use.',
-    es: 'El sitio se actualiza cuando publica en Artsy o Instagram—no cuando recuerda una contraseña de CMS que nunca iba a usar.',
+    en: 'Creative teams publish new artist series and studio projects through templates and tokens—no dev ticket for every collection or visual adjustment.',
+    es: 'Equipos creativos publican nuevas series de artistas y proyectos de estudio a través de plantillas y tokens—sin ticket de dev por cada colección o ajuste visual.',
   },
 }
 
