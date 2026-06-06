@@ -28,7 +28,7 @@ Tres conversaciones públicas moldearon cómo entreno y construyo:
 
 **3. Google y Anthropic productizaron el contexto.** En diciembre de 2025, Google lanzó [Conductor para Gemini CLI](https://developers.googleblog.com/conductor-introducing-context-driven-development-for-gemini-cli/) — specs y planes en Markdown en el repo, "measure twice, code once", setup brownfield para codebases existentes. Las [mejores prácticas de Claude Code](https://code.claude.com/docs/en/best-practices) de Anthropic empujan la misma física: la ventana de contexto es finita, el rendimiento cae al llenarse, así que reglas duraderas en `CLAUDE.md`, conocimiento de dominio en [skills](https://code.claude.com/docs/en/skills) y verificación en tests o comandos que el agente pueda ejecutar.
 
-Cuando esas ideas encajaron, el trabajo con clientes dejó de ser "mejores prompts para tu equipo" y pasó a ser ==artefactos de contexto en git== — el mismo movimiento que ya había hecho para híbridos Webflow en [El problema con Webflow en producción](/es/articulos/atom-webflow), pero ahora para monolitos Next.js y cohortes donde la mitad del salón nunca abrió un archivo de migración.
+Cuando esas ideas encajaron, el trabajo con clientes dejó de ser "mejores prompts para tu equipo" y pasó a ser ==artefactos de contexto en git== — el mismo movimiento que ya había hecho para híbridos Webflow en [El problema con Webflow en producción](/es/articulos/webflow-in-production), pero ahora para monolitos Next.js y cohortes donde la mitad del salón nunca abrió un archivo de migración.
 
 ## El problema con vibecodear sin contexto
 
@@ -225,7 +225,7 @@ Convertimos el incidente en ítem de checklist en cada PR en ese cliente: "¿Có
 > **En pocas palabras:** Dónde encaja esta pieza junto al trabajo Webflow y design system — problema distinto, misma disciplina.
 | Pieza | Enfoque |
 |-------|---------|
-| [Webflow en producción](/es/articulos/atom-webflow) | Contexto para entrega *visual* — tokens, jsDelivr, control dual con marketing |
+| [Webflow en producción](/es/articulos/webflow-in-production) | Contexto para entrega *visual* — tokens, jsDelivr, control dual con marketing |
 | [Design system que se despliega solo](/es/articulos/design-system-that-ships-itself) | Contexto para *marca* — MCP lectura vs escritura, HTTP para landings vibecodeadas |
 | **CDD full-stack (aquí)** | Contexto para *producto* y **capacitar equipos cliente** — specs, DB, auth, webhooks, gobernanza compartida |
 

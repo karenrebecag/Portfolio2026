@@ -28,7 +28,7 @@ Three public conversations shaped how I train and build:
 
 **3. Google and Anthropic productized context.** In December 2025, Google launched [Conductor for Gemini CLI](https://developers.googleblog.com/conductor-introducing-context-driven-development-for-gemini-cli/) — specs and plans as Markdown in the repo, "measure twice, code once," brownfield setup for existing codebases. Anthropic's [Claude Code best practices](https://code.claude.com/docs/en/best-practices) push the same physics: the context window is finite, performance degrades as it fills, so put durable rules in `CLAUDE.md`, domain knowledge in [skills](https://code.claude.com/docs/en/skills), and verification in tests or commands the agent can run.
 
-When those ideas clicked together, my client work stopped being "better prompts for your team" and became ==managed context artifacts in git== — the same move I had already made for Webflow hybrids in [The Problem with Webflow in Production](/en/articulos/atom-webflow), but now for Next.js monoliths and cohorts where half the room has never opened a migration file.
+When those ideas clicked together, my client work stopped being "better prompts for your team" and became ==managed context artifacts in git== — the same move I had already made for Webflow hybrids in [The Problem with Webflow in Production](/en/articulos/webflow-in-production), but now for Next.js monoliths and cohorts where half the room has never opened a migration file.
 
 ## The problem with vibecoding without context
 
@@ -225,7 +225,7 @@ We turned the incident into a checklist item on every PR at that client: "How wa
 > **In plain terms:** Where this article sits next to Webflow and design-system work — different problem, same discipline.
 | Piece | Focus |
 |-------|--------|
-| [Webflow in production](/en/articulos/atom-webflow) | Context for *visual* delivery — tokens, jsDelivr, dual control with marketing |
+| [Webflow in production](/en/articulos/webflow-in-production) | Context for *visual* delivery — tokens, jsDelivr, dual control with marketing |
 | [Design system that ships itself](/en/articulos/design-system-that-ships-itself) | Context for *brand* — MCP read vs write, HTTP for vibecoded landings |
 | **Full-stack CDD (here)** | Context for *product* and **upskilling client teams** — specs, DB, auth, webhooks, shared governance |
 

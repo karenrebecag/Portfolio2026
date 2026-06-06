@@ -2,7 +2,7 @@ Hay un momento específico en casi todo portfolio de ingeniería. No está en el
 
 Puedes seguir afinando la animación del título. O puedes escribir un ensayo de 3.000 palabras sobre por qué Webflow y git no deberían pelear el mismo territorio. Pero si haces solo lo primero, pareces diseñadora. Si haces solo lo segundo sin que el sitio lo soporte, pareces blogger. ==Un portfolio de product engineer es el cliente más difícil que vas a tener:== no puedes decir "eso queda fuera de scope."
 
-Pasé por eso construyendo este sitio. Los otros ensayos que ves aquí — [Webflow en producción](/es/articulos/atom-webflow), [El design system que una IA no puede alucinar](/es/articulos/design-system-that-ships-itself), [Desarrollo guiado por contexto](/es/articulos/context-driven-development-vibecoding) — documentan trabajo con clientes reales. Este texto documenta ==el contenedor que los hace coexistir==. Y está escrito con el mismo pipeline markdown que estás leyendo ahora, porque si no, sería hipocresía.
+Pasé por eso construyendo este sitio. Los otros ensayos que ves aquí — [Webflow en producción](/es/articulos/webflow-in-production), [El design system que una IA no puede alucinar](/es/articulos/design-system-that-ships-itself), [Desarrollo guiado por contexto](/es/articulos/context-driven-development-vibecoding) — documentan trabajo con clientes reales. Este texto documenta ==el contenedor que los hace coexistir==. Y está escrito con el mismo pipeline markdown que estás leyendo ahora, porque si no, sería hipocresía.
 
 > [!info] Sustento externo
 > Las decisiones de routing y motion siguen [App Router de Next.js](https://nextjs.org/docs/app), [routing de next-intl](https://next-intl.dev/docs/routing) y [GSAP con React](https://gsap.com/resources/React/). El código vive en [Portfolio2026](https://github.com/karenrebecag/Portfolio2026); la tabla de referencias al final es lo que envío cuando alguien quiere replicar el enfoque.
@@ -62,7 +62,7 @@ La pregunta que me hice no fue "¿Next.js o Astro?" Fue: ==¿cómo hago que algu
 ## Sin CMS: el mismo contrato que predico en Webflow
 
 > **En pocas palabras:** Si le digo a clientes que el copy largo vive en git, mi portfolio no puede depender de un panel de admin.
-En [Webflow en producción](/es/articulos/atom-webflow) el argumento es explícito: marketing y ingeniería no deberían pelear la misma superficie sin contrato. Aquí soy las dos partes — pero ==el principio no cambia.==
+En [Webflow en producción](/es/articulos/webflow-in-production) el argumento es explícito: marketing y ingeniería no deberían pelear la misma superficie sin contrato. Aquí soy las dos partes — pero ==el principio no cambia.==
 
 Cada ensayo es markdown en git, importado en build, parseado a un renderer propio con bloques para Mermaid, código resaltado y callouts. Sin login. Sin CMS headless. Si quiero cambiar un párrafo, abro un PR. Si quiero añadir un diagrama, lo escribo en el `.md`.
 

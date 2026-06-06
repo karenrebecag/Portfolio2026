@@ -18,6 +18,17 @@ const nextConfig: NextConfig = {
         destination: '/en/projects/decoupled-ownership-non-technical-teams',
         permanent: true,
       },
+      // Renamed to drop the client company name from the URL.
+      {
+        source: '/articulos/atom-webflow',
+        destination: '/articulos/webflow-in-production',
+        permanent: true,
+      },
+      {
+        source: '/en/articulos/atom-webflow',
+        destination: '/en/articulos/webflow-in-production',
+        permanent: true,
+      },
     ]
   },
   async rewrites() {
