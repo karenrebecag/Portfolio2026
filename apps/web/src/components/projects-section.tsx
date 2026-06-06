@@ -41,7 +41,10 @@ function ProjectRows({
             }
           ).i18n?.[locale]
           const blurb =
-            outcome ?? localized?.description ?? localized?.summary ?? project.summary
+            outcome ??
+            (typeof localized?.description === 'string' ? localized.description : undefined) ??
+            localized?.summary ??
+            project.summary
           return (
           <div key={project.id} className="preview-item w-full transition-opacity duration-200">
             <Link

@@ -2192,6 +2192,18 @@ body[data-section-theme='light'] [data-css-marquee] {
   font-weight: 600;
 }
 
+.toc-link[data-toc-link] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toc-sidebar:not([data-toc-mounted]) {
+    opacity: 0;
+    transform: translate3d(0, 1.25em, 0);
+    will-change: opacity, transform;
+  }
+}
+
 .toc-sidebar {
   flex-flow: column;
   justify-content: flex-start;

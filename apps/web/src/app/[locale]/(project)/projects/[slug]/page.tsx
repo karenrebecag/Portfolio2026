@@ -4,12 +4,7 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { getLocalizedProject } from '@/lib/project-i18n'
-import { RichTextRenderer } from '@/components/rich-text-renderer'
-import { ScrollHighlight } from '@/components/scroll-highlight'
-import { ArticleTOC } from '@/components/article-toc'
-import { Button061 } from '@/components/ui/button-061'
-import { ContactSection } from '@/components/contact-section'
-import { SocialShare } from '@/components/social-share'
+import { CaseStudyPage } from '@/components/article-case-study-page'
 import { JsonLdScript } from '@/components/seo/json-ld'
 import { getArticleSlugForProject } from '@/lib/article-projects'
 import { buildAlternates, localizedPath, ogLocale } from '@/lib/seo'
@@ -126,9 +121,6 @@ export default async function ProjectPage({ params }: Props) {
   const localized = project.i18n?.[locale]
   const title = localized?.title || project.title
   const summary = localized?.summary || project.summary
-  const heroDescription = (project as { description?: string }).description ?? summary
-  const description = localized?.lexical || project.description
-  const blocks = localized?.blocks || (found as { blocks?: unknown[] }).blocks
 
   const jsonLd = [
     getArticleSchema({
@@ -148,82 +140,7 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <>
       <JsonLdScript data={jsonLd} />
-    <section
-      data-theme-section="light"
-      data-semantic-role="portfolio"
-      data-llm-context="client-work-case-study"
-      className="pt-32 pb-16"
-    >
-      <ArticleTOC
-        title={t('toc_title')}
-        offset={80}
-        readTimeLabel={t('read_time')}
-        readTimeUnit={t('read_time_unit')}
-      >
-        <header className="mb-10">
-          <Button061 href="/#projects" arrow="left">
-            {t('back')}
-          </Button061>
-
-          <h1 className="mt-10 text-[clamp(2rem,5vw,3.5rem)] font-bold tracking-tight leading-[1.05]">{title}</h1>
-          <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-            <span className="capitalize">{project.category.replace('_', ' ')}</span>
-            <span className="w-1 h-1 rounded-full bg-border" />
-            <span>{project.role}</span>
-            {project.year && (
-              <>
-                <span className="w-1 h-1 rounded-full bg-border" />
-                <span>{project.year}</span>
-              </>
-            )}
-          </div>
-          {project.tags && project.tags.length > 0 && (
-            <div className="mt-5 flex gap-2 flex-wrap">
-              {project.tags.map((tag) => (
-                <span key={tag.tag} className="text-xs px-2.5 py-1 bg-secondary text-secondary-foreground font-accent uppercase tracking-wide">{tag.tag}</span>
-              ))}
-            </div>
-          )}
-
-          {heroDescription && (
-            <p className="mt-8 text-base md:text-lg leading-relaxed text-foreground/80 w-full max-w-none">
-              {heroDescription}
-            </p>
-          )}
-
-          <div className="mt-8 h-px w-full bg-border" />
-
-          <div className="mt-6">
-            <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('case_study')}</span>
-          </div>
-        </header>
-
-        <ScrollHighlight>
-          <div className="prose">
-            <RichTextRenderer content={description as any} blocks={blocks as any} />
-          </div>
-
-          {(project.liveUrl || project.repoUrl) && (
-            <div className="mt-12 flex gap-4">
-              {project.liveUrl && (
-                <Button061 href={project.liveUrl} target="_blank" rel="noopener noreferrer">{t('live')}</Button061>
-              )}
-              {project.repoUrl && (
-                <Button061 href={project.repoUrl} target="_blank" rel="noopener noreferrer" variant="secondary">{t('repo')}</Button061>
-              )}
-            </div>
-          )}
-        </ScrollHighlight>
-
-        <SocialShare
-          className="article-share"
-          heading={t('share_heading')}
-          title={`${title} | Karen Ortiz`}
-        />
-      </ArticleTOC>
-    </section>
-
-    <ContactSection />
+      <CaseStudyPage locale={locale} projectSlug={slug} variant="client-work" />
     </>
   )
 }
