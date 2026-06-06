@@ -17,8 +17,8 @@ export const PROJECT_OUTCOMES: Record<string, { en: string; es: string }> = {
     es: 'Equipos cliente publican herramientas internas con specs en git—menos reescrituras a ciegas con IA y camino más rápido de demo a staging.',
   },
   'monex-one-mobile-banking': {
-    en: 'End-to-end mobile UX/UI for Monex One Mexico—App Store launch within a year of an 8-month Aurin × Ancient Global design engagement.',
-    es: 'UX/UI móvil de punta a punta para Monex One México—lanzamiento en App Store al año de un engagement de diseño de 8 meses con Aurin × Ancient Global.',
+    en: 'Product design case study for Banco Monex mobile banking: FX, payments, and flow architecture with Aurin × Ancient Global; App Store within a year.',
+    es: 'Caso de diseño de producto para banca móvil Banco Monex: divisas, pagos y arquitectura de flujos con Aurin × Ancient Global; App Store al año.',
   },
   'aurin-task-manager': {
     en: 'Aurin consolidated daily ops into one real-time hub—Kanban, per-task chat, time tracking, client share links, and AI triage—so the agency could run fully remote-first.',

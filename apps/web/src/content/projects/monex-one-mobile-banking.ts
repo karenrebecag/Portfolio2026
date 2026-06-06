@@ -14,32 +14,43 @@ export const monexOneMobileBankingMeta = {
   role: 'UX/UI Designer',
   year: '2024',
   featured: true,
-  tags: [{ tag: 'UX/UI' }, { tag: 'Figma' }, { tag: 'iOS' }, { tag: 'Mobile Banking' }],
-  liveUrl: 'https://www.monex.com.mx/portal/monexone',
+  tags: [
+    { tag: 'Product Design' },
+    { tag: 'UX Research' },
+    { tag: 'Figma' },
+    { tag: 'iOS' },
+    { tag: 'Mobile Banking' },
+    { tag: 'Design Systems' },
+  ],
+  liveUrl: 'https://apps.apple.com/uy/app/monex-m%C3%B3vil/id563606880',
   repoUrl: '',
-  services: 'UX/UI Design, Mobile Product',
+  services: 'UX/UI Design, Flow Architecture, Design System, Mobile Product',
   coverImage: {
     url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2ea2b1de5d693cf173_Elegant%20Ice%20Bottle%20Display.avif',
     alt: 'Monex One mobile banking',
   },
   createdAt: '2024-03-01',
-  updatedAt: '2025-06-01',
+  updatedAt: '2026-06-05',
 }
 
 export const monexOneMobileBankingI18n = {
   en: {
-    title: 'Monex One | Mobile Banking UX/UI for Mexico',
+    title: 'Monex Móvil | Corporate Mobile Banking UX',
     summary:
-      "Eight months embedded with Aurin and Ancient Global designing Monex One—the mobile banking app for Monex's Mexico division. Shipped on the App Store within a year.",
+      'Product design case study: FX, payments, and balances for Banco Monex, eight months with Aurin × Ancient Global, live on the App Store within a year.',
+    description:
+      'This is not a build log. It is how to order banking complexity (FX, payments, balances, security) without oversimplifying or cluttering screens: flow architecture, progressive disclosure, and a visual system reproducible across many designers. You take away a map of reusable practices: journeys, research, components, tokens, and MVP decisions, anchored in Monex Móvil, Banco Monex’s App Store product.',
     role: 'UX/UI Designer',
-    services: 'UX/UI Design, Mobile Product',
+    services: 'UX/UI Design, Flow Architecture, Design System, Mobile Product',
   },
   es: {
-    title: 'Monex One | UX/UI de banca móvil para México',
+    title: 'Monex Móvil | UX de banca móvil corporativa',
     summary:
-      'Ocho meses integrada con Aurin y Ancient Global diseñando Monex One—la app de banca móvil de la división México de Monex. En App Store al año del proyecto.',
+      'Caso de diseño de producto: divisas, pagos y saldos para Banco Monex, ocho meses con Aurin × Ancient Global, en App Store al año.',
+    description:
+      'No es un log de implementación. Es cómo ordenar complejidad bancaria (divisas, pagos, saldos, seguridad) sin simplificar de más ni saturar pantallas: arquitectura de flujos, progressive disclosure y un sistema visual reproducible entre muchos diseñadores. Te llevas un mapa de prácticas reutilizables: journeys, research, componentes, tokens y decisiones de MVP, anclado en Monex Móvil, app de Banco Monex en App Store.',
     role: 'Diseñadora UX/UI',
-    services: 'Diseño UX/UI, Producto móvil',
+    services: 'Diseño UX/UI, Arquitectura de flujos, Design system, Producto móvil',
   },
 }
 
