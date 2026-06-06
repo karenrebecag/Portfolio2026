@@ -1,10 +1,12 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePageInit } from '@/lib/use-page-init'
 import { isPopNavigation } from '@/lib/page-mount'
+import { useNavigationOrchestrator } from '@/lib/navigation/navigation-context'
+import type { RevealMode } from '@/lib/navigation/types'
 import { clampScrollPosition } from '@/lib/scroll-trigger-position'
 import { scheduleScrollTriggerRefresh } from '@/lib/scroll-trigger-refresh'
 
@@ -31,7 +33,7 @@ function revealSlotsInstant(slots: Slot[]) {
   })
 }
 
-function initContentRevealScroll() {
+function initContentRevealScroll(revealMode: RevealMode) {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const pending: PendingReveal[] = []
 
@@ -137,7 +139,7 @@ function initContentRevealScroll() {
   })
 
   const revealIfInView = () => {
-    const isPop = isPopNavigation()
+    const isPop = revealMode === 'instant'
     pending.forEach(({ scrollTrigger, reveal }) => {
       const trigger = scrollTrigger.trigger as HTMLElement
       const aboveViewport = trigger.getBoundingClientRect().bottom < 0
@@ -159,6 +161,19 @@ function initContentRevealScroll() {
 }
 
 export function ContentRevealProvider({ children }: { children: React.ReactNode }) {
-  usePageInit(useCallback(() => initContentRevealScroll(), []))
+  const orchestrator = useNavigationOrchestrator()
+  const orchestratorRef = useRef(orchestrator)
+  orchestratorRef.current = orchestrator
+
+  usePageInit(
+    useCallback(() => {
+      // Flag on: typed revealMode from the orchestrator. Flag off: fall back to
+      // the legacy body-attribute intent so behavior is unchanged.
+      const snapshot = orchestratorRef.current?.getSnapshot()
+      const revealMode: RevealMode =
+        snapshot?.revealMode ?? (isPopNavigation() ? 'instant' : 'animate')
+      return initContentRevealScroll(revealMode)
+    }, []),
+  )
   return <>{children}</>
 }
