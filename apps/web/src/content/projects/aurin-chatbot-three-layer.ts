@@ -9,6 +9,7 @@ export const aurinChatbotThreeLayerMeta = {
   id: '8',
   slug: 'conversational-agent-three-layer-stack',
   articleSlug: 'conversational-agent-three-layer-stack',
+  canonicalRoute: 'article' as const,
   status: 'published' as const,
   category: 'web' as const,
   role: 'Product Engineer',

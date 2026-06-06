@@ -9,6 +9,7 @@ export const decoupledOwnershipPlatformsMeta = {
   id: '10',
   slug: 'decoupled-ownership-non-technical-teams',
   articleSlug: 'decoupled-architecture-non-technical-ownership',
+  canonicalRoute: 'project' as const,
   status: 'published' as const,
   category: 'web' as const,
   role: 'Product Engineer & Architecture',

@@ -37,7 +37,18 @@ import {
   portfolioFrontendDesignCodeMarkdown_en,
   portfolioFrontendDesignCodeMarkdown_es,
 } from '@/content/projects/portfolio-frontend-design-code'
-import { PLACEHOLDER_PROJECT_I18N } from '@/content/projects/placeholder-i18n'
+import {
+  monexOneMobileBankingMeta,
+  monexOneMobileBankingI18n,
+  monexOneMobileBankingMarkdown_en,
+  monexOneMobileBankingMarkdown_es,
+} from '@/content/projects/monex-one-mobile-banking'
+import {
+  mariaLuisaDeMateoJamstackMeta,
+  mariaLuisaDeMateoJamstackI18n,
+  mariaLuisaDeMateoJamstackMarkdown_en,
+  mariaLuisaDeMateoJamstackMarkdown_es,
+} from '@/content/projects/maria-luisa-de-mateo-jamstack'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
 import type { Block } from '@/components/blocks/types'
@@ -45,34 +56,9 @@ import type { Block } from '@/components/blocks/types'
 type PlaceholderProject = Project & {
   services?: string
   blocks?: Block[]
+  articleSlug?: string
+  canonicalRoute?: 'article' | 'project'
   i18n?: Record<string, { title: string; summary: string; role?: string; services?: string; lexical?: unknown; blocks?: Block[] }>
-}
-
-function withPlaceholderI18n(project: PlaceholderProject): PlaceholderProject {
-  const localized = PLACEHOLDER_PROJECT_I18N[project.slug]
-  if (!localized) return project
-
-  return {
-    ...project,
-    title: localized.en.title,
-    summary: localized.en.summary,
-    role: localized.en.role,
-    services: localized.en.services,
-    i18n: {
-      en: {
-        title: localized.en.title,
-        summary: localized.en.summary,
-        role: localized.en.role,
-        services: localized.en.services,
-      },
-      es: {
-        title: localized.es.title,
-        summary: localized.es.summary,
-        role: localized.es.role,
-        services: localized.es.services,
-      },
-    },
-  }
 }
 
 export const STICKERS = [
@@ -102,6 +88,10 @@ const aurinTaskManagerParsed_en = parseMarkdown(aurinTaskManagerMarkdown_en)
 const aurinTaskManagerParsed_es = parseMarkdown(aurinTaskManagerMarkdown_es)
 const portfolioFrontendParsed_en = parseMarkdown(portfolioFrontendDesignCodeMarkdown_en)
 const portfolioFrontendParsed_es = parseMarkdown(portfolioFrontendDesignCodeMarkdown_es)
+const monexOneParsed_en = parseMarkdown(monexOneMobileBankingMarkdown_en)
+const monexOneParsed_es = parseMarkdown(monexOneMobileBankingMarkdown_es)
+const mariaLuisaParsed_en = parseMarkdown(mariaLuisaDeMateoJamstackMarkdown_en)
+const mariaLuisaParsed_es = parseMarkdown(mariaLuisaDeMateoJamstackMarkdown_es)
 
 export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
   // Long-form articles first (home links to /articulos/…)
@@ -211,56 +201,25 @@ export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
       },
     },
   },
-  withPlaceholderI18n({
-    id: '1',
-    title: 'Monex One | Mobile Banking UX/UI for Mexico',
-    slug: 'monex-one-mobile-banking',
-    status: 'published',
-    category: 'mobile',
-    role: 'UX/UI Designer',
-    year: '2024',
-    featured: true,
-    summary:
-      'Eight months embedded with Aurin and Ancient Global designing Monex One—the mobile banking app for Monex’s Mexico division. Shipped on the App Store within a year.',
-    description: {
-      root: {
-        type: 'root',
-        children: [
-          {
-            type: 'paragraph',
-            children: [
-              {
-                type: 'text',
-                text: 'Monex One is the mobile banking experience for Monex’s Mexico division. Over eight months I worked alongside the Aurin team and Ancient Global—mapping flows, defining UI patterns, and shipping a complete mobile product from research through high-fidelity screens and handoff. A year after the engagement, the app is live on the App Store.',
-                format: 0,
-                direction: null,
-                indent: 0,
-                version: 1,
-              },
-            ],
-            direction: null,
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        ],
-        direction: null,
-        format: '',
-        indent: 0,
-        version: 1,
+  {
+    ...monexOneMobileBankingMeta,
+    title: monexOneMobileBankingI18n.en.title,
+    summary: monexOneMobileBankingI18n.en.summary,
+    description: monexOneParsed_en.lexical,
+    blocks: monexOneParsed_en.blocks,
+    i18n: {
+      en: {
+        ...monexOneMobileBankingI18n.en,
+        lexical: monexOneParsed_en.lexical,
+        blocks: monexOneParsed_en.blocks,
+      },
+      es: {
+        ...monexOneMobileBankingI18n.es,
+        lexical: monexOneParsed_es.lexical,
+        blocks: monexOneParsed_es.blocks,
       },
     },
-    tags: [{ tag: 'UX/UI' }, { tag: 'Figma' }, { tag: 'iOS' }, { tag: 'Mobile Banking' }],
-    coverImage: {
-      url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2ea2b1de5d693cf173_Elegant%20Ice%20Bottle%20Display.avif',
-      alt: 'Monex One mobile banking',
-    },
-    liveUrl: 'https://www.monex.com.mx/portal/monexone',
-    repoUrl: '',
-    services: 'UX/UI Design, Mobile Product',
-    createdAt: '2024-03-01',
-    updatedAt: '2025-06-01',
-  }),
+  },
   {
     ...aurinTaskManagerMeta,
     title: aurinTaskManagerI18n.en.title,
@@ -284,61 +243,23 @@ export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
       },
     },
   },
-  withPlaceholderI18n({
-    id: '3',
-    title: 'María Luisa de Mateo | Artsy & Instagram as the CMS',
-    slug: 'maria-luisa-de-mateo-jamstack',
-    status: 'published',
-    category: 'web',
-    role: 'UX Engineer & Product Designer',
-    year: '2025',
-    featured: true,
-    summary:
-      'Most artist sites ship with a CMS the creator never opens. This one pulls live inventory from Artsy and Instagram—47 works on R2, bilingual Next.js, GSAP galleries—so María Luisa keeps selling where she already sells.',
-    description: {
-      root: {
-        type: 'root',
-        children: [
-          {
-            type: 'paragraph',
-            children: [
-              {
-                type: 'text',
-                text: 'María Luisa de Mateo sells on Artsy and shows on Instagram. She did not need another admin panel—she needed a site that reads those channels and still feels like a gallery. I shipped a lean JAMstack build on Next.js: 47 portfolio pieces on Cloudflare R2, live availability from Artsy’s GraphQL API, an Instagram strip with static fallback when the feed fails, bilingual routing, and GSAP motion that stays out of the work’s way. Small codebase, deliberate architecture—power without asking the artist to become a publisher.',
-                format: 0,
-                direction: null,
-                indent: 0,
-                version: 1,
-              },
-            ],
-            direction: null,
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        ],
-        direction: null,
-        format: '',
-        indent: 0,
-        version: 1,
+  {
+    ...mariaLuisaDeMateoJamstackMeta,
+    title: mariaLuisaDeMateoJamstackI18n.en.title,
+    summary: mariaLuisaDeMateoJamstackI18n.en.summary,
+    description: mariaLuisaParsed_en.lexical,
+    blocks: mariaLuisaParsed_en.blocks,
+    i18n: {
+      en: {
+        ...mariaLuisaDeMateoJamstackI18n.en,
+        lexical: mariaLuisaParsed_en.lexical,
+        blocks: mariaLuisaParsed_en.blocks,
+      },
+      es: {
+        ...mariaLuisaDeMateoJamstackI18n.es,
+        lexical: mariaLuisaParsed_es.lexical,
+        blocks: mariaLuisaParsed_es.blocks,
       },
     },
-    tags: [
-      { tag: 'Next.js' },
-      { tag: 'JAMstack' },
-      { tag: 'GSAP' },
-      { tag: 'Artsy' },
-      { tag: 'R2' },
-      { tag: 'next-intl' },
-    ],
-    coverImage: {
-      url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2e3a3b6987bbb92dfd_Serene%20Floral%20Arrangement.avif',
-      alt: 'María Luisa de Mateo artist portfolio',
-    },
-    liveUrl: 'https://marialuisademateo.com',
-    repoUrl: 'https://github.com/karenrebecag/MariaLuisadeMateo',
-    services: 'UX Engineering, Product Design, JAMstack',
-    createdAt: '2025-06-01',
-    updatedAt: '2026-06-01',
-  }),
+  },
 ]

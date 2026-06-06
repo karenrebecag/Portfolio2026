@@ -4,7 +4,11 @@ import { setRequestLocale } from 'next-intl/server'
 import type { Metadata } from 'next'
 import { ArticleCaseStudyPage } from '@/components/article-case-study-page'
 import { JsonLdScript } from '@/components/seo/json-ld'
-import { getAllArticleSlugs, getArticleProjectByArticleSlug } from '@/lib/article-projects'
+import {
+  getAllArticleSlugs,
+  getArticleProjectByArticleSlug,
+  getClientWorkRedirectForArticleSlug,
+} from '@/lib/article-projects'
 import { buildAlternates, localizedPath, ogLocale } from '@/lib/seo'
 import { articleOgImages, defaultOgImages } from '@/lib/seo/metadata-helpers'
 import {
@@ -15,11 +19,6 @@ import { SITE_AUTHOR } from '@/lib/seo/site-config'
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>
-}
-
-/** Former /articulos URLs moved to client work at /projects/* */
-const MOVED_TO_CLIENT_WORK: Record<string, string> = {
-  'decoupled-architecture-non-technical-ownership': '/projects/decoupled-ownership-non-technical-teams',
 }
 
 export async function generateStaticParams() {
@@ -79,7 +78,7 @@ export default async function ArticleBySlugPage({ params }: Props) {
 
   const project = getArticleProjectByArticleSlug(slug)
   if (!project) {
-    const moved = MOVED_TO_CLIENT_WORK[slug]
+    const moved = getClientWorkRedirectForArticleSlug(slug)
     if (moved) redirect({ href: moved, locale })
     notFound()
   }

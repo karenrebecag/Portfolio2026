@@ -9,6 +9,7 @@ export const contextDrivenVibecodingMeta = {
   id: '9',
   slug: 'context-driven-development-vibecoding',
   articleSlug: 'context-driven-development-vibecoding',
+  canonicalRoute: 'article' as const,
   status: 'published' as const,
   category: 'web' as const,
   role: 'Product Engineer & Instructor',

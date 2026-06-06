@@ -9,6 +9,7 @@ export const portfolioFrontendDesignCodeMeta = {
   id: '11',
   slug: 'portfolio-frontend-design-and-code',
   articleSlug: 'frontend-portfolio-design-and-code',
+  canonicalRoute: 'article' as const,
   status: 'published' as const,
   category: 'web' as const,
   role: 'Product Engineer & Frontend Architect',

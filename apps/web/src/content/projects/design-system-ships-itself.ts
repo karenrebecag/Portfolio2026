@@ -10,6 +10,7 @@ export const designSystemShipsItselfMeta = {
   id: '7',
   slug: 'design-system-that-ships-itself',
   articleSlug: 'design-system-that-ships-itself',
+  canonicalRoute: 'article' as const,
   status: 'published' as const,
   category: 'design_system' as const,
   role: 'Product Engineer & Design Systems Lead',

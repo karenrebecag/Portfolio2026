@@ -1,0 +1,1 @@
+Monex One es la experiencia de banca móvil de la división México de Monex. Durante ocho meses trabajé junto al equipo de Aurin y Ancient Global—mapeando flujos, definiendo patrones de UI y entregando un producto móvil completo desde investigación hasta pantallas de alta fidelidad y handoff. Un año después del engagement, la app está en App Store.

@@ -8,6 +8,7 @@ import enMarkdown from './aurin-task-manager-en.md'
 export const aurinTaskManagerMeta = {
   id: '2',
   slug: 'aurin-task-manager',
+  canonicalRoute: 'project' as const,
   status: 'published' as const,
   category: 'web' as const,
   role: 'UX Engineer & Product Designer',

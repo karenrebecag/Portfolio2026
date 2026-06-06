@@ -1,0 +1,1 @@
+Monex One is the mobile banking experience for Monex's Mexico division. Over eight months I worked alongside the Aurin team and Ancient Global—mapping flows, defining UI patterns, and shipping a complete mobile product from research through high-fidelity screens and handoff. A year after the engagement, the app is live on the App Store.
