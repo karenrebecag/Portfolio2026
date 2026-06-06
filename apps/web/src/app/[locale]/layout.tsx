@@ -9,7 +9,6 @@ import { notFound } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { LenisProvider } from '@/components/lenis-provider'
 import { ParallaxProvider } from '@/components/parallax-provider'
-import { TransitionOverlay } from '@/components/transition-overlay'
 import { TextRevealProvider } from '@/components/text-reveal'
 import { ContentRevealProvider } from '@/components/content-reveal'
 import { CustomCursor } from '@/components/custom-cursor'
@@ -18,6 +17,7 @@ import { SectionThemeObserver } from '@/components/section-theme-observer'
 import { ThemeColorSync } from '@/components/theme-color-sync'
 import { MarqueeScrollInit } from '@/components/marquee-scroll-init'
 import { PageTransition } from '@/components/page-transition'
+import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from '@/components/ui/sonner'
 import { routing } from '@/i18n/routing'
 import { SITE_URL, ogLocale, localizedPath } from '@/lib/seo'
@@ -163,7 +163,6 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <ThemeColorSync />
           <CustomCursor />
-          <TransitionOverlay />
           <LenisProvider>
             <ParallaxProvider>
               <TextRevealProvider>
@@ -180,6 +179,7 @@ export default async function LocaleLayout({
           </LenisProvider>
           <Toaster />
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   )
