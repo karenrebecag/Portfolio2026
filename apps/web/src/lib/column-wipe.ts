@@ -51,6 +51,13 @@ export function getWipeElements(root: HTMLElement) {
   return { columns, lines }
 }
 
+/** Force the wipe lines back to opacity 0. The CSS default is 0.1, so any
+ *  settle that skips the enter fade (pop, interrupted nav) would leave them
+ *  faintly visible — call this to guarantee they're hidden. */
+export function hideWipeLines(root: HTMLElement) {
+  hideWipeLinesInstant(root.querySelector<HTMLElement>('.transition__lines'))
+}
+
 /** Leave: columns 0 → 100, stagger right-to-left (from: end). */
 export function playWipeLeave(root: HTMLElement, onComplete?: () => void): gsap.core.Timeline {
   ensureOsmoEase()

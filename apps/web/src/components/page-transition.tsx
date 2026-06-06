@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { stripLocalePrefix } from '@/lib/i18n-href'
 import { prefetchHeroForRoute } from '@/lib/hero-assets'
@@ -21,6 +21,8 @@ import {
   scrollToHash,
   scrollToTop,
 } from '@/lib/scroll-session'
+import { NAV_ORCHESTRATOR_ENABLED } from '@/lib/navigation/flag'
+import { useNavigationRuntime } from '@/lib/navigation/navigation-runtime'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -39,7 +41,50 @@ function isInternalRouteHref(href: string): boolean {
   return true
 }
 
-export function PageTransition({ children }: { children: React.ReactNode }) {
+/** Shared wipe overlay + content wrapper markup for both the legacy and the
+ *  orchestrator-driven shells. */
+function WipeSurface({
+  overlayRef,
+  contentRef,
+  children,
+}: {
+  overlayRef: RefObject<HTMLDivElement | null>
+  contentRef: RefObject<HTMLDivElement | null>
+  children: React.ReactNode
+}) {
+  return (
+    <>
+      <div ref={overlayRef} data-transition-wrap className="transition">
+        <div className="transition__panels">
+          {Array.from({ length: COLUMN_WIPE.panelCount }, (_, i) => (
+            <div key={i} data-transition-column className="transition__panel bg-surface" />
+          ))}
+        </div>
+        <div className="transition__lines">
+          {Array.from({ length: COLUMN_WIPE.panelCount }, (_, i) => (
+            <div key={i} className={`transition__line${i === COLUMN_WIPE.panelCount - 1 ? ' is--last' : ''}`} />
+          ))}
+        </div>
+      </div>
+      <div ref={contentRef}>{children}</div>
+    </>
+  )
+}
+
+/** Thin shell — all navigation logic lives in useNavigationRuntime. */
+function PageTransitionShell({ children }: { children: React.ReactNode }) {
+  const overlayRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  useNavigationRuntime({ overlayRef, contentRef })
+  return (
+    <WipeSurface overlayRef={overlayRef} contentRef={contentRef}>
+      {children}
+    </WipeSurface>
+  )
+}
+
+/** Legacy path — unchanged. Active while NEXT_PUBLIC_NAV_ORCHESTRATOR is off. */
+function PageTransitionLegacy({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
   const pathnameRef = useRef(pathname)
@@ -263,20 +308,16 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   }, [router])
 
   return (
-    <>
-      <div ref={overlayRef} data-transition-wrap className="transition">
-        <div className="transition__panels">
-          {Array.from({ length: COLUMN_WIPE.panelCount }, (_, i) => (
-            <div key={i} data-transition-column className="transition__panel bg-surface" />
-          ))}
-        </div>
-        <div className="transition__lines">
-          {Array.from({ length: COLUMN_WIPE.panelCount }, (_, i) => (
-            <div key={i} className={`transition__line${i === COLUMN_WIPE.panelCount - 1 ? ' is--last' : ''}`} />
-          ))}
-        </div>
-      </div>
-      <div ref={contentRef}>{children}</div>
-    </>
+    <WipeSurface overlayRef={overlayRef} contentRef={contentRef}>
+      {children}
+    </WipeSurface>
+  )
+}
+
+export function PageTransition({ children }: { children: React.ReactNode }) {
+  return NAV_ORCHESTRATOR_ENABLED ? (
+    <PageTransitionShell>{children}</PageTransitionShell>
+  ) : (
+    <PageTransitionLegacy>{children}</PageTransitionLegacy>
   )
 }
