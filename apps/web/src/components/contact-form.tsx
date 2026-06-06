@@ -53,6 +53,7 @@ export function ContactForm() {
       services: selectedServices,
       budget: selectedBudget,
       message: String(fd.get('message') ?? '').trim(),
+      website: String(fd.get('website') ?? ''),
     }
 
     if (!payload.name || !payload.email || !payload.message) {
@@ -75,6 +76,8 @@ export function ContactForm() {
         setSelectedBudget(null)
       } else if (json.error === 'not_configured' || json.error === 'sandbox_restricted') {
         toast.error(t('form_error_config'))
+      } else if (json.error === 'rate_limited') {
+        toast.error(t('form_error_rate_limited'))
       } else {
         toast.error(t('form_error'))
       }
@@ -87,6 +90,16 @@ export function ContactForm() {
 
   return (
     <form ref={formRef} className="space-y-8 min-w-0" onSubmit={handleSubmit}>
+      {/* Honeypot — hidden from humans; bots fill it and get silently dropped. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] top-[-9999px] h-0 w-0 opacity-0"
+      />
+
       {/* Inputs 2x2 */}
       <div className="grid grid-cols-2 gap-6 max-[767px]:grid-cols-1">
         <div>

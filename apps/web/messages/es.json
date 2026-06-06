@@ -207,7 +207,8 @@
     "form_success": "¡Listo! Tu brief fue enviado. Te responderé pronto.",
     "form_error": "Algo salió mal. Intenta de nuevo o escríbeme a karenrortizg@gmail.com.",
     "form_error_config": "El formulario aún no está configurado por completo. Escríbeme directo a karenrortizg@gmail.com.",
-    "form_error_required": "Completa nombre, email y mensaje."
+    "form_error_required": "Completa nombre, email y mensaje.",
+    "form_error_rate_limited": "Demasiados envíos. Espera unos minutos o escríbeme a karenrortizg@gmail.com."
   },
   "footer": {
     "name": "Karen Ortiz",

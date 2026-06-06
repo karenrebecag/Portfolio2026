@@ -207,7 +207,8 @@
     "form_success": "Done! Your brief was sent. I'll get back to you soon.",
     "form_error": "Something went wrong. Try again or email karenrortizg@gmail.com.",
     "form_error_config": "The form is not fully configured yet. Please email karenrortizg@gmail.com directly.",
-    "form_error_required": "Please fill in name, email, and message."
+    "form_error_required": "Please fill in name, email, and message.",
+    "form_error_rate_limited": "Too many submissions. Wait a few minutes or email karenrortizg@gmail.com."
   },
   "footer": {
     "name": "Karen Ortiz",
