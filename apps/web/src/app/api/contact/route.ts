@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { resend, CONTACT_TO, CONTACT_FROM } from '@/lib/resend'
+import { getClientIp, rateLimit } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 
@@ -11,10 +12,13 @@ type ContactPayload = {
   services?: string[]
   budget?: string | null
   message?: string
+  /** Honeypot — must stay empty. Bots fill it; humans never see it. */
+  website?: string
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MAX = { name: 120, email: 254, phone: 40, country: 80, message: 8000 } as const
+const RATE = { limit: 5, windowMs: 10 * 60 * 1000 } as const
 
 export async function POST(request: Request) {
   let body: ContactPayload
@@ -22,6 +26,20 @@ export async function POST(request: Request) {
     body = await request.json()
   } catch {
     return NextResponse.json({ ok: false, error: 'invalid_request' }, { status: 400 })
+  }
+
+  // Honeypot: a filled field means a bot. Pretend success so it doesn't retry.
+  if (body.website && body.website.trim()) {
+    return NextResponse.json({ ok: true })
+  }
+
+  const ip = getClientIp(request)
+  const limit = rateLimit(`contact:${ip}`, RATE.limit, RATE.windowMs)
+  if (!limit.ok) {
+    return NextResponse.json(
+      { ok: false, error: 'rate_limited' },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } },
+    )
   }
 
   const name = (body.name?.trim() ?? '').slice(0, MAX.name)
