@@ -5,6 +5,7 @@ import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import 'lenis/dist/lenis.css'
+import { stripLocalePrefix } from '@/lib/i18n-href'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,14 +26,37 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     gsap.ticker.add((time) => { lenis.raf(time * 1000) })
     gsap.ticker.lagSmoothing(0)
 
-    // Anchor scroll-to with easing
+    // Anchor scroll-to with easing (Lenis pattern for in-page # anchors).
+    // Supports pure "#contact", "/#projects", and locale-prefixed variants when
+    // they target the current page. Cross-page hashes (e.g. /#contact while on /about)
+    // are left for the navigation runtime + page transition.
     function handleHashClick(e: MouseEvent) {
-      const anchor = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null
+      const anchor = (e.target as HTMLElement).closest('a') as HTMLAnchorElement | null
       if (!anchor) return
-      const hash = anchor.getAttribute('href')
+      const rawHref = anchor.getAttribute('href')
+      if (!rawHref || !rawHref.includes('#')) return
+
+      const stripped = stripLocalePrefix(rawHref)
+      const hashIndex = stripped.indexOf('#')
+      if (hashIndex < 0) return
+      const hash = stripped.slice(hashIndex)
       if (!hash || hash === '#') return
+
+      // Same-page anchor? (pure # or path part matches current logical path after locale strip)
+      const currentPathname = window.location.pathname
+      const currentStripped = stripLocalePrefix(currentPathname)
+      const linkPathPart = stripped.slice(0, hashIndex) || '/'
+      const normalizedLinkPath = linkPathPart === '' ? '/' : linkPathPart
+      const isPureHash = rawHref.startsWith('#')
+      const isSamePageAnchor = isPureHash || normalizedLinkPath === currentStripped
+
+      if (!isSamePageAnchor) return
+
       e.preventDefault()
-      lenis.scrollTo(hash, {
+      const id = hash.replace(/^#/, '')
+      const targetEl = id ? document.getElementById(id) : null
+      const scrollTarget = targetEl || hash
+      lenis.scrollTo(scrollTarget, {
         easing: (x: number) => (x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2),
         duration: 1.2,
         offset: 0,
