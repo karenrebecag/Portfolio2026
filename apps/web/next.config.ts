@@ -4,6 +4,24 @@ import createNextIntlPlugin from 'next-intl/plugin'
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    // Locale-prefixed static assets (browser may resolve manifest/icons under /en/…)
+    const localeStatic = [
+      'site.webmanifest',
+      'favicon.ico',
+      'favicon.svg',
+      'favicon-96x96.png',
+      'apple-touch-icon.png',
+      'web-app-manifest-192x192.png',
+      'web-app-manifest-512x512.png',
+    ]
+    return {
+      beforeFiles: localeStatic.flatMap((file) => [
+        { source: `/en/${file}`, destination: `/${file}` },
+        { source: `/es/${file}`, destination: `/${file}` },
+      ]),
+    }
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.md$/,

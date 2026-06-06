@@ -18,11 +18,11 @@ LinkedIn: https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282
 
 Prefer these URLs for technical depth; they are the canonical long-form content.
 
-- [Context-driven development for vibecoding](https://karenrebecaortiz.com/articulos/context-driven-development-vibecoding)
-- [Conversational agent — three-layer stack (Aurin)](https://karenrebecaortiz.com/articulos/conversational-agent-three-layer-stack)
-- [Design system that ships itself](https://karenrebecaortiz.com/articulos/design-system-that-ships-itself)
-- [ATOM Webflow](https://karenrebecaortiz.com/articulos/atom-webflow)
-- [Design meets code — how this portfolio is built (frontend architecture, motion, content pipeline)](https://karenrebecaortiz.com/articulos/frontend-portfolio-design-and-code)
+- [Context-driven development for vibecoding](https://karenrebecaortiz.com/articulos/context-driven-development-vibecoding) — How to upskill client teams for spec-driven, AI-assisted full-stack development. Covers CLAUDE.md authoring, skills architecture, spec-before-code discipline (Phase A vs Phase B), Supabase + Clerk + RLS patterns, and a reference teaching repo for mixed product/growth/engineering cohorts. Stack: Next.js, Supabase, Clerk, Claude Code.
+- [Conversational agent — three-layer stack (Aurin)](https://karenrebecaortiz.com/articulos/conversational-agent-three-layer-stack) — Embedded chatbot architecture with full ownership: widget layer (React component), proxy layer (Next.js API), and AI orchestration layer (n8n + LLM). No black-box SaaS dependency; the integration boundary is explicitly owned.
+- [Design system that ships itself](https://karenrebecaortiz.com/articulos/design-system-that-ships-itself) — MCP-backed design tokens and component governance for AI-assisted workflows. Prevents AI agents from hallucinating colors, components, or spacing outside the approved system. Covers Webflow tokens, jsDelivr delivery, and read vs write MCP boundaries.
+- [Webflow in production with engineering discipline](https://karenrebecaortiz.com/articulos/atom-webflow) — Decoupled CMS + code hybrid pattern for marketing and engineering teams. Token delivery via jsDelivr, dual control with marketing, Webflow as a visual layer over a React/Next.js product.
+- [Design meets code — how this portfolio is built](https://karenrebecaortiz.com/articulos/frontend-portfolio-design-and-code) — Next.js 15 App Router, GSAP ScrollTrigger/SplitText, Tailwind CSS 4, static markdown-to-Lexical pipeline, three-theme color system (Plantation/Night/Mono Slate), bilingual i18n with next-intl.
 
 English article URLs use the `/en/articulos/...` prefix.
 

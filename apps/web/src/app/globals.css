@@ -780,6 +780,63 @@ body[data-section-theme='light'] .icon-button {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* -- Footer tech logo marquee (same CSS rail as top marquee) -- */
+.footer-tech-marquee-wrap {
+  width: clamp(10rem, 34vw, 18rem);
+  max-width: 48%;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.footer-tech-marquee {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.footer-tech-marquee[data-footer-marquee] {
+  background-color: var(--surface);
+  color: var(--surface-foreground);
+}
+
+.footer-tech-marquee .marquee-rail {
+  background-color: var(--surface);
+}
+
+.footer-tech-marquee__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--surface-foreground) 8%, transparent);
+  background: color-mix(in srgb, var(--surface-foreground) 4%, transparent);
+  transition: border-color 0.25s, background-color 0.25s;
+}
+
+.footer-tech-marquee__logo:hover {
+  border-color: color-mix(in srgb, var(--surface-foreground) 22%, transparent);
+  background: color-mix(in srgb, var(--surface-foreground) 8%, transparent);
+}
+
+.footer-tech-marquee__logo-img {
+  width: 0.875rem;
+  height: 0.875rem;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.25s;
+}
+
+.footer-tech-marquee__logo-img--native {
+  filter: none;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+
+.footer-tech-marquee__logo:hover .footer-tech-marquee__logo-img {
+  opacity: 1;
+}
+
 /* -- Logo Wall (OSMO + Brutalist) -- */
 .logo-wall {
   display: flex;
@@ -1507,6 +1564,28 @@ mark[data-highlight] {
   }
 }
 
+/* -- SSR / first paint: match GSAP "from" state until page-ready + mount flow runs -- */
+@media (prefers-reduced-motion: no-preference) {
+  body:not([data-page-ready]) [data-reveal-group] > *:not([data-ignore='true']) {
+    opacity: 0;
+    transform: translate3d(0, 1.5em, 0);
+  }
+
+  body:not([data-page-ready]) [data-reveal-group-nested] > *:not([data-ignore='true']) {
+    opacity: 0;
+    transform: translate3d(0, 1.25em, 0);
+  }
+
+  body:not([data-page-ready]) [data-reveal-group]:not(:has(> *)) {
+    opacity: 0;
+    transform: translate3d(0, 1.5em, 0);
+  }
+
+  body:not([data-page-ready]) [data-rotating-title]:not([data-rotating-ready]) [data-rotating-words] {
+    opacity: 0;
+  }
+}
+
 /* -- Element reveal -- */
 @keyframes reveal-up {
   from {
@@ -1868,12 +1947,12 @@ body[data-section-theme='dark'] .underlay-nav__header {
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-body[data-section-theme='dark'] [data-css-marquee] {
+body[data-section-theme='dark'] [data-css-marquee]:not([data-footer-marquee]) {
   background-color: var(--foreground);
   color: var(--background);
 }
 
-body[data-section-theme='light'] [data-css-marquee] {
+body[data-section-theme='light'] [data-css-marquee]:not([data-footer-marquee]) {
   background-color: var(--surface);
   color: var(--surface-foreground);
 }

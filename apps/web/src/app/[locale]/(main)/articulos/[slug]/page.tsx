@@ -25,16 +25,23 @@ export async function generateStaticParams() {
   return getAllArticleSlugs().map((slug) => ({ slug }))
 }
 
+function truncateDescription(text: string, max = 155): string {
+  if (text.length <= max) return text
+  const cut = text.lastIndexOf(' ', max)
+  return text.slice(0, cut > 0 ? cut : max) + '…'
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   const project = getArticleProjectByArticleSlug(slug)
   if (!project) return { title: 'Not found' }
   const localized = project.i18n?.[locale]
   const title = localized?.title ?? project.title
-  const description =
+  const rawDescription =
     (localized as { description?: string } | undefined)?.description ??
     localized?.summary ??
     project.summary
+  const description = truncateDescription(rawDescription)
   const path = `/articulos/${slug}`
   const coverUrl = project.coverImage?.url
   const ogImages = coverUrl

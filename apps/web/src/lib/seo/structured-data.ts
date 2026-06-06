@@ -95,14 +95,6 @@ export function buildWebSiteNode(locale: string): JsonLd {
     inLanguage: [ogLocale('es'), ogLocale('en')],
     isAccessibleForFree: true,
     publisher: { '@id': `${SITE_URL}/#person` },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   }
 }
 
@@ -184,12 +176,13 @@ export function getArticleSchema(input: ArticleSchemaInput): JsonLd {
 
   return {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'TechArticle',
     '@id': `${url}#article`,
     headline: input.title,
     description: input.description,
     url,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    isPartOf: { '@type': 'WebSite', '@id': `${SITE_URL}/#website` },
     image,
     datePublished: input.datePublished ?? input.dateModified,
     dateModified: input.dateModified ?? input.datePublished,
@@ -205,7 +198,13 @@ export function getArticleSchema(input: ArticleSchemaInput): JsonLd {
     },
     inLanguage: input.locale === 'es' ? 'es-MX' : 'en-US',
     keywords: input.tags?.join(', '),
+    proficiencyLevel: 'Expert',
+    dependencies: input.tags?.join(', '),
     articleSection: input.path?.startsWith('/projects/') ? 'Client Work' : 'Case Study',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.article-hero h1', '.article-hero p', '.article-prose h2'],
+    },
   }
 }
 
@@ -231,7 +230,7 @@ export function getArticleBreadcrumbSchema(
         '@type': 'ListItem',
         position: 2,
         name: articlesLabel,
-        item: absoluteUrl(locale, '/#projects'),
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',

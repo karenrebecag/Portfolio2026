@@ -215,7 +215,8 @@
     "tagline_2": "Diseñado para durar.",
     "bio": "Software Engineer enfocada en Product Engineering & Web Experiences. Diseño sistemas, componentes y agentes que conectan UX, infraestructura y AI en productos listos para producción.",
     "rights": "Todos los derechos reservados",
-    "location": "Cuernavaca, MX",
+    "location": "CDMX",
+    "cta": "Cuéntame sobre tu proyecto",
     "location_remote": "Remote worldwide",
     "built_by": "Diseñado y construido por Karen Ortiz",
     "stack": "Next.js + GSAP + Tailwind"

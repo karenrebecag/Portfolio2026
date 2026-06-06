@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { markPageReady } from '@/lib/page-mount'
 
 const PANEL_COUNT = 5
 
@@ -17,10 +18,7 @@ export function TransitionOverlay() {
 
     const tl = gsap.timeline({
       delay: 0.08,
-      onComplete: () => {
-        document.body.setAttribute('data-page-ready', '')
-        document.dispatchEvent(new CustomEvent('page-ready'))
-      },
+      onComplete: markPageReady,
     })
 
     tl.to(columns, {

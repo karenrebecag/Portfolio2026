@@ -108,6 +108,7 @@ export async function generateMetadata({
       description: m.description,
       images: [SITE_OG_IMAGE],
     },
+    manifest: '/site.webmanifest',
     appleWebApp: {
       capable: true,
       title: 'Karen Ortiz',
@@ -149,7 +150,6 @@ export default async function LocaleLayout({
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#11221f" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />

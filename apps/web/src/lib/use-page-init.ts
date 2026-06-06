@@ -1,57 +1,43 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
+import { PAGE_MOUNT_EVENT, PAGE_READY_EVENT } from '@/lib/page-mount'
 
-function scheduleInit(run: () => void) {
-  if (typeof requestIdleCallback === 'function') {
-    requestIdleCallback(run, { timeout: 120 })
-  } else {
-    requestAnimationFrame(() => requestAnimationFrame(run))
-  }
-}
-
-/** Wait for React commit + paint before querying the DOM (route transitions). */
-function scheduleInitAfterPaint(run: () => void) {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      scheduleInit(run)
-    })
-  })
-}
-
+/**
+ * Mount flow for GSAP / ScrollTrigger controllers.
+ *
+ * - First load: waits for `page-ready` (overlay), then inits synchronously.
+ * - Route change: inits synchronously on `page-navigation-complete` inside
+ *   useLayoutEffect — before the browser paints the new page.
+ *
+ * Pair with PageTransition, which dispatches mount before the enter tween
+ * sets content visible. CSS pre-hide (globals.css) only covers SSR/hydration
+ * before `data-page-ready` is set.
+ */
 export function usePageInit(init: () => (() => void) | void) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     let cleanup: (() => void) | void
     let cancelled = false
 
-    function start() {
+    function mount() {
       if (cancelled) return
+      if (typeof cleanup === 'function') cleanup()
       cleanup = init()
     }
 
-    function startDeferred() {
-      scheduleInit(start)
-    }
-
     if (document.body.hasAttribute('data-page-ready')) {
-      startDeferred()
+      mount()
     } else {
-      document.addEventListener('page-ready', startDeferred, { once: true })
+      document.addEventListener(PAGE_READY_EVENT, mount, { once: true })
     }
 
-    function onNavigate() {
-      if (typeof cleanup === 'function') cleanup()
-      cleanup = undefined
-      scheduleInitAfterPaint(start)
-    }
-
-    document.addEventListener('page-navigation-complete', onNavigate)
+    document.addEventListener(PAGE_MOUNT_EVENT, mount)
 
     return () => {
       cancelled = true
       if (typeof cleanup === 'function') cleanup()
-      document.removeEventListener('page-ready', startDeferred)
-      document.removeEventListener('page-navigation-complete', onNavigate)
+      document.removeEventListener(PAGE_READY_EVENT, mount)
+      document.removeEventListener(PAGE_MOUNT_EVENT, mount)
     }
   }, [init])
 }

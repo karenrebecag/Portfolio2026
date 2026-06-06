@@ -75,6 +75,19 @@ What we protected in the MVP:
 
 What explicitly evolved post-launch (visible today in App Store version history: statements, credit, reinforced security, identity validation) reinforces the thesis: ==a well-designed banking MVP is not static; it is a trust platform that can grow.==
 
+## Outcomes after launch
+
+> **In plain terms:** I do not have the bank's public metrics; I do have qualitative signals that the flow-first approach held in production and evolution.
+
+| Signal | What it means for product design |
+| --- | --- |
+| **App Store in ~12 months** after 8 months of design | Flow → UI → dev handoff was executable; it did not die in a deck |
+| **Later releases without navigation rewrites** | MVP journey architecture scaled (statements, security, identity) |
+| **Less back-and-forth on FX and payments** after semantics closed in wireframes | Business stopped asking for "another screen" when the issue was vocabulary |
+| **Visible App Store iterations** | The product keeps growing on the same stepper and confirmation logic |
+
+In hindsight, the most valuable outcome was not a hero screen: it was ==that sensitive operations shared the same mental model== (summary, risk, confirmation, receipt). That reduced internal friction between design, business, and development, and gave a shared language for release prioritization.
+
 ## Flow architecture and experience semantics
 
 > **In plain terms:** Before high fidelity, we validated that each screen answered a task, not a line item in a business document.
@@ -88,6 +101,18 @@ My work started at the layer many teams skip: ==semantics and screen-to-screen c
 
 In banking, semantics are contract. If a button says "Continue" when the user believes they already executed the operation, the problem is not copy, it is ==lost trust.== We defined consistent vocabulary across UX and UI: same verbs for same intentions in FX, payments, and service onboarding.
 
+### Micro-story: the FX flow that was "already bought"
+
+On buy-USD wireframes, the quote-step CTA said **"Continue"**. In internal testing with the product team, several participants said they had "already bought" and looked for a receipt. The layout was fine; the semantic contract was not.
+
+What we changed:
+
+- CTA to **"Review operation"** on the quote step.
+- Explicit **step 2 of 4** indicator on the stepper.
+- **Sticky summary** with amount, currency pair, and FX rate before the final tap.
+
+Business accepted the change when we framed it as ==fewer advisor calls from post-screen confusion==, not "design preference." That conversation taught me that in corporate banking, copy is infrastructure.
+
 ```mermaid Layers of a banking flow
 flowchart TB
   T["User task\n(e.g. buy USD)"]
@@ -100,7 +125,21 @@ flowchart TB
   E --> S
 ```
 
+The **Transfer money** flow shows what that architecture looked like in UX artifacts: MonexONE contact, data review, confirmation, movement detail, and error branches (no access, authentication, new account). Anonymized data; the logic is what matters.
+
+![UX: Transfer money flow with MonexONE contact, review, confirmation, and error states](/projects/monex/monex-ux-transfer-flow.jpg)
+
+### Access: login, OTP token, and recovery
+
+Before operating money, users cross an authentication layer that cannot feel like gratuitous friction. We documented three scenarios in UI: **returning login** (second session onward), **OTP token verification** (with timer and error states like "Token does not match"), and **app reinstallation**, when the user deletes Monex Móvil and must reactivate credentials without losing trust in the bank.
+
+![UI: returning login, OTP token verification, and flow when the user deletes the app](/projects/monex/monex-ui-login-token-flow.jpg)
+
+The pattern matches payments or FX: legible steps, actionable errors, and clear closure. Security does not compete with usability; the sequence aligns both.
+
 **Card requests, identity verification, and token activation**, flows that appeared or strengthened in later releases, follow the same pattern: long tasks split into legible states. Design does not "simplify" by hiding regulatory steps; it ==sequences them with visible progress.==
+
+![UX: ONE physical card request, address editing, and delivery status](/projects/monex/monex-ux-card-request-flow.jpg)
 
 ## Progressive disclosure in sensitive flows
 
@@ -121,24 +160,60 @@ FX buy/sell is the perfect internal case study. One form with quote, amount, sou
 3. Where does money move from and to?
 4. Do you confirm you understand the outcome?
 
+```mermaid FX stepper (conceptual wireframe, anonymized data)
+flowchart LR
+  A["1. Intent\nBuy / Sell"]
+  B["2. Quote\nAmount + FX rate"]
+  C["3. Accounts\nSource → destination"]
+  D["4. Confirm\nSummary + risk + CTA"]
+
+  A --> B --> C --> D
+```
+
 [LogRocket](https://blog.logrocket.com/ux-design/progressive-disclosure-ux-types-use-cases/) summarizes why staged disclosure reduces errors in complex tasks, aligned with what survives banking usability audits.
 
-The same applies to **errors**: a red technical message is not UX. We designed error hierarchy, what happened, what the user can do, what requires an advisor, because in corporate banking =="try again" is not always valid.==
+The same applies to **errors**: a red technical message is not UX. We designed a three-layer hierarchy:
+
+| Layer | Example | User action |
+| --- | --- | --- |
+| **What happened** | "FX market closed" | Understands the block without an error code |
+| **What they can do** | "Schedule for tomorrow 9:00" or "View hours" | Has an exit without calling yet |
+| **When to escalate** | "Contact your advisor" | Only when there is no digital workaround |
+
+```mermaid Error hierarchy (reusable pattern)
+flowchart TB
+  H["Clear title\n(what happened)"]
+  B["Body\ncontext + next step"]
+  A["Actions\nprimary / secondary / advisor"]
+
+  H --> B --> A
+```
+
+In corporate banking =="try again" is not always valid.== The shared error organism used the same tokens and structure as the confirmation summary: users recognize the same "frame" in success and failure.
 
 ## Research, journeys, and usability testing
 
 > **In plain terms:** In banking, "we think it's clear" is not enough; you validate tasks, not isolated screens.
 
-[UXDA](https://theuxda.com/blog/5-user-research-methods-for-banking-services) groups financial research methods: interviews, surveys, usability tests, support analysis, and usage data. At Monex, the corporate context limited some open research, but the design team could:
+[UXDA](https://theuxda.com/blog/5-user-research-methods-for-banking-services) groups financial research methods: interviews, surveys, usability tests, support analysis, and usage data. At Monex, the corporate context limited open research with end clients, but the team could:
 
 - **Map journeys** by client type (frequent operator vs occasional query).
+  - *Example:* the FX operator entered via "operate"; the occasional user via "balances." Two entries, same home.
 - **Validate wireframes** with product and business stakeholders before high fidelity.
-- **Review semantics** with compliance, not as a final blocker, but as design input.
+  - *Example:* business asked for "more data" on confirmation; internal testing showed excess increased drop-off at step 3.
+- **Review semantics** with compliance as design input, not a final veto.
+  - *Example:* legal disclaimers moved to contextual progressive disclosure, not a fixed text block on every step.
 - **Test prototypes** on critical tasks: "check balance", "buy USD", "pay beneficiary X".
 
-A journey map in banking is not marketing illustration. It is a ==prioritization tool:== where users hesitate, abandon, or call the advisor. [Qubstudio](https://qubstudio.com/blog/customer-journey-mapping-for-banking-apps/) insists on mapping journeys before redesign, exactly the sequence we followed: map → wireframe → UI → handoff.
+A journey map in banking is not marketing illustration. It is a ==prioritization tool:== where users hesitate, abandon, or call the advisor. [Qubstudio](https://qubstudio.com/blog/customer-journey-mapping-for-banking-apps/) insists on mapping journeys before redesign: map → wireframe → UI → handoff.
 
-**A/B testing** inside UX/UI in regulated environments is narrower than e-commerce, but not absent. Safe hypotheses: confirmation information order, summary density, state iconography, error microcopy. What is rarely tested freely: flows affecting financial execution without safeguards. ==Mature product design distinguishes what is experimentable from what is contractual.==
+**A/B testing** in regulated environments is narrower than e-commerce. Relatively safe hypotheses:
+
+- Confirmation information order (amount before vs after disclaimer).
+- Operation summary density.
+- State iconography and error microcopy.
+
+What is rarely tested without safeguards: real financial execution. ==Mature design distinguishes what is experimentable from what is contractual.==
 
 ## Components, Atomic Design, and thinking in systems
 
@@ -154,36 +229,51 @@ A journey map in banking is not marketing illustration. It is a ==prioritization
 | **Templates** | Stepper screen with fixed action slot |
 | **Pages** | Full buy-USD flow with real data |
 
+The **high-fidelity UI layer** shows how those organisms and templates look in production: multi-currency home, physical/virtual cards, filtered activity, and light/dark parity. Same visual system, different risk domains.
+
+![UI Monex Móvil: multi-currency home, cards, activity, and dark mode (sample data)](/projects/monex/monex-ui-screens.jpg)
+
 Frost insists: ==build systems, not pages.== In a bank that means payment confirmation and FX confirmation share the same "summary + risk + CTA" organism, the user learns once.
 
 With six UI designers, the Figma system was the social contract: which components exist, which variants are allowed, which states are mandatory (loading, disabled, error, success). Without that, each designer solves the same problem differently, and Ancient receives inconsistent handoffs.
+
+```mermaid Organism: operation summary (shared pattern)
+flowchart TB
+  subgraph ORG["Summary + risk + CTA"]
+    M["Amount + currency\n(typographic hierarchy)"]
+    R["Risk / disclaimer\n(progressive disclosure)"]
+    C["Primary CTA\nagreed verb"]
+  end
+  M --> R --> C
+```
+
+FX, payments, and service enrollment used the same organism. Users learn once; the team documents once.
 
 ## Design tokens and system reproducibility
 
 > **In plain terms:** Tokens are how design survives time, and large teams.
 
-The [Design Tokens Community Group (DTCG)](https://www.designtokens.org/) defines tokens as named design decisions, color, spacing, typography, radius, tool-agnostic. In 2024 token work at Monex did not aim for an open-source design system like my later projects ([the design system that ships itself](/en/articulos/design-system-that-ships-itself)), but the logic was the same:
+The [Design Tokens Community Group (DTCG)](https://www.designtokens.org/) defines tokens as named decisions, tool-agnostic. At Monex we were not building an open-source design system like later projects ([the design system that ships itself](/en/articulos/design-system-that-ships-itself)), but the logic was the same:
 
-- **Semantic color**: surface, primary text, success, error, warning; not "nice blue."
-- **Density spacing**: mobile banking needs figure legibility; whitespace is scanning, not aesthetics.
-- **Role typography**: amount, label, legal, helper; each role with agreed weight and size.
-- **Interactive states**: pressed, disabled, focus; critical for accessibility and unambiguous handoff.
+| Family | Token (example) | Why it matters in banking |
+| --- | --- | --- |
+| **Semantic color** | `text.amount`, `surface.error` | Amount and error read the same in FX and payments |
+| **Spacing** | `space.stack.tight` / `loose` | Density for figures, not only aesthetics |
+| **Role typography** | `type.amount`, `type.legal` | Legal copy does not compete with amount on confirm |
+| **States** | `state.disabled`, `state.focus` | iOS handoff without interpreting "gray by eye" |
 
-==Reproducibility== means if another squad designs "Monex Business Web" tomorrow, they inherit semantics even if the platform changes. Tokens bridge graphic design (assets), UI (Figma), and development (iOS), without renegotiating hex codes every sprint.
+==Reproducibility== means another squad can inherit semantics even if the platform changes. Tokens connect graphic design, Figma, and iOS without renegotiating hex every sprint.
 
-## How this project would change today: MCP and augmented product
+## Future exploration: contextual assistance (not part of the release)
 
-> **In plain terms:** Monex was not built with MCP; but the standard explains how I would design contextual assistance without breaking trust.
+> **In plain terms:** Monex was not built with MCP. This is a product lens for the next layer, not the core of the case.
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) standardizes how agents and LLMs connect to data and tools with context, not as generic chat, but as a **product layer**. Monex Móvil today connects to a human advisor; a 2026 product could add AI assistance **without replacing** that channel.
+Today the human advisor is the right fallback. With [MCP](https://modelcontextprotocol.io/), the question would be: where does AI **clarify context** without executing money?
 
-From product design, not engineering, MCP would enable:
+- **FX:** "market closed" with real hours and next window, not static copy.
+- **Pre-confirmation:** natural-language summary before the irreversible tap.
 
-- **Contextual FX help**: "market closed" explained with real hours, not static copy.
-- **Pre-confirmation validation**: the system summarizes risk in natural language before the final tap.
-- **New feature onboarding**: statements, credit, 2FA token with guidance by user profile.
-
-The design constraint is the same as in payments: ==the agent does not invent flows that do not exist.== Component contracts and documented journeys are the boundary, the same philosophy I apply today in anti-hallucination systems for AI. MCP does not replace UX research; it amplifies it when data and permissions are clear.
+The constraint does not change: ==documented journeys and component contracts are the boundary.== The agent does not invent flows.
 
 ## Product design lessons for banking apps
 
@@ -209,31 +299,27 @@ The design constraint is the same as in payments: ==the agent does not invent fl
 
 Monex Móvil is not a case of "pretty screens for a bank." It is a case of ==how product design orders institutional complexity and makes it operable in your pocket.== Ancient built; Aurin and the bank defined what had to exist; the design team translated constraints into flows that still run in production.
 
-If you work in fintech, corporate products, or want to understand mobile banking design for demanding clients, use this project as a **practice map**: research, journeys, progressive disclosure, systems, and tokens, not just a logo on a portfolio.
+## Key references
 
-## References (external)
-
-> **In plain terms:** Sources to go deeper or brief your team, product and UX, not only implementation.
+> **In plain terms:** Essentials to go deeper or brief your team.
 
 | Topic | Source |
 | --- | --- |
-| Monex Móvil (public product) | [App Store: Monex Móvil](https://apps.apple.com/uy/app/monex-m%C3%B3vil/id563606880) |
-| Monex One portal | [monex.com.mx: Monex One](https://www.monex.com.mx/portal/monexone) |
-| Ancient Global (dev partner) | [Ancient: Banking & Fintech](https://www.ancient.global/en/industries/banking-fintech) |
-| Ancient: about | [Ancient: About Us](https://www.ancient.global/en/about-us) |
-| Progressive disclosure (theory) | [NN/g: Progressive Disclosure](https://www.nngroup.com/articles/progressive-disclosure/) |
-| Progressive disclosure (types) | [LogRocket: Progressive disclosure UX](https://blog.logrocket.com/ux-design/progressive-disclosure-ux-types-use-cases/) |
-| Research in financial services | [UXDA: 5 user research methods](https://theuxda.com/blog/5-user-research-methods-for-banking-services) |
-| Customer journeys in banking | [Qubstudio: Banking app UX](https://qubstudio.com/blog/banking-app-ux-design/) |
+| Product in production | [App Store: Monex Móvil](https://apps.apple.com/uy/app/monex-m%C3%B3vil/id563606880) |
+| Progressive disclosure | [NN/g: Progressive Disclosure](https://www.nngroup.com/articles/progressive-disclosure/) |
+| Banking UX and journeys | [Qubstudio: Banking app UX](https://qubstudio.com/blog/banking-app-ux-design/) |
 | Atomic Design | [Brad Frost: Atomic Design](https://atomicdesign.bradfrost.com/chapter-2/) |
-| Design tokens (standard) | [Design Tokens Community Group](https://www.designtokens.org/) |
-| MCP (product context) | [Model Context Protocol](https://modelcontextprotocol.io/) |
-| Design systems + AI (later work) | [The design system that ships itself](/en/articulos/design-system-that-ships-itself) |
+| Design tokens | [Design Tokens Community Group](https://www.designtokens.org/) |
+| Development partner | [Ancient: Banking & Fintech](https://www.ancient.global/en/industries/banking-fintech) |
+
+**Selected reading:** [LogRocket (disclosure types)](https://blog.logrocket.com/ux-design/progressive-disclosure-ux-types-use-cases/) · [UXDA (financial research)](https://theuxda.com/blog/5-user-research-methods-for-banking-services) · [Monex One portal](https://www.monex.com.mx/portal/monexone) · [MCP](https://modelcontextprotocol.io/) · [Design system + AI (my later work)](/en/articulos/design-system-that-ships-itself)
 
 ## Closing
 
 > **In plain terms:** Designing mobile banking is reducing cognitive risk, App Store success is proof the approach worked in production.
 
 Monex Móvil keeps iterating: security, statements, international payments, identity validation. That confirms what the design team bet on from the MVP: ==a clear flow architecture can grow without unraveling.== My role was one among many, but the learning is mine: in Cuernavaca, with Aurin and Ancient, I learned corporate design is not about polishing screens. It is about **making serious operations feel inevitable, not intimidating**.
+
+If you need this approach at your bank or fintech, flow architecture, mobile design system, compliance-aware research, or nearshore handoff, **[tell me about your project](/#contact)**. I can join as UX/UI lead, embedded product designer on your squad, or to audit critical flows before a major release.
 
 **Live:** [Monex Móvil on the App Store](https://apps.apple.com/uy/app/monex-m%C3%B3vil/id563606880) · **Portal:** [monex.com.mx/portal/monexone](https://www.monex.com.mx/portal/monexone)

@@ -2,15 +2,13 @@
 
 import { useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
-
-const PIXELS_PER_SECOND = 60
+import { useCssMarquee } from '@/lib/use-css-marquee'
 
 export function Marquee() {
   const t = useTranslations('marquee')
   const services = t('services').split(', ')
   const wrapRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const groupRef = useRef<HTMLDivElement>(null)
+  const { trackRef, groupRef } = useCssMarquee([services.join('|')])
 
   // Hide on scroll down, reveal on scroll up. Plain listener, no ScrollTrigger.
   useEffect(() => {
@@ -42,47 +40,6 @@ export function Marquee() {
       lenis?.off('scroll', handleScroll)
     }
   }, [])
-
-  // Pure-CSS marquee: clone the group until the rail spans >2x the viewport so
-  // the right edge never runs dry, then drive a CSS keyframe by exactly one
-  // group width. No GSAP, no ScrollTrigger, no refresh reanchoring.
-  useEffect(() => {
-    const track = trackRef.current
-    const group = groupRef.current
-    if (!track || !group) return
-
-    function build() {
-      track!.querySelectorAll('[data-marquee-clone]').forEach((n) => n.remove())
-
-      const groupWidth = group!.offsetWidth || 1
-      const copies = Math.max(2, Math.ceil((window.innerWidth * 2) / groupWidth))
-
-      for (let i = 1; i < copies; i++) {
-        const clone = group!.cloneNode(true) as HTMLElement
-        clone.setAttribute('data-marquee-clone', '')
-        clone.setAttribute('aria-hidden', 'true')
-        track!.appendChild(clone)
-      }
-
-      track!.style.setProperty('--marquee-duration', `${groupWidth / PIXELS_PER_SECOND}s`)
-      track!.style.setProperty('--marquee-shift', `-${groupWidth}px`)
-    }
-
-    build()
-
-    let resizeTimer: ReturnType<typeof setTimeout>
-    function onResize() {
-      clearTimeout(resizeTimer)
-      resizeTimer = setTimeout(build, 200)
-    }
-    window.addEventListener('resize', onResize)
-
-    return () => {
-      window.removeEventListener('resize', onResize)
-      clearTimeout(resizeTimer)
-      track!.querySelectorAll('[data-marquee-clone]').forEach((n) => n.remove())
-    }
-  }, [services.join('|')])
 
   return (
     <div

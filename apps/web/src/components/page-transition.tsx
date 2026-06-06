@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { stripLocalePrefix } from '@/lib/i18n-href'
+import { prefetchHeroForRoute } from '@/lib/hero-assets'
+import { dispatchPageMount } from '@/lib/page-mount'
 import gsap from 'gsap'
 
 /** Visual timing — tuned for ~1.1–1.4s total perceived transition (plus network). */
@@ -38,10 +40,6 @@ function isInternalRouteHref(href: string): boolean {
   return true
 }
 
-function dispatchNavigationComplete() {
-  document.dispatchEvent(new CustomEvent('page-navigation-complete'))
-}
-
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
@@ -72,11 +70,11 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     if (loader) gsap.set(loader, { scaleX: 0 })
     isAnimating.current = false
     pendingNavigation.current = false
-    dispatchNavigationComplete()
+    dispatchPageMount()
   }
 
-  // Enter — runs when pathname changes after a programmatic navigation
-  useEffect(() => {
+  // Enter — layout effect: mount controllers before paint, then play enter tween
+  useLayoutEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false
       prevPathname.current = pathname
@@ -88,7 +86,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
     if (!pendingNavigation.current) {
       isAnimating.current = false
-      dispatchNavigationComplete()
+      dispatchPageMount()
       return
     }
 
@@ -111,12 +109,22 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       return
     }
 
+    // Mount flow: controllers apply GSAP initial state before this paint.
+    dispatchPageMount()
+
     gsap.set(content, { autoAlpha: 0, y: '12vh' })
     gsap.set(panel, { autoAlpha: 1, yPercent: -100 })
     if (loader) gsap.set(loader, { scaleX: 1, transformOrigin: 'left center' })
 
     const tl = gsap.timeline({
-      onComplete: finishTransition,
+      onComplete: () => {
+        isAnimating.current = false
+        pendingNavigation.current = false
+        const loaderEl = loaderRef.current
+        gsap.set(content, { clearProps: 'all', autoAlpha: 1 })
+        gsap.set(panel, { autoAlpha: 0, yPercent: 0 })
+        if (loaderEl) gsap.set(loaderEl, { scaleX: 0 })
+      },
     })
     activeTimeline.current = tl
 
@@ -167,7 +175,9 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       if (link.hasAttribute('data-no-transition')) return
       const href = resolveHref(rawHref)
       if (href === pathname || href.split('#')[0] === pathname) return
+      const path = href.split('#')[0] || '/'
       prefetchHref(href)
+      prefetchHeroForRoute(path)
     }
 
     function handleClick(e: MouseEvent) {

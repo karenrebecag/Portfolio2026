@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
+import { preload } from 'react-dom'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { HeroParallaxBg } from '@/components/hero-parallax-bg'
+import { HERO_IMAGES } from '@/lib/hero-assets'
 import { buildAlternates, localizedPath } from '@/lib/seo'
 import { defaultOgImages } from '@/lib/seo/metadata-helpers'
 import {
@@ -58,6 +61,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     getSpeakableWebPageSchema(HOME_SPEAKABLE_SELECTORS),
   ]
 
+  preload(HERO_IMAGES.home, { as: 'image', fetchPriority: 'high' })
+  preload(HERO_IMAGES.about, { as: 'image', fetchPriority: 'low' })
+
   return (
     <>
       <JsonLdScript data={jsonLd} />
@@ -76,12 +82,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           data-parallax-end="40"
           className="absolute inset-0 z-0 h-[120%]"
         >
-          <img
-            data-parallax="target"
-            src="https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/jj.webp"
-            alt=""
-            className="w-full h-full object-cover object-bottom"
-          />
+          <HeroParallaxBg src={HERO_IMAGES.home} priority />
         </div>
         {/* 1. Stronger gradient -- covers bottom 60% for text legibility */}
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/20 via-black/30 via-40% to-transparent" />
@@ -185,12 +186,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           data-parallax-end="15"
           className="absolute inset-0 z-0 h-[120%] -top-[10%]"
         >
-          <img
-            data-parallax="target"
-            src="https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/Artboard%201.webp"
-            alt=""
-            className="w-full h-full object-cover object-top"
-          />
+          <HeroParallaxBg src={HERO_IMAGES.homeAboutSection} objectPosition="top" />
         </div>
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/20 via-black/30 via-40% to-transparent" />
 

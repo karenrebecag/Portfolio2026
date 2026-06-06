@@ -92,6 +92,7 @@ function mountRotatingText(heading: HTMLElement) {
         const firstWord = wordEls[activeIndex]
         gsap.set(firstWord, { yPercent: 0, autoAlpha: 1 })
         wrapper.style.width = `${firstWord.getBoundingClientRect().width}px`
+        heading.setAttribute('data-rotating-ready', '')
 
         function showNext() {
           if (!isVisible || wordEls.length <= 1) return
@@ -165,6 +166,7 @@ function mountRotatingText(heading: HTMLElement) {
     gsap.killTweensOf(heading.querySelectorAll('.rotating-text__word, .rotating-text__inner'))
     splitInstance.kill()
     splitInstance.revert()
+    heading.removeAttribute('data-rotating-ready')
     gsap.set(heading, { clearProps: 'all' })
   }
 

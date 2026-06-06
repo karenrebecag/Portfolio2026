@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 /** Canonical production origin. Used for metadataBase, sitemap, robots and JSON-LD. */
 export const SITE_URL = 'https://karenrebecaortiz.com'
 
-const OG_LOCALE: Record<string, string> = { es: 'es_ES', en: 'en_US' }
+const OG_LOCALE: Record<string, string> = { es: 'es_MX', en: 'en_US' }
 
 /**
  * Resolve a logical page path to its localized URL under the `as-needed`
