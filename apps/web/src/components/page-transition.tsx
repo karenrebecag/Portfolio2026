@@ -1,36 +1,35 @@
 'use client'
 
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { useTranslations } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { stripLocalePrefix } from '@/lib/i18n-href'
 import { prefetchHeroForRoute } from '@/lib/hero-assets'
-import { dispatchPageMount } from '@/lib/page-mount'
+import {
+  COLUMN_WIPE,
+  playWipeEnter,
+  playWipeLeave,
+  resetWipeColumns,
+} from '@/lib/column-wipe'
+import { beginPageMount, completePageMount, dispatchPageMount, markPageReady } from '@/lib/page-mount'
+import {
+  consumeNavigationIntent,
+  initScrollSession,
+  markNavigationPush,
+  peekNavigationIntent,
+  restoreScrollForPath,
+  saveScrollForPath,
+  scrollToHash,
+  scrollToTop,
+} from '@/lib/scroll-session'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-/** Visual timing — tuned for ~1.1–1.4s total perceived transition (plus network). */
-const LEAVE = {
-  panel: 0.55,
-  content: 0.55,
-  label: 0.28,
-  loader: 0.7,
-  /** Start RSC fetch while the wipe is still running (was: after full 1.6s leave). */
-  navigateAt: 0.18,
-} as const
+gsap.registerPlugin(ScrollTrigger)
 
-const ENTER = {
-  delay: 0.12,
-  panel: 0.55,
-  content: 0.55,
-  label: 0.22,
-} as const
+type LenisInstance = { stop: () => void; start: () => void; resize: () => void }
 
-function getPageName(href: string): string {
-  const path = stripLocalePrefix(href).split('#')[0] || '/'
-  if (path === '/' || path === '') return 'Home'
-  const segments = path.split('/').filter(Boolean)
-  const last = segments[segments.length - 1]
-  return last.charAt(0).toUpperCase() + last.slice(1).replace(/-/g, ' ')
+function getLenis(): LenisInstance | null {
+  return (window as unknown as { lenis?: LenisInstance }).lenis ?? null
 }
 
 function isInternalRouteHref(href: string): boolean {
@@ -43,37 +42,97 @@ function isInternalRouteHref(href: string): boolean {
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
-  const t = useTranslations('page_transition')
+  const pathnameRef = useRef(pathname)
+  pathnameRef.current = pathname
+
+  const overlayRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const labelRef = useRef<HTMLSpanElement>(null)
-  const labelTextRef = useRef<HTMLSpanElement>(null)
-  const loaderRef = useRef<HTMLDivElement>(null)
   const isAnimating = useRef(false)
   const isFirstRender = useRef(true)
   const prevPathname = useRef(pathname)
   const pendingNavigation = useRef(false)
-  const activeTimeline = useRef<gsap.core.Timeline | null>(null)
+  const coverTimeline = useRef<gsap.core.Timeline | null>(null)
+  const revealTimeline = useRef<gsap.core.Timeline | null>(null)
+  const didScrollOnLeaveRef = useRef(false)
+  const pendingHashRef = useRef<string | null>(null)
 
-  const killActiveTimeline = () => {
-    activeTimeline.current?.kill()
-    activeTimeline.current = null
+  const killCoverTimeline = () => {
+    coverTimeline.current?.kill()
+    coverTimeline.current = null
   }
 
-  const finishTransition = () => {
-    const content = contentRef.current
-    const panel = panelRef.current
-    const loader = loaderRef.current
+  const killRevealTimeline = () => {
+    revealTimeline.current?.kill()
+    revealTimeline.current = null
+  }
 
-    gsap.set(content, { clearProps: 'all', autoAlpha: 1 })
-    gsap.set(panel, { autoAlpha: 0, yPercent: 0 })
-    if (loader) gsap.set(loader, { scaleX: 0 })
+  const settleScroll = (pathname: string) => {
+    const hash = pendingHashRef.current
+    if (hash) {
+      pendingHashRef.current = null
+      scrollToHash(hash)
+      return
+    }
+
+    const navIntent = consumeNavigationIntent()
+    if (navIntent === 'pop') {
+      restoreScrollForPath(pathname)
+      return
+    }
+
+    if (!didScrollOnLeaveRef.current) {
+      scrollToTop()
+    }
+    didScrollOnLeaveRef.current = false
+  }
+
+  const onPageReady = () => {
+    settleScroll(pathnameRef.current)
+    const lenis = getLenis()
+    lenis?.resize()
+    lenis?.start()
+    ScrollTrigger.refresh()
     isAnimating.current = false
     pendingNavigation.current = false
     dispatchPageMount()
+    completePageMount()
   }
 
-  // Enter — layout effect: mount controllers before paint, then play enter tween
+  const prepareForwardLeave = () => {
+    saveScrollForPath(pathnameRef.current)
+    scrollToTop()
+    didScrollOnLeaveRef.current = true
+  }
+
+  // First visit — Osmo once: reset columns, page visible (no column animation)
+  useLayoutEffect(() => {
+    const overlay = overlayRef.current
+    const content = contentRef.current
+    if (!overlay || !content) {
+      markPageReady()
+      return
+    }
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    resetWipeColumns(overlay)
+    gsap.set(content, { autoAlpha: 1 })
+
+    if (reducedMotion) {
+      markPageReady()
+      return
+    }
+
+    const hash = window.location.hash
+    if (hash) {
+      scrollToHash(hash)
+    }
+
+    markPageReady()
+  }, [])
+
+  useEffect(() => initScrollSession(), [])
+
+  // Enter — after leave + navigation, columns at 100 → 200
   useLayoutEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false
@@ -82,78 +141,43 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     }
 
     if (pathname === prevPathname.current) return
+
+    beginPageMount(peekNavigationIntent())
+
+    if (!pendingNavigation.current && peekNavigationIntent() === 'pop') {
+      restoreScrollForPath(pathname)
+    }
+
     prevPathname.current = pathname
 
-    if (!pendingNavigation.current) {
-      isAnimating.current = false
-      dispatchPageMount()
-      return
-    }
-
+    const overlay = overlayRef.current
     const content = contentRef.current
-    const panel = panelRef.current
-    const label = labelRef.current
-    if (!content || !panel || !label) {
-      finishTransition()
+    if (!overlay || !content) {
+      onPageReady()
       return
     }
 
-    window.scrollTo(0, 0)
-    killActiveTimeline()
+    if (!pendingNavigation.current) {
+      onPageReady()
+      return
+    }
+
+    killCoverTimeline()
+    killRevealTimeline()
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const loader = loaderRef.current
-
     if (reducedMotion) {
-      finishTransition()
+      resetWipeColumns(overlay)
+      gsap.set(content, { autoAlpha: 1 })
+      onPageReady()
       return
     }
 
-    // Mount flow: controllers apply GSAP initial state before this paint.
-    dispatchPageMount()
-
-    gsap.set(content, { autoAlpha: 0, y: '12vh' })
-    gsap.set(panel, { autoAlpha: 1, yPercent: -100 })
-    if (loader) gsap.set(loader, { scaleX: 1, transformOrigin: 'left center' })
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        isAnimating.current = false
-        pendingNavigation.current = false
-        const loaderEl = loaderRef.current
-        gsap.set(content, { clearProps: 'all', autoAlpha: 1 })
-        gsap.set(panel, { autoAlpha: 0, yPercent: 0 })
-        if (loaderEl) gsap.set(loaderEl, { scaleX: 0 })
-      },
-    })
-    activeTimeline.current = tl
-
-    tl.add('startEnter', ENTER.delay)
-
-    tl.set(content, { autoAlpha: 1 }, 'startEnter')
-
-    tl.fromTo(
-      panel,
-      { yPercent: -100 },
-      { yPercent: -200, duration: ENTER.panel, ease: 'power3.inOut', overwrite: 'auto', immediateRender: false },
-      'startEnter',
-    )
-
-    tl.fromTo(
-      label,
-      { autoAlpha: 1 },
-      { autoAlpha: 0, duration: ENTER.label, overwrite: 'auto', immediateRender: false },
-      'startEnter+=0.06',
-    )
-
-    if (loader) {
-      tl.to(loader, { scaleX: 0, duration: ENTER.panel * 0.6, ease: 'power2.in' }, 'startEnter')
-    }
-
-    tl.to(content, { y: 0, duration: ENTER.content, ease: 'power3.inOut' }, 'startEnter')
+    const tl = playWipeEnter(overlay, content, onPageReady)
+    revealTimeline.current = tl
   }, [pathname])
 
-  // Intercept internal links + prefetch on hover
+  // Intercept internal links — stable effect
   useEffect(() => {
     function prefetchHref(href: string) {
       try {
@@ -174,7 +198,8 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       if (!rawHref || !isInternalRouteHref(rawHref)) return
       if (link.hasAttribute('data-no-transition')) return
       const href = resolveHref(rawHref)
-      if (href === pathname || href.split('#')[0] === pathname) return
+      const current = pathnameRef.current
+      if (href === current || href.split('#')[0] === current) return
       const path = href.split('#')[0] || '/'
       prefetchHref(href)
       prefetchHeroForRoute(path)
@@ -187,59 +212,45 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       if (!rawHref || !isInternalRouteHref(rawHref)) return
       if (link.hasAttribute('data-no-transition')) return
       const href = resolveHref(rawHref)
-      if (href === pathname || href.split('#')[0] === pathname) return
+      const current = pathnameRef.current
+      if (href === current || href.split('#')[0] === current) return
       if (isAnimating.current) return
+
+      const hashIndex = href.indexOf('#')
+      markNavigationPush()
+      pendingHashRef.current = hashIndex >= 0 ? href.slice(hashIndex) : null
+
+      const overlay = overlayRef.current
+      const content = contentRef.current
+      if (!overlay || !content) {
+        pendingNavigation.current = true
+        router.push(href)
+        return
+      }
 
       e.preventDefault()
       isAnimating.current = true
       pendingNavigation.current = true
-      killActiveTimeline()
-
-      const content = contentRef.current
-      const panel = panelRef.current
-      const label = labelRef.current
-      const labelText = labelTextRef.current
-      if (!content || !panel || !label || !labelText) {
-        pendingNavigation.current = true
-        router.push(href)
-        return
-      }
-
-      labelText.innerText = getPageName(href)
+      killCoverTimeline()
+      killRevealTimeline()
       prefetchHref(href)
 
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       if (reducedMotion) {
-        pendingNavigation.current = true
+        prepareForwardLeave()
         router.push(href)
         return
       }
 
-      const loader = loaderRef.current
-      const tl = gsap.timeline()
-      activeTimeline.current = tl
+      getLenis()?.stop()
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
 
-      tl.set(panel, { autoAlpha: 1, yPercent: 0 }, 0)
-      if (loader) tl.set(loader, { scaleX: 0, transformOrigin: 'left center' }, 0)
-
-      tl.fromTo(panel, { yPercent: 0 }, { yPercent: -100, duration: LEAVE.panel, ease: 'power3.inOut' }, 0)
-
-      tl.fromTo(label, { autoAlpha: 0 }, { autoAlpha: 1, duration: LEAVE.label }, '<+=0.12')
-
-      if (loader) {
-        tl.to(loader, { scaleX: 1, duration: LEAVE.loader, ease: 'power1.inOut' }, 0.22)
-      }
-
-      tl.fromTo(content, { y: '0vh' }, { y: '-12vh', duration: LEAVE.content, ease: 'power3.inOut' }, 0)
-
-      tl.call(
-        () => {
-          gsap.set(content, { autoAlpha: 0, clearProps: 'y' })
-          router.push(href)
-        },
-        [],
-        LEAVE.navigateAt,
-      )
+      const tl = playWipeLeave(overlay, () => {
+        prepareForwardLeave()
+        gsap.set(content, { autoAlpha: 0 })
+        router.push(href)
+      })
+      coverTimeline.current = tl
     }
 
     document.addEventListener('mouseover', handlePointerOver, true)
@@ -247,24 +258,22 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     return () => {
       document.removeEventListener('mouseover', handlePointerOver, true)
       document.removeEventListener('click', handleClick, true)
-      killActiveTimeline()
+      killCoverTimeline()
     }
-  }, [pathname, router])
+  }, [router])
 
   return (
     <>
-      <div className="page-transition">
-        <div ref={panelRef} className="page-transition__panel">
-          <div className="page-transition__content">
-            <span ref={labelRef} className="page-transition__label">
-              <span>[ </span>
-              <span ref={labelTextRef}>{t('welcome')}</span>
-              <span> ]</span>
-            </span>
-            <div className="page-transition__loader">
-              <div ref={loaderRef} className="page-transition__loader-bar" />
-            </div>
-          </div>
+      <div ref={overlayRef} data-transition-wrap className="transition">
+        <div className="transition__panels">
+          {Array.from({ length: COLUMN_WIPE.panelCount }, (_, i) => (
+            <div key={i} data-transition-column className="transition__panel bg-surface" />
+          ))}
+        </div>
+        <div className="transition__lines">
+          {Array.from({ length: COLUMN_WIPE.panelCount }, (_, i) => (
+            <div key={i} className={`transition__line${i === COLUMN_WIPE.panelCount - 1 ? ' is--last' : ''}`} />
+          ))}
         </div>
       </div>
       <div ref={contentRef}>{children}</div>

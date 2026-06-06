@@ -1312,9 +1312,9 @@ body:has([data-cursor]:hover) .cursor-text {
   opacity: 0;
 }
 
-/* -- Column Wipe Transition -- */
+/* -- Column Wipe Transition (Osmo) -- */
 .transition {
-  z-index: 999;
+  z-index: 100;
   pointer-events: none;
   position: fixed;
   inset: 0;
@@ -1333,16 +1333,19 @@ body:has([data-cursor]:hover) .cursor-text {
 .transition__panel {
   width: 100%;
   height: 100%;
+  position: relative;
+  top: -100%;
 }
 
 .transition__lines {
-  opacity: .1;
+  opacity: 0.1;
   width: 100%;
   height: 100%;
   display: flex;
   position: absolute;
   top: 0;
   left: 0;
+  pointer-events: none;
 }
 
 .transition__line {
@@ -1564,24 +1567,28 @@ mark[data-highlight] {
   }
 }
 
-/* -- SSR / first paint: match GSAP "from" state until page-ready + mount flow runs -- */
+/* -- SSR / route mount: match GSAP "from" state until controllers init -- */
 @media (prefers-reduced-motion: no-preference) {
-  body:not([data-page-ready]) [data-reveal-group] > *:not([data-ignore='true']) {
+  body:not([data-page-ready]) [data-reveal-group] > *:not([data-ignore='true']),
+  body[data-page-mounting] [data-reveal-group] > *:not([data-ignore='true']) {
     opacity: 0;
     transform: translate3d(0, 1.5em, 0);
   }
 
-  body:not([data-page-ready]) [data-reveal-group-nested] > *:not([data-ignore='true']) {
+  body:not([data-page-ready]) [data-reveal-group-nested] > *:not([data-ignore='true']),
+  body[data-page-mounting] [data-reveal-group-nested] > *:not([data-ignore='true']) {
     opacity: 0;
     transform: translate3d(0, 1.25em, 0);
   }
 
-  body:not([data-page-ready]) [data-reveal-group]:not(:has(> *)) {
+  body:not([data-page-ready]) [data-reveal-group]:not(:has(> *)),
+  body[data-page-mounting] [data-reveal-group]:not(:has(> *)) {
     opacity: 0;
     transform: translate3d(0, 1.5em, 0);
   }
 
-  body:not([data-page-ready]) [data-rotating-title]:not([data-rotating-ready]) [data-rotating-words] {
+  body:not([data-page-ready]) [data-rotating-title]:not([data-rotating-ready]) [data-rotating-words],
+  body[data-page-mounting] [data-rotating-title]:not([data-rotating-ready]) [data-rotating-words] {
     opacity: 0;
   }
 }

@@ -5,6 +5,7 @@ import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import 'lenis/dist/lenis.css'
+import { scrollToHash } from '@/lib/scroll-session'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -40,6 +41,13 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     }
 
     document.addEventListener('click', handleHashClick)
+
+    const initialHash = window.location.hash
+    if (initialHash) {
+      requestAnimationFrame(() => {
+        scrollToHash(initialHash)
+      })
+    }
 
     return () => {
       document.removeEventListener('click', handleHashClick)

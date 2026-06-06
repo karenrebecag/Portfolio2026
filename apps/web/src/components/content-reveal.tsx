@@ -4,12 +4,32 @@ import { useCallback } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePageInit } from '@/lib/use-page-init'
+import { isPopNavigation } from '@/lib/page-mount'
 import { clampScrollPosition } from '@/lib/scroll-trigger-position'
 import { scheduleScrollTriggerRefresh } from '@/lib/scroll-trigger-refresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type PendingReveal = { scrollTrigger: ScrollTrigger; reveal: () => void }
+type Slot =
+  | { type: 'item'; el: HTMLElement }
+  | { type: 'nested'; parentEl: HTMLElement; nestedEl: HTMLElement; includeParent: boolean; nestedChildren: HTMLElement[] }
+
+type PendingReveal = { scrollTrigger: ScrollTrigger; reveal: (instant?: boolean) => void }
+
+function revealSlotsInstant(slots: Slot[]) {
+  slots.forEach((slot) => {
+    if (slot.type === 'item') {
+      gsap.set(slot.el, { y: 0, autoAlpha: 1, clearProps: 'all' })
+      return
+    }
+    if (slot.includeParent) {
+      gsap.set(slot.parentEl, { y: 0, autoAlpha: 1, clearProps: 'all' })
+    }
+    slot.nestedChildren.forEach((nestedChild) => {
+      gsap.set(nestedChild, { y: 0, autoAlpha: 1, clearProps: 'all' })
+    })
+  })
+}
 
 function initContentRevealScroll() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -29,12 +49,12 @@ function initContentRevealScroll() {
       }
 
       let revealed = false
-      const registerReveal = (reveal: () => void) => {
+      const registerReveal = (reveal: (instant?: boolean) => void) => {
         const scrollTrigger = ScrollTrigger.create({
           trigger: groupEl,
           start: triggerStart,
           once: true,
-          onEnter: reveal,
+          onEnter: () => reveal(false),
         })
         pending.push({ scrollTrigger, reveal })
       }
@@ -42,9 +62,13 @@ function initContentRevealScroll() {
       const directChildren = Array.from(groupEl.children).filter((el) => el.nodeType === 1) as HTMLElement[]
       if (!directChildren.length) {
         gsap.set(groupEl, { y: groupDistance, autoAlpha: 0 })
-        registerReveal(() => {
+        registerReveal((instant = false) => {
           if (revealed) return
           revealed = true
+          if (instant) {
+            gsap.set(groupEl, { clearProps: 'all', y: 0, autoAlpha: 1 })
+            return
+          }
           gsap.to(groupEl, {
             y: 0,
             autoAlpha: 1,
@@ -55,10 +79,6 @@ function initContentRevealScroll() {
         })
         return
       }
-
-      type Slot =
-        | { type: 'item'; el: HTMLElement }
-        | { type: 'nested'; parentEl: HTMLElement; nestedEl: HTMLElement; includeParent: boolean; nestedChildren: HTMLElement[] }
 
       const slots: Slot[] = []
       directChildren.forEach((child) => {
@@ -89,9 +109,13 @@ function initContentRevealScroll() {
         if (slot.type === 'nested' && slot.includeParent) gsap.set(slot.parentEl, { y: groupDistance })
       })
 
-      registerReveal(() => {
+      registerReveal((instant = false) => {
         if (revealed) return
         revealed = true
+        if (instant) {
+          revealSlotsInstant(slots)
+          return
+        }
         const tl = gsap.timeline()
         slots.forEach((slot, slotIndex) => {
           const slotTime = slotIndex * groupStaggerSec
@@ -113,9 +137,17 @@ function initContentRevealScroll() {
   })
 
   const revealIfInView = () => {
+    const isPop = isPopNavigation()
     pending.forEach(({ scrollTrigger, reveal }) => {
       const trigger = scrollTrigger.trigger as HTMLElement
-      if (scrollTrigger.isActive || ScrollTrigger.isInViewport(trigger, 0.12)) reveal()
+      const aboveViewport = trigger.getBoundingClientRect().bottom < 0
+      const inView = scrollTrigger.isActive || ScrollTrigger.isInViewport(trigger, 0.12)
+
+      if (isPop && (aboveViewport || inView)) {
+        reveal(true)
+      } else if (!isPop && inView) {
+        reveal(false)
+      }
     })
   }
 

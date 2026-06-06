@@ -10,9 +10,9 @@ import { PAGE_MOUNT_EVENT, PAGE_READY_EVENT } from '@/lib/page-mount'
  * - Route change: inits synchronously on `page-navigation-complete` inside
  *   useLayoutEffect — before the browser paints the new page.
  *
- * Pair with PageTransition, which dispatches mount before the enter tween
- * sets content visible. CSS pre-hide (globals.css) only covers SSR/hydration
- * before `data-page-ready` is set.
+ * Pair with PageTransition: `beginPageMount` hides targets via CSS on every route
+ * change (`data-page-mounting`); `dispatchPageMount` runs controllers; then
+ * `completePageMount` clears the flag. First load uses `data-page-ready` the same way.
  */
 export function usePageInit(init: () => (() => void) | void) {
   useLayoutEffect(() => {
