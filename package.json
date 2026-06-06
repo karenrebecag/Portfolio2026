@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "dev:web": "pnpm --filter @karen-portfolio/web dev"
+    "dev:web": "pnpm --filter @karen-portfolio/web dev",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test"
   },
   "devDependencies": {
     "turbo": "^2.9.14"

@@ -17,6 +17,7 @@ import { SectionThemeObserver } from '@/components/section-theme-observer'
 import { ThemeColorSync } from '@/components/theme-color-sync'
 import { MarqueeScrollInit } from '@/components/marquee-scroll-init'
 import { PageTransition } from '@/components/page-transition'
+import { NavigationProvider } from '@/components/navigation-provider'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from '@/components/ui/sonner'
 import { routing } from '@/i18n/routing'
@@ -164,18 +165,20 @@ export default async function LocaleLayout({
           <ThemeColorSync />
           <CustomCursor />
           <LenisProvider>
-            <ParallaxProvider>
-              <TextRevealProvider>
-                <ContentRevealProvider>
-                  <RotatingTextProvider>
-                    <SectionThemeObserver>
-                      <MarqueeScrollInit />
-                      <PageTransition>{children}</PageTransition>
-                    </SectionThemeObserver>
-                  </RotatingTextProvider>
-                </ContentRevealProvider>
-              </TextRevealProvider>
-            </ParallaxProvider>
+            <NavigationProvider>
+              <ParallaxProvider>
+                <TextRevealProvider>
+                  <ContentRevealProvider>
+                    <RotatingTextProvider>
+                      <SectionThemeObserver>
+                        <MarqueeScrollInit />
+                        <PageTransition>{children}</PageTransition>
+                      </SectionThemeObserver>
+                    </RotatingTextProvider>
+                  </ContentRevealProvider>
+                </TextRevealProvider>
+              </ParallaxProvider>
+            </NavigationProvider>
           </LenisProvider>
           <Toaster />
         </NextIntlClientProvider>
