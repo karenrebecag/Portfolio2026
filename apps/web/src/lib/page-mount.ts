@@ -1,4 +1,4 @@
-import type { NavigationIntent } from '@/lib/scroll-session'
+import type { NavIntent as NavigationIntent } from '@/lib/navigation/types'
 
 /** First visit: overlay finished. Controllers may init and play mount/reveal. */
 export const PAGE_READY_EVENT = 'page-ready'

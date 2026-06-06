@@ -1,5 +1,4 @@
 /** Navigation Orchestrator — public surface. */
-export { NAV_ORCHESTRATOR_ENABLED } from './flag'
 export {
   NavigationOrchestrator,
   decideRevealMode,
