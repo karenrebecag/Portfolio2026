@@ -18,6 +18,7 @@ import {
   dispatchPageMount,
   markPageReady,
 } from '@/lib/page-mount'
+import { whenFontsReady } from '@/lib/fonts-ready'
 import { ScrollPolicy } from '@/lib/navigation/scroll-policy'
 import { createLenisScrollExecutor } from '@/lib/navigation/scroll-executor'
 import { useNavigationOrchestrator } from '@/lib/navigation/navigation-context'
@@ -46,6 +47,16 @@ function isInternalRouteHref(href: string): boolean {
 
 function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+/** Resolve when fonts are ready, but never block the reveal past the timeout
+ *  (document.fonts.ready always settles, but a hung load shouldn't stick the
+ *  gate forever). */
+function whenFontsReadyOrTimeout(ms = 2500): Promise<void> {
+  return Promise.race([
+    whenFontsReady(),
+    new Promise<void>((resolve) => setTimeout(resolve, ms)),
+  ])
 }
 
 type WipeSurface = {
@@ -135,10 +146,17 @@ export function useNavigationRuntime({ overlayRef, contentRef }: WipeSurface) {
     isAnimating.current = false
     pendingNavigation.current = false
 
-    orchestrator?.dispatch({ type: 'CONTROLLERS_READY' })
-    setNavPhase('stable')
+    // Controllers init now; text/rotating defer to fonts internally.
     dispatchPageMount()
-    completePageMount()
+
+    // Hold the CSS gate + 'mounting' until fonts are ready so split headings
+    // reveal coherently instead of popping in after the page already settled.
+    // Warm (cached) fonts resolve instantly — no perceptible delay.
+    whenFontsReadyOrTimeout().then(() => {
+      orchestrator?.dispatch({ type: 'CONTROLLERS_READY' })
+      setNavPhase('stable')
+      completePageMount()
+    })
   }
 
   const prepareForwardLeave = () => {
