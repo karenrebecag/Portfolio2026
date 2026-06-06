@@ -4,6 +4,22 @@ import createNextIntlPlugin from 'next-intl/plugin'
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    // Renamed slug — Google still has the old URL indexed (returns 404).
+    // 301 it to the current page to recover the signal and clear the 404.
+    return [
+      {
+        source: '/projects/ai-agents-for-non-technical-teams',
+        destination: '/projects/decoupled-ownership-non-technical-teams',
+        permanent: true,
+      },
+      {
+        source: '/en/projects/ai-agents-for-non-technical-teams',
+        destination: '/en/projects/decoupled-ownership-non-technical-teams',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     // Locale-prefixed static assets (browser may resolve manifest/icons under /en/…)
     const localeStatic = [
