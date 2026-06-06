@@ -54,6 +54,6 @@ export const config = {
   matcher: [
     '/',
     '/(es|en)/:path*',
-    '/((?!api|_next|_vercel|stickers|gallery|albums|.*\\..*).*)',
+    '/((?!api|_next|_vercel|opengraph-image|stickers|gallery|albums|.*\\..*).*)',
   ],
 }
