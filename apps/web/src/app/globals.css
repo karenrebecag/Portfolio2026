@@ -1335,6 +1335,7 @@ body:has([data-cursor]:hover) .cursor-text {
   height: 100%;
   position: relative;
   top: -100%;
+  background-color: var(--foreground);
 }
 
 .transition__lines {

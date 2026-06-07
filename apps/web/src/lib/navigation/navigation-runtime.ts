@@ -167,12 +167,23 @@ export function useNavigationRuntime({ overlayRef, contentRef }: WipeSurface) {
 
   // First visit — Osmo once: columns reset, page visible, no wipe.
   useLayoutEffect(() => {
+    // Hold the boot reveal until fonts are ready so content-reveal, split
+    // headings and rotating text all init against final metrics — the same gate
+    // onPageReady applies to client navigations (PR5). markPageReady fires the
+    // controllers' usePageInit; the CSS body:not([data-page-ready]) rule keeps
+    // targets hidden meanwhile. Reduced motion reveals instantly (no anim to
+    // desync). Phase goes stable now so navigation stays interactive.
+    const releaseReveal = () => {
+      if (prefersReducedMotion()) markPageReady()
+      else whenFontsReadyOrTimeout().then(() => markPageReady())
+    }
+
     const overlay = overlayRef.current
     const content = contentRef.current
     if (!overlay || !content) {
-      markPageReady()
       orchestrator?.dispatch({ type: 'BOOT_COMPLETE' })
       setNavPhase('stable')
+      releaseReveal()
       return
     }
 
@@ -185,9 +196,9 @@ export function useNavigationRuntime({ overlayRef, contentRef }: WipeSurface) {
     }
 
     hideWipeLines(overlay)
-    markPageReady()
     orchestrator?.dispatch({ type: 'BOOT_COMPLETE' })
     setNavPhase('stable')
+    releaseReveal()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -14,6 +14,7 @@ export const TECH_STACK: TechStackItem[] = [
   { name: 'TypeScript', href: 'https://www.typescriptlang.org', icon: '/Icons/Typescript.svg', cursorLabel: 'TypeScript · Typed DX' },
   { name: 'Tailwind CSS', href: 'https://tailwindcss.com', icon: '/Icons/Tailwind CSS.svg', cursorLabel: 'Tailwind · Design system' },
   { name: 'GSAP', href: 'https://gsap.com', icon: '/Icons/gsap-white.svg', cursorLabel: 'GSAP · Motion design' },
+  { name: 'Osmo', href: 'https://www.osmo.supply', icon: '/Icons/osmo.svg', cursorLabel: 'Osmo · Motion & web craft' },
   { name: 'Figma', href: 'https://www.figma.com', icon: '/Icons/Figma.svg', cursorLabel: 'Figma · UI design' },
   { name: 'Resend', href: 'https://resend.com', icon: '/Icons/Resend.svg', cursorLabel: 'Resend · Transactional email' },
   { name: 'Cloudflare', href: 'https://www.cloudflare.com', icon: '/Icons/Cloudflare.svg', cursorLabel: 'Cloudflare · Security & edge' },

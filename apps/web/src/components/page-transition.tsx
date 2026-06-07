@@ -20,7 +20,7 @@ function WipeSurface({
       <div ref={overlayRef} data-transition-wrap className="transition">
         <div className="transition__panels">
           {Array.from({ length: COLUMN_WIPE.panelCount }, (_, i) => (
-            <div key={i} data-transition-column className="transition__panel bg-surface" />
+            <div key={i} data-transition-column className="transition__panel" />
           ))}
         </div>
         <div className="transition__lines">
