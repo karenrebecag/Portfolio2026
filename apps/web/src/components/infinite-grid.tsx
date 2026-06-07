@@ -13,11 +13,11 @@ gsap.registerPlugin(Observer)
 
 const IMAGES = [
   { src: '/gallery/1.webp', landscape: false },
-  { src: 'https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/me.webp', landscape: false },
+  { src: '/gallery/friends-2.webp', landscape: false },
   { src: '/gallery/2.webp', landscape: true },
-  { src: 'https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/jj.webp', landscape: true },
+  { src: '/gallery/friends-3.webp', landscape: true },
   { src: '/gallery/3.webp', landscape: false },
-  { src: 'https://pub-3ed7c563bcaa4c7c8ed703c87bbc1631.r2.dev/Artboard%201.webp', landscape: true },
+  { src: '/gallery/friends-1.png', landscape: true },
   { src: '/gallery/4.webp', landscape: false },
   { src: '/gallery/5.webp', landscape: false },
   { src: '/gallery/6.webp', landscape: false },

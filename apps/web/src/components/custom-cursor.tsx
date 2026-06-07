@@ -1,9 +1,9 @@
 'use client'
 
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import gsap from 'gsap'
-import { usePageInit } from '@/lib/use-page-init'
+import { PAGE_READY_EVENT } from '@/lib/page-mount'
 
 export type CursorLabels = {
   scroll: string
@@ -109,13 +109,8 @@ function initCustomCursor(elements: CursorElements, labels: CursorLabels) {
     if (cx > windowWidth - textThreshold) xPercent = -106
     if (cy > windowHeight * 0.9) yPercent = -140
 
-    if (pillTween) {
-      pillTween.vars.xPercent = xPercent
-      pillTween.vars.yPercent = yPercent
-      pillTween.invalidate().restart()
-    } else {
-      pillTween = gsap.to(textEl, { xPercent, yPercent, duration: 0.9, ease: 'power3' })
-    }
+    pillTween?.kill()
+    pillTween = gsap.to(textEl, { xPercent, yPercent, duration: 0.9, ease: 'power3', overwrite: 'auto' })
     textXTo(cx)
     textYTo(cy)
   }
@@ -127,6 +122,9 @@ function initCustomCursor(elements: CursorElements, labels: CursorLabels) {
     if (!activated) {
       activated = true
       document.body.classList.add('cursor-active')
+      // Kill any pending opacity tween from handleMouseLeave so it can't
+      // override this set after the mouse re-enters within the fade duration.
+      gsap.killTweensOf(pointerEl, 'opacity')
       gsap.set(pointerEl, { left: cx, top: cy, opacity: 1 })
       gsap.set(textEl, { x: cx, y: cy })
       positionTextPill(cx, cy)
@@ -251,7 +249,30 @@ export function CustomCursor() {
     return initCustomCursor({ pointerEl, textEl, labelEl }, labels)
   }, [labels])
 
-  usePageInit(init)
+  // The cursor lives in the root layout and never unmounts — it must NOT
+  // re-init on every client navigation (PAGE_MOUNT_EVENT). Re-running
+  // initCustomCursor would call resetCursorElements, remove cursor-active,
+  // and set opacity:0, leaving the cursor invisible until the next mousemove.
+  // Initializing once is correct: document-level listeners handle any new DOM.
+  useLayoutEffect(() => {
+    let cleanup: (() => void) | void
+
+    function mount() {
+      if (typeof cleanup === 'function') cleanup()
+      cleanup = init()
+    }
+
+    if (document.body.hasAttribute('data-page-ready')) {
+      mount()
+    } else {
+      document.addEventListener(PAGE_READY_EVENT, mount, { once: true })
+    }
+
+    return () => {
+      document.removeEventListener(PAGE_READY_EVENT, mount)
+      if (typeof cleanup === 'function') cleanup()
+    }
+  }, [init])
 
   return (
     <>
