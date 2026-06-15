@@ -72,6 +72,8 @@ export const STICKERS = [
   { src: '/stickers/TypescriptSticker.webp', alt: 'TypeScript' },
   { src: '/stickers/figmasticker.webp', alt: 'Figma' },
   { src: '/stickers/githubsticker.webp', alt: 'GitHub' },
+  { src: '/stickers/webflowsticker.webp', alt: 'Webflow' },
+  { src: '/stickers/cloudflaresticker.webp', alt: 'Cloudflare' },
 ] as const
 
 const atomWebflowParsed_en = parseMarkdown(atomWebflowMarkdown_en)

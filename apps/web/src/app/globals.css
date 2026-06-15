@@ -1131,6 +1131,8 @@ body[data-section-theme='light'] .icon-button {
 .sticker-item--8 { bottom: 5%; right: 5%; }
 .sticker-item--9 { top: 45%; right: 8%; }
 .sticker-item--10 { bottom: 35%; left: 40%; }
+.sticker-item--11 { top: 14%; left: 20%; }
+.sticker-item--12 { top: 48%; left: 25%; }
 
 @media screen and (max-width: 767px) {
   .sticker-wrap {
