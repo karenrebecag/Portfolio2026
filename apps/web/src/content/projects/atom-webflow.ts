@@ -31,10 +31,10 @@ export const atomWebflowMeta = {
   services: 'Webflow Architecture, Product Engineering, Design Systems',
   coverImage: {
     url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e49a704afe5e3f4a55d_Fluid%20Abstract%20Design.avif',
-    alt: 'Atom Webflow',
+    alt: 'Webflow in production',
   },
   createdAt: '2026-06-01',
-  updatedAt: '2026-06-01',
+  updatedAt: '2026-06-14',
 }
 
 export const atomWebflowI18n = {

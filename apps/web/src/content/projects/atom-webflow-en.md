@@ -1,7 +1,7 @@
 > [!tip] In 30 seconds
 > - **Who this is for:** Design engineers and leads on Webflow sites that outgrew paste-in custom code (animations, modules, brand tokens) but still need marketing to publish copy alone.
 > - **Problem it solves:** Production JavaScript in a Webflow text area has no git history, no environments, and every publish hits production immediately.
-> - **What changes if you apply this:** Dual-control contract — Webflow owns CMS/SEO; Git owns tokens and `src/js/modules/*`. Ship JS with **git push + two jsDelivr purges** (~minutes) instead of a full Webflow republish; copy changes never touch the repo.
+> - **What changes if you apply this:** Dual-control contract — Webflow owns CMS/SEO; Git owns tokens and `src/js/modules/*`. Ship JS with a single **`git push`** — CI bumps a version tag, regenerates the loader, and purges the CDN (~minutes) — instead of a full Webflow republish; copy changes never touch the repo.
 
 There is a specific moment in nearly every Webflow project. It is not during onboarding. It is not during the first publish. It happens when someone on the team opens the site's custom code settings for the first time and pastes a block of JavaScript into a text area.
 
@@ -9,7 +9,7 @@ At that moment, without anyone deciding it explicitly, ==the project has just ac
 
 The code that was just pasted has no history. No author. No diff. No rollback. If something breaks, the only way to know is for a user to report it -- or for you to catch it before it reaches production. But chances are you will not catch it, because Webflow has no environments. ==The publish goes straight to production. Always.==
 
-I spent a lot of time on this while building the Atomchat site — high-fidelity animations, a strict brand language, and a content team publishing without engineering on every headline. Three requirements that default Webflow contradicts. The workflow below is **reusable on any Webflow project**, not Atom-specific: pasting production JavaScript into a Webflow text area should feel as wrong as deploying over FTP after you have learned git — a signal that the boundary is missing.
+I spent a lot of time on this while building a client's production site — high-fidelity animations, a strict brand language, and a content team publishing without engineering on every headline. Three requirements that default Webflow contradicts. The workflow below is **reusable on any Webflow project**, not specific to that client: pasting production JavaScript into a Webflow text area should feel as wrong as deploying over FTP after you have learned git — a signal that the boundary is missing.
 
 > [!info] Industry docs that back the workflow
 > Webflow documents [custom code in head and footer](https://help.webflow.com/hc/en-us/articles/33961357265299-Custom-code-in-head-and-body-tags) and [embed limits](https://help.webflow.com/hc/en-us/articles/33961332238611-Custom-code-embed). [jsDelivr](https://www.jsdelivr.com/documentation) documents GitHub `@main` URLs and [cache purge](https://www.jsdelivr.com/documentation#id-purge-cache). Cloudflare documents [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/) and [ignoring scripts with `data-cfasync="false"`](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/ignore-javascripts/). The repo map below is our implementation; the reference table at the end is what I send to teams evaluating the same split.
@@ -55,10 +55,10 @@ flowchart LR
 
   WF --> WFC["Webflow CDN"]
   WFC --> SITE
-  GIT -->|"git push"| JSD
-  JSD -->|"@main CSS & JS"| SITE
-  WF -.->|"fixed asset URLs"| JSD
-  GIT -.->|"purge cache"| JSD
+  GIT -->|"git push → CI"| JSD
+  JSD -->|"@latest loader → @vX.Y.Z CSS & JS"| SITE
+  WF -.->|"fixed loader URL"| JSD
+  GIT -.->|"CI tags + purges"| JSD
 ```
 
 **Webflow owns:** the HTML structure and page semantics, CMS content and collections, SEO, metadata, og tags, and the publishing workflow -- marketing can publish whenever they want, without coordinating with anyone.
@@ -67,9 +67,9 @@ flowchart LR
 
 What makes this work is not the technology -- ==it is the contract.== The explicit agreement that a copy change never touches the repository, and an animation refactor never requires marketing to wait. The two systems run in parallel, deploy independently, and neither blocks the other.
 
-The connection point between both is [jsDelivr](https://www.jsdelivr.com/documentation), a CDN that serves files directly from GitHub ([GitHub CDN docs](https://www.jsdelivr.com/documentation#id-github)). Webflow references assets from there with a URL that never changes. What does change -- after a push and an explicit [cache purge](https://www.jsdelivr.com/documentation#id-purge-cache) -- is the content that URL resolves to.
+The connection point between both is [jsDelivr](https://www.jsdelivr.com/documentation), a CDN that serves files directly from GitHub ([GitHub CDN docs](https://www.jsdelivr.com/documentation#id-github)). Webflow references one file from there with a URL that never changes. What does change -- after a push, with CI cutting a new version tag and [purging](https://www.jsdelivr.com/documentation#id-purge-cache) the CDN -- is the content that URL resolves to.
 
-> [!tip] git push origin main -> curl purge jsDelivr cache -> site updated. No Webflow republish. No coordination. Marketing does not even know it happened because they do not need to.
+> [!tip] git push origin main -> CI tags, regenerates the loader, purges & verifies jsDelivr -> site updated. No Webflow republish. No coordination. Marketing does not even know it happened because they do not need to.
 
 ## Repository map — documentation that enforces the contract
 
@@ -78,74 +78,80 @@ The workflow is implemented in [AtomWebflow_2026Site](https://github.com/karenre
 
 | Path | What it documents |
 |------|-------------------|
-| `CLAUDE.md` (root) | Dual-control contract; Webflow Site ID `6890d2a7153362eed21e1c49`; Head/Footer embed with `@main` + `data-cfasync="false"` on the script |
+| `CLAUDE.md` (root) | Dual-control contract; Webflow Site ID `6890d2a7153362eed21e1c49`; single Head embed `@latest/loader.js` with `data-cfasync="false"` |
 | `.mcp.json` | Webflow MCP token + `WEBFLOW_SITE_ID` for Designer/API tasks from this repo |
 | `ORCHESTRATOR.md` | Which agent skills load for CMS tasks, asset audits, safe publish |
 | `.agents/skills/` | 34 skills by category (constraints referenced in the agent section below) |
-| `src/css/base/tokens.css` | Brand tokens synced with ATOM DS; `#000000` prohibited in text (comment in file) |
+| `src/css/base/tokens.css` | Brand tokens synced with the client's DS; `#000000` prohibited in text (comment in file) |
 | `src/css/site.css` | Entry: imports base, sections, components |
 | `src/js/site.js` | Module loader v1.2.0: `[data-module]`, `autoDetect`, `data-page` on `<body>` |
 | `src/js/modules/*.js` | One file per feature (`mega-nav`, `marquee`, `button-041`, `gsap-slider`, …) |
+| `loader.js` (root) | CI-generated entry — injects CSS & JS from the immutable `@vX.Y.Z` tag; never edited by hand |
+| `.github/workflows/release.yml` | CI: bumps patch tag, regenerates `loader.js`, commits, tags, purges `@latest` + verifies |
 
-**Deploy commands documented in-repo** (not tribal knowledge):
+**Deploy is one command** (CI does the rest — documented in-repo, not tribal knowledge):
 
 ```bash
 git push origin main
-curl -s "https://purge.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/css/site.css"
-curl -s "https://purge.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/js/site.js"
+# CI (release.yml): bump vX.Y.(Z+1) → regenerate loader.js → commit + tag →
+# purge @latest/loader.js on jsDelivr → verify it serves the new version (with retries)
 ```
 
-**Webflow-side contract** (from `CLAUDE.md` — Site Settings > Custom Code):
+**Webflow-side contract** (from `CLAUDE.md` — Site Settings > Custom Code, Head):
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/css/site.css">
-<script type="module" data-cfasync="false"
-  src="https://cdn.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@main/src/js/site.js"></script>
+<script data-cfasync="false"
+  src="https://cdn.jsdelivr.net/gh/karenrebecag/AtomWebflow_2026Site@latest/loader.js"></script>
 ```
 
-`data-cfasync="false"` opts the module out of Cloudflare Rocket Loader deferral on the *repo* script (GSAP still needs `waitForGSAP` for Webflow's own GSAP tag). HTML and CMS publish stay in Webflow; ==behavior changes trace to git SHA + purge, not a Designer publish.==
+One tag, fixed forever. `loader.js` injects the CSS `<link>` and the `type="module"` script, both pinned to the immutable `@vX.Y.Z` tag the CI just published. Footer Code stays empty. `data-cfasync="false"` opts the loader out of Cloudflare Rocket Loader deferral (GSAP still needs `waitForGSAP` for Webflow's own GSAP tag). HTML and CMS publish stay in Webflow; ==behavior changes trace to a CI-cut git tag, not a Designer publish.==
 
 **Why `autoDetect` exists** (documented in `CLAUDE.md`): Webflow strips `data-*` on component *roots* after publish. Skills and orchestrator rules tell agents to bind on inner selectors like `[data-css-marquee]` instead — that detail is the kind of production-only fact we stopped leaving in Slack threads.
 
-## Why @main and not @latest
+## How CDN references actually work: @latest loader, immutable assets
 
-> **In plain terms:** A boring CDN choice that prevents surprise breakages when someone publishes unrelated work.
-This is one of those details that seems trivial until you learn it the hard way.
+> **In plain terms:** A boring CDN choice that, after one production lesson, became the opposite of what I first shipped.
+This is one of those details that seems trivial until you learn it the hard way -- and then learn it a second time, harder. The first version of this article confidently told you to use `@main` and never `@latest`. Production disagreed. Here is what actually happened, because the wrong version of this rule is still the most-repeated advice on the internet.
 
-jsDelivr has two ways to reference GitHub files that look equivalent and are not at all:
+The original reasoning was sound on paper. jsDelivr has two ways to reference GitHub files: **@latest** resolves to the last npm release (undefined without releases, and cached aggressively), while **@main** resolves to the latest commit and a purge should clear it. So v1 of this site referenced assets with `@main` and purged after every push.
 
-- **@latest** resolves to the last release published with npm. If you do not have releases configured, the behavior is undefined. And jsDelivr caches aggressively -- meaning even if you push a change, jsDelivr may keep serving the previous version for hours or days.
+Then production taught the lesson: ==jsDelivr does not just cache the *file* -- it caches the *resolution of the mutable ref*.== For a branch, `@main → commit` is cached for up to 12 hours (`s-maxage=43200`), and purging the file does **not** re-resolve the ref. So `@main` kept serving an old commit for hours after a clean push and purge. The advice I had repeated was, in my own production, wrong.
 
-- **@main** resolves to the latest commit on the main branch. After an explicit cache purge, it resolves immediately to the most recent SHA.
+The fix is a two-file strategy where each file uses the reference type that fits its job:
 
-> [!warning] Never use @latest in production. jsDelivr caches aggressively and the behavior without npm releases is undefined.
+- **`loader.js` is referenced with `@latest`.** This is the only URL Webflow ever sees, and it must never change. `@latest` resolves to the highest **SemVer tag** -- and because CI cuts a fresh tag on every deploy, tags are a stronger, better-refreshed signal for jsDelivr than a branch ref. The loader is tiny and only points at immutable tags, so `@latest`'s cache aggressiveness is harmless here.
+- **The assets (`site.css`, `site.js`) are referenced with an immutable tag `@vX.Y.Z`.** The loader writes these URLs at deploy time. A version tag never mutates, so it is always fresh and never needs purging.
 
-The rule is simple: in production, always @main plus manual purge. Never @latest. And this rule lives documented in the repository, not in anyone's memory.
+The rule inverted, but for a precise reason:
 
-```bash
-# After each push
-curl -s https://purge.jsdelivr.net/gh/user/repo@main/src/css/site.css
-curl -s https://purge.jsdelivr.net/gh/user/repo@main/src/js/site.js
-```
+| Reference | Use it for | Never for |
+|-----------|-----------|-----------|
+| `@latest` | the tiny `loader.js` (fixed Webflow URL) | assets -- caches content aggressively |
+| `@vX.Y.Z` (tag) | `site.css` / `site.js` -- immutable, always fresh | — |
+| `@main` | avoid -- branch resolution caches up to 12h, purge does not re-resolve | anything in production |
+| `@{commit}` | urgent debug / rollback | the steady state |
 
-Two lines. The site is updated. And if something goes wrong, `git revert` and another purge. ==Complete rollback in under two minutes.==
+> [!warning] Do not reference assets with @latest, and do not trust @main + purge in production -- purging the file does not re-resolve a branch ref, so @main can serve a stale commit for hours. Pin assets to an immutable @vX.Y.Z tag and let a tiny @latest loader point at it.
 
-```mermaid Deploy pipeline
+And the best part: ==none of this is manual anymore.== A `git push` triggers CI, which bumps the patch tag, regenerates `loader.js` to point at it, purges `@latest`, and verifies with retries that jsDelivr is actually serving the new version. If something breaks, `git revert` and push -- CI cuts a new tag and re-points the loader; or pin the loader to a known-good `@vX.Y.Z` for an instant rollback. The immutable tag is always fresh as a fallback.
+
+```mermaid Deploy pipeline (CI-driven)
 sequenceDiagram
   participant Eng as Engineer
   participant GH as GitHub
+  participant CI as GitHub Actions
   participant JD as jsDelivr
-  participant WF as Webflow CDN
   participant Browser as User browser
 
   Eng->>GH: git push main
-  GH-->>Eng: new commit SHA
-  Eng->>JD: purge cache (@main)
-  JD->>JD: resolve latest SHA
-  Note over WF,Browser: HTML unchanged — no Webflow republish
-  Browser->>WF: load page HTML
-  Browser->>JD: fetch site.css & site.js
-  JD-->>Browser: updated assets
+  GH->>CI: trigger release.yml
+  CI->>CI: bump vX.Y.(Z+1)
+  CI->>GH: regenerate loader.js + commit + tag
+  CI->>JD: purge @latest/loader.js
+  JD-->>CI: verify serves new version (retries)
+  Note over Browser: HTML unchanged — no Webflow republish
+  Browser->>JD: fetch loader.js (@latest) → assets (@vX.Y.Z)
+  JD-->>Browser: updated, immutable assets
 ```
 
 ## Design tokens: the only shared artifact
@@ -156,8 +162,8 @@ If the dual-control model is the architecture, ==design tokens are the shared la
 Tokens are not "CSS variables with nice names." They are the contract that guarantees what the designer configures in Webflow and what the external code produces are exactly the same thing. Without that contract, drift between systems is inevitable -- and it is subtle, which is the worst part. Colors that approximate but do not match. Spacing that looks similar but is different. Animations with slightly different timing depending on who touched what.
 
 ```css tokens.css — header comment in repo
-/* ATOM Webflow — Design Tokens
-   Sincronizan con ATOM DS. Negro puro #000000 prohibido en texto. */
+/* Webflow — Design Tokens
+   Synced with the client's DS. Pure black #000000 prohibited in text. */
 
 :root {
   --color-brand:        #FF6600;
@@ -252,7 +258,7 @@ function waitForGSAP(timeout = 5000) {
       if (window.gsap) { clearInterval(check); resolve(window.gsap); }
       else if (Date.now() - start > timeout) {
         clearInterval(check);
-        reject(new Error('[atom] gsap not found — Webflow GSAP may be disabled'));
+        reject(new Error('[ds] gsap not found — Webflow GSAP may be disabled'));
       }
     }, 50);
   });
@@ -270,7 +276,7 @@ But before talking about the implementation, I need to talk about the philosophy
 
 The first time I let an AI agent operate on the project without explicit constraints, it made reasonable decisions. Clean code, good general practices, output that worked. And it was still wrong.
 
-Not wrong as in "broken" -- ==wrong as in "out of context."== The agent used #000000 for text because it is the standard black. It used @latest in a jsDelivr reference because it is the most common pattern. It modified a page that was not specified because it assumed it was the main page.
+Not wrong as in "broken" -- ==wrong as in "out of context."== The agent used #000000 for text because it is the standard black. It put `@latest` on an *asset* URL -- the one place it caches too aggressively -- because it is the most common pattern. It modified a page that was not specified because it assumed it was the main page.
 
 None of that is an agent error. It is a system design error -- specifically, a failure to design the system with explicit constraints from the start.
 
@@ -278,7 +284,7 @@ None of that is an agent error. It is a system design error -- specifically, a f
 | --- | --- |
 | No pure black in text | Encoded in tokens.css |
 | Orange only as accent | Documented in CLAUDE.md, validated by agent |
-| jsDelivr never with @latest | Rule in orchestrator, blocked in review |
+| @latest only for the loader, never for assets | Rule in orchestrator, blocked in review |
 | GSAP must check prefers-reduced-motion | Required in every animation module |
 | Never publish without safe-publish | Orchestrator rule, not optional |
 | Never modify unspecified page | Scope enforcement, asks before acting |
@@ -311,6 +317,8 @@ In the first two weeks after we drew the boundary explicitly, those pings stoppe
   "entries": [
     { "category": "entry", "path": "src/css/", "files": ["site.css"] },
     { "category": "entry", "path": "src/js/", "files": ["site.js"] },
+    { "category": "entry", "path": "", "files": ["loader.js (CI-generated)"] },
+    { "category": "ci", "path": ".github/workflows/", "files": ["release.yml"] },
     { "category": "docs", "path": "", "files": ["CLAUDE.md", "ORCHESTRATOR.md", ".agents/skills/"] }
   ]
 }
@@ -318,7 +326,9 @@ In the first two weeks after we drew the boundary explicitly, those pings stoppe
 
 - **tokens.css first, always.** Before writing any other CSS, define your tokens. All design values live here and only here. Include comments that explain the constraints, not just the values. If tokens live in three places (Figma notes, Webflow styles, and a CSS file), drift is guaranteed; the first redesign will ship two slightly different oranges and nobody will know which one is canonical.
 
-- **jsDelivr with @main + purge script.** Configure the references in Webflow once pointing to @main. Create a purge script and run it after each push. If you use @latest instead, you will push a fix, wait hours, wonder why nothing changed, and learn about npm releases and aggressive CDN caching the hard way.
+- **A tiny loader on @latest, assets on immutable tags.** Point Webflow once at `@latest/loader.js` and never touch that field again. The loader injects CSS/JS pinned to a `@vX.Y.Z` tag. Do not reference assets with `@main` -- purging the file does not re-resolve the branch, so it serves stale commits for hours -- and never with `@latest`, which caches asset content aggressively. The reference type is a per-file decision, not a global rule.
+
+- **Automate the release in CI.** A GitHub Action turns deploy into a single `git push`: it bumps the patch tag, regenerates `loader.js` to point at it, commits, tags, purges `@latest`, and verifies with retries that jsDelivr serves the new version. Without it, every deploy is a manual purge you will eventually forget -- and a teammate will "fix" something that was already fixed but stuck in cache.
 
 - **CLAUDE.md at the root.** Document the contract between Webflow and the repository, naming conventions, prohibited patterns with their justification, the deploy workflow, and architectural decisions with the context of why they were made that way. Without it, the next person -- or the next agent -- will re-decide every boundary from scratch, and you will become the living README again.
 
@@ -338,6 +348,7 @@ In the first two weeks after we drew the boundary explicitly, those pings stoppe
 | Purge CDN cache after deploy | [jsDelivr — Purge cache](https://www.jsdelivr.com/documentation#id-purge-cache) |
 | Rocket Loader behavior | [Cloudflare — Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/) |
 | Exclude a script from Rocket Loader | [Cloudflare — Ignore JavaScripts](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/ignore-javascripts/) |
+| Automating deploys in CI | [GitHub Actions documentation](https://docs.github.com/en/actions) |
 | shadcn-style registry (parallel for DS teams) | [shadcn/ui — Registry](https://ui.shadcn.com/docs/registry) |
 | Design tokens standard (shared language with DS) | [W3C Design Tokens — first stable version](https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/) |
 | Webflow MCP (Designer/API automation) | [Webflow Developers](https://developers.webflow.com/) |
