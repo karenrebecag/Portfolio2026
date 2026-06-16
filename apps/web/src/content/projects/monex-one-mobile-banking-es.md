@@ -279,7 +279,7 @@ La restricción no cambia: ==journeys documentados y contratos de componente son
 
 > **En pocas palabras:** Si mañana empiezas una app bancaria corporativa, esto es lo que Monex me dejó.
 
-**Haría de nuevo:**
+**Decisiones que se sostuvieron:**
 
 1. **Wireframes de baja fidelidad con semántica cerrada** antes de UI final.
 2. **Steppers en operaciones irreversibles**: FX, pagos, altas de servicio.
@@ -287,7 +287,7 @@ La restricción no cambia: ==journeys documentados y contratos de componente son
 4. **Vocabulario de estados de error** acordado con negocio y compliance.
 5. **MVP explícito**: journeys diarios primero; roadmap visible sin prometer todo en v1.
 
-**Apretaría más:**
+**En el roadmap:**
 
 1. **Research con usuarios reales** en más iteraciones, el contexto corporativo lo limitó.
 2. **Métricas de tarea** (task success, time-on-task) por flujo, no solo opiniones de stakeholder.

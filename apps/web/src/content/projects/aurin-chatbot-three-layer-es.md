@@ -322,17 +322,17 @@ Los repos siguen separados:
 - [AurinWebsite](https://github.com/AurinExperience/AurinWebsite) -- Astro, chat, APIs de calendario
 - [aurin-cms](https://github.com/AurinExperience/aurin-cms) -- admin Payload y API
 
-## Qué repetiría (y qué apretaría)
+## Las decisiones que lo sostienen
 
-> **En pocas palabras:** Retro honesta: qué funcionó para el negocio y qué formalizaría después para menos sorpresas.
-**Repetiría:**
+> **En pocas palabras:** Qué funcionó para el negocio, y qué formalizaría después para menos sorpresas.
+**Decisiones que se sostuvieron:**
 
 - Proxy SSR como único punto de integración público
 - Flags de modo (`search` / `full`) aplicados en servidor
 - Reintento en cliente + tope de sesión
 - n8n self-hosted por costo y control
 
-**Apretaría después:**
+**En el roadmap:**
 
 - Formalizar el contrato de keywords (doc compartido + grep en CI) tras el incidente de copy
 - Pasar `locale` a `/api/chat` y prefijos bilingües en modo search

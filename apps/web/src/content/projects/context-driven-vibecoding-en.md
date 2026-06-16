@@ -231,10 +231,10 @@ We turned the incident into a checklist item on every PR at that client: "How wa
 
 Same philosophy, different altitude.
 
-## What I would do again (and what I am tightening)
+## The load-bearing decisions
 
 > **In plain terms:** Lessons for leaders budgeting workshops and engineering oversight.
-**Would repeat:**
+**Decisions that held:**
 
 - Blocking Phase B until Phase A is signed off — even when it feels slow; it is what makes "press play" real
 - Spec-before-code for multi-file work, even when a client wants speed on a workshop recording
@@ -243,7 +243,7 @@ Same philosophy, different altitude.
 - Branch + PR discipline so participants experience real team gates, not solo chat sessions
 - Naming two modes explicitly: **explore** (Karpathy-style vibe, low stakes) vs **ship** (CDD, production stakes)
 
-**Tightening next:**
+**On the roadmap:**
 
 - A sanitized public fork of the teaching kit (today it stays private per client NDAs)
 - Client-specific `CLAUDE.md` starters by industry (B2B SaaS, e-commerce ops, etc.)

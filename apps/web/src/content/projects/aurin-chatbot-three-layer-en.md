@@ -322,17 +322,17 @@ Repos stay split on purpose:
 - [AurinWebsite](https://github.com/AurinExperience/AurinWebsite) -- Astro, chat, calendar APIs
 - [aurin-cms](https://github.com/AurinExperience/aurin-cms) -- Payload admin and API
 
-## What I would do again (and what I would tighten)
+## The load-bearing decisions
 
-> **In plain terms:** Honest retrospective: what paid off for the business and what I would formalize next for fewer surprises.
-**Would repeat:**
+> **In plain terms:** What paid off for the business, and what I would formalize next for fewer surprises.
+**Decisions that held:**
 
 - SSR proxy as the only public integration point
 - Mode flags (`search` / `full`) applied server-side
 - Client retry + session caps
 - Self-hosted n8n for cost and control
 
-**Would tighten next:**
+**On the roadmap:**
 
 - Formalize the keyword contract (shared doc + CI grep) after the copy-change incident
 - Pass `locale` into `/api/chat` and bilingual search-mode prefixes

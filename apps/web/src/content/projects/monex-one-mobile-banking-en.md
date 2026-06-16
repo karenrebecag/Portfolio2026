@@ -279,7 +279,7 @@ The constraint does not change: ==documented journeys and component contracts ar
 
 > **In plain terms:** If you start a corporate banking app tomorrow, this is what Monex left me.
 
-**Would do again:**
+**Decisions that held:**
 
 1. **Low-fidelity wireframes with closed semantics** before final UI.
 2. **Steppers on irreversible operations**: FX, payments, service enrollment.
@@ -287,7 +287,7 @@ The constraint does not change: ==documented journeys and component contracts ar
 4. **Error state vocabulary** agreed with business and compliance.
 5. **Explicit MVP**: daily journeys first; visible roadmap without promising everything in v1.
 
-**Would tighten:**
+**On the roadmap:**
 
 1. **Research with real users** across more iterations, corporate context limited it.
 2. **Task metrics** (task success, time-on-task) per flow, not only stakeholder opinions.

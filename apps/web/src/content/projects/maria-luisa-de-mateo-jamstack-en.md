@@ -151,16 +151,16 @@ Designing for art and artists is designing editorial and publishing systems, not
 **For frontend engineers**
 Modern architecture (Astro islands, clean component models, tokens, Next.js or equivalent) only matters when it becomes invisible to the people who create the actual content. Elegance in the code is table stakes. The real test is whether a designer or artist can publish something new on a Friday afternoon without sending you a Slack message.
 
-## What I would do again (and what I am tightening)
+## The load-bearing decisions
 
-**Would repeat:**
+**Decisions that held:**
 - Treating the creative team as the primary user of the publishing experience, even when the “users” of the public site are collectors and visitors.
 - Defining rigid vs flexible areas explicitly in the first weeks, not after the third redesign request.
 - Building the token system and layout contracts before any beautiful page is fully designed.
 - Keeping GSAP and motion in service of the work, never as the star.
 - Documenting the “why” of each contract in a place the team can actually read (short Notion pages + comments in the component files).
 
-**Tightening next:**
+**On the roadmap:**
 - A more explicit “artist starter kit” that Aurin can hand to a new artist with almost zero explanation.
 - Better preview tooling so changes to a new series can be reviewed in context before they go live.
 - Tighter connection between the studio’s main Astro site and individual artist presences so shared tokens and components update in one place.

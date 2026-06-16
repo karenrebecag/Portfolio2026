@@ -9,7 +9,7 @@ The task list is a spreadsheet someone updates on Fridays. The thread is in Slac
 
 That is the shape of agency operations when the team goes remote-first faster than the tooling. Aurin — a distributed product and design studio — hit that wall in 2023–2024. The fix was not “buy another SaaS project manager.” It was ==build one hub where task, conversation, time, and client visibility share the same object== — and wire AI where it reduces triage, not where it replaces judgment.
 
-I led UX engineering on [Aurin Task Manager](https://aurin-task-manager.vercel.app): a full-stack Next.js platform on Firestore and Clerk, deployed on Vercel, with **357+ commits** of active iteration. Public repo: [KarenRebecaOrtiz/Aurin-Task-Manager](https://github.com/KarenRebecaOrtiz/Aurin-Task-Manager). This essay is the product story — architecture, features, and what I would repeat.
+I led UX engineering on [Aurin Task Manager](https://aurin-task-manager.vercel.app): a full-stack Next.js platform on Firestore and Clerk, deployed on Vercel, with **357+ commits** of active iteration. Public repo: [KarenRebecaOrtiz/Aurin-Task-Manager](https://github.com/KarenRebecaOrtiz/Aurin-Task-Manager). This essay is the product story: architecture, features, and the decisions that held.
 
 > [!info] External grounding
 > Patterns below align with documented practice: [Firestore real-time listeners](https://firebase.google.com/docs/firestore/query-data/listen), [Clerk Next.js middleware](https://clerk.com/docs/references/nextjs/clerk-middleware), [Next.js Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) as API boundaries, and [n8n webhooks](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/) for server-side automation. The [Aurin marketing chatbot](/en/articulos/conversational-agent-three-layer-stack) is a separate product surface — this platform is internal ops.
@@ -246,10 +246,10 @@ After adoption:
 - **Admins** triaged faster with Gemini summaries and occasional NL commands through n8n
 - **Remote-first** became operational default — the tool matched how the team already worked geographically
 
-## What I would do again (and tighten next)
+## The load-bearing decisions
 
-> **In plain terms:** Honest retrospective — what paid off and what I would formalize next.
-**Would repeat:**
+> **In plain terms:** What paid off, and what I would formalize next.
+**Decisions that held:**
 
 - Firestore real-time as the spine — agency ops are collaborative, not batch
 - Modular `src/modules/*` — shipped share links and chatbot without monolith rewrite
@@ -257,7 +257,7 @@ After adoption:
 - Server-only n8n proxy — same lesson as the marketing chat stack
 - Zustand per domain — simpler than one global Redux tree for 18 concerns
 
-**Would tighten next:**
+**On the roadmap:**
 
 - Formal ADR for public DTO fields (shareTask) — document what can never leak
 - Locale-aware n8n prompts (Spanish-first today)

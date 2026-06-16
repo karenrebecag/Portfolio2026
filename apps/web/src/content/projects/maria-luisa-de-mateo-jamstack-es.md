@@ -151,16 +151,16 @@ Diseñar para arte y artistas es diseñar sistemas editoriales y de publicación
 **Para frontend engineers**
 La arquitectura moderna (islas en Astro, modelos de componentes limpios, tokens, Next.js o equivalente) solo importa cuando se vuelve invisible para las personas que crean el contenido real. La elegancia en el código es lo mínimo. La prueba real es si una diseñadora o una artista puede publicar algo nuevo un viernes por la tarde sin tener que mandarte un mensaje por Slack.
 
-## Qué repetiría (y qué estoy ajustando)
+## Las decisiones que lo sostienen
 
-**Repetiría:**
+**Decisiones que se sostuvieron:**
 - Tratar al equipo creativo como el usuario principal de la experiencia de publicación, incluso cuando los “usuarios” del sitio público son coleccionistas y visitantes.
 - Definir explícitamente las zonas rígidas vs flexibles en las primeras semanas, no después del tercer pedido de rediseño.
 - Construir el sistema de tokens y los contratos de layout antes de que cualquier página bonita esté completamente diseñada.
 - Mantener GSAP y el motion al servicio de la obra, nunca como protagonista.
 - Documentar el “porqué” de cada contrato en un lugar que el equipo realmente pueda leer (páginas cortas de Notion + comentarios en los archivos de componentes).
 
-**Ajustando para la próxima:**
+**En el roadmap:**
 - Un “kit de inicio para artistas” más explícito que Aurin pueda entregar a una nueva artista con casi cero explicación.
 - Mejor tooling de preview para que los cambios de una serie nueva se puedan revisar en contexto antes de que salgan en vivo.
 - Conexión más estrecha entre el sitio principal del estudio en Astro y las presencias individuales de artistas para que los tokens y componentes compartidos se actualicen en un solo lugar.

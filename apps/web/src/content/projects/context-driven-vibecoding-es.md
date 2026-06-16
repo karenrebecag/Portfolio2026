@@ -231,10 +231,10 @@ Convertimos el incidente en ítem de checklist en cada PR en ese cliente: "¿Có
 
 Misma filosofía, distinta altitud.
 
-## Qué repetiría (y qué estoy apretando)
+## Las decisiones que lo sostienen
 
 > **En pocas palabras:** Lecciones para quienes presupuestan talleres y supervisión de ingeniería.
-**Repetiría:**
+**Decisiones que se sostuvieron:**
 
 - Bloquear la Fase B hasta firmar la Fase A — aunque se sienta lento; es lo que hace real el "darle play"
 - Spec antes de código en trabajo multi-archivo, aunque el cliente quiera velocidad en la grabación del taller
@@ -243,7 +243,7 @@ Misma filosofía, distinta altitud.
 - Branch + PR para que vivan gates reales de equipo, no sesiones de chat en solitario
 - Nombrar dos modos: **explorar** (vibe al estilo Karpathy, bajo riesgo) vs **entregar** (CDD, riesgo producción)
 
-**Apretando:**
+**En el roadmap:**
 
 - Fork público sanitizado del kit (hoy sigue privado por NDAs)
 - Plantillas de `CLAUDE.md` por industria (B2B SaaS, ops e-commerce, etc.)

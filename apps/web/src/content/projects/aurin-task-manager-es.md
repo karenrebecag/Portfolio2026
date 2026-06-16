@@ -9,7 +9,7 @@ La lista de tareas es un spreadsheet que alguien actualiza los viernes. El hilo 
 
 Esa es la forma de operar una agencia cuando el equipo se vuelve remote-first más rápido que las herramientas. Aurin — estudio de producto y diseño distribuido — chocó con eso en 2023–2024. La salida no fue “comprar otro SaaS de proyectos.” Fue ==construir un hub donde tarea, conversación, tiempo y visibilidad al cliente compartan el mismo objeto== — e integrar IA donde reduce triage, no donde reemplaza criterio.
 
-Lideré UX engineering en [Aurin Task Manager](https://aurin-task-manager.vercel.app): plataforma full-stack en Next.js, Firestore y Clerk, desplegada en Vercel, con **357+ commits** de iteración activa. Repo público: [KarenRebecaOrtiz/Aurin-Task-Manager](https://github.com/KarenRebecaOrtiz/Aurin-Task-Manager). Este ensayo es la historia de producto — arquitectura, features y qué repetiría.
+Lideré UX engineering en [Aurin Task Manager](https://aurin-task-manager.vercel.app): plataforma full-stack en Next.js, Firestore y Clerk, desplegada en Vercel, con **357+ commits** de iteración activa. Repo público: [KarenRebecaOrtiz/Aurin-Task-Manager](https://github.com/KarenRebecaOrtiz/Aurin-Task-Manager). Este ensayo es la historia de producto: arquitectura, features y las decisiones que se sostuvieron.
 
 > [!info] Fundamento externo
 > Los patrones siguen práctica documentada: [listeners en tiempo real de Firestore](https://firebase.google.com/docs/firestore/query-data/listen), [middleware de Clerk en Next.js](https://clerk.com/docs/references/nextjs/clerk-middleware), [Route Handlers de Next.js](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) como frontera de API, y [webhooks de n8n](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/) para automatización server-side. El [chatbot de marketing de Aurin](/es/articulos/conversational-agent-three-layer-stack) es otra superficie — esta plataforma es operación interna.
@@ -246,10 +246,10 @@ Tras adopción:
 - Los **admins** hicieron triage más rápido con resúmenes Gemini y comandos NL ocasionales vía n8n
 - **Remote-first** pasó a ser default operativo — la herramienta coincidió con cómo el equipo ya trabajaba en geografía
 
-## Qué repetiría (y qué apretaría después)
+## Las decisiones que lo sostienen
 
-> **En términos simples:** Retrospectiva honesta — qué funcionó y qué formalizaría después.
-**Repetiría:**
+> **En términos simples:** Qué funcionó, y qué formalizaría después.
+**Decisiones que se sostuvieron:**
 
 - Firestore en tiempo real como columna vertebral — ops de agencia son colaborativas, no batch
 - `src/modules/*` modular — share links y chatbot sin reescribir monolito
@@ -257,7 +257,7 @@ Tras adopción:
 - Proxy n8n solo server — misma lección que el stack del chat de marketing
 - Zustand por dominio — más simple que un Redux global para 18 preocupaciones
 
-**Apretaría después:**
+**En el roadmap:**
 
 - ADR formal para campos del DTO público (shareTask) — documentar qué nunca puede filtrarse
 - Prompts n8n conscientes de locale (hoy español-first)
