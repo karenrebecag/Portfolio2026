@@ -49,6 +49,12 @@ import {
   mariaLuisaDeMateoJamstackMarkdown_en,
   mariaLuisaDeMateoJamstackMarkdown_es,
 } from '@/content/projects/maria-luisa-de-mateo-jamstack'
+import {
+  salesforceAtfxMcpMeta,
+  salesforceAtfxMcpI18n,
+  salesforceAtfxMcpMarkdown_en,
+  salesforceAtfxMcpMarkdown_es,
+} from '@/content/projects/salesforce-atfx-mcp'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
 import type { Block } from '@/components/blocks/types'
@@ -94,9 +100,30 @@ const monexOneParsed_en = parseMarkdown(monexOneMobileBankingMarkdown_en)
 const monexOneParsed_es = parseMarkdown(monexOneMobileBankingMarkdown_es)
 const mariaLuisaParsed_en = parseMarkdown(mariaLuisaDeMateoJamstackMarkdown_en)
 const mariaLuisaParsed_es = parseMarkdown(mariaLuisaDeMateoJamstackMarkdown_es)
+const salesforceAtfxMcpParsed_en = parseMarkdown(salesforceAtfxMcpMarkdown_en)
+const salesforceAtfxMcpParsed_es = parseMarkdown(salesforceAtfxMcpMarkdown_es)
 
 export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
   // Long-form articles first (home links to /articulos/…)
+  {
+    ...salesforceAtfxMcpMeta,
+    title: salesforceAtfxMcpI18n.en.title,
+    summary: salesforceAtfxMcpI18n.en.summary,
+    description: salesforceAtfxMcpParsed_en.lexical,
+    blocks: salesforceAtfxMcpParsed_en.blocks,
+    i18n: {
+      en: {
+        ...salesforceAtfxMcpI18n.en,
+        lexical: salesforceAtfxMcpParsed_en.lexical,
+        blocks: salesforceAtfxMcpParsed_en.blocks,
+      },
+      es: {
+        ...salesforceAtfxMcpI18n.es,
+        lexical: salesforceAtfxMcpParsed_es.lexical,
+        blocks: salesforceAtfxMcpParsed_es.blocks,
+      },
+    },
+  },
   {
     ...contextDrivenVibecodingMeta,
     title: contextDrivenVibecodingI18n.en.title,
