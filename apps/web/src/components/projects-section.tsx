@@ -53,7 +53,7 @@ function ProjectRows({
             >
               <div className="preview-item__row flex flex-wrap justify-start items-center w-full gap-y-2 max-[767px]:flex-col max-[767px]:items-start max-[767px]:gap-1">
                 <div className="flex-1 min-w-0 max-[767px]:flex-none max-[767px]:w-full">
-                  <span className="inline-block mb-2 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest font-accent bg-secondary text-secondary-foreground">
+                  <span className="inline-block mb-2 px-2 py-0.5 text-[11px] font-bold uppercase tracking-widest font-accent bg-secondary text-secondary-foreground">
                     {badge}
                   </span>
                   <h3 className="preview-item__heading font-display text-[2rem] font-bold leading-[1.02] max-[767px]:text-lg">
@@ -134,7 +134,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
 
           <div className="md:col-span-7 min-w-0 space-y-14">
             <div>
-              <h3 className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/40">
+              <h3 className="text-[11px] font-bold uppercase tracking-widest font-accent text-foreground/40">
                 {t('essays_heading')}
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground max-w-[42ch]">
@@ -147,7 +147,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
 
             {clientWork.length > 0 && (
               <div>
-                <h3 className="text-[10px] font-bold uppercase tracking-widest font-accent text-foreground/40">
+                <h3 className="text-[11px] font-bold uppercase tracking-widest font-accent text-foreground/40">
                   {t('client_heading')}
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground max-w-[42ch]">
@@ -164,7 +164,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
 
       <div className="mt-20 pb-10 hidden md:block">
         <Container className="px-4 lg:px-6 mb-6">
-          <span className="text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground">
+          <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">
             {tAdditional('pill')}
           </span>
         </Container>

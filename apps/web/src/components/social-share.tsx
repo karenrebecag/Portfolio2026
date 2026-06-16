@@ -61,7 +61,7 @@ export function SocialShare({ title, link, heading, className }: SocialShareProp
   return (
     <div className={['social-share-wrap', className].filter(Boolean).join(' ')}>
       {heading && (
-        <p className="social-share__heading text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground mb-5 w-full text-left">
+        <p className="social-share__heading text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground mb-5 w-full text-left">
           {heading}
         </p>
       )}

@@ -142,6 +142,9 @@
 
 /* -- Base -- */
 @layer base {
+  html {
+    font-size: 106.25%; /* 17px — scale up from browser default 16px */
+  }
   html, body {
     overflow-x: clip;
   }
@@ -359,7 +362,7 @@
   display: inline-block;
   padding: 0.25em 0.5em;
   font-family: var(--font-accent);
-  font-size: 0.5625em;
+  font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -374,7 +377,7 @@
 
 .draggable-marquee__item-meta .item-meta-label {
   font-family: var(--font-accent);
-  font-size: 0.5em;
+  font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -481,9 +484,9 @@
 }
 
 .chip[data-active] {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--primary-foreground);
+  background: var(--surface-foreground);
+  border-color: var(--surface-foreground);
+  color: var(--surface);
   opacity: 1;
   font-weight: 600;
 }
@@ -2328,7 +2331,7 @@ body[data-section-theme='light'] [data-css-marquee]:not([data-footer-marquee]) {
   border-left: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
   padding: 0.4rem 0.5em 0.4rem 1em;
   font-family: var(--font-accent);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   text-decoration: none;
   transition: color 0.2s ease, border-color 0.2s ease;
   line-height: 1.35;
@@ -2348,7 +2351,7 @@ body[data-section-theme='light'] [data-css-marquee]:not([data-footer-marquee]) {
 
 .toc-link[data-toc-depth="3"] {
   padding-left: 2em;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 
 @media screen and (max-width: 1023px) {
@@ -2551,7 +2554,7 @@ body[data-section-theme='light'] [data-css-marquee]:not([data-footer-marquee]) {
 }
 
 .dir-tree__path {
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   color: var(--muted-foreground);
   word-break: break-all;
 }

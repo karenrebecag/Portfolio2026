@@ -24,7 +24,7 @@ const BUDGETS = [
 const labelClass =
   'flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-surface-foreground mb-3 font-accent'
 const optionalBadgeClass =
-  'ml-1.5 text-[10px] font-normal normal-case tracking-normal text-surface-foreground/40'
+  'ml-1.5 text-[11px] font-normal normal-case tracking-normal text-surface-foreground/40'
 const inputClass = 'w-full min-w-0 bg-transparent border-none outline-none text-surface-foreground text-sm md:text-base font-sans py-3 placeholder:text-surface-foreground/25'
 const underlineClass = 'h-px w-full bg-surface-foreground/15 transition-colors duration-300 group-focus-within:bg-brand'
 
@@ -211,7 +211,7 @@ export function ContactForm() {
           <Paperclip className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           <div className="min-w-0">
             <span className="text-sm font-medium">{t('form_attachment')}</span>
-            <span className="block text-[10px] text-surface-foreground/30 font-accent">{t('form_attachment_specs')}</span>
+            <span className="block text-[11px] text-surface-foreground/30 font-accent">{t('form_attachment_specs')}</span>
           </div>
           <input type="file" className="hidden" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" />
         </label>

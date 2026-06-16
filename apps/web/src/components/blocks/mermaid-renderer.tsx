@@ -74,7 +74,7 @@ export function MermaidRenderer({ code, title }: { code: string; title?: string 
     return (
       <figure className="mermaid-block not-prose w-full max-w-none border border-border overflow-hidden" style={{ borderRadius: '2px' }}>
         {title && (
-          <figcaption className="mermaid-block__title px-4 py-2 border-b border-border text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
+          <figcaption className="mermaid-block__title px-4 py-2 border-b border-border text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
             {title}
           </figcaption>
         )}
@@ -91,7 +91,7 @@ export function MermaidRenderer({ code, title }: { code: string; title?: string 
       style={{ borderRadius: '2px' }}
     >
       {title && (
-        <figcaption className="mermaid-block__title px-4 py-2 border-b border-border text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
+        <figcaption className="mermaid-block__title px-4 py-2 border-b border-border text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
           {title}
         </figcaption>
       )}

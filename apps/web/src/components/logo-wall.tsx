@@ -280,7 +280,7 @@ export function LogoWall() {
                               <img src={item.logo} loading="lazy" alt={item.name} className={`logo-wall__logo-img ${item.name !== 'ATOM' ? 'logo-wall__logo-img--invertable' : ''}`} />
                             )}
                             {item.city && (
-                              <span className="inline-block px-2.5 py-1 text-[10px] font-bold font-accent uppercase tracking-widest bg-primary text-primary-foreground">
+                              <span className="inline-block px-2.5 py-1 text-[11px] font-bold font-accent uppercase tracking-widest bg-primary text-primary-foreground">
                                 {item.city}
                               </span>
                             )}

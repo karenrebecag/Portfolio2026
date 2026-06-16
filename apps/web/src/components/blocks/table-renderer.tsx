@@ -48,7 +48,7 @@ function CellValue({ value }: { value: string }) {
     return (
       <span className="inline-flex items-center gap-2 min-w-0">
         <ColorSwatch hex={hex} large />
-        <code className="text-[10px] font-accent text-muted-foreground uppercase tracking-wide">{hex}</code>
+        <code className="text-[11px] font-accent text-muted-foreground uppercase tracking-wide">{hex}</code>
       </span>
     )
   }
@@ -74,7 +74,7 @@ export function TableRenderer({
                 {headers.map((h, i) => (
                   <th
                     key={i}
-                    className="px-4 py-2.5 text-left text-[10px] font-bold uppercase tracking-widest font-accent text-muted-foreground whitespace-nowrap border-b border-border"
+                    className="px-4 py-2.5 text-left text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground whitespace-nowrap border-b border-border"
                   >
                     <ArticleInlineContent value={h.label} />
                   </th>

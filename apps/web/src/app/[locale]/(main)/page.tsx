@@ -125,7 +125,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
             {/* Bullets */}
             <div className="col-span-8 md:col-span-8">
-              <ul className="space-y-2 text-xs leading-relaxed opacity-75">
+              <ul className="space-y-2 text-sm leading-relaxed opacity-75">
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
                   {t('hero.bullet_1')}
@@ -192,7 +192,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
         <Container className="relative z-[1]">
           {/* Eyebrow */}
-          <p className="text-[10px] font-bold uppercase tracking-widest font-accent text-white/40">
+          <p className="text-[11px] font-bold uppercase tracking-widest font-accent text-white/40">
             {t('about.eyebrow')}
           </p>
 
