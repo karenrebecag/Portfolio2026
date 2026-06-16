@@ -55,6 +55,12 @@ import {
   salesforceAtfxMcpMarkdown_en,
   salesforceAtfxMcpMarkdown_es,
 } from '@/content/projects/salesforce-atfx-mcp'
+import {
+  atfxFormsElementorMeta,
+  atfxFormsElementorI18n,
+  atfxFormsElementorMarkdown_en,
+  atfxFormsElementorMarkdown_es,
+} from '@/content/projects/atfx-forms-elementor'
 import { parseMarkdown } from '@/lib/markdown-to-lexical'
 import type { Project } from '@karen-portfolio/shared'
 import type { Block } from '@/components/blocks/types'
@@ -102,9 +108,30 @@ const mariaLuisaParsed_en = parseMarkdown(mariaLuisaDeMateoJamstackMarkdown_en)
 const mariaLuisaParsed_es = parseMarkdown(mariaLuisaDeMateoJamstackMarkdown_es)
 const salesforceAtfxMcpParsed_en = parseMarkdown(salesforceAtfxMcpMarkdown_en)
 const salesforceAtfxMcpParsed_es = parseMarkdown(salesforceAtfxMcpMarkdown_es)
+const atfxFormsElementorParsed_en = parseMarkdown(atfxFormsElementorMarkdown_en)
+const atfxFormsElementorParsed_es = parseMarkdown(atfxFormsElementorMarkdown_es)
 
 export const PLACEHOLDER_PROJECTS: PlaceholderProject[] = [
   // Long-form articles first (home links to /articulos/…)
+  {
+    ...atfxFormsElementorMeta,
+    title: atfxFormsElementorI18n.en.title,
+    summary: atfxFormsElementorI18n.en.summary,
+    description: atfxFormsElementorParsed_en.lexical,
+    blocks: atfxFormsElementorParsed_en.blocks,
+    i18n: {
+      en: {
+        ...atfxFormsElementorI18n.en,
+        lexical: atfxFormsElementorParsed_en.lexical,
+        blocks: atfxFormsElementorParsed_en.blocks,
+      },
+      es: {
+        ...atfxFormsElementorI18n.es,
+        lexical: atfxFormsElementorParsed_es.lexical,
+        blocks: atfxFormsElementorParsed_es.blocks,
+      },
+    },
+  },
   {
     ...salesforceAtfxMcpMeta,
     title: salesforceAtfxMcpI18n.en.title,

@@ -1,5 +1,9 @@
 /** One-line impact outcome shown under each project on the home list (EN/ES). */
 export const PROJECT_OUTCOMES: Record<string, { en: string; es: string }> = {
+  'forms-that-feed-the-pipeline': {
+    en: 'Elementor keeps the HTML; a versioned CDN library owns validation, attribution, and the Salesforce handoff. 5,827 real leads in 90 days across ~10 LATAM markets, webinar the top source, ~91% with UTM attribution.',
+    es: 'Elementor conserva el HTML; una librería versionada en CDN posee validación, atribución y el handoff a Salesforce. 5,827 leads reales en 90 días en ~10 mercados de LATAM, webinar como fuente principal, ~91% con atribución UTM.',
+  },
   'salesforce-connector-without-admin-access': {
     en: 'Non-technical teams query a regulated brokerage’s Salesforce in plain language, with no new credential and read-only by construction. Reports that took two days now take minutes.',
     es: 'Equipos no técnicos consultan el Salesforce de un broker regulado en lenguaje natural, sin credencial nueva y read-only por construcción. Reportes que tomaban dos días ahora toman minutos.',
