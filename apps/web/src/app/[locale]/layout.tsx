@@ -20,6 +20,7 @@ import { PageTransition } from '@/components/page-transition'
 import { NavigationProvider } from '@/components/navigation-provider'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from '@/components/ui/sonner'
+import { IconButton } from '@/components/ui/icon-button'
 import { routing } from '@/i18n/routing'
 import { SITE_URL, ogLocale, localizedPath } from '@/lib/seo'
 import {
@@ -181,6 +182,19 @@ export default async function LocaleLayout({
             </NavigationProvider>
           </LenisProvider>
           <Toaster />
+          <div className="fixed bottom-6 right-6 z-[1100]">
+            <IconButton
+              href="https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              icon={
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M20.9 20.9H17.166V15.053C17.166 13.659 17.138 11.865 15.222 11.865C13.277 11.865 12.98 13.382 12.98 14.95V20.9H9.249V8.87699H12.833V10.516H12.881C13.2402 9.90278 13.7588 9.39838 14.3818 9.05643C15.0048 8.71447 15.7088 8.54775 16.419 8.57399C20.199 8.57399 20.898 11.062 20.898 14.3V20.9H20.9ZM5.036 7.23199C4.60732 7.23259 4.1881 7.10603 3.83137 6.86832C3.47463 6.63061 3.19641 6.29244 3.03191 5.89658C2.8674 5.50072 2.824 5.06497 2.9072 4.64444C2.99039 4.22392 3.19644 3.83751 3.49928 3.53411C3.80212 3.23071 4.18815 3.02395 4.60852 2.93998C5.02889 2.85601 5.46473 2.8986 5.86089 3.06237C6.25705 3.22615 6.59573 3.50374 6.8341 3.86003C7.07246 4.21633 7.1998 4.63532 7.2 5.06399C7.20039 5.34847 7.14472 5.63024 7.03615 5.89319C6.92759 6.15615 6.76827 6.39512 6.5673 6.59647C6.36633 6.79781 6.12764 6.95757 5.86489 7.06662C5.60214 7.17567 5.32048 7.23186 5.036 7.23199ZM6.906 20.9H3.165V8.87699H6.906V20.9Z"/>
+                </svg>
+              }
+            />
+          </div>
         </NextIntlClientProvider>
         <Analytics />
       </body>

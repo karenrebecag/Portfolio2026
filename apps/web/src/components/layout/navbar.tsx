@@ -30,6 +30,7 @@ export function Navbar() {
   const isOpenRef = useRef(false)
   const enterEndTimeRef = useRef(0)
   const scrollStateRef = useRef<NavbarScrollState>({ headerVisible: true, lastScrollY: 0 })
+  const vignetteRef = useRef<HTMLDivElement>(null)
 
   const NAV_LINKS = [
     { href: '/', label: t('home'), active: true },
@@ -197,6 +198,7 @@ export function Navbar() {
         isOpenRef.current,
         lenis,
       )
+      vignetteRef.current?.classList.toggle('is--scrolled', lenis.scroll > 0)
     }
 
     const onNavigateComplete = () => {
@@ -232,6 +234,7 @@ export function Navbar() {
 
   return (
     <div className="underlay-nav">
+      <div ref={vignetteRef} className="nav-vignette" aria-hidden="true" />
       <header className="underlay-nav__header" data-theme-nav>
         <div data-nav-bar-height className="underlay-nav__bar">
             <div className="underlay-nav__container">

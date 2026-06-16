@@ -17,12 +17,12 @@ export function Footer() {
       <Container className="px-4 lg:px-6 pt-20 pb-10">
         {/* Top: tagline + year */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:gap-8">
-          <div className="flex-1 text-[2.75rem] leading-[1] font-[900] tracking-tighter text-balance md:text-[6vw]">
+          <div className="flex-1 font-display text-[2.75rem] leading-[1] font-bold tracking-tighter text-balance md:text-[6vw]">
             <p data-split="heading" data-split-reveal="words">{t('tagline_1')}</p>
             <p data-split="heading" data-split-reveal="words" className="text-surface-foreground/40">{t('tagline_2')}</p>
           </div>
           <div>
-            <p className="text-[45vw] leading-[1] font-[900] tracking-tighter md:text-[12.75vw]">&copy;26</p>
+            <p className="font-display text-[45vw] leading-[1] font-bold tracking-tighter md:text-[12.75vw]">&copy;26</p>
           </div>
         </div>
 
