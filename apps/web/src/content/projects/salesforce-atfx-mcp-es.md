@@ -172,10 +172,10 @@ flowchart TB
   end
 ```
 
-## Qué volvería a hacer (y qué estoy afinando)
+## Las decisiones que lo sostienen
 
-> **En pocas palabras:** Las decisiones que hicieron de esto una pieza de ingeniería considerada y no un atajo ingenioso.
-**Volvería a hacer:**
+> **En pocas palabras:** Las elecciones sobre las que descansa el diseño, y el trabajo que falta.
+Cinco decisiones sostienen la arquitectura:
 
 - Entregar dentro del modelo de seguridad, no alrededor de él. ==Reutilizar un grant sancionado le ganó a adquirir uno nuevo,== aun cuando un Connected App nuevo habría sido la receta más rápida.
 - Cero credencial nueva, cero secreto nuevo en la app. La superficie de credencial más chica es ninguna superficie de credencial.
@@ -183,7 +183,7 @@ flowchart TB
 - Read-only y un allow-list de solo SELECT en el límite de la herramienta, para que la contención se sostuviera aun para un usuario válido y autenticado.
 - Un recurso de schema curado sobre `describe` crudo: menos contexto, menos alucinaciones, mejores respuestas.
 
-**Afinando lo siguiente:**
+En el roadmap:
 
 - Identidad por usuario en Salesforce y auditoría por usuario del lado de la org en cuanto un Connected App pueda aprovisionarse por control de cambios, lo único que la sesión de servicio compartida todavía cede.
 - Guardas de costo de query (límites de filas y timeouts ya están; topes de gasto siguen) para que un agregado caro no degrade el servicio.

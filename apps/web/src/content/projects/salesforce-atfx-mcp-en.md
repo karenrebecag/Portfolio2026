@@ -172,10 +172,10 @@ flowchart TB
   end
 ```
 
-## What I'd do again (and what I'm tightening)
+## The load-bearing decisions
 
-> **In plain terms:** The decisions that made this considered engineering rather than a clever bypass.
-**Would repeat:**
+> **In plain terms:** The choices the design rests on, and the work still ahead.
+Five decisions carry the architecture:
 
 - Deliver inside the security model, not around it. ==Reusing a sanctioned grant beat acquiring a new one,== even when a new Connected App would have been the faster recipe.
 - No new credential, no new secret in the app. The smallest credential surface is no credential surface.
@@ -183,7 +183,7 @@ flowchart TB
 - Read-only and a SELECT-only allow-list at the tool boundary, so containment held even for a valid, authenticated user.
 - A curated schema resource over raw `describe`: less context, fewer hallucinations, better answers.
 
-**Tightening next:**
+On the roadmap:
 
 - Per-user Salesforce identity and org-side per-user audit the moment a Connected App can be provisioned through change control, the one thing the shared service session still gives up.
 - Query-cost guards (row caps and timeouts are in; spend caps next) so an expensive aggregate can't degrade the service.
