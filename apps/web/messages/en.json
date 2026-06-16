@@ -37,10 +37,13 @@
     "bullet_1": "Web architecture and development with Next.js, Astro, TypeScript, and decoupled stacks.",
     "bullet_2": "Token-first design systems and npm libraries for distributed product teams.",
     "bullet_3": "AI integrations (MCP servers, LLMs, automation) that enable non-technical teams.",
-    "cta": "Let's talk about your product",
-    "cta_button": "Book a call",
+    "cta_button": "Tell me about your project",
     "cta_secondary": "Read more about me",
-    "subcopy": "Open to freelance and full-time roles in product engineering."
+    "availability": {
+      "freelance": "Available for freelance",
+      "remote": "Full-time remote",
+      "relocation": "Relocation: Canada, Norway & Japan"
+    }
   },
   "statement": {
     "text": "From architecture to the last pixel."
@@ -212,13 +215,13 @@
   },
   "footer": {
     "name": "Karen Ortiz",
-    "tagline_1": "Built to ship.",
-    "tagline_2": "Designed to last.",
-    "bio": "Software Engineer focused on Product Engineering & Web Experiences. I design systems, components, and agents that connect UX, infrastructure, and AI into production-ready products.",
+    "tagline_1": "From architecture",
+    "tagline_2": "to the last pixel.",
+    "bio": "Good products aren't shipped, they're tuned until they feel inevitable.",
     "rights": "All rights reserved",
     "location": "CDMX",
     "cta": "Tell me about your project",
-    "location_remote": "Remote worldwide",
+    "location_remote": "Remote worldwide · open to relocation",
     "built_by": "Designed & built by Karen Ortiz",
     "stack": "Next.js + GSAP + Tailwind"
   },
