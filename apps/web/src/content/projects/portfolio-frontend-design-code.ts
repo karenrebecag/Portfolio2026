@@ -38,16 +38,16 @@ export const portfolioFrontendDesignCodeI18n = {
   en: {
     title: 'Design Meets Code | How This Portfolio Is Built',
     summary:
-      'A product engineer portfolio is still a product—not a theme with your photo swapped in.',
+      'A product engineer portfolio is still a product, not a theme with your photo swapped in.',
     description:
-      'Most portfolios look polished and say almost nothing about how you think—or they document the stack without showing judgment. I built this site to do both: long essays on the same pipeline you are reading now, motion that still works after you hit back, and hard rules about what ships before the button hover gets a third week of polish.',
+      'Most portfolios look polished and say almost nothing about how you think, or they document the stack without showing judgment. I built this site to do both: long essays on the same pipeline you are reading now, motion that still works after you hit back, and hard rules about what ships before the button hover gets a third week of polish.',
   },
   es: {
     title: 'Diseño y código | Cómo está construido este portfolio',
     summary:
-      'Un portfolio de product engineer sigue siendo un producto—no un theme con tu foto cambiada.',
+      'Un portfolio de product engineer sigue siendo un producto, no un theme con tu foto cambiada.',
     description:
-      'La mayoría de portfolios se ven pulidos y no dicen casi nada sobre cómo piensas — o documentan el stack sin demostrar criterio. Construí este sitio para hacer las dos cosas: ensayos largos en el mismo pipeline que estás leyendo, motion que sigue funcionando después de dar atrás, y reglas claras sobre qué publicar antes de pulir el hover del botón por tercera semana.',
+      'La mayoría de portfolios se ven pulidos y no dicen casi nada sobre cómo piensas, o documentan el stack sin demostrar criterio. Construí este sitio para hacer las dos cosas: ensayos largos en el mismo pipeline que estás leyendo, motion que sigue funcionando después de dar atrás, y reglas claras sobre qué publicar antes de pulir el hover del botón por tercera semana.',
   },
 }
 

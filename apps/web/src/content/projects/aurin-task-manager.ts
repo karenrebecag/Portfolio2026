@@ -38,12 +38,12 @@ export const aurinTaskManagerI18n = {
   en: {
     title: 'Aurin Task Manager | One Hub for Remote-First Agency Ops',
     summary:
-      'A distributed agency cannot run on spreadsheet handoffs and scattered Slack threads. I led UX engineering on Aurin’s internal platform—Kanban and table views, per-task chat with Gemini summaries, time tracking, client share links, and an n8n assistant for natural-language task control. The essay walks through why real-time Firestore beat “another Notion,” how modular Next.js scaled to 15+ feature modules, and what changed when remote-first became the default—not the exception.',
+      'A distributed agency cannot run on spreadsheet handoffs and scattered Slack threads. I led UX engineering on Aurin’s internal platform: Kanban and table views, per-task chat with Gemini summaries, time tracking, client share links, and an n8n assistant for natural-language task control. The essay walks through why real-time Firestore beat “another Notion,” how modular Next.js scaled to 15+ feature modules, and what changed when remote-first became the default, not the exception.',
   },
   es: {
     title: 'Aurin Task Manager | Un hub para operar una agencia remote-first',
     summary:
-      'Una agencia distribuida no puede operar con spreadsheets y hilos sueltos en Slack. Lideré UX engineering en la plataforma interna de Aurin—vistas Kanban y tabla, chat por tarea con resúmenes Gemini, time tracking, enlaces públicos para clientes y asistente n8n en lenguaje natural. El ensayo recorre por qué Firestore en tiempo real ganó a “otro Notion,” cómo un Next.js modular escaló a 15+ módulos de features, y qué cambió cuando remote-first dejó de ser excepción.',
+      'Una agencia distribuida no puede operar con spreadsheets y hilos sueltos en Slack. Lideré UX engineering en la plataforma interna de Aurin: vistas Kanban y tabla, chat por tarea con resúmenes Gemini, time tracking, enlaces públicos para clientes y asistente n8n en lenguaje natural. El ensayo recorre por qué Firestore en tiempo real ganó a “otro Notion,” cómo un Next.js modular escaló a 15+ módulos de features, y qué cambió cuando remote-first dejó de ser excepción.',
   },
 }
 

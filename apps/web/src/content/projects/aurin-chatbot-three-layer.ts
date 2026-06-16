@@ -37,12 +37,12 @@ export const aurinChatbotThreeLayerI18n = {
   en: {
     title: 'A Conversational Agent | on a Three-Layer Stack You Own',
     summary:
-      'Third-party chat widgets are fast to install, but bookings and customer data often live in someone else\'s dashboard—not on your calendar or CRM. I built an on-brand assistant for a bilingual services site where conversations and scheduling stay under the team\'s control. You will see why that split matters for trust and operations, and what improved in practice: fewer surprises when copy changes, and meetings that actually land on the company calendar instead of a vendor inbox.',
+      'Third-party chat widgets are fast to install, but bookings and customer data often live in someone else\'s dashboard, not on your calendar or CRM. I built an on-brand assistant for a bilingual services site where conversations and scheduling stay under the team\'s control. You will see why that split matters for trust and operations, and what improved in practice: fewer surprises when copy changes, and meetings that actually land on the company calendar instead of a vendor inbox.',
   },
   es: {
     title: 'Un agente conversacional | en un stack de tres capas propio',
     summary:
-      'Los chats de terceros se instalan rápido, pero las reservas y los datos del cliente suelen quedarse en el panel de otro proveedor—no en tu calendario ni en tu CRM. Construí un asistente alineado a la marca para un sitio de servicios bilingüe donde conversación y agendamiento siguen bajo control del equipo. Verás por qué ese reparto importa para confianza y operación, y qué mejoró en la práctica: menos sorpresas cuando cambia el copy, y reuniones que caen en el calendario de la empresa y no en la bandeja de un SaaS.',
+      'Los chats de terceros se instalan rápido, pero las reservas y los datos del cliente suelen quedarse en el panel de otro proveedor, no en tu calendario ni en tu CRM. Construí un asistente alineado a la marca para un sitio de servicios bilingüe donde conversación y agendamiento siguen bajo control del equipo. Verás por qué ese reparto importa para confianza y operación, y qué mejoró en la práctica: menos sorpresas cuando cambia el copy, y reuniones que caen en el calendario de la empresa y no en la bandeja de un SaaS.',
   },
 }
 

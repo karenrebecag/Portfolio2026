@@ -37,7 +37,7 @@ export const decoupledOwnershipPlatformsI18n = {
   en: {
     title: 'Decoupled Architecture by Ownership | A Field Guide for Engineers',
     summary:
-      'The wrong architecture meeting asks "which framework?" The useful one asks who must change what without breaking the rest. This guide is for leaders and senior engineers planning products where marketing or education must publish often, while payments and privacy stay under engineering control. You will see how to draw boundaries so a headline change does not accidentally touch checkout or audit evidence—with examples from a live marketing site and a regulated learning proposal.',
+      'The wrong architecture meeting asks "which framework?" The useful one asks who must change what without breaking the rest. This guide is for leaders and senior engineers planning products where marketing or education must publish often, while payments and privacy stay under engineering control. You will see how to draw boundaries so a headline change does not accidentally touch checkout or audit evidence, with examples from a live marketing site and a regulated learning proposal.',
   },
   es: {
     title: 'Arquitectura desacoplada por ownership | Guía para ingeniería',
