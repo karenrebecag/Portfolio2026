@@ -1650,6 +1650,11 @@ mark[data-highlight] {
   opacity: 0.1;
 }
 
+/* Mega-menu open: fade the vignette out; it restores on close (top0). */
+body[data-menu-status='open'] .nav-vignette {
+  opacity: 0;
+}
+
 /* -- Underlay Navigation (OSMO original) -- */
 :root {
   --menu-width: 30em;
@@ -1696,6 +1701,70 @@ body[data-section-theme='dark'] .underlay-nav__header {
   display: flex;
   text-decoration: none;
   color: inherit;
+  position: relative;
+}
+
+/* -- Logo dual-icon (OSMO top0/!top0): text at top, k-mark on scroll -- */
+.underlay-nav__logo-text {
+  display: inline-block;
+  transition: opacity 0.4s cubic-bezier(0.625, 0.05, 0, 1),
+    transform 0.4s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+.underlay-nav__logo-mark {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1.7em;
+  height: 1.7em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.6);
+  transition: opacity 0.4s cubic-bezier(0.625, 0.05, 0, 1),
+    transform 0.4s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+.underlay-nav__logo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+/* Theme selection: white k on dark sections (default), dark k on light. */
+.underlay-nav__logo-img.is--on-dark {
+  opacity: 1;
+}
+
+body[data-section-theme='light'] .underlay-nav__logo-img.is--on-dark {
+  opacity: 0;
+}
+
+body[data-section-theme='light'] .underlay-nav__logo-img.is--on-light {
+  opacity: 1;
+}
+
+/* Scrolled: text slides out, k-mark scales in. */
+.underlay-nav__header.is--scrolled .underlay-nav__logo-text {
+  opacity: 0;
+  transform: translateY(-120%);
+}
+
+.underlay-nav__header.is--scrolled .underlay-nav__logo-mark {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .underlay-nav__logo-text,
+  .underlay-nav__logo-mark,
+  .underlay-nav__logo-img {
+    transition: none;
+  }
 }
 
 .underlay-nav__toggle {

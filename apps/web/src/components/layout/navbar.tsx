@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useCallback } from 'react'
 import gsap from 'gsap'
-import { Link } from '@/i18n/navigation'
+import { Link, usePathname } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LocaleToggle } from '@/components/locale-toggle'
@@ -23,6 +23,10 @@ const SOCIAL_LINKS = [
 ]
 
 export function Navbar() {
+  // Vignette only on pages with a photographic hero banner (home, about);
+  // not on articles or case studies, which have no photo to add contrast over.
+  const pathname = usePathname()
+  const showVignette = pathname === '/' || pathname === '/about'
   const t = useTranslations('nav')
   const common = useTranslations('common')
   const toggleRef = useRef<HTMLButtonElement>(null)
@@ -155,7 +159,7 @@ export function Navbar() {
       .to(corners, { scale: 0, duration: 0.5 }, '<')
       .to(overlayBorders[0], { yPercent: -100, duration: 0.5 }, '<')
       .to(overlayBorders[1], { yPercent: 100, duration: 0.5 }, '<')
-      .to(btn, { color: () => getComputedStyle(document.documentElement).getPropertyValue('--foreground').trim() || '#fff', duration: 0.25 }, '<+=0.1')
+      .to(btn, { color: () => { const h = getNavbarHeader(); return h ? getComputedStyle(h).color : '#fff' }, duration: 0.25 }, '<+=0.1')
       .to(toggleLabels, { yPercent: 0, duration: 0.25, ease: 'power3.in' }, '<')
       .to(toggleBars, { y: 0, rotation: 0, duration: 0.25, ease: 'power3.in' }, '<')
 
@@ -164,6 +168,12 @@ export function Navbar() {
     }
 
     tl.set(overlayEl, { visibility: 'hidden', pointerEvents: 'none' })
+
+    // Once closed (forward play or reverse), drop the inline color so the toggle
+    // falls back to `color: inherit` and tracks the section theme again.
+    const restoreToggleColor = () => gsap.set(btn, { clearProps: 'color' })
+    tl.eventCallback('onComplete', restoreToggleColor)
+    tl.eventCallback('onReverseComplete', restoreToggleColor)
 
     tlRef.current = tl
 
@@ -234,12 +244,16 @@ export function Navbar() {
 
   return (
     <div className="underlay-nav">
-      <div ref={vignetteRef} className="nav-vignette" aria-hidden="true" />
+      {showVignette && <div ref={vignetteRef} className="nav-vignette" aria-hidden="true" />}
       <header className="underlay-nav__header" data-theme-nav>
         <div data-nav-bar-height className="underlay-nav__bar">
             <div className="underlay-nav__container">
-            <Link href="/" className="underlay-nav__logo font-display font-bold uppercase tracking-tight">
-              Karen Ortiz
+            <Link href="/" aria-label="Karen Ortiz" className="underlay-nav__logo font-display font-bold uppercase tracking-tight">
+              <span className="underlay-nav__logo-text">Karen Ortiz</span>
+              <span className="underlay-nav__logo-mark" aria-hidden="true">
+                <img src="/Icons/k-white.webp" alt="" className="underlay-nav__logo-img is--on-dark" />
+                <img src="/Icons/k-dark.webp" alt="" className="underlay-nav__logo-img is--on-light" />
+              </span>
             </Link>
             <div className="flex items-center gap-5">
               <LocaleToggle />
