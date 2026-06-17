@@ -22,7 +22,7 @@ export function WhySection() {
       data-llm-context="capabilities-offerings"
       data-theme-section="dark"
       data-reveal-group
-      className="relative bg-surface text-surface-foreground py-40"
+      className="relative bg-surface text-surface-foreground py-40 lg:py-56"
     >
       <div data-sticker-bounds className="relative">
       <DraggableStickers stickers={STICKERS} />

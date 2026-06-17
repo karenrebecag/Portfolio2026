@@ -17,6 +17,7 @@ import { Container } from '@/components/ui/container'
 import { WhySection } from '@/components/why-section'
 import { ProjectsSection } from '@/components/projects-section'
 import { ContactSection } from '@/components/contact-section'
+import { GridGuides } from '@/components/ui/grid-guides'
 import { Pill } from '@/components/ui/pill'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { getLocalizedProject } from '@/lib/project-i18n'
@@ -73,7 +74,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         data-semantic-role="hero"
         data-llm-context="introduction-value-proposition"
         data-theme-section="dark"
-        className="relative min-h-[70vh] md:min-h-[85vh] lg:min-h-[95vh] px-4 lg:px-6 pt-20 overflow-hidden flex flex-col justify-end text-white"
+        className="relative min-h-[90vh] md:min-h-dvh px-4 lg:px-6 pt-20 overflow-hidden flex flex-col justify-end text-white"
       >
         <div
           data-parallax="trigger"
@@ -86,6 +87,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
         {/* 1. Stronger gradient -- covers bottom 60% for text legibility */}
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/20 via-black/30 via-40% to-transparent" />
+        <GridGuides className="z-0" />
 
         <Container className="relative z-[1] mb-6">
           {/* Name */}
@@ -199,7 +201,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         data-llm-context="professional-background-expertise"
         data-theme-section="dark"
         data-reveal-group
-        className="relative px-4 lg:px-6 py-40 scroll-mt-20 text-white overflow-hidden"
+        className="relative px-4 lg:px-6 py-40 lg:py-56 scroll-mt-20 text-white overflow-hidden"
       >
         {/* Background image -- parallax */}
         <div
@@ -212,6 +214,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <HeroParallaxBg src={HERO_IMAGES.homeAboutSection} objectPosition="top" />
         </div>
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/20 via-black/30 via-40% to-transparent" />
+        <GridGuides className="z-0" />
 
         <Container className="relative z-[1]">
           {/* Eyebrow */}

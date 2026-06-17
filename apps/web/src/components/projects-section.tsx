@@ -106,7 +106,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
       data-llm-context="work-examples-case-studies"
       data-theme-section="light"
       data-reveal-group
-      className="px-4 lg:px-6 py-40 scroll-mt-20"
+      className="px-4 lg:px-6 py-40 lg:py-56 scroll-mt-20"
     >
       <Container>
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-10">

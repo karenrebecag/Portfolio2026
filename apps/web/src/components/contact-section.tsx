@@ -36,7 +36,7 @@ export async function ContactSection() {
       data-llm-context="contact-availability"
       data-theme-section="dark"
       data-reveal-group
-      className="bg-surface text-surface-foreground py-40 scroll-mt-20 overflow-hidden"
+      className="bg-surface text-surface-foreground py-40 lg:py-56 scroll-mt-20 overflow-hidden"
     >
       <Container className="px-4 lg:px-6">
         <div className="flex flex-col gap-16 md:grid md:grid-cols-12">
