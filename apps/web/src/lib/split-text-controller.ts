@@ -7,9 +7,9 @@ gsap.registerPlugin(ScrollTrigger, SplitText)
 export type SplitRevealType = 'lines' | 'words' | 'chars'
 
 const splitConfig = {
-  lines: { duration: 0.8, stagger: 0.08 },
-  words: { duration: 0.6, stagger: 0.06 },
-  chars: { duration: 0.4, stagger: 0.01 },
+  lines: { duration: 0.8, stagger: 0.08, rotate: 8 },
+  words: { duration: 0.6, stagger: 0.06, rotate: 6 },
+  chars: { duration: 0.4, stagger: 0.01, rotate: 4 },
 } as const
 
 type ManagedHeadingSplit = {
@@ -97,6 +97,8 @@ function mountHeadingSplit(heading: HTMLElement) {
       if (trigger === 'mount') {
         gsap.from(targets, {
           yPercent: 110,
+          rotate: config.rotate,
+          transformOrigin: '0% 100%',
           duration: config.duration,
           stagger: config.stagger,
           ease: 'expo.out',
@@ -106,6 +108,8 @@ function mountHeadingSplit(heading: HTMLElement) {
 
       const tween = gsap.from(targets, {
         yPercent: 110,
+        rotate: config.rotate,
+        transformOrigin: '0% 100%',
         duration: config.duration,
         stagger: config.stagger,
         ease: 'expo.out',
@@ -133,6 +137,7 @@ function mountHeadingSplit(heading: HTMLElement) {
         gsap.killTweensOf(targets)
         gsap.to(targets, {
           yPercent: 0,
+          rotate: 0,
           duration: config.duration,
           stagger: config.stagger,
           ease: 'expo.out',

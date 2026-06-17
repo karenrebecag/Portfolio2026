@@ -42,8 +42,8 @@ function initContentRevealScroll(revealMode: RevealMode) {
       const groupStaggerSec = (parseFloat(groupEl.getAttribute('data-stagger') || '100')) / 1000
       const groupDistance = groupEl.getAttribute('data-distance') || '2em'
       const triggerStart = clampScrollPosition(groupEl.getAttribute('data-start') ?? '')
-      const animDuration = 0.8
-      const animEase = 'power4.inOut'
+      const animDuration = 0.9
+      const animEase = 'expo.out'
 
       if (prefersReduced) {
         gsap.set(groupEl, { clearProps: 'all', y: 0, autoAlpha: 1 })

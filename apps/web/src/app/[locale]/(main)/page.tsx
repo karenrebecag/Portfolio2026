@@ -99,9 +99,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="mb-8 h-[5px] w-full bg-current" />
 
           {/* Hero content grid */}
-          <div className="mb-10 grid grid-cols-8 gap-x-6 gap-y-8 md:grid-cols-16 md:gap-6">
-            {/* Title */}
-            <div className="col-span-8 md:col-span-10">
+          <div data-reveal-group data-stagger="90" data-distance="1.5em" className="mb-10 grid grid-cols-8 gap-x-6 gap-y-8 md:grid-cols-16 md:gap-6">
+            {/* Title -- split handles its own entrance, skip reveal-group */}
+            <div data-ignore="true" className="col-span-8 md:col-span-10">
               <h2 data-split="heading" data-split-reveal="lines" data-split-trigger="mount" className="text-xl sm:text-2xl font-semibold leading-snug tracking-tight">
                 {t('hero.title')}
               </h2>
