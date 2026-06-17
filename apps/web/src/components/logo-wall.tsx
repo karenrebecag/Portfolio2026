@@ -280,7 +280,7 @@ export function LogoWall() {
                               <img src={item.logo} loading="lazy" alt={item.name} className={`logo-wall__logo-img ${item.name !== 'ATOM' ? 'logo-wall__logo-img--invertable' : ''}`} />
                             )}
                             {item.city && (
-                              <span className="inline-block px-2.5 py-1 text-[11px] font-bold font-accent uppercase tracking-widest bg-primary text-primary-foreground">
+                              <span className="inline-block px-2.5 py-1 text-2xs font-bold font-accent uppercase tracking-widest bg-primary text-primary-foreground">
                                 {item.city}
                               </span>
                             )}
@@ -290,7 +290,7 @@ export function LogoWall() {
                             <p className="text-sm leading-relaxed text-foreground/70 italic">&ldquo;{item.quote}&rdquo;</p>
                             <div className="mt-4">
                               <span className="block text-sm font-bold text-foreground">{item.author}</span>
-                              <span className="block text-[11px] font-accent text-muted-foreground mt-0.5">{item.role}</span>
+                              <span className="block text-2xs font-accent text-muted-foreground mt-0.5">{item.role}</span>
                             </div>
                           </div>
                         )}
@@ -310,7 +310,7 @@ export function LogoWall() {
               <p className="text-sm leading-relaxed text-foreground/70 italic">&ldquo;{item.quote}&rdquo;</p>
               <div className="mt-4">
                 <span className="block text-sm font-bold text-foreground">{item.author}</span>
-                <span className="block text-[11px] font-accent text-muted-foreground mt-0.5">{item.role}</span>
+                <span className="block text-2xs font-accent text-muted-foreground mt-0.5">{item.role}</span>
               </div>
             </div>
           ))}

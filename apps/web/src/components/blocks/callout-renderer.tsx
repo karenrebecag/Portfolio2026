@@ -28,7 +28,7 @@ export function CalloutRenderer({
       className="my-6 border-l-2 bg-muted/50 px-5 py-4"
       style={{ borderColor: config.accent }}
     >
-      <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">
+      <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">
         {heading}
       </span>
       <div className="mt-1 space-y-2 text-sm leading-relaxed">

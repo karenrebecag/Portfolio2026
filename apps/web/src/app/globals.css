@@ -36,6 +36,8 @@
     --radius-lg: 12px;
     --radius-xl: 16px;
     --radius-2xl: 24px;
+    --text-2xs: 0.6875rem; /* 11px at 16px root — scales with html font-size */
+    --text-2xs--line-height: 1rem;
 }
 
 /* -- Portfolio colors (light) -- */
@@ -143,7 +145,7 @@
 /* -- Base -- */
 @layer base {
   html {
-    font-size: 106.25%; /* 17px — scale up from browser default 16px */
+    font-size: clamp(14px, 0.5vw + 12.5px, 16px); /* fluid 14px→16px, base 16px from ~700px */
   }
   html, body {
     overflow-x: clip;

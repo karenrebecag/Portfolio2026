@@ -184,7 +184,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           data-start="top 82%"
           className="flex flex-col items-center text-center"
         >
-          <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('quote_eyebrow')}</span>
+          <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('quote_eyebrow')}</span>
           <ScrollHighlight>
             <p className="mt-10 font-display text-[clamp(1.75rem,4.5vw,4rem)] font-bold leading-[1.15] tracking-tight max-w-[22ch]">
               {t('quote_before')}<span data-highlight>{t('quote_hl_1')}</span>{t('quote_mid_1')}<span data-highlight>{t('quote_hl_2')}</span>{t('quote_mid_2')}<span data-highlight>{t('quote_hl_3')}</span>{t('quote_after')}
@@ -272,7 +272,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             data-stagger="100"
             data-start="top 88%"
           >
-            <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('albums_eyebrow')}</span>
+            <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('albums_eyebrow')}</span>
             <h2 className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight">{t('albums_heading')}</h2>
           </Container>
         </div>
@@ -304,7 +304,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div className="mt-16 mb-16 h-px w-full bg-border" />
 
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('experience_eyebrow')}</span>
+            <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('experience_eyebrow')}</span>
             <h2
               data-rotating-title
               data-step-duration="2.5"
@@ -324,8 +324,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 {/* Left col */}
                 <div className="md:col-span-3">
                   <p className="text-sm font-semibold"><span data-highlight>{item.company}</span></p>
-                  <span className="text-[11px] font-accent text-muted-foreground uppercase tracking-wide mt-1 block">{item.period}</span>
-                  <span className="text-[11px] font-accent text-muted-foreground/50 block">{item.location}</span>
+                  <span className="text-2xs font-accent text-muted-foreground uppercase tracking-wide mt-1 block">{item.period}</span>
+                  <span className="text-2xs font-accent text-muted-foreground/50 block">{item.location}</span>
                 </div>
                 {/* Right col */}
                 <div className="md:col-span-9">
@@ -353,7 +353,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         >
             {/* Volunteering */}
             <div className="md:col-span-7">
-              <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('volunteering_eyebrow')}</span>
+              <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('volunteering_eyebrow')}</span>
               <h2
                 data-rotating-title
                 data-step-duration="2.5"
@@ -370,7 +370,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   <div key={item.company} className={`py-6 ${idx < content.volunteering.length - 1 ? 'border-b border-border' : ''}`}>
                     <div className="flex items-baseline gap-2">
                       <p className="text-sm font-semibold"><span data-highlight>{item.company}</span></p>
-                      <span className="text-[11px] font-accent text-muted-foreground uppercase tracking-wide">{item.label}</span>
+                      <span className="text-2xs font-accent text-muted-foreground uppercase tracking-wide">{item.label}</span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">{item.title} / {item.period}</p>
                     <p className="mt-3 text-sm leading-[1.8] text-foreground/70">{item.text}</p>
@@ -382,17 +382,17 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {/* Education + Stack */}
             <div className="md:col-span-5">
               <div data-reveal-group-nested data-stagger="55" data-distance="1.25em">
-                <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('education_eyebrow')}</span>
+                <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('education_eyebrow')}</span>
                 {content.education.map((item, idx) => (
                   <p key={item} className={`text-sm leading-relaxed text-foreground/70 ${idx === 0 ? 'mt-6' : 'mt-3'}`}>{item}</p>
                 ))}
-                <span className="mt-16 block text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('stack_eyebrow')}</span>
+                <span className="mt-16 block text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('stack_eyebrow')}</span>
                 {Object.entries(content.stack).map(([category, tools], idx) => (
                   <div key={category} className={`space-y-2 ${idx === 0 ? 'mt-6' : 'mt-8'}`}>
-                    <span className="text-[11px] font-accent text-muted-foreground/60 uppercase tracking-wide">{category}</span>
+                    <span className="text-2xs font-accent text-muted-foreground/60 uppercase tracking-wide">{category}</span>
                     <div className="flex flex-wrap gap-1.5">
                       {tools.map((tech) => (
-                        <span key={tech} className="px-2.5 py-1 text-[11px] font-accent bg-secondary text-secondary-foreground">
+                        <span key={tech} className="px-2.5 py-1 text-2xs font-accent bg-secondary text-secondary-foreground">
                           {tech}
                         </span>
                       ))}

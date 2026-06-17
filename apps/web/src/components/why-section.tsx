@@ -29,7 +29,7 @@ export function WhySection() {
       <Container className="relative px-4 lg:px-6">
         {/* Pill */}
         <div className="text-center mb-8">
-          <span className="inline-block px-2 py-1 text-[11px] font-bold uppercase tracking-widest leading-none bg-[#fdf9ed] text-[#11221f] font-accent">
+          <span className="inline-block px-2 py-1 text-2xs font-bold uppercase tracking-widest leading-none bg-[#fdf9ed] text-[#11221f] font-accent">
             {t('pill')}
           </span>
         </div>
@@ -71,7 +71,7 @@ export function WhySection() {
       {/* Tools marquee -- inline with label */}
       <Container className="relative px-4 lg:px-6 mt-12">
         <div className="flex items-center gap-4">
-          <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-[#fdf9ed]/30 shrink-0 flex items-center gap-2">
+          <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[#fdf9ed]/30 shrink-0 flex items-center gap-2">
             {t('tools_label')} <ArrowRight className="w-3 h-3 inline" strokeWidth={1.5} />
           </span>
           <WhyToolsMarquee />
@@ -82,22 +82,22 @@ export function WhySection() {
       {/* Services table */}
       <Container className="relative px-4 lg:px-6 mt-20 pb-10">
         <div className="mb-6 flex items-center justify-between">
-          <span className="text-[11px] font-bold uppercase tracking-widest font-accent text-[#fdf9ed]/30">
+          <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[#fdf9ed]/30">
             {t('services_label')}
           </span>
-          <span className="text-[11px] font-accent text-[#fdf9ed]/20">01 — 06</span>
+          <span className="text-2xs font-accent text-[#fdf9ed]/20">01 — 06</span>
         </div>
         <div className="services-table">
           {([1, 2, 3, 4, 5, 6] as const).map((n) => (
             <div key={n} className="services-table__row">
               <div className="services-table__index">
-                <span className="text-[11px] font-accent text-[var(--plantation)]">{String(n).padStart(2, '0')}</span>
+                <span className="text-2xs font-accent text-[var(--plantation)]">{String(n).padStart(2, '0')}</span>
               </div>
               <div className="services-table__title">
                 <h3 className="text-sm font-semibold text-[#fdf9ed]">{t(`svc_${n}_title`)}</h3>
               </div>
               <div className="services-table__body">
-                <span className="text-[11px] font-accent tracking-wider text-[var(--plantation)]/60">{t(`svc_${n}_tags`)}</span>
+                <span className="text-2xs font-accent tracking-wider text-[var(--plantation)]/60">{t(`svc_${n}_tags`)}</span>
                 <p className="mt-1.5 text-sm leading-relaxed text-[#fdf9ed]/50">{t(`svc_${n}_body`)}</p>
               </div>
             </div>

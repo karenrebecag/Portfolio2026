@@ -120,7 +120,7 @@ export function ArticleTOC({
       {...tocWrapProps}
     >
       <aside ref={sidebarRef} className="toc-sidebar" aria-label={title}>
-        <p className="toc-sidebar__label text-[11px] font-bold uppercase tracking-widest font-accent text-white/40">
+        <p className="toc-sidebar__label text-2xs font-bold uppercase tracking-widest font-accent text-white/40">
           {title}
         </p>
         {readTimeMatch && readTimeLabel && (

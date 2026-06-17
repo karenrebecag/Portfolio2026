@@ -157,13 +157,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     <svg className="w-3 h-3 shrink-0" viewBox="0 0 640 640" fill="currentColor" aria-hidden="true">
                       <path d="M256 112L256 160L384 160L384 112C384 103.2 376.8 96 368 96L272 96C263.2 96 256 103.2 256 112zM224 160L224 112C224 85.5 245.5 64 272 64L368 64C394.5 64 416 85.5 416 112L416 160L512 160C547.3 160 576 188.7 576 224L576 480C576 515.3 547.3 544 512 544L128 544C92.7 544 64 515.3 64 480L64 224C64 188.7 92.7 160 128 160L224 160zM400 192L128 192C110.3 192 96 206.3 96 224L96 480C96 497.7 110.3 512 128 512L512 512C529.7 512 544 497.7 544 480L544 224C544 206.3 529.7 192 512 192L400 192z"/>
                     </svg>
-                    <span className="text-[11px] leading-none font-accent tracking-wide">{t('hero.availability.freelance')}</span>
+                    <span className="text-2xs leading-none font-accent tracking-wide">{t('hero.availability.freelance')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg className="w-3 h-3 shrink-0" viewBox="0 0 640 640" fill="currentColor" aria-hidden="true">
                       <path d="M544 256C579.3 256 608 284.7 608 320C608 355.3 579.3 384 544 384L439 384L267.8 570.8C264.8 574.1 260.5 576 256 576L176 576C170.9 576 166 573.5 163 569.4C160 565.3 159.2 559.9 160.8 555L217.8 384.1L159.7 384.1L100.5 458.1C97.5 461.9 92.9 464.1 88 464.1L40 464.1C35.1 464.1 30.4 461.8 27.4 457.9C24.4 454 23.3 449 24.5 444.2L55.5 320.1L24.5 196C23.3 191.2 24.4 186.2 27.4 182.3C30.4 178.4 35.1 176 40 176L88 176C92.9 176 97.5 178.2 100.5 182L159.7 256L217.8 256L160.8 85.1C159.2 80.2 160 74.9 163 70.7C166 66.5 170.9 64 176 64L256 64C260.5 64 264.8 65.9 267.8 69.2L439 256L544 256zM576 320C576 302.3 561.7 288 544 288L152 288C147.1 288 142.5 285.8 139.5 282L80.3 208L60.5 208L87.5 316.1C88.1 318.6 88.1 321.3 87.5 323.9L60.5 432L80.3 432L139.5 358C142.5 354.2 147.1 352 152 352L544 352C561.7 352 576 337.7 576 320zM395.6 384L251.5 384L198.2 544L249 544L395.7 384zM249 96L198.2 96L251.5 256L395.6 256L248.9 96z"/>
                     </svg>
-                    <span className="text-[11px] leading-none font-accent tracking-wide">{t('hero.availability.remote')}</span>
+                    <span className="text-2xs leading-none font-accent tracking-wide">{t('hero.availability.remote')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -173,7 +173,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                       <path d="M20 18C17.4703 16.937 14.743 16.4256 12 16.5C9.25702 16.4256 6.52971 16.937 4 18"/>
                       <path d="M4 6C6.52971 7.06302 9.25702 7.57439 12 7.5C14.743 7.57439 17.4703 7.06302 20 6"/>
                     </svg>
-                    <span className="text-[11px] leading-none font-accent tracking-wide">{t('hero.availability.relocation')}</span>
+                    <span className="text-2xs leading-none font-accent tracking-wide">{t('hero.availability.relocation')}</span>
                   </div>
                 </div>
               </div>
@@ -215,7 +215,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
         <Container className="relative z-[1]">
           {/* Eyebrow */}
-          <p className="text-[11px] font-bold uppercase tracking-widest font-accent text-white/40">
+          <p className="text-2xs font-bold uppercase tracking-widest font-accent text-white/40">
             {t('about.eyebrow')}
           </p>
 

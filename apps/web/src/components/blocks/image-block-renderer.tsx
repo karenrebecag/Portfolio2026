@@ -30,7 +30,7 @@ export function ImageBlockRenderer({
         </div>
       )}
       {caption && (
-        <figcaption className="mt-2 text-center text-[11px] font-accent uppercase tracking-widest text-muted-foreground">
+        <figcaption className="mt-2 text-center text-2xs font-accent uppercase tracking-widest text-muted-foreground">
           {caption}
         </figcaption>
       )}

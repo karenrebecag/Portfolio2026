@@ -38,7 +38,7 @@ export function CodeBlockRenderer({
       style={{ borderRadius: '2px' }}
     >
       {title && (
-        <figcaption className="code-block__title px-4 py-2 border-b border-border text-[11px] font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
+        <figcaption className="code-block__title px-4 py-2 border-b border-border text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground bg-muted">
           {title}
         </figcaption>
       )}
