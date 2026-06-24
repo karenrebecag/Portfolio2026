@@ -39,6 +39,7 @@ const STATIC_PAGES: {
 }[] = [
   { path: '/', priority: 1, changeFrequency: 'monthly' },
   { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/projects', priority: 0.7, changeFrequency: 'monthly' },
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

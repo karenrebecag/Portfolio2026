@@ -11,7 +11,7 @@ import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { getProjectHref, isArticleProject } from '@/lib/article-projects'
 import { AdditionalWorkMarquee } from '@/components/additional-work'
 
-const MAX_ESSAYS = 6
+const MAX_ESSAYS = 7
 const MAX_CLIENT = 4
 
 function ProjectRows({
