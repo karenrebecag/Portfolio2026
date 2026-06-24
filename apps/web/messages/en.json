@@ -61,6 +61,14 @@
     "impact_2": "Recurring themes: higher conversion-quality surfaces, less design→dev rework, and lower surprise debt from unowned production code.",
     "cta": "Let's work together"
   },
+  "reviews": {
+    "eyebrow": "04 / Reviews",
+    "heading": "Trusted by design-led companies & engineering teams",
+    "subheading": "I partner with teams across LATAM, the US, and Europe that take product design, architecture, and applied AI seriously.",
+    "label": "What they say about my work",
+    "prev": "Previous testimonial",
+    "next": "Next testimonial"
+  },
   "why": {
     "pill": "03 / Why work with me",
     "heading_before": "I bridge ",

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import { User, Mail, Phone, Globe, Heart, DollarSign, MessageSquare, Paperclip } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
+import { Button061 } from '@/components/ui/button-061'
 
 const SERVICES = [
   'UX/UI Design & Engineering',
@@ -217,19 +218,13 @@ export function ContactForm() {
         </label>
 
         <div className="shrink-0">
-          <button
+          <Button061
             type="submit"
             disabled={status === 'sending'}
-            className="button-061 footer-cta disabled:pointer-events-none disabled:opacity-60"
-            data-button-061
+            className="footer-cta disabled:pointer-events-none disabled:opacity-60"
           >
-            <span className="button-061__bg" />
-            <span className="button-061__inner font-accent">
-              <span className="button-061__text" data-button-061-text>
-                {status === 'sending' ? t('form_sending') : t('form_submit')}
-              </span>
-            </span>
-          </button>
+            {status === 'sending' ? t('form_sending') : t('form_submit')}
+          </Button061>
         </div>
       </div>
     </form>

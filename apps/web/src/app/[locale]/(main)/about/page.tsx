@@ -276,7 +276,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <h2 className="mt-4 text-[clamp(1.25rem,2.5vw,2rem)] font-bold leading-[1.1] tracking-tight">{t('albums_heading')}</h2>
           </Container>
         </div>
-        <DraggableMarqueeStrip items={content.albums} duration="30" />
+        <DraggableMarqueeStrip items={content.albums} className="is-albums" />
       </section>
 
       {/* Bridge + Experience */}

@@ -61,6 +61,14 @@
     "impact_2": "Temas recurrentes: superficies con mejor calidad de conversión, menos retrabajo diseño→dev y menos deuda sorpresa por código en producción sin dueño.",
     "cta": "Trabajemos juntos"
   },
+  "reviews": {
+    "eyebrow": "04 / Reseñas",
+    "heading": "Empresas y equipos de ingeniería que confían en mi trabajo",
+    "subheading": "Colaboro con equipos en LATAM, Estados Unidos y Europa que se toman en serio el diseño de producto, la arquitectura y la IA aplicada.",
+    "label": "Lo que dicen de mi trabajo",
+    "prev": "Reseña anterior",
+    "next": "Reseña siguiente"
+  },
   "why": {
     "pill": "03 / Por qué trabajar conmigo",
     "heading_before": "Conecto ",
@@ -99,7 +107,7 @@
   },
   "projects": {
     "pill": "01 / Ensayos de producto y casos de estudio",
-    "heading": "Cómo pienso — y lo que he lanzado.",
+    "heading": "Cómo pienso y lo que he lanzado.",
     "description": "Ensayos largos sobre arquitectura y flujos con IA, más builds seleccionados para clientes. Los ensayos profundizan decisiones; los casos de estudio, resultados.",
     "essays_heading": "Ensayos de producto",
     "essays_description": "Piezas extensas para hiring managers e ingeniería: lenguaje claro al inicio, detalle técnico cuando quieras profundizar.",

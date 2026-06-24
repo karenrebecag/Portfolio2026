@@ -12,7 +12,7 @@ import {
 import { HOME_SPEAKABLE_SELECTORS } from '@/lib/seo/site-config'
 import { JsonLdScript } from '@/components/seo/json-ld'
 import { Button061 } from '@/components/ui/button-061'
-import { LogoWall } from '@/components/logo-wall'
+import { ReviewsSection } from '@/components/reviews-section'
 import { Container } from '@/components/ui/container'
 import { WhySection } from '@/components/why-section'
 import { ProjectsSection } from '@/components/projects-section'
@@ -192,7 +192,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <WhySection />
 
       {/* 04 Selected Collaborations */}
-      <LogoWall />
+      <ReviewsSection />
 
       {/* About */}
       <section
@@ -214,7 +214,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <HeroParallaxBg src={HERO_IMAGES.homeAboutSection} objectPosition="top" />
         </div>
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/20 via-black/30 via-40% to-transparent" />
-        <GridGuides className="z-0" />
+        <GridGuides className="z-0" data-ignore="true" />
 
         <Container className="relative z-[1]">
           {/* Eyebrow */}

@@ -21,6 +21,9 @@ interface Button061Props {
   rel?: string
   onClick?: (e: React.MouseEvent) => void
   arrow?: 'right' | 'left' | 'none'
+  /** Render a native <button> (form submit) instead of an anchor. */
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
 }
 
 const DEFAULT_COLORS = ''
@@ -60,9 +63,11 @@ export function Button061({
   rel,
   onClick,
   arrow = 'right',
+  type,
+  disabled,
 }: Button061Props) {
   const variantClass = variant === 'secondary' ? 'button-061--secondary' : ''
-  const buttonRef = useRef<HTMLAnchorElement>(null)
+  const buttonRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const button = buttonRef.current
@@ -166,9 +171,6 @@ export function Button061({
   }, [colors])
 
   const sharedProps = {
-    ref: buttonRef,
-    target,
-    rel,
     onClick,
     className: `button-061 ${variantClass} ${className}`,
     'data-button-061': true,
@@ -197,16 +199,29 @@ export function Button061({
     </>
   )
 
+  if (type) {
+    return (
+      <button
+        {...sharedProps}
+        ref={buttonRef as React.RefObject<HTMLButtonElement>}
+        type={type}
+        disabled={disabled}
+      >
+        {inner}
+      </button>
+    )
+  }
+
   if (href && isLocaleAwareHref(href)) {
     return (
-      <Link {...sharedProps} href={href}>
+      <Link {...sharedProps} ref={buttonRef as React.RefObject<HTMLAnchorElement>} href={href} target={target} rel={rel}>
         {inner}
       </Link>
     )
   }
 
   return (
-    <a {...sharedProps} href={href}>
+    <a {...sharedProps} ref={buttonRef as React.RefObject<HTMLAnchorElement>} href={href} target={target} rel={rel}>
       {inner}
     </a>
   )

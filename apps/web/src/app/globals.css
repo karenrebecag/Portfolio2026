@@ -284,124 +284,70 @@
   cursor: grabbing;
 }
 
-.draggable-marquee__collection {
+.draggable-marquee__track {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  gap: 2vw;
+  padding: 0 25px;
+  width: max-content;
+  white-space: nowrap;
   flex: none;
   will-change: transform;
 }
 
-.draggable-marquee__list {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex: none;
-}
-
 .draggable-marquee__item {
-  width: 22em;
-  aspect-ratio: 1;
-  margin-right: 0.75em;
+  width: 22vw;
   flex: none;
-  overflow: hidden;
-  position: relative;
-  text-decoration: none;
   display: block;
-  border: 1px solid var(--border);
-  transition: border-color 0.3s ease;
-}
-
-.draggable-marquee__item:hover {
-  border-color: var(--foreground);
+  text-decoration: none;
+  transform-style: preserve-3d;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
 }
 
 .draggable-marquee__item-img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1;
+  display: block;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1), filter 0.4s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform-style: preserve-3d;
 }
 
-.draggable-marquee__item:hover .draggable-marquee__item-img {
-  transform: scale(1.03);
-  filter: brightness(0.3) saturate(0.8);
+@media (max-width: 768px) {
+  .draggable-marquee__track {
+    padding: 0 15px;
+    gap: 15px;
+  }
+  .draggable-marquee__item {
+    width: 35vw;
+  }
 }
 
-.draggable-marquee__item::after {
+.draggable-marquee.is-albums .draggable-marquee__item-img {
+  filter: grayscale(0.5) sepia(0.4) hue-rotate(70deg) saturate(0.4) brightness(0.7);
+}
+
+/* Additional work: solid palette overlay at rest, cleared on hover.
+   --plantation is the active theme's accent, so the overlay adapts per theme. */
+.draggable-marquee:not(.is-albums) .draggable-marquee__item {
+  position: relative;
+}
+
+.draggable-marquee:not(.is-albums) .draggable-marquee__item::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: color-mix(in srgb, var(--primary) 70%, transparent);
-  opacity: 0;
-  transition: opacity 0.4s cubic-bezier(0.625, 0.05, 0, 1);
+  background: var(--background);
+  opacity: 0.45;
   pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
-.draggable-marquee__item:hover::after {
-  opacity: 1;
-}
-
-.draggable-marquee__item-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1em 1.15em;
-  overflow-y: auto;
+.draggable-marquee:not(.is-albums) .draggable-marquee__item:hover::after {
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.4s cubic-bezier(0.625, 0.05, 0, 1), transform 0.4s cubic-bezier(0.625, 0.05, 0, 1);
-}
-
-.draggable-marquee__item:hover .draggable-marquee__item-overlay {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.draggable-marquee__item-overlay .item-tag {
-  display: inline-block;
-  padding: 0.25em 0.5em;
-  font-family: var(--font-accent);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: var(--surface-foreground);
-  color: var(--surface);
-}
-
-.draggable-marquee__item-meta {
-  border-top: 1px solid color-mix(in srgb, var(--surface-foreground) 20%, transparent);
-  padding-top: 0.75em;
-}
-
-.draggable-marquee__item-meta .item-meta-label {
-  font-family: var(--font-accent);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.55;
-}
-
-.draggable-marquee__item-meta .item-meta-value {
-  margin: 0.15em 0 0;
-  font-size: 0.6875em;
-  line-height: 1.35;
-  font-weight: 500;
-  color: var(--surface-foreground);
-}
-
-.draggable-marquee__item-meta .item-meta-value--emphasis {
-  font-weight: 600;
-  font-size: 0.72em;
-}
-
-.draggable-marquee__item-meta .item-meta-value--muted {
-  opacity: 0.75;
-  font-size: 0.625em;
 }
 
 /* -- Additional Work Gallery -- */
@@ -1394,54 +1340,6 @@ body:has([data-cursor]:hover) .cursor-text {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-}
-
-/* Draggable Marquee */
-.draggable-marquee {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex: none;
-  width: 100%;
-  overflow: hidden;
-  cursor: grab;
-}
-
-.draggable-marquee:active {
-  cursor: grabbing;
-}
-
-.draggable-marquee__collection {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex: none;
-  will-change: transform;
-}
-
-.draggable-marquee__list {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex: none;
-}
-
-.draggable-marquee__item {
-  width: 12em;
-  flex: none;
-  margin-right: 1em;
-  font-size: clamp(0.875rem, 1.25vw, 1rem);
-}
-
-.draggable-marquee__item-img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 0.375em;
-  pointer-events: none;
-  -webkit-user-select: none;
-  user-select: none;
-  filter: grayscale(0.5) sepia(0.4) hue-rotate(70deg) saturate(0.4) brightness(0.7);
 }
 
 /* Infinite Draggable Grid */
