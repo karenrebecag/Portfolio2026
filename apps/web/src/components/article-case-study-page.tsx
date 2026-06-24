@@ -7,6 +7,7 @@ import { RichTextRenderer } from '@/components/rich-text-renderer'
 import { ScrollHighlight } from '@/components/scroll-highlight'
 import { SocialShare } from '@/components/social-share'
 import { ContactSection } from '@/components/contact-section'
+import { ScrollDepthTracker } from '@/components/scroll-depth-tracker'
 import { getArticleMetaForProject, getArticleProjectByArticleSlug } from '@/lib/article-projects'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { getLocalizedProject, getProjectBodyContent, getProjectHeroDescription } from '@/lib/project-i18n'
@@ -43,6 +44,7 @@ export async function CaseStudyPage({
 
   return (
     <>
+      <ScrollDepthTracker slug={projectSlug} variant={variant} />
       <article
         data-theme-section="light"
         data-semantic-role={variant === 'article' ? 'article' : 'portfolio'}

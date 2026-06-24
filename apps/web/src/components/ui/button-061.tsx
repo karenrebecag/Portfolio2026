@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
+import { track } from '@vercel/analytics'
 import { Link } from '@/i18n/navigation'
 
 function isLocaleAwareHref(href?: string) {
@@ -20,6 +21,8 @@ interface Button061Props {
   target?: string
   rel?: string
   onClick?: (e: React.MouseEvent) => void
+  /** Vercel Analytics event name fired on click (e.g. "hero_cta_primary"). */
+  trackEvent?: string
   arrow?: 'right' | 'left' | 'none'
   /** Render a native <button> (form submit) instead of an anchor. */
   type?: 'button' | 'submit' | 'reset'
@@ -62,6 +65,7 @@ export function Button061({
   target,
   rel,
   onClick,
+  trackEvent,
   arrow = 'right',
   type,
   disabled,
@@ -170,8 +174,13 @@ export function Button061({
     return () => mm.revert()
   }, [colors])
 
+  function handleClick(e: React.MouseEvent) {
+    if (trackEvent) track(trackEvent)
+    onClick?.(e)
+  }
+
   const sharedProps = {
-    onClick,
+    onClick: handleClick,
     className: `button-061 ${variantClass} ${className}`,
     'data-button-061': true,
   } as const

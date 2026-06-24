@@ -147,10 +147,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="col-span-8 md:col-span-16">
               <div className="inline-flex flex-col gap-4 rounded-sm border border-white/20 bg-black/35 backdrop-blur-sm px-5 py-5 sm:px-6 sm:py-6">
                 <div className="flex flex-row flex-nowrap gap-3 items-center">
-                  <Button061 href="#contact" className="hero-cta-primary shrink-0">
+                  <Button061 href="#contact" trackEvent="hero_cta_primary" className="hero-cta-primary shrink-0">
                     {t('hero.cta_button')}
                   </Button061>
-                  <Button061 href="/about" variant="secondary" className="shrink-0">
+                  <Button061 href="/about" trackEvent="hero_cta_secondary" variant="secondary" className="shrink-0">
                     {t('hero.cta_secondary')}
                   </Button061>
                 </div>
