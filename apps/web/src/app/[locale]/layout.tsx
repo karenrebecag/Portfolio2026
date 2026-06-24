@@ -19,6 +19,7 @@ import { MarqueeScrollInit } from '@/components/marquee-scroll-init'
 import { PageTransition } from '@/components/page-transition'
 import { NavigationProvider } from '@/components/navigation-provider'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Toaster } from '@/components/ui/sonner'
 import { IconButton } from '@/components/ui/icon-button'
 import { routing } from '@/i18n/routing'
@@ -197,6 +198,7 @@ export default async function LocaleLayout({
           </div>
         </NextIntlClientProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
