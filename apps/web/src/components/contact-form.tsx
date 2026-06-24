@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
+import { track } from '@vercel/analytics'
 import { User, Mail, Phone, Globe, Heart, DollarSign, MessageSquare, Paperclip } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Button061 } from '@/components/ui/button-061'
@@ -71,6 +72,10 @@ export function ContactForm() {
       })
       const json = await res.json().catch(() => ({}))
       if (res.ok && json.ok) {
+        track('contact_submit', {
+          budget: selectedBudget ?? 'none',
+          services: selectedServices.length > 0 ? selectedServices.join(', ') : 'none',
+        })
         toast.success(t('form_success'))
         form.reset()
         setSelectedServices([])
