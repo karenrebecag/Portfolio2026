@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { Link, usePathname } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { useThemeLock } from '@/components/theme-lock-provider'
 import { LocaleToggle } from '@/components/locale-toggle'
 import type Lenis from 'lenis'
 import { subscribeLenisScroll } from '@/lib/lenis-scroll'
@@ -27,6 +28,7 @@ export function Navbar() {
   // not on articles or case studies, which have no photo to add contrast over.
   const pathname = usePathname()
   const showVignette = pathname === '/' || pathname === '/about'
+  const themeLocked = useThemeLock()
   const t = useTranslations('nav')
   const common = useTranslations('common')
   const toggleRef = useRef<HTMLButtonElement>(null)
@@ -257,7 +259,7 @@ export function Navbar() {
             </Link>
             <div className="flex items-center gap-5">
               <LocaleToggle />
-              <ThemeToggle />
+              {!themeLocked && <ThemeToggle />}
               <button
                 ref={toggleRef}
                 aria-expanded="false"

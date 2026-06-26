@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *, [data-palette="night"] *));
+@custom-variant dark (&:is(.dark *));
 
 /* -- Tailwind theme -- */
 @theme inline {
@@ -69,9 +69,7 @@
 }
 
 /* -- Portfolio colors (dark) -- Deep night, green tint -- */
-/* Night tokens: theme global (.dark) o paleta scopeada por subtree
-   ([data-palette="night"]) para páginas/secciones con paleta fija. */
-:is(.dark, [data-palette="night"]) {
+.dark {
     --background: #0c0e0a;
     --foreground: #ECDFCC;
     --card: #111310;
