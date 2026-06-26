@@ -1,0 +1,42 @@
+/* Number Odometer — roll mecánico de dígitos en scroll. CSS scoped: los
+   selectores de [data-odometer-part] viven bajo .element (la clase hasheada del
+   module) para no filtrar a global. El JS crea esos spans en runtime. */
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.element {
+  display: inline-flex;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.element [data-odometer-part='mask'],
+.element [data-odometer-part='static'] {
+  display: inline-block;
+  overflow: clip;
+  padding: 0.05em;
+  margin: -0.05em;
+}
+
+.element [data-odometer-part='roller'] {
+  display: block;
+  white-space: pre;
+  text-align: center;
+  will-change: transform;
+}
+
+.element [data-odometer-part='static'] {
+  display: inline-block;
+}
+
+.label {
+  margin-top: 0.5em;
+}

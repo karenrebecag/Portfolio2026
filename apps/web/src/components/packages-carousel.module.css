@@ -1,0 +1,49 @@
+/* Packages carousel (port MWG 087) — scroll horizontal pinned. Alternativa
+   para < 1200px del grid de pricing (que se aplastaba). La fila de cards corre
+   horizontalmente con scrub mientras la sección queda pinneada. */
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.cards {
+  display: flex;
+  width: max-content;
+  gap: 16px;
+  padding-inline: 4px;
+  will-change: transform;
+}
+
+.card {
+  position: relative;
+  flex: none;
+  width: min(88vw, 520px);
+  display: flex;
+}
+
+/* Fallback sin movimiento: cards apiladas y scroll nativo, sin pin. */
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    height: auto;
+    padding: 4rem 0;
+  }
+  .cards {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .card {
+    width: 100%;
+    max-width: 520px;
+  }
+}
