@@ -6,7 +6,9 @@
     "home_description": "Product engineer between design and code. I design and build AI-powered web products end to end: frontend, backend, AI integrations, and infrastructure. From architecture to the last pixel.",
     "about_title": "About",
     "about_description": "Meet Karen Rebeca Ortiz: a product engineer between design and code. I build AI-powered web products end to end — web experiences, full-stack, AI integrations, and infrastructure — for teams across LATAM, the US, and Europe.",
-    "person_description": "Product engineer between design and code. I build AI-powered web products end to end: web experiences, full-stack, AI integrations, design systems, and infrastructure."
+    "person_description": "Product engineer between design and code. I build AI-powered web products end to end: web experiences, full-stack, AI integrations, design systems, and infrastructure.",
+    "proposals_title": "Professional services",
+    "proposals_description": "I design and build AI-powered web products: product engineering, design systems, AI integration, and growth infrastructure. Service packages for teams across LATAM, the US, and Europe."
   },
   "common": {
     "socials": "Socials",
@@ -254,5 +256,222 @@
   },
   "marquee": {
     "services": "Product Engineering, Astro SSR & React, Design Systems & Tokens, Webflow Architecture, Conversational AI, n8n Automation, MCP Integrations, GSAP & Motion, UX Engineering"
+  },
+  "proposals": {
+    "hero_cta_primary": "Let’s start",
+    "hero_cta_secondary": "See packages",
+    "hero_subtitle": "I turn your brands into responsive, measurable and maintainable web products, so design keeps leading, not fighting code.",
+    "services_eyebrow": "What I do",
+    "services_heading": "Six fronts, one standard.",
+    "services_includes_label": "What's included",
+    "services_scroll_hint": "Scroll",
+    "services_count": "06 services",
+    "services_item_label": "Service",
+    "packages_eyebrow": "Packages",
+    "packages_heading": "Ways to work together.",
+    "packages_featured_label": "Most popular",
+    "process_eyebrow": "Process",
+    "process_heading": "How I work.",
+    "faq_eyebrow": "Questions",
+    "faq_heading": "Before you reach out.",
+    "hero_lines": ["Web services", "proposal for", "Pigmento Studio"],
+    "marquee_services": [
+      "Product & UX Engineering",
+      "Modern Web Experiences",
+      "AI-Driven Interfaces & Workflows",
+      "Design Systems & Internal Tools",
+      "UX & Conversion Improvements",
+      "Architecture & Tech Guidance"
+    ],
+    "services": [
+      {
+        "title": "Brand Web Foundations",
+        "tagline": "Optimized for design studios that want their brands to live on the web without losing visual detail.",
+        "includes": [
+          "On-brand sites in Elementor or Shopify, faithful to Figma.",
+          "CMS set up so the client can edit content (pages, news, collections) without touching code.",
+          "SEO and analytics baseline: meta tags, basic performance, essential pixels and events."
+        ],
+        "category": "Foundations"
+      },
+      {
+        "title": "Campaign & Landing Studio",
+        "tagline": "Built for launches, events, and campaigns, focused on conversion and visual storytelling.",
+        "includes": [
+          "High-converting landing pages with motion, dynamic sections, and mobile versions for paid media.",
+          "Forms, database, and CRM integration to capture leads, bookings, or sign-ups.",
+          "Chatbots or web assistants for FAQs and instant support where it makes sense."
+        ],
+        "category": "Campaigns"
+      },
+      {
+        "title": "Pigmento Web System",
+        "tagline": "A lightweight web system that turns branding into rules, components, and dynamic content.",
+        "includes": [
+          "Brand tokens and global styles applied to the CMS: typography, palette, grids, and spacing.",
+          "Templates and collections for blogs, case studies, resources, and repeatable sections.",
+          "Simple docs for designers and PMs: how to prep Figma and create pages without losing consistency."
+        ],
+        "category": "System"
+      },
+      {
+        "title": "Commerce & Product Experiences",
+        "tagline": "Made for stores and transactional experiences that need solid design and flow.",
+        "includes": [
+          "Shopify stores (or commerce layers over existing sites): products, categories, cart, and checkout.",
+          "Marketing integrations (email, automations, pixels, campaigns) so every sale is measurable.",
+          "Baseline performance and SEO for e-commerce: speed, structure, and rich data where it applies."
+        ],
+        "category": "Commerce"
+      },
+      {
+        "title": "Technical Operations & Deployment",
+        "tagline": "All the technical work that makes the site exist, run, and scale without the agency stepping in.",
+        "includes": [
+          "Domains, SSL, hosting, and staging and production environments.",
+          "Deploy pipelines and basic backups — no depending on “a zip” no one understands.",
+          "Essential monitoring and launch support for a calm go-live."
+        ],
+        "category": "Operations"
+      },
+      {
+        "title": "Advanced Interactions & AI Layer",
+        "tagline": "For projects that want memorable experiences and targeted intelligent capabilities.",
+        "includes": [
+          "Advanced animations, transitions, and micro-interactions aligned with the brand.",
+          "Chatbots or AI assistants connected to site content, FAQs, or internal databases.",
+          "Automation integrations (workflows, assisted content generation) when they add business value, without over-engineering."
+        ],
+        "category": "AI Layer"
+      }
+    ],
+    "packages": [
+      {
+        "name": "Web Studio Essentials",
+        "tagline": "Ongoing web support for brand sites, campaigns, CMS, and day-to-day updates.",
+        "audience": "For studios that need reliable web capacity that's visually polished and easy to operate. Ideal for maintenance, landings, brand sites, CMS, and dynamic content without unnecessary complexity.",
+        "includesLabel": "Includes:",
+        "features": [
+          "Ongoing support across sites, campaigns, and CMS.",
+          "Design, content, responsive, on-page SEO, analytics, and tracking tweaks.",
+          "Dynamic content management, forms, basic integrations, and calm deploys."
+        ],
+        "ctaLabel": "Get started"
+      },
+      {
+        "name": "Creative Growth Retainer",
+        "tagline": "A stronger technical layer for content-driven websites, custom CMS workflows, and marketing automation.",
+        "audience": "For agencies with growing web demand that need a stronger technical layer behind the design. Built for sites with more editorial ambition, performance, automation, and internal ownership.",
+        "includesLabel": "Everything in Essentials, plus:",
+        "features": [
+          "Implementation in stacks like Next.js, Astro, and modern CMSs like Payload when the project calls for it.",
+          "CMS architecture, dynamic content, collections, relationships, and editorial models so marketing and design operate without relying on dev for every change.",
+          "Automations with n8n and Claude-assisted workflows for content, QA, documentation, and internal operations.",
+          "Integrations with databases, CRMs, forms, lead-capture pipelines, and internal processes."
+        ],
+        "ctaLabel": "Get a quote"
+      },
+      {
+        "name": "Visionary Systems Partner",
+        "tagline": "A product-grade retainer for advanced web systems, AI workflows, and long-term technical ownership.",
+        "audience": "For teams that want the web to stop being just a showcase and become a system, product, or operational layer of the business. Geared toward advanced experiences, intelligent automation, and long-term architecture.",
+        "includesLabel": "Everything in Growth, plus:",
+        "features": [
+          "Advanced frontend architecture with Next.js / Astro, motion systems, performance tuning, and a more complex product experience.",
+          "MCP workflows for documentation, structured access to internal knowledge, and AI work connected to real tools.",
+          "Chatbots, AI assistants, editorial automations, and internal systems that combine content, operations, and web experience.",
+          "Technical ownership design: structures the client or agency can maintain without falling into dependency or tech debt."
+        ],
+        "ctaLabel": "Let's talk"
+      }
+    ],
+    "packages_price_unit": "MXN / mo",
+    "packages_extra_project": "≈ {price} per additional project",
+    "packages_weekly_visit": "Includes an optional weekly studio visit for meetings and requirements.",
+    "packages_terms_heading": "How the pricing works",
+    "packages_terms": [
+      "All scope is limited to 5 projects per month.",
+      "Each additional project is billed as the package total ÷ 5, based on the package you're on.",
+      "The package is interchangeable, as long as no active projects block a downgrade.",
+      "Prices are tax-free.",
+      "Full priority on your projects, with delivery guaranteed on time."
+    ],
+    "packages_toolbox_heading": "Every package includes my working toolbox",
+    "packages_toolbox_subheading": "Design, motion, CMS, automation, and AI workflows are part of the process. The goal is simple: you shouldn't have to worry about the technical setup behind the work.",
+    "packages_toolbox_body": [
+      "Every package includes the tools needed to do the work well: Figma, Adobe tools, motion libraries, component systems, automations, Claude, Cursor, and whatever operating stack the project needs.",
+      "You don't pay for «opening tools»; you pay for solving the problem with the right setup, with me owning the workflow, implementation, and delivery.",
+      "If a project requires enterprise licenses, external infrastructure, or accounts owned by the client, that's quoted separately and made clear from the scope."
+    ],
+    "process": [
+      {
+        "step": "01",
+        "title": "Discovery",
+        "description": "We understand the business goal, the audience, the brand constraints, and the technical limits. I define scope, risks, and deliverables before choosing tools or writing a line of code."
+      },
+      {
+        "step": "02",
+        "title": "Design, systems & architecture",
+        "description": "I define the architecture, the content model, and the design system: tokens, components, and patterns. I prototype key screens and flows (web, CMS, and automation/AI touchpoints) to validate direction before building at scale."
+      },
+      {
+        "step": "03",
+        "title": "Build & automation",
+        "description": "I build in short iterations with verifiable deliveries: typed, accessible, and optimized implementations across web frameworks, CMS, and workflows (n8n, MCP, and more), deployed to previews from day one."
+      },
+      {
+        "step": "04",
+        "title": "Delivery, handoff & ownership",
+        "description": "Deploy to production, set up analytics and automation, and create living documentation and training so your team can keep iterating and own the system without depending on me for every change."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Do you work remotely?",
+        "a": "Yes. I work remotely with teams in North America, LATAM, and Europe, in time zones compatible with the Americas."
+      },
+      {
+        "q": "How is a project priced?",
+        "a": "I start from the discovery scope. For scoped pieces I use a fixed price; for full projects I quote by scope; and for ongoing work I use a monthly retainer."
+      },
+      {
+        "q": "Can you join an existing team?",
+        "a": "Yes. I plug into your processes, repos, and tools, or I lead the web technical side end to end, whatever you need."
+      },
+      {
+        "q": "What stack do you use?",
+        "a": [
+          "I work with modern JS frameworks like Next.js, Astro, and React, with TypeScript and token-based design systems for UI.",
+          "For content and data I use CMSs and APIs such as Payload, Strapi, Webflow, and headless WordPress, plus workflow automation with n8n when it helps the team.",
+          "Infrastructure usually runs on Vercel and Cloudflare, with Supabase/Postgres and CI/CD where the project needs it.",
+          "On top of that, I integrate AI tooling (Claude, MCP servers, agents) to support documentation, content, and internal workflows when it adds real value.",
+          "The stack is always adapted to the project and to how much ownership your team wants over the final system, not to a single “favorite tool”."
+        ]
+      },
+      {
+        "q": "What does each retainer's scope cover?",
+        "a": "Each retainer is based on a block of hours and types of work defined up front (sites, landings, CMS, automations, etc.); any initiative outside that block is quoted as an additional project. Retainers aren't «whatever comes up that month», but a fixed web engineering and design capacity used against a backlog agreed with Pigmento."
+      },
+      {
+        "q": "How is the backlog prioritized?",
+        "a": "Requests are grouped into a monthly backlog. We prioritize together with Pigmento what goes into each cycle; whatever doesn't fit moves to the next one, or is quoted as a separate project if it needs extra urgency."
+      },
+      {
+        "q": "Are tools and licenses included?",
+        "a": "Use of my toolbox (Figma, Adobe, motion libs, CMS, n8n, Claude, Cursor, etc.) is included in the retainer. Specific enterprise licenses, third-party infrastructure, or accounts owned by the client are budgeted separately when needed."
+      },
+      {
+        "q": "What about infrastructure and major support?",
+        "a": "Packages cover design, implementation, automations, and standard deploys. Major infrastructure changes (hosting migrations, full stack refactors, adopting new platforms) are framed as projects with their own scope."
+      },
+      {
+        "q": "How are responsibilities shared?",
+        "a": "Pigmento keeps control over brand strategy, content, and the relationship with its clients; I own the web layer, systems, and automations within the defined scope. Any major strategic change is reviewed before taking it on within the retainer."
+      },
+      {
+        "q": "Can you show this work in your portfolio?",
+        "a": "The sites and systems we build may appear in my portfolio, always crediting the collaboration with Pigmento Studio."
+      }
+    ]
   }
 }

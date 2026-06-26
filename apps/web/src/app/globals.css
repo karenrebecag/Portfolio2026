@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *, [data-palette="night"] *));
 
 /* -- Tailwind theme -- */
 @theme inline {
@@ -69,7 +69,9 @@
 }
 
 /* -- Portfolio colors (dark) -- Deep night, green tint -- */
-.dark {
+/* Night tokens: theme global (.dark) o paleta scopeada por subtree
+   ([data-palette="night"]) para páginas/secciones con paleta fija. */
+:is(.dark, [data-palette="night"]) {
     --background: #0c0e0a;
     --foreground: #ECDFCC;
     --card: #111310;
@@ -1645,6 +1647,36 @@ body[data-section-theme='light'] .underlay-nav__logo-img.is--on-light {
   opacity: 1;
 }
 
+/* Footer logo mark — mismo switch por section-theme que el navbar: k blanca sobre
+   superficie oscura (default), k oscura cuando la sección activa es clara. */
+.footer-brand__mark-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+.footer-brand__mark-img.is--on-dark {
+  opacity: 1;
+}
+
+body[data-section-theme='light'] .footer-brand__mark-img.is--on-dark {
+  opacity: 0;
+}
+
+body[data-section-theme='light'] .footer-brand__mark-img.is--on-light {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-brand__mark-img {
+    transition: none;
+  }
+}
+
 /* Scrolled: text slides out, k-mark scales in. */
 .underlay-nav__header.is--scrolled .underlay-nav__logo-text {
   opacity: 0;
@@ -2559,4 +2591,69 @@ body[data-section-theme='light'] [data-css-marquee]:not([data-footer-marquee]) {
   font-family: var(--font-sans);
   font-size: 0.75rem;
   color: var(--foreground);
+}
+
+/* Hero hover list — efecto "letter ripple" (port de MWG 041).
+   Réplica fiel del original: todos los span son inline-block; la capa hidden
+   se posiciona encima y se recorta con overflow del item. */
+.hero-hover-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3vw;
+}
+.hero-hover-list__item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  width: max-content;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 8vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+.hero-hover-list__item:hover {
+  color: var(--plantation);
+}
+.hero-hover-list__item.is-hovered span {
+  pointer-events: none;
+}
+.hero-hover-list__layer--hidden {
+  pointer-events: none;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+}
+.hero-hover-list__item span {
+  display: inline-block;
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .hero-hover-list {
+    padding-top: 30px;
+  }
+  .hero-hover-list__item {
+    font-size: 2.25rem;
+  }
+}
+
+/* Cursor image trail — efecto "image trail" (port de MWG 020).
+   Spawnea shapes en la posición del cursor que rebotan y se desvanecen.
+   La capa no captura punteros; el listener vive en su contenedor padre. */
+.cursor-image-trail {
+  pointer-events: none;
+}
+.cursor-image-trail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(44px, 5.5vw, 110px);
+  height: clamp(44px, 5.5vw, 110px);
+  object-fit: contain;
+  pointer-events: none;
+  will-change: transform;
 }

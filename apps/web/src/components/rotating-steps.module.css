@@ -1,0 +1,84 @@
+/* RotatingSteps — port scopeado de MWG 053. Steps apilados en una celda con
+   perspectiva; al scrollear, cada step voltea en 3D (rotateY) hacia el
+   siguiente. Pinned con scrub. Geometría del original; tokens del proyecto. */
+
+.section {
+  width: 100%;
+  /* Capa elevada sobre el deep background (no el mismo dark profundo). */
+  background: var(--card);
+  color: var(--card-foreground);
+}
+
+.container {
+  position: relative;
+  height: 100vh;
+  perspective: 300vw;
+  display: grid;
+  place-items: center;
+}
+
+.paragraph {
+  position: relative;
+  z-index: 1;
+  grid-area: 1 / 1;
+  width: 66%;
+  margin: 0 auto;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.7vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  transform-style: preserve-3d;
+}
+
+.line {
+  transform-style: preserve-3d;
+}
+
+.lineInner {
+  transform: translate3d(0, 0, 33vw);
+  backface-visibility: hidden;
+}
+
+.num {
+  color: var(--plantation);
+}
+
+.title {
+  color: var(--foreground);
+}
+
+.desc {
+  font-weight: 500;
+  color: color-mix(in oklab, var(--foreground) 70%, transparent);
+}
+
+@media (max-width: 768px) {
+  .paragraph {
+    width: 86%;
+  }
+}
+
+/* Fallback sin movimiento: steps apilados en flujo normal, sin pin ni 3D.
+   Aplica en mobile (< 768px, donde el pin + 3D no funciona bien) y con
+   prefers-reduced-motion. El JS se gatea en paralelo para no crear el pin. */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .pinHeight {
+    height: auto !important;
+  }
+  .container {
+    height: auto;
+    perspective: none;
+    display: block;
+    padding: 6rem 1rem;
+  }
+  .paragraph {
+    grid-area: auto;
+    width: min(90%, 62ch);
+    margin: 2.5rem auto;
+  }
+  .lineInner {
+    transform: none;
+  }
+}

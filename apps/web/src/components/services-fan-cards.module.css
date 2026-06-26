@@ -1,0 +1,232 @@
+/* Fan cards (port MWG 003) -- scroll pin: circles gigantes rotan y barren cada
+   card por el centro del viewport. CSS puro y scoped (sin Tailwind) para no
+   interferir con las utilidades. Geometría en vw para conservar el efecto;
+   los 6 colores candy son del diseño original (no son tokens de tema). */
+
+.fanCards {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--surface-foreground);
+}
+
+.fanHeader {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 12px 25px 25px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--font-accent);
+  font-size: clamp(11px, 0.9vw, 15px);
+}
+
+.fanHeader > * {
+  flex: 1;
+}
+
+.fanHeader > *:nth-child(2) {
+  text-align: center;
+}
+
+.fanHeader > *:nth-child(3) {
+  text-align: right;
+}
+
+.fanScroll {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: var(--font-accent);
+  font-size: clamp(11px, 0.85vw, 14px);
+}
+
+.fanPin {
+  height: 500vh;
+}
+
+.fanContainer {
+  position: relative;
+  height: 100vh;
+}
+
+.fanCircles {
+  height: 100%;
+}
+
+.fanCircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250vw;
+  height: 250vw;
+  border-radius: 100%;
+  transform: translate(-50%, 0);
+  will-change: transform;
+}
+
+.fanCard {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 25vw;
+  aspect-ratio: 0.75;
+  border-radius: 0.7vw;
+  padding: 1.4vw;
+  transform: translate(-50%, 55vh);
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.fanCardTop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4vw;
+  font-family: var(--font-accent);
+  font-size: 0.8vw;
+  line-height: 1;
+}
+
+.fanCardTop p {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fanCardAka {
+  display: inline-block;
+  margin: 0 0 0.8em;
+  padding: 0.3em 0.9em 0.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 100%;
+  font-family: var(--font-accent);
+  font-size: 0.85vw;
+}
+
+.fanCardTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1rem, 2.4vw, 2.8rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+
+.fanCardFoot {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.fanCardDesc {
+  font-size: 0.92vw;
+  line-height: 1.35;
+}
+
+.fanCardIncludes {
+  margin-top: 0.8vw;
+  text-align: left;
+}
+
+.fanCardIncludesLabel {
+  display: block;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-family: var(--font-accent);
+  font-size: 0.72vw;
+  opacity: 0.7;
+}
+
+.fanCardIncludes ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45vw;
+}
+
+.fanCardIncludes li {
+  position: relative;
+  padding-left: 0.95vw;
+  font-size: 0.82vw;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.fanCardIncludes li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 0.32vw;
+  height: 0.32vw;
+  border-radius: 100%;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* Mismo patrón que las pricing cards: linear-gradient(150deg) de 3 paradas
+   light -> vibrant del pack "Gradient Abstract Geometric Shapes", con texto
+   oscuro del mismo tono. Los 3 primeros reusan los gradientes de packages. */
+.fanCircle:nth-child(1) .fanCard {
+  background: linear-gradient(150deg, #d9c4ff 0%, #a7b6ff 52%, #6f8cff 100%);
+  color: #171a52;
+}
+.fanCircle:nth-child(2) .fanCard {
+  background: linear-gradient(150deg, #e7cef5 0%, #c08fee 50%, #8a4fe6 100%);
+  color: #260b52;
+}
+.fanCircle:nth-child(3) .fanCard {
+  background: linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%);
+  color: #5a2408;
+}
+.fanCircle:nth-child(4) .fanCard {
+  background: linear-gradient(150deg, #ffd2ec 0%, #ff9ecb 52%, #ff5fa8 100%);
+  color: #52102f;
+}
+.fanCircle:nth-child(5) .fanCard {
+  background: linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%);
+  color: #2c4014;
+}
+.fanCircle:nth-child(6) .fanCard {
+  background: linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%);
+  color: #0a3a52;
+}
+
+@media (max-width: 900px) {
+  .fanHeader {
+    flex-direction: column;
+    gap: 0.4em;
+    text-align: center;
+  }
+  .fanHeader > *:nth-child(2),
+  .fanHeader > *:nth-child(3) {
+    text-align: center;
+  }
+  .fanCircles {
+    transform: scale(1.6, 1.6);
+  }
+  .fanCardTop,
+  .fanCardAka,
+  .fanCardDesc {
+    font-size: 1.4vw;
+  }
+  .fanCardIncludes li {
+    font-size: 1.25vw;
+  }
+  .fanCardIncludesLabel {
+    font-size: 1.15vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fanScroll {
+    display: none;
+  }
+}

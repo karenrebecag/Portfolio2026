@@ -49,6 +49,13 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-y-10 text-base md:grid-cols-16 md:gap-x-6 md:gap-y-12">
           {/* Name + copyright */}
           <div className="order-last col-span-16 md:order-first md:col-span-4">
+            {/* Logo mark — swaps por theme via body[data-section-theme] (igual que el navbar) */}
+            <Link href="/" aria-label={t('name')} className="footer-brand mb-4 inline-block">
+              <span className="footer-brand__mark relative block h-8 w-8">
+                <img src="/Icons/k-white.webp" alt="" className="footer-brand__mark-img is--on-dark" />
+                <img src="/Icons/k-dark.webp" alt="" className="footer-brand__mark-img is--on-light" />
+              </span>
+            </Link>
             <span className="block mb-2 font-display text-lg font-bold uppercase tracking-tight">{t('name')}</span>
             <span className="text-surface-foreground/40 text-sm font-accent">{t('rights')} &copy;&nbsp;2026</span>
           </div>
