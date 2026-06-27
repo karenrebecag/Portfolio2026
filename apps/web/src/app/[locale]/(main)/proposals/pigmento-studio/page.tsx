@@ -111,8 +111,11 @@ export default async function ProposalsPage({ params }: { params: Promise<{ loca
       ...pres,
       priceValue: fmtMxn(pres.priceMonthly),
       priceUnit,
-      extraProjectNote: t('packages_extra_project', { price: fmtMxn(pres.priceMonthly / 5) }),
-      weeklyVisitNote: pres.weeklyVisit ? weeklyVisitNote : undefined,
+      extraProjectNote: t('packages_extra_project', {
+        price: fmtMxn(pres.priceMonthly / pres.projectsPerMonth),
+      }),
+      projectsIncludedNote: t('packages_projects_included', { count: pres.projectsPerMonth }),
+      weeklyVisitNote: pkg.footerNote ?? (pres.weeklyVisit ? weeklyVisitNote : undefined),
     }
   })
 
@@ -177,7 +180,7 @@ export default async function ProposalsPage({ params }: { params: Promise<{ loca
           </div>
 
           {/* ≥1200: grid de 3 columnas. <1200: carrusel horizontal (MWG 087). */}
-          <div data-reveal-group data-stagger="80" data-distance="1.5em" className="mt-16 grid grid-cols-3 gap-6 items-stretch max-[1199px]:hidden">
+          <div data-reveal-group data-stagger="80" data-distance="1.5em" className="mt-16 grid grid-cols-1 gap-6 items-stretch min-[1200px]:grid-cols-3 min-[520px]:max-[1199px]:hidden">
             {packages.map((pkg) => (
               // Wrapper exterior = item del reveal-group (GSAP lo anima y le hace
               // clearProps:'all'). El gradiente vive en el div interior para que
@@ -211,23 +214,31 @@ export default async function ProposalsPage({ params }: { params: Promise<{ loca
                   <NumberOdometer items={[{ value: pkg.priceValue }]} numberClassName="text-[2.5rem] font-bold leading-none tracking-tight" />
                   <span className="pb-1 text-2xs font-accent uppercase tracking-wide opacity-60">{pkg.priceUnit}</span>
                 </div>
-                <p className="mt-1.5 text-2xs opacity-60">{pkg.extraProjectNote}</p>
+                <p className="mt-1.5 text-2xs font-medium opacity-75">{pkg.projectsIncludedNote}</p>
+                <p className="mt-1 text-2xs opacity-60">{pkg.extraProjectNote}</p>
 
-                <p className="mt-5 text-sm font-medium leading-snug opacity-90">{pkg.tagline}</p>
-                <p className="mt-3 text-xs leading-[1.55] opacity-60">{pkg.audience}</p>
+                <p className="mt-5 text-base font-medium leading-snug opacity-95">{pkg.tagline}</p>
+                <p className="mt-3 text-sm leading-relaxed opacity-75">{pkg.audience}</p>
 
                 <span className="mt-8 block text-2xs font-accent uppercase tracking-widest opacity-60">{pkg.includesLabel}</span>
                 <ul className="mt-3 space-y-3 flex-1">
                   {pkg.features.map((feature) => (
                     <li key={feature} className="flex gap-3 text-sm leading-[1.6]">
                       <span aria-hidden className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-70" />
-                      <span className="opacity-90">{feature}</span>
+                      <span className="opacity-85">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 {pkg.weeklyVisitNote && (
                   <p className="mt-5 border-t border-current/15 pt-4 text-xs font-medium leading-snug opacity-80">{pkg.weeklyVisitNote}</p>
+                )}
+
+                {pkg.disclaimer && (
+                  <p className="mt-5 flex gap-1.5 border-t border-current/15 pt-4 font-accent text-2xs leading-[1.5] opacity-50">
+                    <span aria-hidden>*</span>
+                    <span>{pkg.disclaimer}</span>
+                  </p>
                 )}
                 </div>
               </div>
@@ -237,7 +248,7 @@ export default async function ProposalsPage({ params }: { params: Promise<{ loca
           <PackagesCarousel
             packages={packages}
             featuredLabel={t('packages_featured_label')}
-            className="min-[1200px]:hidden"
+            className="max-[519px]:hidden min-[1200px]:hidden"
           />
 
           {/* Pricing terms — disclaimer fluido en monospace, sin contenedor */}

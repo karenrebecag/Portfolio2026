@@ -26,6 +26,10 @@ export type ProposalPackageText = {
   /** Encabezado de la lista, con la nota de herencia entre tiers. */
   includesLabel: string
   features: string[]
+  /** Aclaración de alcance al pie de la card; opcional, solo en tiers que la necesitan. */
+  disclaimer?: string
+  /** Nota al pie de la card (syncs, visitas, acompañamiento); opcional. */
+  footerNote?: string
   ctaLabel: string
 }
 
@@ -37,8 +41,10 @@ export type ProposalPackageText = {
  */
 export type ProposalPackagePresentation = {
   featured?: boolean
-  /** Precio mensual en MXN (dato, no idioma). El precio por proyecto extra = /5. */
+  /** Precio mensual en MXN (dato, no idioma). El precio por proyecto extra = total ÷ projectsPerMonth. */
   priceMonthly: number
+  /** Sitios incluidos por mes en el retainer. */
+  projectsPerMonth: number
   /** Tiers que incluyen visita semanal opcional al studio. */
   weeklyVisit?: boolean
   gradient: { bg: string; text: string }
@@ -52,8 +58,10 @@ export type ProposalPackageView = ProposalPackage & {
   priceValue: string
   /** Unidad bajo el precio, ej. "MXN / mes". */
   priceUnit: string
-  /** Nota del costo por proyecto adicional (precio ÷ 5). */
+  /** Nota del costo por proyecto adicional (precio ÷ projectsPerMonth). */
   extraProjectNote: string
+  /** Cupo mensual de proyectos incluidos, ej. "5 proyectos / mes". */
+  projectsIncludedNote: string
   /** Nota de visita semanal, presente solo en los tiers que la incluyen. */
   weeklyVisitNote?: string
 }
@@ -74,6 +82,7 @@ export type ProposalFaq = {
 export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
   {
     priceMonthly: 20000,
+    projectsPerMonth: 5,
     gradient: {
       bg: 'linear-gradient(150deg, #d9c4ff 0%, #a7b6ff 52%, #6f8cff 100%)',
       text: '#171a52',
@@ -82,7 +91,7 @@ export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
   {
     featured: true,
     priceMonthly: 30000,
-    weeklyVisit: true,
+    projectsPerMonth: 5,
     gradient: {
       bg: 'linear-gradient(150deg, #e7cef5 0%, #c08fee 50%, #8a4fe6 100%)',
       text: '#260b52',
@@ -90,7 +99,7 @@ export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
   },
   {
     priceMonthly: 48000,
-    weeklyVisit: true,
+    projectsPerMonth: 3,
     gradient: {
       bg: 'linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%)',
       text: '#5a2408',

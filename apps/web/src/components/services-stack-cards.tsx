@@ -44,7 +44,11 @@ export function ServicesStackCards({ services, labels, active = true }: Services
   usePageInit(
     useCallback(() => {
       const root = rootRef.current
-      if (!root || !active) return
+      if (!root) return
+      if (!active) {
+        scheduleScrollTriggerRefresh(true)
+        return
+      }
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
       const scrollHint = root.querySelector<HTMLElement>(`.${styles.scroll}`)

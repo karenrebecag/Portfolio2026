@@ -167,3 +167,33 @@
   background: linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%);
   color: #0a3a52;
 }
+
+/* < 520px: strip estática en columna, sin efecto de scroll (el JS se gatea
+   para no correr aquí). Las cards fluyen apiladas, sin pin ni 3D. */
+@media (max-width: 519px) {
+  .scroll {
+    display: none;
+  }
+  .header {
+    position: static;
+    padding: 22px 18px 4px;
+  }
+  .slide {
+    height: auto;
+  }
+  .contentWrapper {
+    height: auto;
+    perspective: none;
+  }
+  .content {
+    position: relative;
+    inset: auto;
+    transform: none !important;
+    transform-style: flat;
+    opacity: 1 !important;
+    margin: 0 14px 16px;
+  }
+  .title {
+    font-size: clamp(2.25rem, 16vw, 3.25rem);
+  }
+}

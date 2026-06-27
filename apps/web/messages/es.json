@@ -348,50 +348,57 @@
     "packages": [
       {
         "name": "Web Studio Essentials",
-        "tagline": "Soporte web continuo para sitios de marca, campañas, CMS y actualizaciones del día a día.",
-        "audience": "Para estudios que necesitan capacidad web confiable, visualmente cuidada y fácil de operar. Ideal para mantenimiento, landings, sitios de marca, CMS y contenido dinámico sin complejidad innecesaria.",
+        "tagline": "La base web confiable para sostener la operación digital del estudio.",
+        "audience": "Para estudios que necesitan capacidad web constante para sitios de marca, campañas, CMS y actualizaciones del día a día, sin complejidad innecesaria. Pensado para mantener entregas limpias, responsivas y bien implementadas, con soporte continuo sobre la capa web que ya venden hoy.",
         "includesLabel": "Incluye:",
         "features": [
-          "Soporte continuo en sitios, campañas y CMS.",
-          "Ajustes de diseño, contenido, responsive, SEO on-page, analítica y tracking.",
-          "Gestión de contenido dinámico, formularios, integraciones básicas y despliegues tranquilos."
+          "Soporte continuo en sitios de marca, campañas y CMS básicos.",
+          "Implementación de contenido, responsive, SEO on-page, analítica y tracking.",
+          "Gestión de contenido dinámico, formularios, integraciones básicas, dominios y despliegues estándar.",
+          "Mantenimiento operativo para que los proyectos salgan bien y el estudio no dependa de resolver cada detalle técnico por separado."
         ],
+        "disclaimer": "Este paquete no incluye servicios ni involucramiento de diseño: únicamente implementación de diseños de Figma a desarrollo. El trabajo de diseño empieza a partir del Creative Growth Retainer.",
         "ctaLabel": "Empezar"
       },
       {
         "name": "Creative Growth Retainer",
-        "tagline": "Una capa técnica más sólida para sitios content-driven, workflows de CMS a medida y automatización de marketing.",
-        "audience": "Para agencias con más demanda web que necesitan una capa técnica más sólida detrás del diseño. Pensado para sitios con más ambición editorial, performance, automatización y ownership interno.",
+        "tagline": "La capa de sistemas que convierte sitios y campañas en activos de growth.",
+        "audience": "Para agencias con más demanda web que necesitan una capa técnica más sólida detrás del diseño. Pensado para proyectos con más ambición editorial, contenido dinámico, automatización, ownership interno y mejores bases para escalar servicios digitales sin depender de soluciones improvisadas.",
         "includesLabel": "Incluye todo lo de Essentials, más:",
         "features": [
-          "Implementación en stacks como Next.js, Astro y CMS modernos como Payload cuando el proyecto lo requiera.",
-          "Arquitectura de CMS, contenido dinámico, colecciones, relaciones y modelos editoriales para que marketing y diseño operen sin depender de desarrollo en cada cambio.",
-          "Automatizaciones con n8n y flujos asistidos con Claude para contenido, QA, documentación y operaciones internas.",
-          "Integraciones con bases de datos, CRMs, formularios, pipelines de captación y procesos internos."
+          "Implementación en stacks y CMS más flexibles cuando el proyecto requiere más control, performance o escalabilidad.",
+          "Arquitectura de CMS, colecciones, relaciones y modelos editoriales para que marketing y diseño operen sin depender de desarrollo en cada cambio.",
+          "Automatizaciones con n8n, flujos asistidos con Claude e integraciones con CRM, formularios, bases de datos y pipelines de captación.",
+          "Mejoras SEO y GEO para dar visibilidad no solo en buscadores, sino también en nuevos entornos de descubrimiento impulsados por IA.",
+          "Una base más sólida para vender sitios content-driven, landings más sofisticadas y sistemas editoriales de mayor valor."
         ],
+        "footerNote": "Incluye syncs de seguimiento, sesiones presenciales opcionales y acompañamiento técnico continuo sobre iniciativas activas.",
         "ctaLabel": "Cotizar"
       },
       {
         "name": "Visionary Systems Partner",
-        "tagline": "Un retainer a nivel producto para sistemas web avanzados, flujos con IA y ownership técnico a largo plazo.",
-        "audience": "Para equipos que quieren que la web deje de ser una vitrina y se convierta en sistema, producto o capa operativa del negocio. Orientado a experiencias avanzadas, automatización inteligente y arquitectura de largo plazo.",
+        "tagline": "La capa técnica que abre nuevas líneas de servicio para Pigmento.",
+        "audience": "Para estudios que quieren expandir su oferta más allá de sitios de marca y campañas, incorporando sistemas de contenido, experiencias con IA, automatización, e-commerce y productos web que normalmente requieren un equipo técnico interno. Pensado para convertir el área web en una línea más robusta, rentable y difícil de replicar.",
         "includesLabel": "Incluye todo lo de Growth, más:",
         "features": [
-          "Arquitectura frontend avanzada con Next.js / Astro, motion systems, performance tuning y experiencia de producto más compleja.",
-          "Flujos de MCP para documentación, acceso estructurado a conocimiento interno y trabajo con IA conectado a herramientas reales.",
-          "Chatbots, asistentes IA, automatizaciones editoriales y sistemas internos que combinan contenido, operaciones y experiencia web.",
-          "Diseño de ownership técnico: estructuras que el cliente o la agencia puedan mantener sin caer en dependencia ni deuda técnica."
+          "Arquitectura para plataformas de contenido, sitios editoriales, experiencias content-driven y sistemas web más complejos.",
+          "Implementación en frameworks y CMS modernos como Next.js, Astro y Payload cuando el proyecto necesita más performance, flexibilidad y ownership.",
+          "Automatizaciones avanzadas, asistentes, chatbots y flujos con IA conectados a contenido, documentación y operaciones reales.",
+          "Diseño de bases técnicas que le permiten a Pigmento vender servicios más complejos sin depender de soluciones frágiles o difíciles de mantener.",
+          "Capacidad para abrir nuevas ofertas premium como commerce experiences, content platforms, AI-powered brand experiences y sistemas internos para clientes."
         ],
+        "footerNote": "Incluye syncs estratégicos, sesiones presenciales opcionales y acompañamiento técnico continuo sobre iniciativas activas.",
         "ctaLabel": "Hablemos"
       }
     ],
     "packages_price_unit": "MXN / mes",
+    "packages_projects_included": "{count} proyectos / mes",
     "packages_extra_project": "≈ {price} por proyecto adicional",
     "packages_weekly_visit": "Incluye visita semanal opcional al studio para reuniones y requerimientos.",
     "packages_terms_heading": "Cómo funciona el pricing",
     "packages_terms": [
-      "Todo el alcance está limitado a 5 proyectos al mes.",
-      "Cada proyecto adicional se cobra como el total del paquete ÷ 5, según el paquete contratado.",
+      "Cada paquete incluye un cupo mensual de proyectos: 5 en Essentials y Growth, 3 en Visionary.",
+      "Cada proyecto adicional se cobra como el total del paquete ÷ proyectos incluidos, según el paquete contratado.",
       "El paquete es intercambiable, siempre que no haya proyectos activos que impidan el downgrade.",
       "Precios libres de impuestos.",
       "Prioridad total a tus proyectos, con entregas garantizadas en tiempo."

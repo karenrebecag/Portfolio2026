@@ -348,50 +348,57 @@
     "packages": [
       {
         "name": "Web Studio Essentials",
-        "tagline": "Ongoing web support for brand sites, campaigns, CMS, and day-to-day updates.",
-        "audience": "For studios that need reliable web capacity that's visually polished and easy to operate. Ideal for maintenance, landings, brand sites, CMS, and dynamic content without unnecessary complexity.",
+        "tagline": "The reliable web foundation that sustains the studio's digital operation.",
+        "audience": "For studios that need steady web capacity for brand sites, campaigns, CMS, and day-to-day updates—without unnecessary complexity. Built to keep deliveries clean, responsive, and well implemented, with ongoing support on the web layer they already sell today.",
         "includesLabel": "Includes:",
         "features": [
-          "Ongoing support across sites, campaigns, and CMS.",
-          "Design, content, responsive, on-page SEO, analytics, and tracking tweaks.",
-          "Dynamic content management, forms, basic integrations, and calm deploys."
+          "Ongoing support on brand sites, campaigns, and basic CMS.",
+          "Content implementation, responsive, on-page SEO, analytics, and tracking.",
+          "Dynamic content management, forms, basic integrations, domains, and standard deploys.",
+          "Operational maintenance so projects ship well and the studio doesn't have to solve every technical detail on its own."
         ],
+        "disclaimer": "This package does not include design services or design involvement: only implementation of Figma designs into development. Design work starts from the Creative Growth Retainer.",
         "ctaLabel": "Get started"
       },
       {
         "name": "Creative Growth Retainer",
-        "tagline": "A stronger technical layer for content-driven websites, custom CMS workflows, and marketing automation.",
-        "audience": "For agencies with growing web demand that need a stronger technical layer behind the design. Built for sites with more editorial ambition, performance, automation, and internal ownership.",
+        "tagline": "The systems layer that turns sites and campaigns into growth assets.",
+        "audience": "For agencies with growing web demand that need a stronger technical layer behind the design. Built for projects with more editorial ambition, dynamic content, automation, internal ownership, and better foundations to scale digital services without improvised solutions.",
         "includesLabel": "Everything in Essentials, plus:",
         "features": [
-          "Implementation in stacks like Next.js, Astro, and modern CMSs like Payload when the project calls for it.",
-          "CMS architecture, dynamic content, collections, relationships, and editorial models so marketing and design operate without relying on dev for every change.",
-          "Automations with n8n and Claude-assisted workflows for content, QA, documentation, and internal operations.",
-          "Integrations with databases, CRMs, forms, lead-capture pipelines, and internal processes."
+          "Implementation on more flexible stacks and CMSs when the project requires more control, performance, or scalability.",
+          "CMS architecture, collections, relationships, and editorial models so marketing and design operate without relying on dev for every change.",
+          "Automations with n8n, Claude-assisted workflows, and integrations with CRM, forms, databases, and lead-capture pipelines.",
+          "SEO and GEO improvements for visibility not only in search engines, but also in new AI-powered discovery environments.",
+          "A stronger foundation to sell content-driven sites, more sophisticated landings, and higher-value editorial systems."
         ],
+        "footerNote": "Includes follow-up syncs, optional in-person sessions, and ongoing technical support on active initiatives.",
         "ctaLabel": "Get a quote"
       },
       {
         "name": "Visionary Systems Partner",
-        "tagline": "A product-grade retainer for advanced web systems, AI workflows, and long-term technical ownership.",
-        "audience": "For teams that want the web to stop being just a showcase and become a system, product, or operational layer of the business. Geared toward advanced experiences, intelligent automation, and long-term architecture.",
+        "tagline": "The technical layer that opens new service lines for Pigmento.",
+        "audience": "For studios that want to expand their offer beyond brand sites and campaigns—adding content systems, AI-powered experiences, automation, e-commerce, and web products that usually require an in-house technical team. Built to turn the web practice into a more robust, profitable, and hard-to-replicate line of business.",
         "includesLabel": "Everything in Growth, plus:",
         "features": [
-          "Advanced frontend architecture with Next.js / Astro, motion systems, performance tuning, and a more complex product experience.",
-          "MCP workflows for documentation, structured access to internal knowledge, and AI work connected to real tools.",
-          "Chatbots, AI assistants, editorial automations, and internal systems that combine content, operations, and web experience.",
-          "Technical ownership design: structures the client or agency can maintain without falling into dependency or tech debt."
+          "Architecture for content platforms, editorial sites, content-driven experiences, and more complex web systems.",
+          "Implementation in modern frameworks and CMSs like Next.js, Astro, and Payload when the project needs more performance, flexibility, and ownership.",
+          "Advanced automations, assistants, chatbots, and AI workflows connected to content, documentation, and real operations.",
+          "Technical foundations that let Pigmento sell more complex services without relying on fragile or hard-to-maintain solutions.",
+          "Capacity to launch new premium offerings such as commerce experiences, content platforms, AI-powered brand experiences, and internal systems for clients."
         ],
+        "footerNote": "Includes strategic syncs, optional in-person sessions, and ongoing technical support on active initiatives.",
         "ctaLabel": "Let's talk"
       }
     ],
     "packages_price_unit": "MXN / mo",
+    "packages_projects_included": "{count} projects / mo",
     "packages_extra_project": "≈ {price} per additional project",
     "packages_weekly_visit": "Includes an optional weekly studio visit for meetings and requirements.",
     "packages_terms_heading": "How the pricing works",
     "packages_terms": [
-      "All scope is limited to 5 projects per month.",
-      "Each additional project is billed as the package total ÷ 5, based on the package you're on.",
+      "Each package includes a monthly project quota: 5 on Essentials and Growth, 3 on Visionary.",
+      "Each additional project is billed as the package total ÷ included projects, based on the package you're on.",
       "The package is interchangeable, as long as no active projects block a downgrade.",
       "Prices are tax-free.",
       "Full priority on your projects, with delivery guaranteed on time."

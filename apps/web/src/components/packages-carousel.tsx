@@ -17,7 +17,7 @@ type PackagesCarouselProps = {
   className?: string
 }
 
-const MOBILE_QUERY = '(max-width: 1199px)'
+const MOBILE_QUERY = '(min-width: 520px) and (max-width: 1199px)'
 
 /**
  * Carrusel horizontal pinned de pricing cards (port de MWG 087). Es la mitad
@@ -41,7 +41,10 @@ export function PackagesCarousel({ packages, featuredLabel, className = '' }: Pa
 
   usePageInit(
     useCallback(() => {
-      if (!isMobile) return
+      if (!isMobile) {
+        scheduleScrollTriggerRefresh(true)
+        return
+      }
       const container = containerRef.current
       const cards = cardsRef.current
       if (!container || !cards) return
@@ -108,23 +111,31 @@ export function PackagesCarousel({ packages, featuredLabel, className = '' }: Pa
                   <NumberOdometer items={[{ value: pkg.priceValue }]} numberClassName="text-[2.5rem] font-bold leading-none tracking-tight" />
                   <span className="pb-1 text-2xs font-accent uppercase tracking-wide opacity-60">{pkg.priceUnit}</span>
                 </div>
-                <p className="mt-1.5 text-2xs opacity-60">{pkg.extraProjectNote}</p>
+                <p className="mt-1.5 text-2xs font-medium opacity-75">{pkg.projectsIncludedNote}</p>
+                <p className="mt-1 text-2xs opacity-60">{pkg.extraProjectNote}</p>
 
-                <p className="mt-5 text-sm font-medium leading-snug opacity-90">{pkg.tagline}</p>
-                <p className="mt-3 text-xs leading-[1.55] opacity-60">{pkg.audience}</p>
+                <p className="mt-5 text-base font-medium leading-snug opacity-95">{pkg.tagline}</p>
+                <p className="mt-3 text-sm leading-relaxed opacity-75">{pkg.audience}</p>
 
                 <span className="mt-8 block text-2xs font-accent uppercase tracking-widest opacity-60">{pkg.includesLabel}</span>
                 <ul className="mt-3 space-y-3 flex-1">
                   {pkg.features.map((feature) => (
                     <li key={feature} className="flex gap-3 text-sm leading-[1.6]">
                       <span aria-hidden className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-70" />
-                      <span className="opacity-90">{feature}</span>
+                      <span className="opacity-85">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 {pkg.weeklyVisitNote && (
                   <p className="mt-5 border-t border-current/15 pt-4 text-xs font-medium leading-snug opacity-80">{pkg.weeklyVisitNote}</p>
+                )}
+
+                {pkg.disclaimer && (
+                  <p className="mt-5 flex gap-1.5 border-t border-current/15 pt-4 font-accent text-2xs leading-[1.5] opacity-50">
+                    <span aria-hidden>*</span>
+                    <span>{pkg.disclaimer}</span>
+                  </p>
                 )}
               </div>
             </div>

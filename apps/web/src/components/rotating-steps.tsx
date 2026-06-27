@@ -53,7 +53,10 @@ export function RotatingSteps({ steps, shapes }: RotatingStepsProps) {
       const pin = pinRef.current
       const container = containerRef.current
       if (!root || !pin || !container) return
-      if (!isDesktop) return
+      if (!isDesktop) {
+        scheduleScrollTriggerRefresh(true)
+        return
+      }
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
       const paragraphs = Array.from(

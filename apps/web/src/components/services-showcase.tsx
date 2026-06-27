@@ -20,31 +20,41 @@ type ServicesShowcaseProps = {
 }
 
 const DESKTOP_QUERY = '(min-width: 1200px)'
+const TABLET_QUERY = '(min-width: 520px) and (max-width: 1199px)'
 
 /**
- * Switch de diseño para los servicios: el efecto fan (MWG 003) no funciona bien
- * < 1200px, así que ahí cambia al stack de cards (MWG 031) con el mismo contenido.
- * Ambos viven en el DOM (SSR/SEO); CSS oculta uno y `active` gatea su JS para no
- * crear ScrollTriggers/pins degenerados en el que está display:none.
+ * Switch de diseño para los servicios, en 3 modos:
+ * - ≥1200px: efecto fan (MWG 003).
+ * - 520–1199px: stack con scroll (MWG 031).
+ * - <520px: el mismo stack reflowa a columna estática (CSS), sin scroll.
+ *
+ * Todos viven en el DOM (SSR/SEO); CSS muestra el correcto y `active` gatea el
+ * JS para no crear ScrollTriggers en el que está oculto o estático.
  */
 export function ServicesShowcase({ services, labels }: ServicesShowcaseProps) {
-  const [isDesktop, setIsDesktop] = useState(true)
+  const [mode, setMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop')
 
   useEffect(() => {
-    const mq = window.matchMedia(DESKTOP_QUERY)
-    const update = () => setIsDesktop(mq.matches)
+    const desktop = window.matchMedia(DESKTOP_QUERY)
+    const tablet = window.matchMedia(TABLET_QUERY)
+    const update = () => setMode(desktop.matches ? 'desktop' : tablet.matches ? 'tablet' : 'mobile')
     update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
+    desktop.addEventListener('change', update)
+    tablet.addEventListener('change', update)
+    return () => {
+      desktop.removeEventListener('change', update)
+      tablet.removeEventListener('change', update)
+    }
   }, [])
 
   return (
     <>
       <div className="max-[1199px]:hidden">
-        <ServicesFanCards services={services} labels={labels} active={isDesktop} />
+        <ServicesFanCards services={services} labels={labels} active={mode === 'desktop'} />
       </div>
+      {/* Stack: visible <1200; scroll en tablet, columna estática <520 (CSS). */}
       <div className="min-[1200px]:hidden">
-        <ServicesStackCards services={services} labels={labels} active={!isDesktop} />
+        <ServicesStackCards services={services} labels={labels} active={mode === 'tablet'} />
       </div>
     </>
   )

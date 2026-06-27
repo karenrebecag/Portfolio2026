@@ -43,7 +43,13 @@ export function ServicesFanCards({ services, labels, active = true }: ServicesFa
   usePageInit(
     useCallback(() => {
     const root = rootRef.current
-    if (!root || !active) return
+    if (!root) return
+    // Al desactivarse, el ctx.revert previo quitó el pin; reprogramar un refresh
+    // reconstruye el sort global de ScrollTrigger y evita lecturas corruptas.
+    if (!active) {
+      scheduleScrollTriggerRefresh(true)
+      return
+    }
 
     const pinHeight = root.querySelector<HTMLElement>(`.${styles.fanPin}`)
     const container = root.querySelector<HTMLElement>(`.${styles.fanContainer}`)
