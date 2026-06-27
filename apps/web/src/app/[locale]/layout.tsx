@@ -64,15 +64,15 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-/** SSR fallback for mobile browser chrome (client sync refines per section + theme). */
+/**
+ * Mobile browser chrome color lives in a single manual <meta name="theme-color"> below,
+ * kept in sync at runtime by update-theme-color-meta.ts. No themeColor here: media-based
+ * tags match the OS preference (not the in-site theme) and silently override that sync.
+ */
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#11221f' },
-    { media: '(prefers-color-scheme: dark)', color: '#070806' },
-  ],
 }
 
 export async function generateMetadata({
