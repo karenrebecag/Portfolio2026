@@ -81,7 +81,7 @@ export type ProposalFaq = {
 /** Presentación de los paquetes, en el mismo orden que `proposals.packages` en los mensajes. */
 export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
   {
-    priceMonthly: 20000,
+    priceMonthly: 18000,
     projectsPerMonth: 5,
     gradient: {
       bg: 'linear-gradient(150deg, #d9c4ff 0%, #a7b6ff 52%, #6f8cff 100%)',
@@ -90,7 +90,7 @@ export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
   },
   {
     featured: true,
-    priceMonthly: 30000,
+    priceMonthly: 35000,
     projectsPerMonth: 5,
     gradient: {
       bg: 'linear-gradient(150deg, #e7cef5 0%, #c08fee 50%, #8a4fe6 100%)',
@@ -98,7 +98,7 @@ export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
     },
   },
   {
-    priceMonthly: 48000,
+    priceMonthly: 50000,
     projectsPerMonth: 3,
     gradient: {
       bg: 'linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%)',
