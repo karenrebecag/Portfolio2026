@@ -366,6 +366,7 @@
         "audience": "For agencies with growing web demand that need a stronger technical layer behind the design. Built for projects with more editorial ambition, dynamic content, automation, internal ownership, and better foundations to scale digital services without improvised solutions.",
         "includesLabel": "Everything in Essentials, plus:",
         "features": [
+          "Direct collaboration with the design, UX/UI, and brand team: we review requirements together and turn them into real architecture and flows.",
           "Implementation on more flexible stacks and CMSs when the project requires more control, performance, or scalability.",
           "CMS architecture, collections, relationships, and editorial models so marketing and design operate without relying on dev for every change.",
           "Automations with n8n, Claude-assisted workflows, and integrations with CRM, forms, databases, and lead-capture pipelines.",

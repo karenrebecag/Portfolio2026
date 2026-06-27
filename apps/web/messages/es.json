@@ -366,6 +366,7 @@
         "audience": "Para agencias con más demanda web que necesitan una capa técnica más sólida detrás del diseño. Pensado para proyectos con más ambición editorial, contenido dinámico, automatización, ownership interno y mejores bases para escalar servicios digitales sin depender de soluciones improvisadas.",
         "includesLabel": "Incluye todo lo de Essentials, más:",
         "features": [
+          "Colaboración directa con el equipo de diseño, UX/UI y marca: revisamos juntos requisitos y los convertimos en arquitectura y flujos reales.",
           "Implementación en stacks y CMS más flexibles cuando el proyecto requiere más control, performance o escalabilidad.",
           "Arquitectura de CMS, colecciones, relaciones y modelos editoriales para que marketing y diseño operen sin depender de desarrollo en cada cambio.",
           "Automatizaciones con n8n, flujos asistidos con Claude e integraciones con CRM, formularios, bases de datos y pipelines de captación.",
