@@ -98,7 +98,7 @@ export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
     },
   },
   {
-    priceMonthly: 50000,
+    priceMonthly: 55000,
     projectsPerMonth: 3,
     gradient: {
       bg: 'linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%)',
