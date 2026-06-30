@@ -6,6 +6,7 @@ import { Navbar } from '@/components/layout/navbar'
 import { GridGuides } from '@/components/ui/grid-guides'
 import { CursorImageTrail } from '@/components/cursor-image-trail'
 import { Button061 } from '@/components/ui/button-061'
+import { Pill } from '@/components/ui/pill'
 import { ForceDarkTheme } from '@/components/theme-lock-provider'
 import { TRAIL_SHAPES } from '@/lib/trail-shapes'
 
@@ -38,9 +39,7 @@ export default function Error({
         <CursorImageTrail images={TRAIL_SHAPES} autoIntervalMs={550} className="absolute inset-0 z-0" />
 
         <div className="relative z-[1] flex flex-col items-center py-16">
-          <p className="font-accent text-xs uppercase tracking-[0.25em] text-surface-foreground/50">
-            {t('error.eyebrow')}
-          </p>
+          <Pill>{t('error.eyebrow')}</Pill>
           <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,7vw,5rem)] font-bold leading-[0.95] tracking-tight">
             {t('error.title')}
           </h1>
