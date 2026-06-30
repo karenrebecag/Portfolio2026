@@ -38,7 +38,13 @@ export default function Error({
         <GridGuides className="z-0" />
         <CursorImageTrail images={TRAIL_SHAPES} autoIntervalMs={550} className="absolute inset-0 z-0" />
 
-        <div className="relative z-[1] flex flex-col items-center py-16">
+        <div
+          data-reveal-group
+          data-stagger="120"
+          data-start="top 90%"
+          data-distance="2em"
+          className="relative z-[1] flex flex-col items-center py-16"
+        >
           <Pill>{t('error.eyebrow')}</Pill>
           <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,7vw,5rem)] font-bold leading-[0.95] tracking-tight">
             {t('error.title')}
