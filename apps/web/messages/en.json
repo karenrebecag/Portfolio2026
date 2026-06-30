@@ -1,4 +1,18 @@
 {
+  "errors": {
+    "notFound": {
+      "eyebrow": "404",
+      "title": "We lost this page",
+      "body": "We searched high and low but couldn't find what you're looking for. Let's find a better place for you to go.",
+      "cta": "Back home"
+    },
+    "error": {
+      "eyebrow": "Error",
+      "title": "Something broke on our side",
+      "body": "An unexpected error got in the way. Let's head back home.",
+      "cta": "Back home"
+    }
+  },
   "metadata": {
     "title": "Karen Ortiz - Software Engineer & Product Designer",
     "description": "I design and build AI-powered web products, from architecture to the last pixel.",
@@ -496,8 +510,8 @@
         "a": "Yes. I work remotely with teams in North America, LATAM, and Europe, in time zones compatible with the Americas."
       },
       {
-        "q": "Can you show this work in your portfolio?",
-        "a": "The sites and systems we build may appear in my portfolio, always crediting the collaboration with Pigmento Studio."
+        "q": "Can you include these projects in your portfolio?",
+        "a": "Yes, but only as attribution, never as ownership. If I feature any of the projects I build for Pigmento Studio, I always present it as a collaboration: I credit my role in building it, without claiming the project as my own."
       }
     ]
   }

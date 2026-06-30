@@ -1,4 +1,18 @@
 {
+  "errors": {
+    "notFound": {
+      "eyebrow": "404",
+      "title": "Perdimos esta página",
+      "body": "Buscamos por todos lados y no encontramos lo que buscas. Vamos a llevarte a un mejor lugar.",
+      "cta": "Volver al inicio"
+    },
+    "error": {
+      "eyebrow": "Error",
+      "title": "Algo se rompió de nuestro lado",
+      "body": "Un error inesperado se cruzó en el camino. Volvamos al inicio.",
+      "cta": "Volver al inicio"
+    }
+  },
   "metadata": {
     "title": "Karen Ortiz - Software Engineer & Product Designer",
     "description": "Diseño y construyo productos web impulsados por IA, de la arquitectura al último píxel.",
@@ -496,8 +510,8 @@
         "a": "Sí. Trabajo en remoto con equipos de Norteamérica, LATAM y Europa, en zonas horarias compatibles con América."
       },
       {
-        "q": "¿Puedes mostrar este trabajo en tu portafolio?",
-        "a": "Los sitios y sistemas que construyamos pueden aparecer en mi portafolio, mencionando siempre la colaboración con Pigmento Studio."
+        "q": "¿Puedes incluir estos proyectos en tu portafolio?",
+        "a": "Sí, pero solo como atribución, nunca como propiedad. Si presento alguno de los proyectos que desarrolle para Pigmento Studio, lo hago siempre como una colaboración: reconozco mi rol en la construcción, sin reclamar el proyecto como propio."
       }
     ]
   }
