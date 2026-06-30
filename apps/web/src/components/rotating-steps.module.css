@@ -54,16 +54,10 @@
   color: color-mix(in oklab, var(--foreground) 70%, transparent);
 }
 
-@media (max-width: 768px) {
-  .paragraph {
-    width: 86%;
-  }
-}
-
 /* Fallback sin movimiento: steps apilados en flujo normal, sin pin ni 3D.
-   Aplica en mobile (< 768px, donde el pin + 3D no funciona bien) y con
-   prefers-reduced-motion. El JS se gatea en paralelo para no crear el pin. */
-@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+   Aplica < 1200px (donde el pin + flip 3D se desincroniza al re-fluir el texto)
+   y con prefers-reduced-motion. El JS se gatea en paralelo para no crear el pin. */
+@media (max-width: 1199px), (prefers-reduced-motion: reduce) {
   .pinHeight {
     height: auto !important;
   }

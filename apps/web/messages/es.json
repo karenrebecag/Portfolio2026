@@ -373,7 +373,7 @@
           "Mejoras SEO y GEO para dar visibilidad no solo en buscadores, sino también en nuevos entornos de descubrimiento impulsados por IA.",
           "Una base más sólida para vender sitios content-driven, landings más sofisticadas y sistemas editoriales de mayor valor."
         ],
-        "footerNote": "Incluye syncs de seguimiento, sesiones presenciales opcionales y acompañamiento técnico continuo sobre iniciativas activas.",
+        "footerNote": "Incluye una visita semanal al estudio y hasta 4 horas de reuniones por semana para asesoría y alineación, como tiempo extra que no consume tus 5 proyectos.",
         "ctaLabel": "Cotizar"
       },
       {
@@ -388,18 +388,22 @@
           "Diseño de bases técnicas que le permiten a Pigmento vender servicios más complejos sin depender de soluciones frágiles o difíciles de mantener.",
           "Capacidad para abrir nuevas ofertas premium como commerce experiences, content platforms, AI-powered brand experiences y sistemas internos para clientes."
         ],
-        "footerNote": "Incluye syncs estratégicos, sesiones presenciales opcionales y acompañamiento técnico continuo sobre iniciativas activas.",
+        "footerNote": "Incluye una visita semanal al estudio y hasta 8 horas de reuniones por semana para asesoría y alineación, como tiempo extra que no consume las 36 horas.",
         "ctaLabel": "Hablemos"
       }
     ],
     "packages_price_unit": "MXN / mes",
     "packages_projects_included": "{count} proyectos / mes",
     "packages_extra_project": "≈ {price} por proyecto adicional",
+    "packages_hours_included": "{count} horas / mes de acompañamiento técnico para crecer tus áreas estratégicas",
+    "packages_extra_hour": "≈ {price} por hora adicional",
     "packages_weekly_visit": "Incluye visita semanal opcional al studio para reuniones y requerimientos.",
     "packages_terms_heading": "Cómo funciona el pricing",
     "packages_terms": [
-      "Cada paquete incluye un cupo mensual de proyectos: 5 en Essentials y Growth, 3 en Visionary.",
-      "Cada proyecto adicional se cobra como el total del paquete ÷ proyectos incluidos, según el paquete contratado.",
+      "Essentials y Growth se miden por proyecto base (un sitio de hasta 4 secciones, máximo 6 strips por página): 5 proyectos al mes cada uno.",
+      "Visionary se mide por capacidad de ingeniería dedicada: 36 horas al mes, por el alcance variable de sus iniciativas.",
+      "Cada proyecto adicional se cobra como el total del paquete ÷ proyectos incluidos; en Visionary, cada hora adicional se cobra como el total ÷ horas incluidas.",
+      "Growth y Visionary incluyen una visita semanal al estudio y reuniones de asesoría (hasta 4 horas en Growth, hasta 8 en Visionary) como tiempo extra; no consumen proyectos ni horas.",
       "El paquete es intercambiable, siempre que no haya proyectos activos que impidan el downgrade.",
       "Precios libres de impuestos.",
       "Prioridad total a tus proyectos, con entregas garantizadas en tiempo."
@@ -435,12 +439,43 @@
     ],
     "faq": [
       {
-        "q": "¿Trabajas en remoto?",
-        "a": "Sí. Trabajo en remoto con equipos de Norteamérica, LATAM y Europa, en zonas horarias compatibles con América."
+        "q": "¿Cómo se mide un proyecto en Essentials y Growth?",
+        "a": "Un proyecto base es un sitio completo de hasta cuatro secciones (por ejemplo, home más 3 secciones), con un máximo de 6 strips por página para que una sola página no crezca sin límite. Es la unidad con la que mido la capacidad mensual. Cuando el alcance crece, se normaliza: un sitio de ocho secciones cuenta como dos proyectos base, aunque sea una sola URL, porque el trabajo equivale a dos. Las piezas con lógica propia, como una tienda en línea (catálogo, carrito, pagos), no son un proyecto base; se cotizan aparte o como varias unidades según su alcance. Así «5 proyectos al mes» es una capacidad clara y medible, no un número ambiguo. Visionary, en cambio, se mide por horas de ingeniería dedicada, no por proyectos, dado el alcance variable de sus iniciativas."
+      },
+      {
+        "q": "¿Qué incluye el paquete Visionary?",
+        "a": [
+          "Visionary es el tier de partner técnico. Incluye todo lo de Growth y suma arquitectura para plataformas de contenido, sitios editoriales y sistemas web complejos; implementación en frameworks modernos como Next.js, Astro y Payload; y automatizaciones avanzadas, asistentes, chatbots y flujos con IA conectados a tu operación real.",
+          "Te da las bases técnicas para abrir ofertas premium como tiendas en línea, plataformas de contenido y experiencias de marca con IA, es decir, la capacidad que normalmente requiere un equipo técnico interno sin tener que armarlo. Se mide por 36 horas de ingeniería dedicada al mes, más una visita semanal al estudio y reuniones de asesoría como tiempo extra."
+        ]
+      },
+      {
+        "q": "¿Cómo funcionan las reuniones y visitas?",
+        "a": "Las reuniones y la visita semanal al estudio son tiempo extra incluido: no consumen tus proyectos ni las horas de Visionary. Growth incluye hasta 4 horas de reuniones por semana y Visionary hasta 8, además de una visita semanal al estudio para alineación y planeación presencial. Essentials se enfoca en implementación, sin reuniones recurrentes incluidas. La intención es que la estrategia y la alineación no te cuesten capacidad de entrega."
+      },
+      {
+        "q": "¿Qué cubre el alcance de cada retainer?",
+        "a": "Cada retainer se basa en una capacidad definida al inicio: proyectos base en Essentials y Growth, u horas en Visionary, sobre tipos de trabajo acordados (sitios, landings, CMS, automatizaciones, etc.). Cualquier iniciativa fuera de esa capacidad se cotiza como proyecto adicional. No es «todo lo que salga en el mes», sino una capacidad fija de ingeniería y diseño web que usamos en un backlog acordado con Pigmento."
       },
       {
         "q": "¿Cómo se define el precio de un proyecto?",
         "a": "Parto del alcance del discovery. Para piezas acotadas uso precio fijo; para proyectos completos cotizo por alcance y para trabajo continuo uso un retainer mensual."
+      },
+      {
+        "q": "¿Cómo se prioriza el backlog?",
+        "a": "Las solicitudes se agrupan en un backlog mensual. Priorizamos junto con Pigmento qué entra en cada ciclo; lo que no alcance se mueve al siguiente o se cotiza como proyecto separado si requiere urgencia extra."
+      },
+      {
+        "q": "¿Cómo se reparten las responsabilidades?",
+        "a": "Pigmento mantiene el control sobre estrategia de marca, contenidos y relación con sus clientes; yo me hago cargo de la capa web, sistemas y automatizaciones dentro del alcance definido. Cualquier cambio estratégico grande se revisa antes de asumirlo en el retainer."
+      },
+      {
+        "q": "¿Las herramientas y licencias están incluidas?",
+        "a": "El uso de mi toolbox (Figma, Adobe, motion libs, CMS, n8n, Claude, Cursor, etc.) está incluido en el retainer. Licencias empresariales específicas, infraestructura de terceros o cuentas propiedad del cliente se presupuestan aparte cuando hagan falta."
+      },
+      {
+        "q": "¿Qué pasa con infraestructura y soporte mayor?",
+        "a": "Los paquetes cubren diseño, implementación, automatizaciones y despliegues estándar. Cambios de infraestructura mayor (migraciones de hosting, refactor completo de stack, adopción de nuevas plataformas) se plantean como proyectos con alcance propio."
       },
       {
         "q": "¿Puedes integrarte a un equipo existente?",
@@ -457,24 +492,8 @@
         ]
       },
       {
-        "q": "¿Qué cubre el alcance de cada retainer?",
-        "a": "Cada retainer se basa en un bloque de horas y tipos de trabajo definidos al inicio (sitios, landings, CMS, automatizaciones, etc.); cualquier iniciativa fuera de ese bloque se cotiza como proyecto adicional. No son «todo lo que salga en el mes», sino una capacidad fija de ingeniería y diseño web que usamos en un backlog acordado con Pigmento."
-      },
-      {
-        "q": "¿Cómo se prioriza el backlog?",
-        "a": "Las solicitudes se agrupan en un backlog mensual. Priorizamos junto con Pigmento qué entra en cada ciclo; lo que no alcance se mueve al siguiente o se cotiza como proyecto separado si requiere urgencia extra."
-      },
-      {
-        "q": "¿Las herramientas y licencias están incluidas?",
-        "a": "El uso de mi toolbox (Figma, Adobe, motion libs, CMS, n8n, Claude, Cursor, etc.) está incluido en el retainer. Licencias empresariales específicas, infraestructura de terceros o cuentas propiedad del cliente se presupuestan aparte cuando hagan falta."
-      },
-      {
-        "q": "¿Qué pasa con infraestructura y soporte mayor?",
-        "a": "Los paquetes cubren diseño, implementación, automatizaciones y despliegues estándar. Cambios de infraestructura mayor (migraciones de hosting, refactor completo de stack, adopción de nuevas plataformas) se plantean como proyectos con alcance propio."
-      },
-      {
-        "q": "¿Cómo se reparten las responsabilidades?",
-        "a": "Pigmento mantiene el control sobre estrategia de marca, contenidos y relación con sus clientes; yo me hago cargo de la capa web, sistemas y automatizaciones dentro del alcance definido. Cualquier cambio estratégico grande se revisa antes de asumirlo en el retainer."
+        "q": "¿Trabajas en remoto?",
+        "a": "Sí. Trabajo en remoto con equipos de Norteamérica, LATAM y Europa, en zonas horarias compatibles con América."
       },
       {
         "q": "¿Puedes mostrar este trabajo en tu portafolio?",

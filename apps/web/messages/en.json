@@ -329,7 +329,7 @@
         "tagline": "All the technical work that makes the site exist, run, and scale without the agency stepping in.",
         "includes": [
           "Domains, SSL, hosting, and staging and production environments.",
-          "Deploy pipelines and basic backups — no depending on “a zip” no one understands.",
+          "Deploy pipelines and basic backups, without depending on “a zip” no one understands.",
           "Essential monitoring and launch support for a calm go-live."
         ],
         "category": "Operations"
@@ -349,7 +349,7 @@
       {
         "name": "Web Studio Essentials",
         "tagline": "The reliable web foundation that sustains the studio's digital operation.",
-        "audience": "For studios that need steady web capacity for brand sites, campaigns, CMS, and day-to-day updates—without unnecessary complexity. Built to keep deliveries clean, responsive, and well implemented, with ongoing support on the web layer they already sell today.",
+        "audience": "For studios that need steady web capacity for brand sites, campaigns, CMS, and day-to-day updates, without unnecessary complexity. Built to keep deliveries clean, responsive, and well implemented, with ongoing support on the web layer they already sell today.",
         "includesLabel": "Includes:",
         "features": [
           "Ongoing support on brand sites, campaigns, and basic CMS.",
@@ -373,13 +373,13 @@
           "SEO and GEO improvements for visibility not only in search engines, but also in new AI-powered discovery environments.",
           "A stronger foundation to sell content-driven sites, more sophisticated landings, and higher-value editorial systems."
         ],
-        "footerNote": "Includes follow-up syncs, optional in-person sessions, and ongoing technical support on active initiatives.",
+        "footerNote": "Includes a weekly studio visit and up to 4 hours of meetings per week for advisory and alignment, as extra time that doesn't consume your 5 projects.",
         "ctaLabel": "Get a quote"
       },
       {
         "name": "Visionary Systems Partner",
         "tagline": "The technical layer that opens new service lines for Pigmento.",
-        "audience": "For studios that want to expand their offer beyond brand sites and campaigns—adding content systems, AI-powered experiences, automation, e-commerce, and web products that usually require an in-house technical team. Built to turn the web practice into a more robust, profitable, and hard-to-replicate line of business.",
+        "audience": "For studios that want to expand their offer beyond brand sites and campaigns, adding content systems, AI-powered experiences, automation, e-commerce, and web products that usually require an in-house technical team. Built to turn the web practice into a more robust, profitable, and hard-to-replicate line of business.",
         "includesLabel": "Everything in Growth, plus:",
         "features": [
           "Architecture for content platforms, editorial sites, content-driven experiences, and more complex web systems.",
@@ -388,18 +388,22 @@
           "Technical foundations that let Pigmento sell more complex services without relying on fragile or hard-to-maintain solutions.",
           "Capacity to launch new premium offerings such as commerce experiences, content platforms, AI-powered brand experiences, and internal systems for clients."
         ],
-        "footerNote": "Includes strategic syncs, optional in-person sessions, and ongoing technical support on active initiatives.",
+        "footerNote": "Includes a weekly studio visit and up to 8 hours of meetings per week for advisory and alignment, as extra time that doesn't consume the 36 hours.",
         "ctaLabel": "Let's talk"
       }
     ],
     "packages_price_unit": "MXN / mo",
     "packages_projects_included": "{count} projects / mo",
     "packages_extra_project": "≈ {price} per additional project",
+    "packages_hours_included": "{count} hours / mo of dedicated partnership to grow your strategic areas",
+    "packages_extra_hour": "≈ {price} per additional hour",
     "packages_weekly_visit": "Includes an optional weekly studio visit for meetings and requirements.",
     "packages_terms_heading": "How the pricing works",
     "packages_terms": [
-      "Each package includes a monthly project quota: 5 on Essentials and Growth, 3 on Visionary.",
-      "Each additional project is billed as the package total ÷ included projects, based on the package you're on.",
+      "Essentials and Growth are measured by base project (a site of up to 4 sections, max 6 strips per page): 5 projects per month each.",
+      "Visionary is measured by dedicated engineering capacity: 36 hours per month, given the variable scope of its initiatives.",
+      "Each additional project is billed as the package total ÷ included projects; on Visionary, each additional hour is billed as the total ÷ included hours.",
+      "Growth and Visionary include a weekly studio visit and advisory meetings (up to 4 hours on Growth, up to 8 on Visionary) as extra time; they don't consume projects or hours.",
       "The package is interchangeable, as long as no active projects block a downgrade.",
       "Prices are tax-free.",
       "Full priority on your projects, with delivery guaranteed on time."
@@ -435,12 +439,43 @@
     ],
     "faq": [
       {
-        "q": "Do you work remotely?",
-        "a": "Yes. I work remotely with teams in North America, LATAM, and Europe, in time zones compatible with the Americas."
+        "q": "How is a project measured in Essentials and Growth?",
+        "a": "A base project is a complete site of up to four sections (for example, a home plus 3 sections), with a maximum of 6 strips per page so a single page doesn't grow without limit. It's the unit I use to measure monthly capacity. When scope grows, it's normalized: an eight-section site counts as two base projects, even if it's a single URL, because the work equals two. Pieces with their own logic, like an online store (catalog, cart, checkout), aren't a base project; they're quoted separately or as several units depending on scope. That way \"5 projects per month\" means clear, measurable capacity, not an ambiguous number. Visionary, by contrast, is measured by hours of dedicated engineering, not by projects, given the variable scope of its initiatives."
+      },
+      {
+        "q": "What does the Visionary package include?",
+        "a": [
+          "Visionary is the technical partner tier. It includes everything in Growth and adds architecture for content platforms, editorial sites, and complex web systems; implementation in modern frameworks like Next.js, Astro, and Payload; and advanced automations, assistants, chatbots, and AI flows connected to your real operation.",
+          "It gives you the technical foundation to open premium offerings like online stores, content platforms, and brand experiences powered by AI, the capacity that usually requires an in-house technical team without having to build one. It's measured by 36 hours of dedicated engineering per month, plus a weekly studio visit and advisory meetings as extra time."
+        ]
+      },
+      {
+        "q": "How do meetings and studio visits work?",
+        "a": "Meetings and the weekly studio visit are extra time included: they don't consume your projects or Visionary's hours. Growth includes up to 4 hours of meetings per week and Visionary up to 8, plus a weekly studio visit for alignment and in-person planning. Essentials focuses on implementation, with no recurring meetings included. The intent is that strategy and alignment don't cost you delivery capacity."
+      },
+      {
+        "q": "What does each retainer's scope cover?",
+        "a": "Each retainer is based on a capacity defined up front: base projects on Essentials and Growth, or hours on Visionary, across agreed types of work (sites, landings, CMS, automations, etc.). Any initiative outside that capacity is quoted as an additional project. It isn't «whatever comes up that month», but a fixed web engineering and design capacity used against a backlog agreed with Pigmento."
       },
       {
         "q": "How is a project priced?",
         "a": "I start from the discovery scope. For scoped pieces I use a fixed price; for full projects I quote by scope; and for ongoing work I use a monthly retainer."
+      },
+      {
+        "q": "How is the backlog prioritized?",
+        "a": "Requests are grouped into a monthly backlog. We prioritize together with Pigmento what goes into each cycle; whatever doesn't fit moves to the next one, or is quoted as a separate project if it needs extra urgency."
+      },
+      {
+        "q": "How are responsibilities shared?",
+        "a": "Pigmento keeps control over brand strategy, content, and the relationship with its clients; I own the web layer, systems, and automations within the defined scope. Any major strategic change is reviewed before taking it on within the retainer."
+      },
+      {
+        "q": "Are tools and licenses included?",
+        "a": "Use of my toolbox (Figma, Adobe, motion libs, CMS, n8n, Claude, Cursor, etc.) is included in the retainer. Specific enterprise licenses, third-party infrastructure, or accounts owned by the client are budgeted separately when needed."
+      },
+      {
+        "q": "What about infrastructure and major support?",
+        "a": "Packages cover design, implementation, automations, and standard deploys. Major infrastructure changes (hosting migrations, full stack refactors, adopting new platforms) are framed as projects with their own scope."
       },
       {
         "q": "Can you join an existing team?",
@@ -457,24 +492,8 @@
         ]
       },
       {
-        "q": "What does each retainer's scope cover?",
-        "a": "Each retainer is based on a block of hours and types of work defined up front (sites, landings, CMS, automations, etc.); any initiative outside that block is quoted as an additional project. Retainers aren't «whatever comes up that month», but a fixed web engineering and design capacity used against a backlog agreed with Pigmento."
-      },
-      {
-        "q": "How is the backlog prioritized?",
-        "a": "Requests are grouped into a monthly backlog. We prioritize together with Pigmento what goes into each cycle; whatever doesn't fit moves to the next one, or is quoted as a separate project if it needs extra urgency."
-      },
-      {
-        "q": "Are tools and licenses included?",
-        "a": "Use of my toolbox (Figma, Adobe, motion libs, CMS, n8n, Claude, Cursor, etc.) is included in the retainer. Specific enterprise licenses, third-party infrastructure, or accounts owned by the client are budgeted separately when needed."
-      },
-      {
-        "q": "What about infrastructure and major support?",
-        "a": "Packages cover design, implementation, automations, and standard deploys. Major infrastructure changes (hosting migrations, full stack refactors, adopting new platforms) are framed as projects with their own scope."
-      },
-      {
-        "q": "How are responsibilities shared?",
-        "a": "Pigmento keeps control over brand strategy, content, and the relationship with its clients; I own the web layer, systems, and automations within the defined scope. Any major strategic change is reviewed before taking it on within the retainer."
+        "q": "Do you work remotely?",
+        "a": "Yes. I work remotely with teams in North America, LATAM, and Europe, in time zones compatible with the Americas."
       },
       {
         "q": "Can you show this work in your portfolio?",

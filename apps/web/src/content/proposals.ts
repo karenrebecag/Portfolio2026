@@ -41,10 +41,18 @@ export type ProposalPackageText = {
  */
 export type ProposalPackagePresentation = {
   featured?: boolean
-  /** Precio mensual en MXN (dato, no idioma). El precio por proyecto extra = total ÷ projectsPerMonth. */
+  /** Precio mensual en MXN (dato, no idioma). */
   priceMonthly: number
-  /** Sitios incluidos por mes en el retainer. */
-  projectsPerMonth: number
+  /**
+   * Tiers medidos por unidad: proyectos base incluidos por mes.
+   * El precio por proyecto extra = total ÷ projectsPerMonth.
+   */
+  projectsPerMonth?: number
+  /**
+   * Tiers medidos por capacidad: horas de ingeniería incluidas por mes.
+   * El precio por hora extra = total ÷ hoursPerMonth. Excluye projectsPerMonth.
+   */
+  hoursPerMonth?: number
   /** Tiers que incluyen visita semanal opcional al studio. */
   weeklyVisit?: boolean
   gradient: { bg: string; text: string }
@@ -98,8 +106,8 @@ export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
     },
   },
   {
-    priceMonthly: 55000,
-    projectsPerMonth: 3,
+    priceMonthly: 54000,
+    hoursPerMonth: 36,
     gradient: {
       bg: 'linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%)',
       text: '#5a2408',

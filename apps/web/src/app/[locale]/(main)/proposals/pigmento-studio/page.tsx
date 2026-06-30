@@ -106,15 +106,21 @@ export default async function ProposalsPage({ params }: { params: Promise<{ loca
   const fmtMxn = (n: number) => '$' + n.toLocaleString('en-US')
   const packages = (t.raw('packages') as ProposalPackageText[]).map((pkg, i) => {
     const pres = PACKAGE_PRESENTATION[i]
+    // Tiers por capacidad (hoursPerMonth) facturan por hora; el resto por proyecto base.
+    const byHours = pres.hoursPerMonth != null
+    const includedNote = byHours
+      ? t('packages_hours_included', { count: pres.hoursPerMonth! })
+      : t('packages_projects_included', { count: pres.projectsPerMonth! })
+    const extraNote = byHours
+      ? t('packages_extra_hour', { price: fmtMxn(Math.round(pres.priceMonthly / pres.hoursPerMonth!)) })
+      : t('packages_extra_project', { price: fmtMxn(Math.round(pres.priceMonthly / pres.projectsPerMonth!)) })
     return {
       ...pkg,
       ...pres,
       priceValue: fmtMxn(pres.priceMonthly),
       priceUnit,
-      extraProjectNote: t('packages_extra_project', {
-        price: fmtMxn(pres.priceMonthly / pres.projectsPerMonth),
-      }),
-      projectsIncludedNote: t('packages_projects_included', { count: pres.projectsPerMonth }),
+      extraProjectNote: extraNote,
+      projectsIncludedNote: includedNote,
       weeklyVisitNote: pkg.footerNote ?? (pres.weeklyVisit ? weeklyVisitNote : undefined),
     }
   })
@@ -199,31 +205,23 @@ export default async function ProposalsPage({ params }: { params: Promise<{ loca
                   className={`relative flex w-full flex-col overflow-hidden rounded-2xl p-8 ${pkg.featured ? 'shadow-2xl' : 'shadow-lg'}`}
                 >
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-lg font-bold leading-tight tracking-tight">{pkg.name}</h3>
-                  {pkg.featured && (
-                    <span
-                      style={{ background: 'rgba(0, 0, 0, 0.14)' }}
-                      className="rounded-full px-2 py-1 text-2xs font-accent uppercase tracking-widest"
-                    >
-                      {t('packages_featured_label')}
-                    </span>
-                  )}
+                  <h3 className="font-display text-[clamp(1.5rem,2.2vw,2.25rem)] font-extrabold leading-[0.92] tracking-[-0.03em]">{pkg.name}</h3>
                 </div>
 
                 <div className="mt-4 flex items-end gap-2">
-                  <NumberOdometer items={[{ value: pkg.priceValue }]} numberClassName="text-[2.5rem] font-bold leading-none tracking-tight" />
-                  <span className="pb-1 text-2xs font-accent uppercase tracking-wide opacity-60">{pkg.priceUnit}</span>
+                  <NumberOdometer items={[{ value: pkg.priceValue }]} numberClassName="font-display text-[2.5rem] font-extrabold leading-none tracking-[-0.03em]" />
+                  <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{pkg.priceUnit}</span>
                 </div>
-                <p className="mt-1.5 text-2xs font-medium opacity-75">{pkg.projectsIncludedNote}</p>
-                <p className="mt-1 text-2xs opacity-60">{pkg.extraProjectNote}</p>
+                <p className="mt-1.5 text-xs font-medium opacity-75">{pkg.projectsIncludedNote}</p>
+                <p className="mt-1 text-xs opacity-60">{pkg.extraProjectNote}</p>
 
                 <p className="mt-5 text-base font-medium leading-snug opacity-95">{pkg.tagline}</p>
                 <p className="mt-3 text-sm leading-relaxed opacity-75">{pkg.audience}</p>
 
-                <span className="mt-8 block text-2xs font-accent uppercase tracking-widest opacity-60">{pkg.includesLabel}</span>
+                <span className="mt-8 block text-xs font-accent uppercase tracking-[0.14em] opacity-70">{pkg.includesLabel}</span>
                 <ul className="mt-3 space-y-3 flex-1">
                   {pkg.features.map((feature) => (
-                    <li key={feature} className="flex gap-3 text-sm leading-[1.6]">
+                    <li key={feature} className="flex gap-3 text-sm font-medium leading-[1.45]">
                       <span aria-hidden className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-70" />
                       <span className="opacity-85">{feature}</span>
                     </li>
@@ -231,11 +229,11 @@ export default async function ProposalsPage({ params }: { params: Promise<{ loca
                 </ul>
 
                 {pkg.weeklyVisitNote && (
-                  <p className="mt-5 border-t border-current/15 pt-4 text-xs font-medium leading-snug opacity-80">{pkg.weeklyVisitNote}</p>
+                  <p className="mt-5 border-t border-current/15 pt-4 text-sm font-medium leading-snug opacity-80">{pkg.weeklyVisitNote}</p>
                 )}
 
                 {pkg.disclaimer && (
-                  <p className="mt-5 flex gap-1.5 border-t border-current/15 pt-4 font-accent text-2xs leading-[1.5] opacity-50">
+                  <p className="mt-5 flex gap-1.5 border-t border-current/15 pt-4 font-accent text-xs leading-[1.5] opacity-50">
                     <span aria-hidden>*</span>
                     <span>{pkg.disclaimer}</span>
                   </p>

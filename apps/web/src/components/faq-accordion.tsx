@@ -56,7 +56,7 @@ export function FaqAccordion({ items, className = '' }: FaqAccordionProps) {
               }`}
             >
               <div className="min-h-0 overflow-hidden">
-                <div className="max-w-[60ch] space-y-4 pb-6 text-[clamp(1rem,1.5vw,1.25rem)] leading-relaxed text-muted-foreground">
+                <div className="space-y-4 pb-6 text-[clamp(1rem,1.5vw,1.25rem)] leading-relaxed text-muted-foreground">
                   {(Array.isArray(item.a) ? item.a : [item.a]).map((para) => (
                     <p key={para}>{para}</p>
                   ))}

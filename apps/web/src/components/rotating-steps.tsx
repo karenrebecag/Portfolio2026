@@ -29,7 +29,7 @@ type RotatingStepsProps = {
  * afuera (rotationY -90) mientras entra el siguiente (90 → 0). Cada rotación es
  * un step. Pinned con `pinType: 'transform'` (ver docs/scrolltrigger-pin-fix).
  */
-const DESKTOP_QUERY = '(min-width: 768px)'
+const DESKTOP_QUERY = '(min-width: 1200px)'
 
 export function RotatingSteps({ steps, shapes }: RotatingStepsProps) {
   const rootRef = useRef<HTMLElement>(null)
@@ -37,8 +37,8 @@ export function RotatingSteps({ steps, shapes }: RotatingStepsProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isDesktop, setIsDesktop] = useState(true)
 
-  // El pin + 3D no funciona bien < 768px (vh inestable por la barra de URL); ahí
-  // se cae al fallback apilado (CSS) y se gatea el JS para no crear el pin.
+  // Debajo de 1200px el pin + flip 3D se desincroniza (el texto re-fluye y rompe
+  // el scrub); ahí se cae al fallback apilado (CSS) y se gatea el JS sin pin.
   useEffect(() => {
     const mq = window.matchMedia(DESKTOP_QUERY)
     const update = () => setIsDesktop(mq.matches)
