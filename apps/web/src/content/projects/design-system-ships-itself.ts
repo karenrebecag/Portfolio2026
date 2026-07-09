@@ -1,6 +1,6 @@
 /**
  * Case study: The Design System That Ships Itself
- * Duplicated from atom-webflow — edit markdown independently.
+ * Duplicated from client-webflow — edit markdown independently.
  */
 
 import esMarkdown from './design-system-ships-itself-es.md'
@@ -23,15 +23,13 @@ export const designSystemShipsItselfMeta = {
     { tag: 'AI Agents' },
     { tag: 'Monorepo' },
   ],
-  liveUrl: 'https://uikit.atomchat.io',
-  repoUrl: 'https://github.com/karenrebecag/atom-uikit-ds',
   services: 'Design Systems, Product Engineering, AI Integrations',
   coverImage: {
     url: 'https://cdn.prod.website-files.com/6889f182607452ec007a0ae1/688a1e2e3a3b6987bbb92dfd_Serene%20Floral%20Arrangement.avif',
     alt: 'The Design System That Ships Itself',
   },
   createdAt: '2026-06-01',
-  updatedAt: '2026-06-01',
+  updatedAt: '2026-07-09',
 }
 
 export const designSystemShipsItselfI18n = {
