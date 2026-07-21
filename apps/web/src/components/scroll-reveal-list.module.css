@@ -1,0 +1,35 @@
+/* ScrollRevealList — port scopeado de MWG 090 a nivel de item (no de
+   carácter). El original revela un párrafo largo letra por letra dentro de
+   un pin+scrub; acá cada item entero cambia de opacidad baja a visible en
+   su turno. Geometría del original (pin height / container), sin contenido
+   propio: el caller decide qué se renderiza en cada item. */
+
+.pinHeight {
+  position: relative;
+}
+
+.container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.item {
+  will-change: opacity, transform;
+}
+
+/* Fallback sin pin: items visibles en flujo normal. Aplica <900px (donde el
+   scroll-jack se siente forzado) y con prefers-reduced-motion. El JS se
+   gatea en paralelo para no crear el pin. */
+@media (max-width: 899px), (prefers-reduced-motion: reduce) {
+  .pinHeight {
+    height: auto !important;
+  }
+  .container {
+    height: auto;
+    overflow: visible;
+  }
+}

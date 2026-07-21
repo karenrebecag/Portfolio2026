@@ -22,7 +22,9 @@
     "about_description": "Meet Karen Rebeca Ortiz: a product engineer between design and code. I build AI-powered web products end to end — web experiences, full-stack, AI integrations, and infrastructure — for teams across LATAM, the US, and Europe.",
     "person_description": "Product engineer between design and code. I build AI-powered web products end to end: web experiences, full-stack, AI integrations, design systems, and infrastructure.",
     "proposals_title": "Web services proposal for Pigmento Studio",
-    "proposals_description": "Web retainers for Pigmento: brand implementation, CMS, automation, SEO/GEO, AI, and design collaboration. Three packages — Essentials, Growth, and Visionary — to sustain delivery, scale digital services, and open higher-value lines."
+    "proposals_description": "Web retainers for Pigmento: brand implementation, CMS, automation, SEO/GEO, AI, and design collaboration. Three packages — Essentials, Growth, and Visionary — to sustain delivery, scale digital services, and open higher-value lines.",
+    "proposalsProject_title": "Per-project web services proposal for Pigmento Studio",
+    "proposalsProject_description": "Per-project pricing for Pigmento Studio: from a landing page to a platform for selling courses and ebooks or a full site rebuild with a custom CMS. Fixed price and defined scope per project, no retainer."
   },
   "common": {
     "socials": "Socials",
@@ -514,5 +516,152 @@
         "a": "Yes, but only as attribution, never as ownership. If I feature any of the projects I build for Pigmento Studio, I always present it as a collaboration: I credit my role in building it, without claiming the project as my own."
       }
     ]
+  },
+  "proposalsProject": {
+    "hero_cta_primary": "Let’s start",
+    "hero_cta_secondary": "See pricing",
+    "hero_subtitle": "Three projects for Pigmento Studio under one model: a fixed price and a defined scope from the start — from a landing page to a sales platform or a CMS rebuild. No retainer, no monthly fee.",
+    "pricing_eyebrow": "Pricing",
+    "disclaimer_label": "What each project includes",
+    "pricing_intro_heading": "One fixed price per project.",
+    "pricing_intro_subtitle": "Three projects, each with a defined scope and a fixed price (or a range, when there are two options). What each project includes—and what it doesn't—is in the corner button.",
+    "faq_eyebrow": "Questions",
+    "faq_heading": "Before you reach out.",
+    "hero_lines": ["Per-project", "web proposal", "for Pigmento"],
+    "marquee_services": [
+      "Product & Web Engineering",
+      "Landing Pages & Brand Sites",
+      "Headless & Jamstack Commerce",
+      "CMS & Content Platforms",
+      "Motion & Interaction Design",
+      "SEO, GEO & Deployment"
+    ],
+    "scope_includes_label": "Includes",
+    "scope_excludes_label": "Doesn't include",
+    "scope_includes": [
+      "**Zero to production**: I take your Figma mockup all the way to a live, working site.",
+      "You get **direct access to me** in meetings and technical decisions throughout the project.",
+      "**3 rounds of design revisions** included in the price, no extra charge.",
+      "**Custom, well-structured implementation**, with the code version-controlled in a repository that's yours.",
+      "Deployed on Vercel or Cloudflare with your domain connected, **production-ready from day one**.",
+      "Motion and animation **faithful to the Figma design**, pixel for pixel.",
+      "I define the **technical architecture** so you don't have to.",
+      "**15-day post-launch warranty**: if a bug shows up, I fix it at no cost.",
+      "On landing pages, **I load your final copy and images** straight into the code. On CMS or store projects, everything's ready so **your team can publish without touching code**.",
+      "When the project has on-site checkout, I integrate your full **payment gateway** (checkout and confirmation); you open and manage the account."
+    ],
+    "scope_excludes": [
+      "**Custom automations or workflows** (n8n, AI, etc.).",
+      "**Custom-built chatbots**.",
+      "**Catalog management**: I don't upload products or listings to your store.",
+      "Hosting, servers, and licenses: **covered by you**.",
+      "Opening the payment gateway account: **you handle it** (KYC, business verification)."
+    ],
+    "pricing": [
+      {
+        "title": "tintas.zip",
+        "tagline": "A single-page landing, crafted for impact and ready to deploy on any platform you choose.",
+        "includes": [
+          "One-page landing with anchored sections: navigation scrolls within the same view, no routes or subpages.",
+          "Mount point pattern: code ready to deploy on the service you choose, no-code or code.",
+          "Infrastructure setup: server provisioning, deployment, and domain, with code version-controlled in a repository.",
+          "On-page SEO and GEO for search and AI engines. No CMS, no forms."
+        ],
+        "category": "Landing",
+        "audience": "For a crisp web presence without the complexity."
+      },
+      {
+        "title": "Courses & ebooks platform",
+        "tagline": "A sales platform for courses and digital goods: the site drives the purchase while your content stays where it already lives.",
+        "includes": [
+          "Multi-page site with a catalog of courses and ebooks; the content (videos, PDFs) is hosted off-site.",
+          "Option A — Jamstack: pulls your products from an external source and sends the purchase to external checkout or a course platform. No on-site gateway or cart.",
+          "Option B — Shopify + Stripe: store with on-site cart and checkout, digital-product config, and confirmation webhooks.",
+          "Both: forms via Resend, SEO and GEO, infrastructure set up. I don't upload products or run the e-commerce; I just leave the infrastructure ready."
+        ],
+        "category": "Commerce",
+        "audience": "For selling courses and digital goods without hosting the content on the site."
+      },
+      {
+        "title": "Pigmento Studio",
+        "tagline": "A full site rebuild on a custom CMS, where every project composes its own layout.",
+        "includes": [
+          "Complete site in Next.js + Payload CMS: home, 30-project portfolio, services, about, contact, and blog.",
+          "Block-based page builder: each case study picks and orders its own sections from Payload, never locked to a fixed template.",
+          "A library of ~12 Relume-based blocks, bilingual en/es, with forms via Resend.",
+          "I migrate ~10 featured projects as templates; your team enters the rest without touching code.",
+          "Web design advisory: I guide UX, responsive, motion, and interaction decisions to take your design to production without losing detail."
+        ],
+        "category": "System",
+        "audience": "For studios that need an editorial site their team runs without relying on development."
+      }
+    ],
+    "pricing_price_unit": "MXN / project",
+    "pricing_terms_heading": "How the pricing works",
+    "pricing_terms": [
+      "Each price is fixed for the scope described. When a project offers two options it's shown as a range: an estimate until you pick the option and lock scope in discovery.",
+      "Scope is confirmed in discovery before starting; any scope change is quoted as an addition, never absorbed into the original price.",
+      "Projects that combine several types (for example, landing + store) are quoted by summing each piece separately.",
+      "A 50% deposit reserves the project on the calendar; the remaining 50% is due on delivery.",
+      "Quote validity: 30 days from the date of this proposal.",
+      "Prices are tax-free."
+    ],
+    "pricing_toolbox_heading": "Every project includes my working toolbox",
+    "pricing_toolbox_subheading": "Design, motion, and craft are part of the process. The goal is simple: you shouldn't have to worry about the technical setup behind the work.",
+    "pricing_toolbox_body": [
+      "Every project includes the tools needed to do it well: Figma, Adobe tools, motion libraries, component systems, and whatever operating stack the project needs.",
+      "You don't pay for «opening tools»; you pay for solving the problem with the right setup, with me owning the workflow, implementation, and delivery.",
+      "Hosting, servers, licenses, and the payment gateway account are covered by the client, as detailed in the scope above."
+    ],
+    "faq": [
+      {
+        "q": "How is a project priced?",
+        "a": "I start from the discovery scope: each project (a landing, a digital sales platform, a CMS rebuild) has a fixed price for a standard scope; the ones with two options are shown as a range until scope is locked. If scope grows or combines several types, it's quoted as additional pieces on top of that base."
+      },
+      {
+        "q": "What happens if the project's scope grows midway?",
+        "a": "Anything outside the original discovery scope is quoted as an addition before it's built; it's never absorbed into the price already agreed. That keeps the fixed price predictable for both sides."
+      },
+      {
+        "q": "How do payments work?",
+        "a": "A 50% deposit reserves the project on the calendar and kicks off discovery; the remaining 50% is due on delivery. Prices are tax-free."
+      },
+      {
+        "q": "How long does a project take?",
+        "a": "It depends on the type: a campaign landing can be ready in 2-3 weeks; a web system or an online store take longer, depending on the scope confirmed in discovery. The exact timeline is set there, before starting."
+      },
+      {
+        "q": "Are working tools included?",
+        "a": "Use of my toolbox (Figma, Adobe, motion libs, Claude, Cursor, etc.) is included in the project price. Hosting, servers, and the licenses needed to run the site are covered by the client, same as the payment gateway account on the e-commerce project."
+      },
+      {
+        "q": "What about infrastructure and major support?",
+        "a": "The price covers design, implementation, and standard deploys for the quoted project. Major infrastructure changes (hosting migrations, full stack refactors, adopting new platforms) are framed as projects with their own scope."
+      },
+      {
+        "q": "Can you join an existing team?",
+        "a": "Yes. I plug into your processes, repos, and tools, or I lead the web technical side end to end, whatever you need."
+      },
+      {
+        "q": "What stack do you use?",
+        "a": [
+          "I work with modern JS frameworks like Next.js, Astro, and React, with TypeScript and token-based design systems for UI.",
+          "For content and data I use CMSs and APIs such as Payload, Strapi, Webflow, and headless WordPress.",
+          "Infrastructure usually runs on Vercel and Cloudflare, with Supabase/Postgres and CI/CD where the project needs it.",
+          "The stack is always adapted to the project and to how much ownership your team wants over the final system, not to a single “favorite tool”."
+        ]
+      },
+      {
+        "q": "Do you work remotely?",
+        "a": "Yes. I work remotely with teams in North America, LATAM, and Europe, in time zones compatible with the Americas."
+      },
+      {
+        "q": "Can you include these projects in your portfolio?",
+        "a": "Yes, but only as attribution, never as ownership. If I feature any of the projects I build for Pigmento Studio, I always present it as a collaboration: I credit my role in building it, without claiming the project as my own."
+      }
+    ],
+    "reviews_eyebrow": "Reviews",
+    "reviews_heading": "What they say about my work.",
+    "reviews_subheading": "Founders, art directors, and product teams across LATAM, the US, and Europe."
   }
 }

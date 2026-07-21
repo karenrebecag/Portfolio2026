@@ -1,0 +1,150 @@
+/* ExpandingDisclaimer — port de "Expanding Bottom Navigation" (osmo.supply),
+   repurposed como disclaimer de contenido en vez de nav. Geometría y timeline
+   del original (width/height morph con CustomEase "osmo").
+   Colores: --disclaimer-bg/fg (globals.css) invierten con data-section-theme
+   igual que el IconButton de LinkedIn — mismo contraste, mismo theme. */
+
+.root {
+  --disclaimer-closed-width: min(85vw, 18em);
+  --disclaimer-open-width: min(90vw, 22em);
+  --disclaimer-bar-height: 3.25em;
+  font-size: 15px;
+}
+
+.inner {
+  will-change: width, height;
+  width: var(--disclaimer-closed-width);
+  height: var(--disclaimer-bar-height);
+  background-color: var(--disclaimer-bg);
+  color: var(--disclaimer-fg);
+  /* Mismo radius y border que el .button-061__bg del IconButton de LinkedIn. */
+  border-radius: var(--button-061-border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-flow: column-reverse;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.bar {
+  width: 100%;
+  height: var(--disclaimer-bar-height);
+  flex: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 0.5em 0.5em 1em;
+  display: flex;
+  position: relative;
+}
+
+.label {
+  font-family: var(--font-accent);
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--disclaimer-fg);
+}
+
+.toggle {
+  grid-column-gap: 0.25em;
+  grid-row-gap: 0.25em;
+  color: var(--disclaimer-bg);
+  background-color: var(--disclaimer-fg);
+  border-radius: var(--button-061-border-radius);
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 2.25em;
+  height: 2.25em;
+  padding: 0;
+  display: flex;
+  cursor: pointer;
+}
+
+.toggleBar {
+  background-color: currentColor;
+  flex: none;
+  width: 1.1em;
+  height: 0.1em;
+  padding: 0;
+  display: block;
+}
+
+.panel {
+  grid-column-gap: 1.25em;
+  grid-row-gap: 1.25em;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  max-height: calc(100svh - 9em);
+  width: var(--disclaimer-open-width);
+  flex-flow: column;
+  flex: none;
+  padding: 1.1em 1em 1em;
+  display: flex;
+  overflow-y: auto;
+}
+
+.sectionLabel {
+  font-family: var(--font-accent);
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--disclaimer-fg) 55%, var(--disclaimer-bg));
+  margin-bottom: -0.5em;
+}
+
+.list {
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.6em;
+  margin-bottom: 0;
+  margin-top: 0.75em;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+}
+
+.listItem {
+  display: block;
+  width: 100%;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: var(--disclaimer-fg);
+}
+
+.divider {
+  background-color: color-mix(in srgb, var(--disclaimer-fg) 15%, transparent);
+  width: 100%;
+  height: 1px;
+  flex: none;
+}
+
+.reveal {
+  will-change: opacity, transform;
+}
+
+/* Mobile: full width, anclado al bottom del viewport (bottom sheet). El `.root`
+   toma `position: fixed` propio para escapar del contenedor #fixed-corner-actions
+   (compartido con el IconButton) sin reposicionarlo. Con closed y open al 100%,
+   measure() calcula el mismo ancho: solo anima la altura al abrir. */
+@media (max-width: 640px) {
+  .root {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    --disclaimer-closed-width: 100%;
+    --disclaimer-open-width: 100%;
+  }
+  .inner {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
+}

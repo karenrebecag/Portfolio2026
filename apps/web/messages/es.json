@@ -22,7 +22,9 @@
     "about_description": "Conoce a Karen Rebeca Ortiz: product engineer entre diseño y código. Construyo productos web con IA de punta a punta — experiencias web, full-stack, integraciones de IA e infraestructura — para equipos en LATAM, EE. UU. y Europa.",
     "person_description": "Product engineer entre diseño y código. Construyo productos web impulsados por IA de punta a punta: experiencias web, full-stack, integraciones de IA, design systems e infraestructura.",
     "proposals_title": "Propuesta de servicios web para Pigmento Studio",
-    "proposals_description": "Retainers web para Pigmento: implementación de marca, CMS, automatización, SEO/GEO, IA y colaboración con diseño. Tres paquetes — Essentials, Growth y Visionary — para sostener entregas, escalar servicios digitales y abrir líneas de mayor valor."
+    "proposals_description": "Retainers web para Pigmento: implementación de marca, CMS, automatización, SEO/GEO, IA y colaboración con diseño. Tres paquetes — Essentials, Growth y Visionary — para sostener entregas, escalar servicios digitales y abrir líneas de mayor valor.",
+    "proposalsProject_title": "Propuesta de servicios web por proyecto para Pigmento Studio",
+    "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a una plataforma de venta de cursos y ebooks o la reconstrucción del sitio con un CMS a medida. Precio fijo y alcance definido por proyecto, sin retainer."
   },
   "common": {
     "socials": "Redes",
@@ -514,5 +516,152 @@
         "a": "Sí, pero solo como atribución, nunca como propiedad. Si presento alguno de los proyectos que desarrolle para Pigmento Studio, lo hago siempre como una colaboración: reconozco mi rol en la construcción, sin reclamar el proyecto como propio."
       }
     ]
+  },
+  "proposalsProject": {
+    "hero_cta_primary": "Empecemos",
+    "hero_cta_secondary": "Ver precios",
+    "hero_subtitle": "Tres proyectos para Pigmento Studio con un mismo modelo: precio fijo y alcance definido desde el inicio, de una landing a una plataforma de venta o una reconstrucción con CMS. Sin retainer ni mensualidad.",
+    "pricing_eyebrow": "Precios",
+    "disclaimer_label": "Qué incluye cada proyecto",
+    "pricing_intro_heading": "Un precio fijo por proyecto.",
+    "pricing_intro_subtitle": "Tres proyectos, cada uno con alcance definido y precio fijo (o rango, cuando hay dos opciones). Qué incluye y qué no cada proyecto lo encuentras en el botón de la esquina.",
+    "faq_eyebrow": "Preguntas",
+    "faq_heading": "Antes de escribirme.",
+    "hero_lines": ["Propuesta web", "por proyecto", "para Pigmento"],
+    "marquee_services": [
+      "Product & Web Engineering",
+      "Landing Pages & Brand Sites",
+      "Headless & Jamstack Commerce",
+      "CMS & Content Platforms",
+      "Motion & Interaction Design",
+      "SEO, GEO & Deployment"
+    ],
+    "scope_includes_label": "Incluye",
+    "scope_excludes_label": "No incluye",
+    "scope_includes": [
+      "**De cero a producción**: tomo tu mockup de Figma y lo llevo hasta un sitio publicado y funcionando.",
+      "Tienes **acceso directo a mí** en reuniones y decisiones técnicas durante todo el proyecto.",
+      "**3 rondas de corrección de diseño** incluidas en el precio, sin cargo extra.",
+      "**Implementación a medida** y bien estructurada, con el código versionado en un repositorio que es tuyo.",
+      "Despliegue en Vercel o Cloudflare con tu dominio conectado y **listo para producción desde el día uno**.",
+      "Motion y animaciones **fieles al diseño de Figma**, pixel por pixel.",
+      "Defino la **arquitectura técnica** del proyecto para que tú no tengas que pensarla.",
+      "**15 días de garantía** post-lanzamiento: si aparece un bug, lo arreglo sin costo.",
+      "En landing pages, **yo cargo tu copy e imágenes finales** directo en el código. En proyectos con CMS o tienda, dejo todo listo para que **tu equipo publique contenido sin tocar código**.",
+      "Cuando el proyecto lleva checkout on-site, integro tu **pasarela de pagos** completa (checkout y confirmación); la cuenta la abres y administras tú."
+    ],
+    "scope_excludes": [
+      "**Automatizaciones o flujos personalizados** (n8n, IA, etc.).",
+      "**Chatbots a medida**.",
+      "**Gestión de catálogo**: no subo productos ni artículos a tu tienda.",
+      "Hosting, servidores y licencias: **corren por tu cuenta**.",
+      "Apertura de la cuenta de la pasarela de pagos: **la gestionas tú** (KYC, verificación de negocio)."
+    ],
+    "pricing": [
+      {
+        "title": "tintas.zip",
+        "tagline": "Una landing de una sola página, diseñada para causar impacto y montarse sobre la plataforma que elijas.",
+        "includes": [
+          "Landing de una página con secciones ancladas: la navegación hace scroll dentro de la misma vista, sin rutas ni subpáginas.",
+          "Mount point pattern: código listo para desplegar sobre el servicio que elijas, no-code o code.",
+          "Alta de infraestructura: provisión de servidor, despliegue y dominio, con el código versionado en repositorio.",
+          "SEO y GEO on-page para buscadores y motores de IA. Sin CMS ni formularios."
+        ],
+        "category": "Landing",
+        "audience": "Para una presencia web nítida y sin complejidad."
+      },
+      {
+        "title": "Plataforma de cursos & ebooks",
+        "tagline": "Una plataforma de venta para cursos y materiales digitales: el sitio gestiona la compra y tu contenido vive donde ya lo alojas.",
+        "includes": [
+          "Sitio multipágina con catálogo de cursos y ebooks; el contenido (videos, PDFs) se aloja fuera del sitio.",
+          "Opción A — Jamstack: consume tus productos desde una fuente externa y dirige la compra a checkout o plataforma de cursos externa. Sin pasarela ni carrito propio.",
+          "Opción B — Shopify + Stripe: tienda con carrito y checkout on-site, config de productos digitales y webhooks de confirmación.",
+          "En ambas: forms vía Resend, SEO y GEO, infra montada. No subo productos ni gestiono el e-commerce; solo dejo la infraestructura lista."
+        ],
+        "category": "Commerce",
+        "audience": "Para vender cursos y digitales sin alojar el contenido en el sitio."
+      },
+      {
+        "title": "Pigmento Studio",
+        "tagline": "Reconstrucción integral del sitio sobre un CMS a medida, donde cada proyecto compone su propio layout.",
+        "includes": [
+          "Sitio completo en Next.js + Payload CMS: home, portafolio de 30, servicios, nosotros, contacto y blog.",
+          "Page builder por bloques: cada case study elige y ordena sus propias secciones desde Payload, sin quedar atado a un template fijo.",
+          "Biblioteca de ~12 bloques basados en Relume, bilingüe es/en, con formularios vía Resend.",
+          "Migro ~10 proyectos destacados como plantilla; tu equipo captura el resto sin tocar código.",
+          "Asesoría de diseño web: te acompaño en decisiones de UX, responsive, motion e interacción para llevar tu diseño a producción sin perder detalle."
+        ],
+        "category": "Sistema",
+        "audience": "Para estudios que necesitan un sitio editorial que su equipo maneja sin depender de desarrollo."
+      }
+    ],
+    "pricing_price_unit": "MXN / proyecto",
+    "pricing_terms_heading": "Cómo funciona el pricing",
+    "pricing_terms": [
+      "Cada precio es fijo para el alcance descrito. Cuando un proyecto ofrece dos opciones se muestra como rango: es un estimado hasta elegir la opción y cerrar el alcance en discovery.",
+      "El alcance se confirma en discovery antes de arrancar; cualquier cambio de alcance se cotiza como adicional, no se absorbe en el precio original.",
+      "Proyectos que combinan varios tipos (por ejemplo, landing + tienda) se cotizan sumando cada pieza por separado.",
+      "Anticipo del 50% para reservar el proyecto en el calendario; el 50% restante se cobra contra entrega.",
+      "Vigencia de la cotización: 30 días a partir de la fecha de esta propuesta.",
+      "Precios libres de impuestos."
+    ],
+    "pricing_toolbox_heading": "Cada proyecto incluye mi toolbox de trabajo",
+    "pricing_toolbox_subheading": "Diseño, motion y craft son parte del proceso. El objetivo es simple: no deberías preocuparte por el setup técnico detrás del trabajo.",
+    "pricing_toolbox_body": [
+      "Cada proyecto incluye las herramientas necesarias para ejecutarlo bien: Figma, herramientas de Adobe, librerías de motion, sistemas de componentes y el stack operativo que el proyecto necesite.",
+      "No se cobra por «abrir herramientas»; se cobra por resolver el problema con el setup correcto, asumiendo yo la responsabilidad del flujo de trabajo, la implementación y la entrega.",
+      "Hosting, servidores, licencias y la cuenta de la pasarela de pagos corren por cuenta del cliente, tal como se detalla en el alcance de arriba."
+    ],
+    "faq": [
+      {
+        "q": "¿Cómo se define el precio de un proyecto?",
+        "a": "Parto del alcance del discovery: cada proyecto (una landing, una plataforma de venta digital, una reconstrucción con CMS) tiene un precio fijo para un alcance estándar; los que ofrecen dos opciones se muestran como rango hasta cerrar el alcance. Si el alcance crece o combina varios tipos, se cotiza como piezas adicionales sobre esa base."
+      },
+      {
+        "q": "¿Qué pasa si el proyecto crece de alcance a medio camino?",
+        "a": "Lo que esté fuera del alcance original de discovery se cotiza como adicional antes de construirlo; nunca se absorbe en el precio ya acordado. Así el precio fijo se mantiene predecible para ambos lados."
+      },
+      {
+        "q": "¿Cómo funcionan los pagos?",
+        "a": "Un anticipo del 50% reserva el proyecto en el calendario y arranca el discovery; el 50% restante se cobra contra entrega. Precios libres de impuestos."
+      },
+      {
+        "q": "¿Cuánto tiempo tarda un proyecto?",
+        "a": "Depende del tipo: una landing de campaña puede estar lista en 2-3 semanas; un sistema web o una tienda en línea toman más, según el alcance confirmado en discovery. El tiempo exacto se define ahí, antes de arrancar."
+      },
+      {
+        "q": "¿Las herramientas de trabajo están incluidas?",
+        "a": "El uso de mi toolbox (Figma, Adobe, motion libs, Claude, Cursor, etc.) está incluido en el precio del proyecto. El hosting, los servidores y las licencias necesarias para operar el sitio corren por cuenta del cliente, igual que la cuenta de la pasarela de pagos en el proyecto de e-commerce."
+      },
+      {
+        "q": "¿Qué pasa con infraestructura y soporte mayor?",
+        "a": "El precio cubre diseño, implementación y despliegue estándar del proyecto cotizado. Cambios de infraestructura mayor (migraciones de hosting, refactor completo de stack, adopción de nuevas plataformas) se plantean como proyectos con alcance propio."
+      },
+      {
+        "q": "¿Puedes integrarte a un equipo existente?",
+        "a": "Sí. Me integro a tus procesos, repos y herramientas, o lidero la parte técnica web de extremo a extremo según lo que necesites."
+      },
+      {
+        "q": "¿Qué stack utilizas?",
+        "a": [
+          "Trabajo con frameworks JS modernos como Next.js, Astro y React, con TypeScript y design systems basados en tokens para la UI.",
+          "Para contenido y datos uso CMSs y APIs como Payload, Strapi, Webflow y WordPress headless.",
+          "La infraestructura suele correr en Vercel y Cloudflare, con Supabase/Postgres y CI/CD donde el proyecto lo necesita.",
+          "El stack siempre se adapta al proyecto y a cuánto ownership quiere tu equipo sobre el sistema final, no a una sola «herramienta favorita»."
+        ]
+      },
+      {
+        "q": "¿Trabajas en remoto?",
+        "a": "Sí. Trabajo en remoto con equipos de Norteamérica, LATAM y Europa, en zonas horarias compatibles con América."
+      },
+      {
+        "q": "¿Puedes incluir estos proyectos en tu portafolio?",
+        "a": "Sí, pero solo como atribución, nunca como propiedad. Si presento alguno de los proyectos que desarrolle para Pigmento Studio, lo hago siempre como una colaboración: reconozco mi rol en la construcción, sin reclamar el proyecto como propio."
+      }
+    ],
+    "reviews_eyebrow": "Reseñas",
+    "reviews_heading": "Lo que dicen de mi trabajo.",
+    "reviews_subheading": "Founders, directores de arte y equipos de producto en LATAM, Estados Unidos y Europa."
   }
 }

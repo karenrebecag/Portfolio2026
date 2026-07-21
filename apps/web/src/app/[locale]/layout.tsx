@@ -185,7 +185,7 @@ export default async function LocaleLayout({
             </NavigationProvider>
           </LenisProvider>
           <Toaster />
-          <div className="fixed bottom-6 right-6 z-[1100]">
+          <div id="fixed-corner-actions" className="fixed bottom-6 right-6 z-[1100] flex items-end gap-3">
             <IconButton
               href="https://www.linkedin.com/in/karen-rebeca-ortiz-b5a860282"
               target="_blank"

@@ -11,6 +11,7 @@
     --font-accent: var(--font-accent);
     --color-surface: var(--surface);
     --color-surface-foreground: var(--surface-foreground);
+    --color-plantation: var(--plantation);
     --color-brand: var(--brand);
     --color-brand-foreground: var(--brand-foreground);
     --color-ring: var(--ring);
@@ -706,6 +707,25 @@ body[data-section-theme='light'] .icon-button {
   --button-061-color: var(--primary-foreground);
   --button-061-color-background: var(--primary);
   --button-061-hover-color: var(--primary-foreground);
+}
+
+/* ExpandingDisclaimer — invierte con data-section-theme igual que .icon-button
+   (mismo par --primary / --primary-foreground) para contrastar siempre con la
+   sección detrás y respetar el theme del sitio. --disclaimer-bg/fg alimentan el
+   module CSS; muted y border se derivan del fg. */
+[data-expanding-disclaimer] {
+  --disclaimer-bg: var(--primary);
+  --disclaimer-fg: var(--primary-foreground);
+}
+
+body[data-section-theme='dark'] [data-expanding-disclaimer] {
+  --disclaimer-bg: var(--primary-foreground);
+  --disclaimer-fg: var(--primary);
+}
+
+body[data-section-theme='light'] [data-expanding-disclaimer] {
+  --disclaimer-bg: var(--primary);
+  --disclaimer-fg: var(--primary-foreground);
 }
 
 /* -- Button 061 Secondary variant -- */

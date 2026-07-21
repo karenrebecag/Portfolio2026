@@ -1,0 +1,188 @@
+/* ReviewsMarquee — port scopeado de MWG 087 (osmo.supply): galería horizontal
+   de testimonios con pin; el scroll vertical desplaza las cards en X (scrub) y
+   cada card hace un "catch-up" de parallax al entrar. El heading/subheading vive
+   dentro del container pinned, así queda fijo mientras las cards se desplazan.
+   Fondos de card = mismos gradientes candy (150deg, 0%/52%/100%) que las pricing
+   cards; no son tokens de tema, es decoración de marca. */
+
+.section {
+  position: relative;
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Header pinned: al vivir dentro del container (que es el elemento pinned),
+   se queda fijo mientras las cards se desplazan en X. */
+.header {
+  flex: none;
+  padding: clamp(2.5rem, 6vh, 5rem) clamp(1rem, 4vw, 4rem) 0;
+  max-width: 60ch;
+}
+
+.eyebrow {
+  font-family: var(--font-accent);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.heading {
+  margin-top: 1rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
+}
+
+.subheading {
+  margin-top: 1rem;
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.5;
+  color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  max-width: 48ch;
+}
+
+.cardsArea {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+}
+
+.cards {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  gap: 20px;
+  will-change: transform;
+  padding: 0 calc(100vw + 1px);
+}
+
+.card {
+  position: relative;
+  width: 370px;
+  aspect-ratio: 0.75;
+}
+
+.cardContent {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  white-space: initial;
+  padding: 40px;
+}
+
+.top {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  /* Crece en major third (1.25): text-base (1rem) × 1.25 = text-xl (1.25rem).
+     Par chico de la escala — los quotes son largos y no caben a mayor tamaño. */
+  font-size: clamp(var(--text-base, 1rem), 1.4vw, var(--text-xl, 1.25rem));
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.bottom {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  flex: none;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.12);
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.meta {
+  font-family: var(--font-accent);
+  font-weight: 500;
+  font-size: var(--text-2xs);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.meta strong {
+  font-weight: 700;
+}
+
+/* 4-cycle: mismos gradientes candy (150deg, 0%/52%/100%) que las pricing cards,
+   con el color de texto oscuro de cada familia. */
+.card:nth-child(4n - 3) .cardContent {
+  background: linear-gradient(150deg, #d9c4ff 0%, #a7b6ff 52%, #6f8cff 100%);
+  color: #171a52;
+}
+.card:nth-child(4n - 2) .cardContent {
+  background: linear-gradient(150deg, #ffd2ec 0%, #ff9ecb 52%, #ff5fa8 100%);
+  color: #52102f;
+}
+.card:nth-child(4n - 1) .cardContent {
+  background: linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%);
+  color: #2c4014;
+}
+.card:nth-child(4n) .cardContent {
+  background: linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%);
+  color: #0a3a52;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 78vw;
+  }
+  .cardContent {
+    padding: 24px;
+  }
+}
+
+/* Fallback sin movimiento: scroll horizontal nativo, sin pin (el JS se gatea
+   en paralelo y no crea el ScrollTrigger). */
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    overflow: visible;
+  }
+  .container {
+    height: auto;
+  }
+  .cardsArea {
+    overflow-x: auto;
+  }
+  .cards {
+    padding: 0 1rem;
+  }
+}

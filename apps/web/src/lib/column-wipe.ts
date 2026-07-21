@@ -3,7 +3,7 @@ import { CustomEase } from 'gsap/CustomEase'
 
 let osmoEaseReady = false
 
-function ensureOsmoEase() {
+export function ensureOsmoEase() {
   if (osmoEaseReady) return
   gsap.registerPlugin(CustomEase)
   CustomEase.create('osmo', '0.625, 0.05, 0, 1')

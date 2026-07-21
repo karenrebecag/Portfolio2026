@@ -86,6 +86,64 @@ export type ProposalFaq = {
   a: string | string[]
 }
 
+export type ProposalProjectPricingText = {
+  title: string
+  tagline: string
+  includes: string[]
+  category: string
+  /** One-liner de "para quién es este proyecto", al pie de la card. */
+  audience: string
+}
+
+export type ProposalProjectPricingPresentation = {
+  /** Precio fijo en MXN por proyecto. Con `priceMax`, es el piso de un rango. */
+  price: number
+  /**
+   * Techo del rango (MXN). Solo en proyectos cotizados como estimado con dos
+   * alcances (ej. jamstack vs. e-commerce): la card muestra `price – priceMax`.
+   */
+  priceMax?: number
+  /**
+   * Estilo de la card, del mismo pack "Gradient Abstract Geometric Shapes"
+   * usado en services-fan-cards y en las packages de pigmento-studio.
+   * `gradient.text` es el color oscuro de la misma familia. No son tokens de
+   * tema (igual que ahí): es decoración de marca, no theming.
+   */
+  gradient: { bg: string; text: string }
+}
+
+/** Item de pricing por proyecto, con precio y estilo fusionados por índice. */
+export type ProposalProjectPricingView = ProposalProjectPricingText & ProposalProjectPricingPresentation & {
+  priceValue: string
+  priceUnit: string
+}
+
+/** Presentación de precios fijos, en el mismo orden que `proposalsProject.pricing` en los mensajes: Landing, E-commerce, Agencia + CMS. */
+export const PROJECT_PRICING_PRESENTATION: ProposalProjectPricingPresentation[] = [
+  {
+    price: 10000,
+    gradient: {
+      bg: 'linear-gradient(150deg, #ffd2ec 0%, #ff9ecb 52%, #ff5fa8 100%)',
+      text: '#52102f',
+    },
+  },
+  {
+    price: 22400,
+    priceMax: 36000,
+    gradient: {
+      bg: 'linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%)',
+      text: '#0a3a52',
+    },
+  },
+  {
+    price: 60000,
+    gradient: {
+      bg: 'linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%)',
+      text: '#2c4014',
+    },
+  },
+]
+
 /** Presentación de los paquetes, en el mismo orden que `proposals.packages` en los mensajes. */
 export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
   {
