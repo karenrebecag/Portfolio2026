@@ -72,11 +72,11 @@ export async function generateMetadata({
   return {
     title: t('proposalsProject_title'),
     description: t('proposalsProject_description'),
-    alternates: buildAlternates(locale, '/proposals/pigmento-por-proyecto'),
+    alternates: buildAlternates(locale, '/proposals/ronda01-pigmento'),
     authors: [{ name: SITE_AUTHOR.name }],
     openGraph: {
       type: 'website',
-      url: localizedPath(locale, '/proposals/pigmento-por-proyecto'),
+      url: localizedPath(locale, '/proposals/ronda01-pigmento'),
       title: t('proposalsProject_title'),
       description: t('proposalsProject_description'),
       images: defaultOgImages(t('proposalsProject_title')),
