@@ -9,3 +9,5 @@ build/
 
 # Payload generated
 apps/cms/src/app/(payload)/admin/importMap.js
+.vercel
+.env*
