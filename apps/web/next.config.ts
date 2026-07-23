@@ -29,6 +29,19 @@ const nextConfig: NextConfig = {
         destination: '/en/articulos/webflow-in-production',
         permanent: true,
       },
+      // Legacy article URL whose canonical page moved under /projects. Lived as
+      // a runtime redirect in articulos/[slug], but dynamicParams=false (bot
+      // ISR-write mitigation) 404s unknown slugs there, so it moves here.
+      {
+        source: '/articulos/decoupled-architecture-non-technical-ownership',
+        destination: '/projects/decoupled-ownership-non-technical-teams',
+        permanent: true,
+      },
+      {
+        source: '/en/articulos/decoupled-architecture-non-technical-ownership',
+        destination: '/en/projects/decoupled-ownership-non-technical-teams',
+        permanent: true,
+      },
     ]
   },
   async rewrites() {

@@ -25,6 +25,11 @@ export async function generateStaticParams() {
   return getAllArticleSlugs().map((slug) => ({ slug }))
 }
 
+// Sin esto, cualquier slug inventado se renderiza on-demand y escribe una
+// entrada nueva al cache ISR — superficie de costo abierta a crawlers.
+// El slug legacy que antes redirigía desde aquí ahora vive en next.config.ts.
+export const dynamicParams = false
+
 function truncateDescription(text: string, max = 155): string {
   if (text.length <= max) return text
   const cut = text.lastIndexOf(' ', max)

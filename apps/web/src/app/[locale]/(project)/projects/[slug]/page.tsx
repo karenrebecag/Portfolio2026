@@ -92,6 +92,10 @@ export async function generateStaticParams() {
   return PLACEHOLDER_PROJECTS.map((p) => ({ slug: p.slug }))
 }
 
+// Sin esto, cualquier slug inventado se renderiza on-demand y escribe una
+// entrada nueva al cache ISR — superficie de costo abierta a crawlers.
+export const dynamicParams = false
+
 export default async function ProjectPage({ params }: Props) {
   const { slug, locale } = await params
   setRequestLocale(locale)
