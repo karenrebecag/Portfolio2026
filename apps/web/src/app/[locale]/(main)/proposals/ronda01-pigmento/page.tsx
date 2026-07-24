@@ -314,19 +314,19 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
               explícitos porque ya no son homogéneos: 1 y 3 son cards de precio
               único (tintas.zip, Pigmento Studio); 2 y 4 son la card
               compartida de 2 opciones (e-commerce, maori). */}
-          <div data-reveal-group data-stagger="80" data-distance="1.5em" className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
+          <div data-reveal-group data-stagger="80" data-distance="1.5em" className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             <PriceCard item={pricing[0]} />
             <DualOptionCard gradient={ECOMMERCE_CARD_GRADIENT} options={ecommerceOptions} />
             <PriceCard item={pricing[1]} />
             <DualOptionCard gradient={MAORI_CARD_GRADIENT} options={maoriOptions} />
 
             {/* Separator — corta el grid por proyecto antes de la alternativa retainer. */}
-            <div aria-hidden className="sm:col-span-2 mt-4 border-t border-surface-foreground/15" />
+            <div aria-hidden className="lg:col-span-2 mt-4 border-t border-surface-foreground/15" />
 
             {/* Card full-width — alternativa retainer: todos los proyectos por
                 fases bajo tarifa mensual fija, con asesoría continua (vs. la
                 asesoría limitada al proyecto contratado del modelo por proyecto). */}
-            <div className="flex sm:col-span-2">
+            <div className="flex lg:col-span-2">
               <div
                 style={
                   {
