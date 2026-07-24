@@ -98,6 +98,7 @@ function PriceCard({ item }: { item: PriceCardItem }) {
           />
           <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{item.priceUnit}</span>
         </div>
+        <p className="mt-1.5 text-xs font-medium opacity-75">{item.timeline}</p>
 
         <p className="mt-4 text-sm font-medium leading-relaxed opacity-95">{item.tagline}</p>
 
@@ -144,6 +145,7 @@ function DualOptionCard({ gradient, options }: { gradient: { bg: string; text: s
               />
               <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{opt.priceUnit}</span>
             </div>
+            <p className="mt-1.5 text-xs font-medium opacity-75">{opt.timeline}</p>
 
             <p className="mt-4 text-sm font-medium leading-relaxed opacity-95">{opt.tagline}</p>
 
@@ -229,7 +231,6 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
   // 4to slot — card compartida de maori.com.mx, ver 2 opciones (reparación
   // WooCommerce vs. recreación Shopify) apiladas en una sola card.
   const tMaori = await getTranslations('proposalsMaori')
-  const maoriPriceUnit = tMaori('pricing_price_unit')
   const maoriOptions = (tMaori.raw('options') as ProposalDualOptionText[]).map((opt, i) => {
     const pres = MAORI_PRICING_PRESENTATION[i]
     const isRange = pres.priceMax != null
@@ -238,7 +239,7 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
       ...pres,
       isRange,
       priceValue: isRange ? `${fmtMxn(pres.price)} – ${fmtMxn(pres.priceMax!)}` : fmtMxn(pres.price),
-      priceUnit: maoriPriceUnit,
+      priceUnit,
     }
   })
 
@@ -260,18 +261,21 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
           data-distance="2.5em"
           className="relative z-[1] flex flex-1 flex-col items-center justify-center py-12"
         >
-          <HeroHoverList items={heroLines} />
-          <p className="mt-8 max-w-[42ch] text-center text-base md:text-lg leading-relaxed text-surface-foreground/70">
-            {t('hero_subtitle')}
-          </p>
-          <div
-            data-reveal-group-nested
-            data-stagger="90"
-            data-distance="1.5em"
-            className="mt-12 flex flex-wrap justify-center gap-3"
-          >
-            <Button061 href="#contact">{t('hero_cta_primary')}</Button061>
-            <Button061 href="#pricing" variant="secondary">{t('hero_cta_secondary')}</Button061>
+          {/* Container único para heading, subheading y CTAs: todos comparten el mismo max-width. */}
+          <div className="mx-auto flex w-full max-w-[42rem] flex-col items-center">
+            <HeroHoverList items={heroLines} />
+            <p className="mt-8 w-full text-center text-base md:text-lg leading-relaxed text-surface-foreground/70">
+              {t('hero_subtitle')}
+            </p>
+            <div
+              data-reveal-group-nested
+              data-stagger="90"
+              data-distance="1.5em"
+              className="mt-12 flex flex-wrap justify-center gap-3"
+            >
+              <Button061 href="#contact">{t('hero_cta_primary')}</Button061>
+              <Button061 href="#pricing" variant="secondary">{t('hero_cta_secondary')}</Button061>
+            </div>
           </div>
         </div>
       </section>
@@ -322,6 +326,9 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
           </p>
         </Container>
       </section>
+
+      {/* Process — oculto por ahora; el copy sigue en proposalsProject.process.
+          Para reactivarlo: <RotatingSteps steps={processSteps} shapes={TRAIL_SHAPES} /> */}
 
       {/* Reviews — galería horizontal con pin (MWG 087), mismo REVIEWS del home */}
       <ReviewsMarquee

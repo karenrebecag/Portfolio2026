@@ -93,6 +93,8 @@ export type ProposalProjectPricingText = {
   category: string
   /** One-liner de "para quién es este proyecto", al pie de la card. */
   audience: string
+  /** Entrega estimada, mostrada bajo el precio, ej. "Entrega estimada: 2–3 semanas". */
+  timeline: string
 }
 
 export type ProposalProjectPricingPresentation = {
@@ -150,6 +152,8 @@ export type ProposalDualOptionText = {
   tagline: string
   /** One-liner de "para quién es esta opción", al pie de la columna. */
   audience: string
+  /** Entrega estimada, mostrada bajo el precio, ej. "Entrega estimada: 1–2 semanas". */
+  timeline: string
 }
 
 export type ProposalDualOptionPresentation = {

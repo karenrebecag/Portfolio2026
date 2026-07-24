@@ -24,9 +24,7 @@
     "proposals_title": "Propuesta de servicios web para Pigmento Studio",
     "proposals_description": "Retainers web para Pigmento: implementación de marca, CMS, automatización, SEO/GEO, IA y colaboración con diseño. Tres paquetes — Essentials, Growth y Visionary — para sostener entregas, escalar servicios digitales y abrir líneas de mayor valor.",
     "proposalsProject_title": "Propuesta de servicios web por proyecto para Pigmento Studio",
-    "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a una plataforma de venta de cursos y ebooks o la reconstrucción del sitio con un CMS a medida. Precio fijo y alcance definido por proyecto, sin retainer.",
-    "proposalsMaori_title": "Propuesta técnica: reparación WooCommerce o recreación en Shopify para Maori",
-    "proposalsMaori_description": "Cotización con dos rutas para la tienda de Maori: diagnóstico y reparación de la integración WooCommerce rota (notificaciones, envío, inventario), o recreación completa del sitio en Shopify. Precio fijo por opción, sin retainer."
+    "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a plataformas de venta, la reconstrucción del sitio con un CMS a medida o la recuperación de una tienda WooCommerce. Precio fijo y alcance definido por proyecto, sin retainer."
   },
   "common": {
     "socials": "Redes",
@@ -427,7 +425,7 @@
       "Cada proyecto adicional se cobra como el total del paquete ÷ proyectos incluidos; en Visionary, cada hora adicional se cobra como el total ÷ horas incluidas.",
       "Growth y Visionary incluyen una visita semanal al estudio y reuniones de asesoría (hasta 4 horas en Growth, hasta 8 en Visionary) como tiempo extra; no consumen proyectos ni horas.",
       "El paquete es intercambiable, siempre que no haya proyectos activos que impidan el downgrade.",
-      "Precios libres de impuestos.",
+      "Precios más IVA (16%), facturados vía CFDI.",
       "Prioridad total a tus proyectos, con entregas garantizadas en tiempo."
     ],
     "packages_toolbox_heading": "Cada paquete incluye mi toolbox de trabajo",
@@ -526,11 +524,11 @@
   "proposalsProject": {
     "hero_cta_primary": "Empecemos",
     "hero_cta_secondary": "Ver precios",
-    "hero_subtitle": "Tres proyectos para Pigmento Studio con un mismo modelo: precio fijo y alcance definido desde el inicio, de una landing a una plataforma de venta o una reconstrucción con CMS. Sin retainer ni mensualidad.",
+    "hero_subtitle": "Cuatro proyectos para Pigmento Studio con un mismo modelo: precio fijo y alcance definido desde el inicio, de una landing a plataformas de venta, la reconstrucción del sitio con CMS o la recuperación de una tienda WooCommerce. Sin retainer ni mensualidad.",
     "pricing_eyebrow": "Precios",
     "disclaimer_label": "Qué incluye cada proyecto",
     "pricing_intro_heading": "Un precio fijo por proyecto.",
-    "pricing_intro_subtitle": "Tres proyectos, cada uno con alcance definido y precio fijo (o rango, cuando hay dos opciones). Qué incluye y qué no cada proyecto lo encuentras en el botón de la esquina.",
+    "pricing_intro_subtitle": "Cuatro proyectos con alcance definido y precio fijo; los que plantean dos rutas técnicas muestran un precio por opción. Qué incluye y qué no cada proyecto lo encuentras en el botón de la esquina.",
     "faq_eyebrow": "Preguntas",
     "faq_heading": "Antes de escribirme.",
     "hero_lines": [
@@ -552,7 +550,7 @@
       "**De cero a producción**: tomo tu mockup de Figma y lo llevo hasta un sitio publicado y funcionando.",
       "Tienes **acceso directo a mí** en reuniones y decisiones técnicas durante todo el proyecto.",
       "**3 rondas de corrección de diseño** incluidas en el precio, sin cargo extra.",
-      "**Implementación a medida** y bien estructurada, con el código versionado en un repositorio que es tuyo.",
+      "**Implementación a medida** y bien estructurada, con el código versionado en un repositorio que pasa a ser tuyo al liquidar el proyecto.",
       "Despliegue en Vercel o Cloudflare con tu dominio conectado y **listo para producción desde el día uno**.",
       "Motion y animaciones **fieles al diseño de Figma**, pixel por pixel.",
       "Defino la **arquitectura técnica** del proyecto para que tú no tengas que pensarla.",
@@ -578,7 +576,8 @@
           "SEO y GEO on-page para buscadores y motores de IA. Sin CMS ni formularios."
         ],
         "category": "Landing",
-        "audience": "Para una presencia web nítida y sin complejidad."
+        "audience": "Para una presencia web nítida y sin complejidad.",
+        "timeline": "Entrega estimada: 2–3 semanas"
       },
       {
         "title": "Pigmento Studio",
@@ -591,7 +590,8 @@
           "Asesoría de diseño web: te acompaño en decisiones de UX, responsive, motion e interacción para llevar tu diseño a producción sin perder detalle."
         ],
         "category": "Sistema",
-        "audience": "Para estudios que necesitan un sitio editorial que su equipo maneja sin depender de desarrollo."
+        "audience": "Para estudios que necesitan un sitio editorial que su equipo maneja sin depender de desarrollo.",
+        "timeline": "Entrega estimada: 6–8 semanas"
       }
     ],
     "pricing_price_unit": "MXN / proyecto",
@@ -601,8 +601,11 @@
       "El alcance se confirma en discovery antes de arrancar; cualquier cambio de alcance se cotiza como adicional, no se absorbe en el precio original.",
       "Proyectos que combinan varios tipos (por ejemplo, landing + tienda) se cotizan sumando cada pieza por separado.",
       "Anticipo del 50% para reservar el proyecto en el calendario; el 50% restante se cobra contra entrega.",
-      "Vigencia de la cotización: 30 días a partir de la fecha de esta propuesta.",
-      "Precios libres de impuestos."
+      "Cancelación: una vez arrancado el discovery, el anticipo no es reembolsable; si el proyecto se cancela a medio camino, el trabajo realizado se factura proporcionalmente.",
+      "La propiedad del código y de los entregables se transfiere al liquidar el 100% del proyecto.",
+      "Los tiempos de entrega asumen contenidos, accesos y feedback a tiempo del lado del cliente; los retrasos recorren la fecha de entrega, no el precio.",
+      "Propuesta emitida en julio de 2026; vigencia de 30 días a partir de esa fecha.",
+      "Precios más IVA (16%), facturados vía CFDI."
     ],
     "pricing_toolbox_heading": "Cada proyecto incluye mi toolbox de trabajo",
     "pricing_toolbox_subheading": "Diseño, motion y craft son parte del proceso. El objetivo es simple: no deberías preocuparte por el setup técnico detrás del trabajo.",
@@ -621,12 +624,20 @@
         "a": "Lo que esté fuera del alcance original de discovery se cotiza como adicional antes de construirlo; nunca se absorbe en el precio ya acordado. Así el precio fijo se mantiene predecible para ambos lados."
       },
       {
+        "q": "¿Cómo decidimos entre reparar la tienda WooCommerce o recrearla en Shopify?",
+        "a": "Si la prioridad es volver a vender rápido y el resto del sitio funciona, la reparación es más rápida y económica. Si además quieren dejar atrás WordPress y operar sobre una plataforma administrada, la recreación en Shopify resuelve ambas cosas de una vez, a mayor costo y tiempo."
+      },
+      {
+        "q": "¿Se puede empezar con la reparación y migrar a Shopify después?",
+        "a": "Sí. Son opciones independientes: reparar ahora para recuperar ventas y evaluar la migración más adelante como proyecto aparte."
+      },
+      {
         "q": "¿Cómo funcionan los pagos?",
-        "a": "Un anticipo del 50% reserva el proyecto en el calendario y arranca el discovery; el 50% restante se cobra contra entrega. Precios libres de impuestos."
+        "a": "Un anticipo del 50% reserva el proyecto en el calendario y arranca el discovery; el 50% restante se cobra contra entrega. Una vez arrancado el discovery, el anticipo no es reembolsable. Precios más IVA (16%), con factura CFDI."
       },
       {
         "q": "¿Cuánto tiempo tarda un proyecto?",
-        "a": "Depende del tipo: una landing de campaña puede estar lista en 2-3 semanas; un sistema web o una tienda en línea toman más, según el alcance confirmado en discovery. El tiempo exacto se define ahí, antes de arrancar."
+        "a": "Cada card muestra su entrega estimada: de 1–2 semanas para la reparación de la tienda WooCommerce a 6–8 semanas para la reconstrucción con CMS. El tiempo exacto se confirma en discovery, y asume contenidos, accesos y feedback a tiempo del lado del cliente."
       },
       {
         "q": "¿Las herramientas de trabajo están incluidas?",
@@ -666,55 +677,41 @@
         "label": "Opción A",
         "title": "Catálogo Jamstack",
         "tagline": "Sitio de cursos y ebooks que consume tu catálogo desde una fuente externa y dirige la compra a checkout o plataforma externa. Sin pasarela ni carrito propio; forms vía Resend, SEO y GEO.",
-        "audience": "Para catálogos de cursos y ebooks que dirigen la compra afuera, sin operar un carrito propio."
+        "audience": "Para catálogos de cursos y ebooks que dirigen la compra afuera, sin operar un carrito propio.",
+        "timeline": "Entrega estimada: 3–4 semanas"
       },
       {
         "label": "Opción B",
         "title": "Tienda Shopify + Stripe",
         "tagline": "Tienda de cursos y ebooks con carrito y checkout on-site, configuración de productos digitales y webhooks de confirmación.",
-        "audience": "Para vender cursos y ebooks directo en el sitio, con carrito y checkout propios."
+        "audience": "Para vender cursos y ebooks directo en el sitio, con carrito y checkout propios.",
+        "timeline": "Entrega estimada: 4–5 semanas"
+      }
+    ],
+    "process": [
+      {
+        "step": "01",
+        "title": "Eliges el proyecto",
+        "description": "Revisas las cards, eliges el proyecto (y la opción, cuando hay dos rutas) y resolvemos dudas de alcance en una llamada corta."
+      },
+      {
+        "step": "02",
+        "title": "Anticipo y discovery",
+        "description": "El anticipo del 50% reserva el lugar en el calendario y arranca el discovery: cerramos alcance, accesos, contenidos y fecha de entrega."
+      },
+      {
+        "step": "03",
+        "title": "Construcción",
+        "description": "Construyo en iteraciones cortas con previews desplegados desde el día uno, para que revises avances reales, no reportes."
+      },
+      {
+        "step": "04",
+        "title": "Entrega y garantía",
+        "description": "Deploy a producción, handoff documentado y liquidación del 50% restante. La propiedad del código se transfiere al liquidar, con 15 días de garantía post-lanzamiento."
       }
     ]
   },
   "proposalsMaori": {
-    "hero_cta_primary": "Empecemos",
-    "hero_cta_secondary": "Ver precios",
-    "hero_subtitle": "Dos rutas para resolver la tienda de Maori: reparar la integración de WooCommerce que se rompió, o recrear el sitio completo en Shopify. Precio fijo o rango por opción, sin retainer.",
-    "pricing_eyebrow": "Precios",
-    "disclaimer_label": "Qué incluye cada opción",
-    "pricing_intro_heading": "Una card, dos rutas.",
-    "pricing_intro_subtitle": "Dos opciones para el mismo problema: reparar lo que ya tienes o migrar a una plataforma nueva. Qué incluye y qué no cada una lo encuentras en el botón de la esquina.",
-    "faq_eyebrow": "Preguntas",
-    "faq_heading": "Antes de decidir.",
-    "hero_lines": [
-      "Recuperar ventas",
-      "o reconstruir",
-      "desde cero"
-    ],
-    "marquee_services": [
-      "E-commerce Engineering",
-      "WooCommerce & Shopify",
-      "Payment Gateway Integration",
-      "Shipping & Inventory Systems",
-      "Platform Migration",
-      "SEO & Deployment"
-    ],
-    "scope_includes_label": "Incluye",
-    "scope_excludes_label": "No incluye",
-    "scope_includes": [
-      "**Diagnóstico completo** antes de cotizar el trabajo final: reviso plugins, logs y configuración para confirmar la causa real.",
-      "Tienes **acceso directo a mí** en cada decisión técnica del proyecto.",
-      "**Pruebas de compra end-to-end** antes de cerrar el proyecto: notificación, envío e inventario probados con una compra real.",
-      "Código y configuración **documentados y versionados**, sea en tu WooCommerce actual o en tu nueva tienda Shopify.",
-      "**15 días de garantía** post-entrega: si aparece un bug relacionado al trabajo entregado, lo arreglo sin costo.",
-      "En la reparación, **no toco tu pasarela de pagos** (ya funciona); en la recreación en Shopify, la integro completa contra tu cuenta."
-    ],
-    "scope_excludes": [
-      "**Gestión de catálogo**: no subo ni migro productos uno por uno; dejo la estructura lista para que tu equipo cargue el contenido.",
-      "**Automatizaciones o flujos personalizados** (n8n, IA, etc.) fuera de lo cotizado.",
-      "Hosting, licencias, apps de paquetería y **suscripción de Shopify**: corren por tu cuenta.",
-      "Apertura o migración de la cuenta de la pasarela de pagos: **la gestionas tú** (KYC, verificación de negocio)."
-    ],
     "options": [
       {
         "label": "Opción A",
@@ -727,7 +724,8 @@
           "Alertas y control de inventario configurados sobre WooCommerce.",
           "Actualización de PHP coordinada con tu hosting, sin downtime del sitio."
         ],
-        "audience": "Para volver a vender rápido, sin migrar de plataforma."
+        "audience": "Para volver a vender rápido, sin migrar de plataforma.",
+        "timeline": "Entrega estimada: 1–2 semanas"
       },
       {
         "label": "Opción B",
@@ -740,65 +738,9 @@
           "App de envíos con cotización en tiempo real e inventario nativo de Shopify.",
           "Redirecciones 301 y SEO de transición para no perder el posicionamiento actual."
         ],
-        "audience": "Para dejar WordPress atrás y operar sobre una plataforma administrada."
+        "audience": "Para dejar WordPress atrás y operar sobre una plataforma administrada.",
+        "timeline": "Entrega estimada: 4–6 semanas"
       }
-    ],
-    "pricing_price_unit": "MXN / proyecto",
-    "pricing_terms_heading": "Cómo funciona el pricing",
-    "pricing_terms": [
-      "Cada precio es fijo para la opción descrita; el alcance exacto (qué tan a fondo está el problema, o cuánto catálogo migra) se confirma en discovery.",
-      "El alcance se confirma en discovery antes de arrancar; cualquier cambio se cotiza como adicional.",
-      "Las dos opciones son excluyentes: se cotiza y se ejecuta una a la vez, no ambas juntas.",
-      "Anticipo del 50% para reservar el proyecto en el calendario; el 50% restante se cobra contra entrega.",
-      "Vigencia de la cotización: 30 días a partir de la fecha de esta propuesta.",
-      "Precios libres de impuestos."
-    ],
-    "pricing_toolbox_heading": "Cada opción incluye mi toolbox de trabajo",
-    "pricing_toolbox_subheading": "Diagnóstico, migración y pruebas son parte del proceso, no un extra.",
-    "pricing_toolbox_body": [
-      "Cada opción incluye las herramientas necesarias para ejecutarla bien: acceso a wp-admin o Shopify, herramientas de diagnóstico, y el stack operativo que el proyecto necesite.",
-      "No se cobra por «investigar»; se cobra por resolver el problema con el diagnóstico correcto, asumiendo yo la responsabilidad del proceso y la entrega.",
-      "Hosting, licencias, apps de terceros y la cuenta de la pasarela de pagos corren por cuenta del cliente, tal como se detalla en el alcance de arriba."
-    ],
-    "faq": [
-      {
-        "q": "¿Cómo decido entre reparar o recrear desde cero?",
-        "a": "Si tu prioridad es volver a vender esta semana y el resto del sitio funciona bien, la reparación es más rápida y barata. Si además quieres dejar atrás WordPress y tener una plataforma administrada, la recreación en Shopify resuelve ambas cosas de una vez, a mayor costo y tiempo."
-      },
-      {
-        "q": "¿Qué pasa con la pasarela de pagos que ya funciona?",
-        "a": "En la reparación no la toco: sigue corriendo como hoy. En la recreación en Shopify la vuelvo a integrar completa contra la cuenta que tú administras."
-      },
-      {
-        "q": "¿Puedo empezar con la reparación y migrar a Shopify después?",
-        "a": "Sí. Son opciones independientes: puedes reparar ahora para volver a vender, y evaluar la migración a Shopify más adelante como proyecto aparte."
-      },
-      {
-        "q": "¿Por qué hay dos precios distintos?",
-        "a": "Porque son dos rutas técnicas distintas, no un rango del mismo trabajo: reparar cuesta menos porque no toca la plataforma; recrear en Shopify cuesta más porque es un sitio nuevo completo. Cada precio es fijo para el alcance descrito en su opción."
-      },
-      {
-        "q": "¿Cómo funcionan los pagos?",
-        "a": "Un anticipo del 50% reserva el proyecto en el calendario y arranca el discovery; el 50% restante se cobra contra entrega. Precios libres de impuestos."
-      },
-      {
-        "q": "¿Cuánto tiempo tarda cada opción?",
-        "a": [
-          "La reparación de WooCommerce suele resolverse en 1-2 semanas, según qué tan a fondo esté el problema.",
-          "La recreación completa en Shopify toma más: entre 4 y 6 semanas, según el alcance del catálogo confirmado en discovery."
-        ]
-      },
-      {
-        "q": "¿Trabajas en remoto?",
-        "a": "Sí. Trabajo en remoto con equipos de Norteamérica, LATAM y Europa, en zonas horarias compatibles con América."
-      },
-      {
-        "q": "¿Puedes incluir este proyecto en tu portafolio?",
-        "a": "Sí, pero solo como atribución, nunca como propiedad. Si presento el proyecto, lo hago como una colaboración: reconozco mi rol en la construcción, sin reclamar el proyecto como propio."
-      }
-    ],
-    "reviews_eyebrow": "Reseñas",
-    "reviews_heading": "Lo que dicen de mi trabajo.",
-    "reviews_subheading": "Founders, directores de arte y equipos de producto en LATAM, Estados Unidos y Europa."
+    ]
   }
 }
