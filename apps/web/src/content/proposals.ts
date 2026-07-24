@@ -118,7 +118,7 @@ export type ProposalProjectPricingView = ProposalProjectPricingText & ProposalPr
   priceUnit: string
 }
 
-/** Presentación de precios fijos, en el mismo orden que `proposalsProject.pricing` en los mensajes: Landing, E-commerce, Agencia + CMS. */
+/** Presentación de precios fijos, en el mismo orden que `proposalsProject.pricing` en los mensajes: Landing, Agencia + CMS. El e-commerce (antes en medio) ahora es card de 2 opciones — ver `ECOMMERCE_PRICING_PRESENTATION`. */
 export const PROJECT_PRICING_PRESENTATION: ProposalProjectPricingPresentation[] = [
   {
     price: 10000,
@@ -128,20 +128,58 @@ export const PROJECT_PRICING_PRESENTATION: ProposalProjectPricingPresentation[] 
     },
   },
   {
-    price: 22400,
-    priceMax: 36000,
-    gradient: {
-      bg: 'linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%)',
-      text: '#0a3a52',
-    },
-  },
-  {
-    price: 60000,
+    price: 50000,
     gradient: {
       bg: 'linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%)',
       text: '#2c4014',
     },
   },
+]
+
+/**
+ * Card compartida con 2 opciones de precio apiladas (no una card por opción).
+ * Usada en ronda01-pigmento para el 2do slot (e-commerce: Jamstack vs.
+ * Shopify + Stripe) y el 4to slot (maori: reparación vs. recreación) — mismo
+ * patrón porque ambos proyectos plantean dos caminos técnicos con precio
+ * propio, no un rango genérico.
+ */
+export type ProposalDualOptionText = {
+  /** Etiqueta corta de la opción dentro de la card compartida, ej. "Opción A". */
+  label: string
+  title: string
+  tagline: string
+  /** One-liner de "para quién es esta opción", al pie de la columna. */
+  audience: string
+}
+
+export type ProposalDualOptionPresentation = {
+  /** Precio fijo en MXN. Con `priceMax`, es el piso de un rango. */
+  price: number
+  priceMax?: number
+}
+
+/** Gradiente único de la card compartida de maori — mismo pack "Gradient Abstract Geometric Shapes". */
+export const MAORI_CARD_GRADIENT = {
+  bg: 'linear-gradient(150deg, #ffe7b0 0%, #ffbf5c 52%, #ff9a33 100%)',
+  text: '#5a3408',
+}
+
+/** Presentación de las dos opciones, en el mismo orden que `proposalsMaori.options` en los mensajes: reparación WooCommerce, recreación Shopify. */
+export const MAORI_PRICING_PRESENTATION: ProposalDualOptionPresentation[] = [
+  { price: 14000 },
+  { price: 38000 },
+]
+
+/** Mismo azul que ya usaba este proyecto cuando era una sola card de rango. */
+export const ECOMMERCE_CARD_GRADIENT = {
+  bg: 'linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%)',
+  text: '#0a3a52',
+}
+
+/** Presentación de las dos opciones, en el mismo orden que `proposalsProject.ecommerce_options` en los mensajes: Jamstack, Shopify + Stripe. */
+export const ECOMMERCE_PRICING_PRESENTATION: ProposalDualOptionPresentation[] = [
+  { price: 24000 },
+  { price: 38000 },
 ]
 
 /** Presentación de los paquetes, en el mismo orden que `proposals.packages` en los mensajes. */

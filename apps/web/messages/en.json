@@ -24,7 +24,9 @@
     "proposals_title": "Web services proposal for Pigmento Studio",
     "proposals_description": "Web retainers for Pigmento: brand implementation, CMS, automation, SEO/GEO, AI, and design collaboration. Three packages — Essentials, Growth, and Visionary — to sustain delivery, scale digital services, and open higher-value lines.",
     "proposalsProject_title": "Per-project web services proposal for Pigmento Studio",
-    "proposalsProject_description": "Per-project pricing for Pigmento Studio: from a landing page to a platform for selling courses and ebooks or a full site rebuild with a custom CMS. Fixed price and defined scope per project, no retainer."
+    "proposalsProject_description": "Per-project pricing for Pigmento Studio: from a landing page to a platform for selling courses and ebooks or a full site rebuild with a custom CMS. Fixed price and defined scope per project, no retainer.",
+    "proposalsMaori_title": "Technical proposal: WooCommerce repair or Shopify rebuild for Maori",
+    "proposalsMaori_description": "A quote with two routes for Maori's store: diagnosis and repair of the broken WooCommerce integration (notifications, shipping, inventory), or a full site rebuild on Shopify. Fixed price per option, no retainer."
   },
   "common": {
     "socials": "Socials",
@@ -290,7 +292,11 @@
     "process_heading": "How I work.",
     "faq_eyebrow": "Questions",
     "faq_heading": "Before you reach out.",
-    "hero_lines": ["Web services", "proposal for", "Pigmento Studio"],
+    "hero_lines": [
+      "Web services",
+      "proposal for",
+      "Pigmento Studio"
+    ],
     "marquee_services": [
       "Product & UX Engineering",
       "Modern Web Experiences",
@@ -527,7 +533,11 @@
     "pricing_intro_subtitle": "Three projects, each with a defined scope and a fixed price (or a range, when there are two options). What each project includes—and what it doesn't—is in the corner button.",
     "faq_eyebrow": "Questions",
     "faq_heading": "Before you reach out.",
-    "hero_lines": ["Per-project", "web proposal", "for Pigmento"],
+    "hero_lines": [
+      "Per-project",
+      "web proposal",
+      "for Pigmento"
+    ],
     "marquee_services": [
       "Product & Web Engineering",
       "Landing Pages & Brand Sites",
@@ -571,18 +581,6 @@
         "audience": "For a crisp web presence without the complexity."
       },
       {
-        "title": "Courses & ebooks platform",
-        "tagline": "A sales platform for courses and digital goods: the site drives the purchase while your content stays where it already lives.",
-        "includes": [
-          "Multi-page site with a catalog of courses and ebooks; the content (videos, PDFs) is hosted off-site.",
-          "Option A — Jamstack: pulls your products from an external source and sends the purchase to external checkout or a course platform. No on-site gateway or cart.",
-          "Option B — Shopify + Stripe: store with on-site cart and checkout, digital-product config, and confirmation webhooks.",
-          "Both: forms via Resend, SEO and GEO, infrastructure set up. I don't upload products or run the e-commerce; I just leave the infrastructure ready."
-        ],
-        "category": "Commerce",
-        "audience": "For selling courses and digital goods without hosting the content on the site."
-      },
-      {
         "title": "Pigmento Studio",
         "tagline": "A full site rebuild on a custom CMS, where every project composes its own layout.",
         "includes": [
@@ -599,7 +597,7 @@
     "pricing_price_unit": "MXN / project",
     "pricing_terms_heading": "How the pricing works",
     "pricing_terms": [
-      "Each price is fixed for the scope described. When a project offers two options it's shown as a range: an estimate until you pick the option and lock scope in discovery.",
+      "Each price is fixed for the scope described. Projects that offer two options show a fixed price for each one; final scope is confirmed in discovery.",
       "Scope is confirmed in discovery before starting; any scope change is quoted as an addition, never absorbed into the original price.",
       "Projects that combine several types (for example, landing + store) are quoted by summing each piece separately.",
       "A 50% deposit reserves the project on the calendar; the remaining 50% is due on delivery.",
@@ -616,7 +614,7 @@
     "faq": [
       {
         "q": "How is a project priced?",
-        "a": "I start from the discovery scope: each project (a landing, a digital sales platform, a CMS rebuild) has a fixed price for a standard scope; the ones with two options are shown as a range until scope is locked. If scope grows or combines several types, it's quoted as additional pieces on top of that base."
+        "a": "I start from the discovery scope: each project (a landing, a digital sales platform, a CMS rebuild) has a fixed price for a standard scope; the ones with two options show a fixed price for each one. If scope grows or combines several types, it's quoted as additional pieces on top of that base."
       },
       {
         "q": "What happens if the project's scope grows midway?",
@@ -658,6 +656,145 @@
       {
         "q": "Can you include these projects in your portfolio?",
         "a": "Yes, but only as attribution, never as ownership. If I feature any of the projects I build for Pigmento Studio, I always present it as a collaboration: I credit my role in building it, without claiming the project as my own."
+      }
+    ],
+    "reviews_eyebrow": "Reviews",
+    "reviews_heading": "What they say about my work.",
+    "reviews_subheading": "Founders, art directors, and product teams across LATAM, the US, and Europe.",
+    "ecommerce_options": [
+      {
+        "label": "Option A",
+        "title": "Jamstack catalog",
+        "tagline": "A courses-and-ebooks site that pulls your catalog from an external source and sends the purchase to external checkout or a course platform. No on-site gateway or cart; forms via Resend, SEO and GEO.",
+        "audience": "For course/ebook catalogs that send the purchase elsewhere, without running your own cart."
+      },
+      {
+        "label": "Option B",
+        "title": "Shopify + Stripe store",
+        "tagline": "A courses-and-ebooks store with on-site cart and checkout, digital-product config, and confirmation webhooks.",
+        "audience": "For selling courses and ebooks directly on-site, with your own cart and checkout."
+      }
+    ]
+  },
+  "proposalsMaori": {
+    "hero_cta_primary": "Let’s start",
+    "hero_cta_secondary": "See pricing",
+    "hero_subtitle": "Two routes to fix Maori's store: repair the WooCommerce integration that broke, or rebuild the whole site on Shopify. Fixed price or range per option, no retainer.",
+    "pricing_eyebrow": "Pricing",
+    "disclaimer_label": "What each option includes",
+    "pricing_intro_heading": "One card, two routes.",
+    "pricing_intro_subtitle": "Two options for the same problem: repair what you already have or migrate to a new platform. What each one includes—and what it doesn't—is in the corner button.",
+    "faq_eyebrow": "Questions",
+    "faq_heading": "Before you decide.",
+    "hero_lines": [
+      "Recover sales",
+      "or rebuild",
+      "from scratch"
+    ],
+    "marquee_services": [
+      "E-commerce Engineering",
+      "WooCommerce & Shopify",
+      "Payment Gateway Integration",
+      "Shipping & Inventory Systems",
+      "Platform Migration",
+      "SEO & Deployment"
+    ],
+    "scope_includes_label": "Includes",
+    "scope_excludes_label": "Doesn't include",
+    "scope_includes": [
+      "**Full diagnosis** before quoting the final work: I review plugins, logs, and config to confirm the real cause.",
+      "You get **direct access to me** on every technical decision in the project.",
+      "**End-to-end purchase testing** before closing the project: notifications, shipping, and inventory verified with a real purchase.",
+      "Code and configuration **documented and version-controlled**, whether it stays on your current WooCommerce or your new Shopify store.",
+      "**15-day post-delivery warranty**: if a bug tied to the delivered work shows up, I fix it at no cost.",
+      "On the repair, **I don't touch your payment gateway** (it already works); on the Shopify rebuild, I integrate it in full against your account."
+    ],
+    "scope_excludes": [
+      "**Catalog management**: I don't upload or migrate products one by one; I leave the structure ready for your team to load the content.",
+      "**Custom automations or workflows** (n8n, AI, etc.) outside of what's quoted.",
+      "Hosting, licenses, shipping apps, and the **Shopify subscription**: covered by you.",
+      "Opening or migrating the payment gateway account: **you handle it** (KYC, business verification)."
+    ],
+    "options": [
+      {
+        "label": "Option A",
+        "title": "Full WooCommerce Repair",
+        "tagline": "I recover notifications, shipping, and inventory on the store you already have, without touching the payment gateway that already works.",
+        "includes": [
+          "Full diagnosis of plugins, logs, and PHP version to confirm what broke and why.",
+          "Repair or replacement of the notification pipeline (SMTP) so order alerts reach you again.",
+          "Real-time shipping rate calculator with national carriers, wired into checkout.",
+          "Inventory alerts and control configured on WooCommerce.",
+          "PHP upgrade coordinated with your host, no downtime."
+        ],
+        "audience": "To start selling again fast, without switching platforms."
+      },
+      {
+        "label": "Option B",
+        "title": "Full rebuild on Shopify + Stripe",
+        "tagline": "A brand-new store on Shopify, with your brand, your gateway, and the shipping and inventory apps you're missing today.",
+        "includes": [
+          "New Shopify store with a custom theme built on Maori's visual identity.",
+          "Structural catalog migration (categories, variants, pricing); doesn't include product entry.",
+          "Full payment gateway and checkout integration, against the account you manage.",
+          "Shipping app with real-time rates and Shopify's native inventory.",
+          "301 redirects and transition SEO so you don't lose current rankings."
+        ],
+        "audience": "To leave WordPress behind and run on a managed platform."
+      }
+    ],
+    "pricing_price_unit": "MXN / project",
+    "pricing_terms_heading": "How the pricing works",
+    "pricing_terms": [
+      "Each price is fixed for the option described; the exact scope (how deep the problem goes, or how much catalog migrates) is confirmed in discovery.",
+      "Scope is confirmed in discovery before starting; any change is quoted as an addition.",
+      "The two options are mutually exclusive: one is quoted and executed at a time, not both together.",
+      "A 50% deposit reserves the project on the calendar; the remaining 50% is due on delivery.",
+      "Quote validity: 30 days from the date of this proposal.",
+      "Prices are tax-free."
+    ],
+    "pricing_toolbox_heading": "Every option includes my working toolbox",
+    "pricing_toolbox_subheading": "Diagnosis, migration, and testing are part of the process, not an extra.",
+    "pricing_toolbox_body": [
+      "Every option includes the tools needed to do it well: wp-admin or Shopify access, diagnostic tools, and whatever operating stack the project needs.",
+      "You don't pay for «investigating»; you pay for solving the problem with the right diagnosis, with me owning the process and the delivery.",
+      "Hosting, licenses, third-party apps, and the payment gateway account are covered by the client, as detailed in the scope above."
+    ],
+    "faq": [
+      {
+        "q": "How do I decide between repairing or rebuilding from scratch?",
+        "a": "If your priority is selling again this week and the rest of the site works fine, the repair is faster and cheaper. If you also want to leave WordPress behind and run on a managed platform, the Shopify rebuild solves both at once, at a higher cost and timeline."
+      },
+      {
+        "q": "What happens to the payment gateway that already works?",
+        "a": "On the repair, I don't touch it: it keeps running as-is. On the Shopify rebuild, I integrate it again in full against the account you manage."
+      },
+      {
+        "q": "Can I start with the repair and migrate to Shopify later?",
+        "a": "Yes. They're independent options: you can repair now to start selling again, and evaluate the Shopify migration later as a separate project."
+      },
+      {
+        "q": "Why are there two different prices?",
+        "a": "Because they're two different technical routes, not a range on the same work: repairing costs less because it doesn't touch the platform; rebuilding on Shopify costs more because it's a full new site. Each price is fixed for the scope described in its option."
+      },
+      {
+        "q": "How do payments work?",
+        "a": "A 50% deposit reserves the project on the calendar and kicks off discovery; the remaining 50% is due on delivery. Prices are tax-free."
+      },
+      {
+        "q": "How long does each option take?",
+        "a": [
+          "The WooCommerce repair usually wraps in 1-2 weeks, depending on how deep the problem goes.",
+          "The full Shopify rebuild takes longer: 4 to 6 weeks, depending on the catalog scope confirmed in discovery."
+        ]
+      },
+      {
+        "q": "Do you work remotely?",
+        "a": "Yes. I work remotely with teams in North America, LATAM, and Europe, in time zones compatible with the Americas."
+      },
+      {
+        "q": "Can you include this project in your portfolio?",
+        "a": "Yes, but only as attribution, never as ownership. If I feature the project, I always present it as a collaboration: I credit my role in building it, without claiming the project as my own."
       }
     ],
     "reviews_eyebrow": "Reviews",

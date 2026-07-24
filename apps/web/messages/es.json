@@ -24,7 +24,9 @@
     "proposals_title": "Propuesta de servicios web para Pigmento Studio",
     "proposals_description": "Retainers web para Pigmento: implementación de marca, CMS, automatización, SEO/GEO, IA y colaboración con diseño. Tres paquetes — Essentials, Growth y Visionary — para sostener entregas, escalar servicios digitales y abrir líneas de mayor valor.",
     "proposalsProject_title": "Propuesta de servicios web por proyecto para Pigmento Studio",
-    "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a una plataforma de venta de cursos y ebooks o la reconstrucción del sitio con un CMS a medida. Precio fijo y alcance definido por proyecto, sin retainer."
+    "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a una plataforma de venta de cursos y ebooks o la reconstrucción del sitio con un CMS a medida. Precio fijo y alcance definido por proyecto, sin retainer.",
+    "proposalsMaori_title": "Propuesta técnica: reparación WooCommerce o recreación en Shopify para Maori",
+    "proposalsMaori_description": "Cotización con dos rutas para la tienda de Maori: diagnóstico y reparación de la integración WooCommerce rota (notificaciones, envío, inventario), o recreación completa del sitio en Shopify. Precio fijo por opción, sin retainer."
   },
   "common": {
     "socials": "Redes",
@@ -290,7 +292,11 @@
     "process_heading": "Cómo trabajo.",
     "faq_eyebrow": "Preguntas",
     "faq_heading": "Antes de escribirme.",
-    "hero_lines": ["Propuesta de", "servicios web", "para Pigmento Studio"],
+    "hero_lines": [
+      "Propuesta de",
+      "servicios web",
+      "para Pigmento Studio"
+    ],
     "marquee_services": [
       "Product & UX Engineering",
       "Modern Web Experiences",
@@ -527,7 +533,11 @@
     "pricing_intro_subtitle": "Tres proyectos, cada uno con alcance definido y precio fijo (o rango, cuando hay dos opciones). Qué incluye y qué no cada proyecto lo encuentras en el botón de la esquina.",
     "faq_eyebrow": "Preguntas",
     "faq_heading": "Antes de escribirme.",
-    "hero_lines": ["Propuesta web", "por proyecto", "para Pigmento"],
+    "hero_lines": [
+      "Propuesta web",
+      "por proyecto",
+      "para Pigmento"
+    ],
     "marquee_services": [
       "Product & Web Engineering",
       "Landing Pages & Brand Sites",
@@ -571,18 +581,6 @@
         "audience": "Para una presencia web nítida y sin complejidad."
       },
       {
-        "title": "Plataforma de cursos & ebooks",
-        "tagline": "Una plataforma de venta para cursos y materiales digitales: el sitio gestiona la compra y tu contenido vive donde ya lo alojas.",
-        "includes": [
-          "Sitio multipágina con catálogo de cursos y ebooks; el contenido (videos, PDFs) se aloja fuera del sitio.",
-          "Opción A — Jamstack: consume tus productos desde una fuente externa y dirige la compra a checkout o plataforma de cursos externa. Sin pasarela ni carrito propio.",
-          "Opción B — Shopify + Stripe: tienda con carrito y checkout on-site, config de productos digitales y webhooks de confirmación.",
-          "En ambas: forms vía Resend, SEO y GEO, infra montada. No subo productos ni gestiono el e-commerce; solo dejo la infraestructura lista."
-        ],
-        "category": "Commerce",
-        "audience": "Para vender cursos y digitales sin alojar el contenido en el sitio."
-      },
-      {
         "title": "Pigmento Studio",
         "tagline": "Reconstrucción integral del sitio sobre un CMS a medida, donde cada proyecto compone su propio layout.",
         "includes": [
@@ -599,7 +597,7 @@
     "pricing_price_unit": "MXN / proyecto",
     "pricing_terms_heading": "Cómo funciona el pricing",
     "pricing_terms": [
-      "Cada precio es fijo para el alcance descrito. Cuando un proyecto ofrece dos opciones se muestra como rango: es un estimado hasta elegir la opción y cerrar el alcance en discovery.",
+      "Cada precio es fijo para el alcance descrito. Los proyectos que ofrecen dos opciones muestran un precio fijo por cada una; el alcance final se confirma en discovery.",
       "El alcance se confirma en discovery antes de arrancar; cualquier cambio de alcance se cotiza como adicional, no se absorbe en el precio original.",
       "Proyectos que combinan varios tipos (por ejemplo, landing + tienda) se cotizan sumando cada pieza por separado.",
       "Anticipo del 50% para reservar el proyecto en el calendario; el 50% restante se cobra contra entrega.",
@@ -616,7 +614,7 @@
     "faq": [
       {
         "q": "¿Cómo se define el precio de un proyecto?",
-        "a": "Parto del alcance del discovery: cada proyecto (una landing, una plataforma de venta digital, una reconstrucción con CMS) tiene un precio fijo para un alcance estándar; los que ofrecen dos opciones se muestran como rango hasta cerrar el alcance. Si el alcance crece o combina varios tipos, se cotiza como piezas adicionales sobre esa base."
+        "a": "Parto del alcance del discovery: cada proyecto (una landing, una plataforma de venta digital, una reconstrucción con CMS) tiene un precio fijo para un alcance estándar; los que ofrecen dos opciones muestran un precio fijo por cada una. Si el alcance crece o combina varios tipos, se cotiza como piezas adicionales sobre esa base."
       },
       {
         "q": "¿Qué pasa si el proyecto crece de alcance a medio camino?",
@@ -658,6 +656,145 @@
       {
         "q": "¿Puedes incluir estos proyectos en tu portafolio?",
         "a": "Sí, pero solo como atribución, nunca como propiedad. Si presento alguno de los proyectos que desarrolle para Pigmento Studio, lo hago siempre como una colaboración: reconozco mi rol en la construcción, sin reclamar el proyecto como propio."
+      }
+    ],
+    "reviews_eyebrow": "Reseñas",
+    "reviews_heading": "Lo que dicen de mi trabajo.",
+    "reviews_subheading": "Founders, directores de arte y equipos de producto en LATAM, Estados Unidos y Europa.",
+    "ecommerce_options": [
+      {
+        "label": "Opción A",
+        "title": "Catálogo Jamstack",
+        "tagline": "Sitio de cursos y ebooks que consume tu catálogo desde una fuente externa y dirige la compra a checkout o plataforma externa. Sin pasarela ni carrito propio; forms vía Resend, SEO y GEO.",
+        "audience": "Para catálogos de cursos y ebooks que dirigen la compra afuera, sin operar un carrito propio."
+      },
+      {
+        "label": "Opción B",
+        "title": "Tienda Shopify + Stripe",
+        "tagline": "Tienda de cursos y ebooks con carrito y checkout on-site, configuración de productos digitales y webhooks de confirmación.",
+        "audience": "Para vender cursos y ebooks directo en el sitio, con carrito y checkout propios."
+      }
+    ]
+  },
+  "proposalsMaori": {
+    "hero_cta_primary": "Empecemos",
+    "hero_cta_secondary": "Ver precios",
+    "hero_subtitle": "Dos rutas para resolver la tienda de Maori: reparar la integración de WooCommerce que se rompió, o recrear el sitio completo en Shopify. Precio fijo o rango por opción, sin retainer.",
+    "pricing_eyebrow": "Precios",
+    "disclaimer_label": "Qué incluye cada opción",
+    "pricing_intro_heading": "Una card, dos rutas.",
+    "pricing_intro_subtitle": "Dos opciones para el mismo problema: reparar lo que ya tienes o migrar a una plataforma nueva. Qué incluye y qué no cada una lo encuentras en el botón de la esquina.",
+    "faq_eyebrow": "Preguntas",
+    "faq_heading": "Antes de decidir.",
+    "hero_lines": [
+      "Recuperar ventas",
+      "o reconstruir",
+      "desde cero"
+    ],
+    "marquee_services": [
+      "E-commerce Engineering",
+      "WooCommerce & Shopify",
+      "Payment Gateway Integration",
+      "Shipping & Inventory Systems",
+      "Platform Migration",
+      "SEO & Deployment"
+    ],
+    "scope_includes_label": "Incluye",
+    "scope_excludes_label": "No incluye",
+    "scope_includes": [
+      "**Diagnóstico completo** antes de cotizar el trabajo final: reviso plugins, logs y configuración para confirmar la causa real.",
+      "Tienes **acceso directo a mí** en cada decisión técnica del proyecto.",
+      "**Pruebas de compra end-to-end** antes de cerrar el proyecto: notificación, envío e inventario probados con una compra real.",
+      "Código y configuración **documentados y versionados**, sea en tu WooCommerce actual o en tu nueva tienda Shopify.",
+      "**15 días de garantía** post-entrega: si aparece un bug relacionado al trabajo entregado, lo arreglo sin costo.",
+      "En la reparación, **no toco tu pasarela de pagos** (ya funciona); en la recreación en Shopify, la integro completa contra tu cuenta."
+    ],
+    "scope_excludes": [
+      "**Gestión de catálogo**: no subo ni migro productos uno por uno; dejo la estructura lista para que tu equipo cargue el contenido.",
+      "**Automatizaciones o flujos personalizados** (n8n, IA, etc.) fuera de lo cotizado.",
+      "Hosting, licencias, apps de paquetería y **suscripción de Shopify**: corren por tu cuenta.",
+      "Apertura o migración de la cuenta de la pasarela de pagos: **la gestionas tú** (KYC, verificación de negocio)."
+    ],
+    "options": [
+      {
+        "label": "Opción A",
+        "title": "Reparación Completa de WooCommerce",
+        "tagline": "Recupero notificaciones, envío e inventario sobre la tienda que ya tienes, sin tocar la pasarela de pagos que ya funciona.",
+        "includes": [
+          "Diagnóstico completo de plugins, logs y versión de PHP para confirmar qué se rompió y por qué.",
+          "Reparación o reemplazo del envío de notificaciones (SMTP) para que vuelvan a llegar los avisos de compra.",
+          "Cotizador de envío en tiempo real con paquetería nacional, integrado al checkout.",
+          "Alertas y control de inventario configurados sobre WooCommerce.",
+          "Actualización de PHP coordinada con tu hosting, sin downtime del sitio."
+        ],
+        "audience": "Para volver a vender rápido, sin migrar de plataforma."
+      },
+      {
+        "label": "Opción B",
+        "title": "Recreación completa en Shopify + Stripe",
+        "tagline": "Tienda nueva desde cero en Shopify, con tu marca, tu pasarela y las apps de envío e inventario que hoy te faltan.",
+        "includes": [
+          "Tienda nueva en Shopify con tema a medida sobre la identidad visual de Maori.",
+          "Migración estructural de catálogo (categorías, variantes, precios); no incluye captura de productos.",
+          "Integración de pasarela de pagos y checkout completo, sobre la cuenta que tú administras.",
+          "App de envíos con cotización en tiempo real e inventario nativo de Shopify.",
+          "Redirecciones 301 y SEO de transición para no perder el posicionamiento actual."
+        ],
+        "audience": "Para dejar WordPress atrás y operar sobre una plataforma administrada."
+      }
+    ],
+    "pricing_price_unit": "MXN / proyecto",
+    "pricing_terms_heading": "Cómo funciona el pricing",
+    "pricing_terms": [
+      "Cada precio es fijo para la opción descrita; el alcance exacto (qué tan a fondo está el problema, o cuánto catálogo migra) se confirma en discovery.",
+      "El alcance se confirma en discovery antes de arrancar; cualquier cambio se cotiza como adicional.",
+      "Las dos opciones son excluyentes: se cotiza y se ejecuta una a la vez, no ambas juntas.",
+      "Anticipo del 50% para reservar el proyecto en el calendario; el 50% restante se cobra contra entrega.",
+      "Vigencia de la cotización: 30 días a partir de la fecha de esta propuesta.",
+      "Precios libres de impuestos."
+    ],
+    "pricing_toolbox_heading": "Cada opción incluye mi toolbox de trabajo",
+    "pricing_toolbox_subheading": "Diagnóstico, migración y pruebas son parte del proceso, no un extra.",
+    "pricing_toolbox_body": [
+      "Cada opción incluye las herramientas necesarias para ejecutarla bien: acceso a wp-admin o Shopify, herramientas de diagnóstico, y el stack operativo que el proyecto necesite.",
+      "No se cobra por «investigar»; se cobra por resolver el problema con el diagnóstico correcto, asumiendo yo la responsabilidad del proceso y la entrega.",
+      "Hosting, licencias, apps de terceros y la cuenta de la pasarela de pagos corren por cuenta del cliente, tal como se detalla en el alcance de arriba."
+    ],
+    "faq": [
+      {
+        "q": "¿Cómo decido entre reparar o recrear desde cero?",
+        "a": "Si tu prioridad es volver a vender esta semana y el resto del sitio funciona bien, la reparación es más rápida y barata. Si además quieres dejar atrás WordPress y tener una plataforma administrada, la recreación en Shopify resuelve ambas cosas de una vez, a mayor costo y tiempo."
+      },
+      {
+        "q": "¿Qué pasa con la pasarela de pagos que ya funciona?",
+        "a": "En la reparación no la toco: sigue corriendo como hoy. En la recreación en Shopify la vuelvo a integrar completa contra la cuenta que tú administras."
+      },
+      {
+        "q": "¿Puedo empezar con la reparación y migrar a Shopify después?",
+        "a": "Sí. Son opciones independientes: puedes reparar ahora para volver a vender, y evaluar la migración a Shopify más adelante como proyecto aparte."
+      },
+      {
+        "q": "¿Por qué hay dos precios distintos?",
+        "a": "Porque son dos rutas técnicas distintas, no un rango del mismo trabajo: reparar cuesta menos porque no toca la plataforma; recrear en Shopify cuesta más porque es un sitio nuevo completo. Cada precio es fijo para el alcance descrito en su opción."
+      },
+      {
+        "q": "¿Cómo funcionan los pagos?",
+        "a": "Un anticipo del 50% reserva el proyecto en el calendario y arranca el discovery; el 50% restante se cobra contra entrega. Precios libres de impuestos."
+      },
+      {
+        "q": "¿Cuánto tiempo tarda cada opción?",
+        "a": [
+          "La reparación de WooCommerce suele resolverse en 1-2 semanas, según qué tan a fondo esté el problema.",
+          "La recreación completa en Shopify toma más: entre 4 y 6 semanas, según el alcance del catálogo confirmado en discovery."
+        ]
+      },
+      {
+        "q": "¿Trabajas en remoto?",
+        "a": "Sí. Trabajo en remoto con equipos de Norteamérica, LATAM y Europa, en zonas horarias compatibles con América."
+      },
+      {
+        "q": "¿Puedes incluir este proyecto en tu portafolio?",
+        "a": "Sí, pero solo como atribución, nunca como propiedad. Si presento el proyecto, lo hago como una colaboración: reconozco mi rol en la construcción, sin reclamar el proyecto como propio."
       }
     ],
     "reviews_eyebrow": "Reseñas",

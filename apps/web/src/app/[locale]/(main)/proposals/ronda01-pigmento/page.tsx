@@ -4,7 +4,13 @@ import { buildAlternates, localizedPath } from '@/lib/seo'
 import { defaultOgImages } from '@/lib/seo/metadata-helpers'
 import { SITE_AUTHOR } from '@/lib/seo/site-config'
 import {
+  ECOMMERCE_CARD_GRADIENT,
+  ECOMMERCE_PRICING_PRESENTATION,
+  MAORI_CARD_GRADIENT,
+  MAORI_PRICING_PRESENTATION,
   PROJECT_PRICING_PRESENTATION,
+  type ProposalDualOptionPresentation,
+  type ProposalDualOptionText,
   type ProposalFaq,
   type ProposalProjectPricingText,
 } from '@/content/proposals'
@@ -59,6 +65,94 @@ const TRAIL_SHAPES = [
 /** Renderiza `**texto**` como <strong>; usado en el copy de scope_includes/scope_excludes. */
 function renderWithBold(text: string) {
   return text.split('**').map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))
+}
+
+type DualOption = ProposalDualOptionText & ProposalDualOptionPresentation & {
+  isRange: boolean
+  priceValue: string
+  priceUnit: string
+}
+
+type PriceCardItem = ProposalProjectPricingText & {
+  isRange: boolean
+  priceValue: string
+  priceUnit: string
+  gradient: { bg: string; text: string }
+}
+
+/** Card de precio único (1er y 3er slot: tintas.zip, Pigmento Studio). */
+function PriceCard({ item }: { item: PriceCardItem }) {
+  return (
+    <div className="flex">
+      <div
+        style={{ background: item.gradient.bg, color: item.gradient.text }}
+        className="relative flex w-full flex-col overflow-hidden rounded-2xl p-8 shadow-lg"
+      >
+        <span className="text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{item.category}</span>
+        <h3 className="mt-3 font-display text-[clamp(1.25rem,2vw,1.75rem)] font-extrabold leading-[0.98] tracking-[-0.02em]">{item.title}</h3>
+
+        <div className="mt-5 flex items-end gap-2">
+          <NumberOdometer
+            items={[{ value: item.priceValue }]}
+            numberClassName={`font-display font-extrabold leading-none tracking-[-0.03em] ${item.isRange ? 'text-[clamp(1.15rem,2vw,1.6rem)]' : 'text-[2.25rem]'}`}
+          />
+          <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{item.priceUnit}</span>
+        </div>
+
+        <p className="mt-4 text-sm font-medium leading-relaxed opacity-95">{item.tagline}</p>
+
+        <ul className="mt-6 flex-1">
+          {item.includes.map((feature, i) => (
+            <li
+              key={feature}
+              className={`py-3 text-sm font-medium leading-[1.45] opacity-85 ${i === 0 ? 'pt-0' : 'border-t border-current/15'}`}
+            >
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-auto pt-6 border-t border-current/15 text-2xs font-accent uppercase tracking-[0.08em] opacity-70">
+          {item.audience}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Card compartida con 2 opciones apiladas (divisor horizontal), en vez de una
+ * card por opción. Usada por el 2do slot (e-commerce: Jamstack vs. Shopify +
+ * Stripe) y el 4to slot (maori: reparación vs. recreación) del grid.
+ */
+function DualOptionCard({ gradient, options }: { gradient: { bg: string; text: string }; options: DualOption[] }) {
+  return (
+    <div className="flex">
+      <div
+        style={{ background: gradient.bg, color: gradient.text }}
+        className="relative flex w-full flex-col divide-y divide-current/15 overflow-hidden rounded-2xl shadow-lg"
+      >
+        {options.map((opt) => (
+          <div key={opt.label} className="flex flex-col p-8">
+            <span className="text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{opt.label}</span>
+            <h3 className="mt-3 font-display text-[clamp(1.25rem,2vw,1.75rem)] font-extrabold leading-[0.98] tracking-[-0.02em]">{opt.title}</h3>
+
+            <div className="mt-5 flex items-end gap-2">
+              <NumberOdometer
+                items={[{ value: opt.priceValue }]}
+                numberClassName={`font-display font-extrabold leading-none tracking-[-0.03em] ${opt.isRange ? 'text-[clamp(1.15rem,2vw,1.6rem)]' : 'text-[2.25rem]'}`}
+              />
+              <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{opt.priceUnit}</span>
+            </div>
+
+            <p className="mt-4 text-sm font-medium leading-relaxed opacity-95">{opt.tagline}</p>
+
+            <p className="mt-auto pt-6 text-2xs font-accent uppercase tracking-[0.08em] opacity-70">{opt.audience}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export async function generateMetadata({
@@ -118,6 +212,36 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
     }
   })
 
+  // 2do slot — e-commerce: Jamstack vs. Shopify + Stripe son dos caminos con
+  // precio propio, no un rango genérico; misma card compartida que maori.
+  const ecommerceOptions = (t.raw('ecommerce_options') as ProposalDualOptionText[]).map((opt, i) => {
+    const pres = ECOMMERCE_PRICING_PRESENTATION[i]
+    const isRange = pres.priceMax != null
+    return {
+      ...opt,
+      ...pres,
+      isRange,
+      priceValue: isRange ? `${fmtMxn(pres.price)} – ${fmtMxn(pres.priceMax!)}` : fmtMxn(pres.price),
+      priceUnit,
+    }
+  })
+
+  // 4to slot — card compartida de maori.com.mx, ver 2 opciones (reparación
+  // WooCommerce vs. recreación Shopify) apiladas en una sola card.
+  const tMaori = await getTranslations('proposalsMaori')
+  const maoriPriceUnit = tMaori('pricing_price_unit')
+  const maoriOptions = (tMaori.raw('options') as ProposalDualOptionText[]).map((opt, i) => {
+    const pres = MAORI_PRICING_PRESENTATION[i]
+    const isRange = pres.priceMax != null
+    return {
+      ...opt,
+      ...pres,
+      isRange,
+      priceValue: isRange ? `${fmtMxn(pres.price)} – ${fmtMxn(pres.priceMax!)}` : fmtMxn(pres.price),
+      priceUnit: maoriPriceUnit,
+    }
+  })
+
   return (
     <div id="proposals-project-page" data-semantic-role="services" data-llm-context="professional-services-offering">
       {/* Hero — bg surface (token más oscuro) + maquetación MWG 041: lista interactiva */}
@@ -173,45 +297,15 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
           </div>
 
           {/* Precio por proyecto */}
-          {/* 3 cards en fila desde lg; abajo de lg se apilan todas al 100%
-              (evita el 2-up + huérfana a media fila del breakpoint intermedio). */}
-          <div data-reveal-group data-stagger="80" data-distance="1.5em" className="mt-16 flex flex-wrap gap-6 items-stretch">
-            {pricing.map((item) => (
-              <div key={item.title} className="flex grow basis-full lg:basis-[calc(33.333%_-_1rem)]">
-                <div
-                  style={{ background: item.gradient.bg, color: item.gradient.text }}
-                  className="relative flex w-full flex-col overflow-hidden rounded-2xl p-8 shadow-lg"
-                >
-                  <span className="text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{item.category}</span>
-                  <h3 className="mt-3 font-display text-[clamp(1.25rem,2vw,1.75rem)] font-extrabold leading-[0.98] tracking-[-0.02em]">{item.title}</h3>
-
-                  <div className="mt-5 flex items-end gap-2">
-                    <NumberOdometer
-                      items={[{ value: item.priceValue }]}
-                      numberClassName={`font-display font-extrabold leading-none tracking-[-0.03em] ${item.isRange ? 'text-[clamp(1.15rem,2vw,1.6rem)]' : 'text-[2.25rem]'}`}
-                    />
-                    <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{item.priceUnit}</span>
-                  </div>
-
-                  <p className="mt-4 text-sm font-medium leading-relaxed opacity-95">{item.tagline}</p>
-
-                  <ul className="mt-6 flex-1">
-                    {item.includes.map((feature, i) => (
-                      <li
-                        key={feature}
-                        className={`py-3 text-sm font-medium leading-[1.45] opacity-85 ${i === 0 ? 'pt-0' : 'border-t border-current/15'}`}
-                      >
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <p className="mt-auto pt-6 border-t border-current/15 text-2xs font-accent uppercase tracking-[0.08em] opacity-70">
-                    {item.audience}
-                  </p>
-                </div>
-              </div>
-            ))}
+          {/* Grid 2x2: 2 columnas desde sm, 1 columna en mobile. 4 slots
+              explícitos porque ya no son homogéneos: 1 y 3 son cards de precio
+              único (tintas.zip, Pigmento Studio); 2 y 4 son la card
+              compartida de 2 opciones (e-commerce, maori). */}
+          <div data-reveal-group data-stagger="80" data-distance="1.5em" className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
+            <PriceCard item={pricing[0]} />
+            <DualOptionCard gradient={ECOMMERCE_CARD_GRADIENT} options={ecommerceOptions} />
+            <PriceCard item={pricing[1]} />
+            <DualOptionCard gradient={MAORI_CARD_GRADIENT} options={maoriOptions} />
           </div>
 
           {/* Pricing terms — disclaimer fluido en monospace, sin contenedor */}
