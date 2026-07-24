@@ -186,6 +186,26 @@ export const ECOMMERCE_PRICING_PRESENTATION: ProposalDualOptionPresentation[] = 
   { price: 38000 },
 ]
 
+/** Texto de la card full-width del retainer en ronda01-pigmento (alternativa a cotizar por proyecto), en `proposalsProject.retainer`. */
+export type ProposalRetainerText = {
+  label: string
+  title: string
+  /** Prefijo del precio, ej. "Desde" (el precio es el piso de los paquetes). */
+  price_prefix: string
+  price_unit: string
+  tagline: string
+  includes: string[]
+  /** One-liner de "para quién es esta alternativa", al pie de la card. */
+  note: string
+  cta: string
+}
+
+/** Mismo morado del paquete Growth (featured) de la primera propuesta, para ligar visualmente la alternativa con esa página. */
+export const RETAINER_CARD_GRADIENT = {
+  bg: 'linear-gradient(150deg, #e7cef5 0%, #c08fee 50%, #8a4fe6 100%)',
+  text: '#260b52',
+}
+
 /** Presentación de los paquetes, en el mismo orden que `proposals.packages` en los mensajes. */
 export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
   {

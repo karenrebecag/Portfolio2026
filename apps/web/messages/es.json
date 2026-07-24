@@ -709,7 +709,22 @@
         "title": "Entrega y garantía",
         "description": "Deploy a producción, handoff documentado y liquidación del 50% restante. La propiedad del código se transfiere al liquidar, con 15 días de garantía post-lanzamiento."
       }
-    ]
+    ],
+    "retainer": {
+      "label": "Alternativa",
+      "title": "Partner web en retainer mensual",
+      "price_prefix": "Visionary",
+      "price_unit": "MXN / mes",
+      "tagline": "Estos cuatro proyectos no salen en un solo mes. La alternativa es el retainer de la primera propuesta en su plan Visionary: una tarifa mensual fija con la que se entregan por fases, con un partner que se hace cargo de la parte web de Pigmento de forma continua.",
+      "includes": [
+        "Los cuatro proyectos de esta ronda se planifican y entregan por fases dentro del retainer, sin cotizar cada pieza por separado.",
+        "Asesoría web continua para todo Pigmento. En el modelo por proyecto, las reuniones de asesoría se limitan al proyecto contratado; en el retainer acompaño todas las decisiones web del estudio.",
+        "Capacidad mensual garantizada y prioridad en el calendario, con un costo predecible para ambos lados.",
+        "Por la complejidad de estos proyectos, solo son viables en el plan Visionary; Essentials y Growth se quedan cortos para este alcance."
+      ],
+      "note": "Para estudios que buscan un responsable fijo de web, no cotizaciones sueltas.",
+      "cta": "Ver los paquetes del retainer"
+    }
   },
   "proposalsMaori": {
     "options": [

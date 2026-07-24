@@ -20,10 +20,11 @@
 }
 
 /* Header pinned: al vivir dentro del container (que es el elemento pinned),
-   se queda fijo mientras las cards se desplazan en X. */
+   se queda fijo mientras las cards se desplazan en X. El padding lateral lo
+   pone el wrapper (px-4 lg:px-6 + max-w 1400px), igual que las demás secciones. */
 .header {
   flex: none;
-  padding: clamp(2.5rem, 6vh, 5rem) clamp(1rem, 4vw, 4rem) 0;
+  padding: clamp(2.5rem, 6vh, 5rem) 0 0;
   max-width: 60ch;
 }
 

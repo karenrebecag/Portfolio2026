@@ -709,7 +709,22 @@
         "title": "Delivery & warranty",
         "description": "Production deploy, documented handoff, and the remaining 50%. Code ownership transfers on final payment, with a 15-day post-launch warranty."
       }
-    ]
+    ],
+    "retainer": {
+      "label": "Alternative",
+      "title": "Web partner on a monthly retainer",
+      "price_prefix": "Visionary",
+      "price_unit": "MXN / month",
+      "tagline": "These four projects won't ship in a single month. The alternative is the retainer from the first proposal on its Visionary plan: a fixed monthly fee that delivers them in phases, with a partner who owns Pigmento's web side on an ongoing basis.",
+      "includes": [
+        "All four projects in this round are planned and delivered in phases inside the retainer, without quoting each piece separately.",
+        "Ongoing web advisory for all of Pigmento. On the per-project model, advisory meetings are limited to the contracted project; on the retainer I'm in every web decision the studio makes.",
+        "Guaranteed monthly capacity and calendar priority, with a predictable cost for both sides.",
+        "Given the complexity of these projects, they're only viable on the Visionary plan; Essentials and Growth fall short for this scope."
+      ],
+      "note": "For studios that want a standing web owner, not one-off quotes.",
+      "cta": "See the retainer packages"
+    }
   },
   "proposalsMaori": {
     "options": [

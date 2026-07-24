@@ -52,67 +52,75 @@ export function ReviewsMarquee({ eyebrow, heading, subheading }: ReviewsMarqueeP
       }
 
       let tickerFn: (() => void) | null = null
+      let ctx: gsap.Context | null = null
 
-      const ctx = gsap.context(() => {
-        const cardEls = gsap.utils.toArray<HTMLElement>(`.${styles.card}`)
-        const getDistance = () => cards.scrollWidth - window.innerWidth
+      // Diferido un frame: crear el trigger pinned en el mismo tick en que los
+      // reveals `once: true` de la página se crean/matan hace que el refresh
+      // interno de ScrollTrigger recorra `_triggers` con un índice stale y
+      // truene leyendo `.end` de undefined.
+      const raf = requestAnimationFrame(() => {
+        ctx = gsap.context(() => {
+          const cardEls = gsap.utils.toArray<HTMLElement>(`.${styles.card}`)
+          const getDistance = () => cards.scrollWidth - window.innerWidth
 
-        let transformBetweenTwoTicks = 0
-        let oldTransform = 0
-        tickerFn = () => {
-          const current = gsap.getProperty(cards, 'x') as number
-          transformBetweenTwoTicks = current - oldTransform
-          oldTransform = current
-        }
+          let transformBetweenTwoTicks = 0
+          let oldTransform = 0
+          tickerFn = () => {
+            const current = gsap.getProperty(cards, 'x') as number
+            transformBetweenTwoTicks = current - oldTransform
+            oldTransform = current
+          }
 
-        const scrollTween = gsap.to(cards, {
-          x: () => -getDistance(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: container,
-            pin: true,
-            pinType: 'transform',
-            scrub: true,
-            start: 'top top',
-            end: () => '+=' + getDistance(),
-            invalidateOnRefresh: true,
-          },
-        })
-
-        function transformCard(el: Element) {
-          gsap.fromTo(
-            el,
-            { xPercent: -transformBetweenTwoTicks * 3 },
-            { xPercent: 0, ease: 'power3.out', duration: 0.7 },
-          )
-        }
-
-        cardEls.forEach((card) => {
-          ScrollTrigger.create({
-            trigger: card,
-            containerAnimation: scrollTween,
-            start: 'left 100%',
-            end: 'right 0%',
-            onEnter: () => transformCard(card.children[0]!),
-            onEnterBack: () => transformCard(card.children[0]!),
+          const scrollTween = gsap.to(cards, {
+            x: () => -getDistance(),
+            ease: 'none',
+            scrollTrigger: {
+              trigger: container,
+              pin: true,
+              pinType: 'transform',
+              scrub: true,
+              start: 'top top',
+              end: () => '+=' + getDistance(),
+              invalidateOnRefresh: true,
+            },
           })
-        })
 
-        // El ticker solo corre mientras la sección está en pantalla.
-        ScrollTrigger.create({
-          trigger: root,
-          onEnter: () => tickerFn && gsap.ticker.add(tickerFn),
-          onLeave: () => tickerFn && gsap.ticker.remove(tickerFn),
-          onEnterBack: () => tickerFn && gsap.ticker.add(tickerFn),
-          onLeaveBack: () => tickerFn && gsap.ticker.remove(tickerFn),
-        })
-      }, root)
+          function transformCard(el: Element) {
+            gsap.fromTo(
+              el,
+              { xPercent: -transformBetweenTwoTicks * 3 },
+              { xPercent: 0, ease: 'power3.out', duration: 0.7 },
+            )
+          }
 
-      scheduleScrollTriggerRefresh(true)
+          cardEls.forEach((card) => {
+            ScrollTrigger.create({
+              trigger: card,
+              containerAnimation: scrollTween,
+              start: 'left 100%',
+              end: 'right 0%',
+              onEnter: () => transformCard(card.children[0]!),
+              onEnterBack: () => transformCard(card.children[0]!),
+            })
+          })
+
+          // El ticker solo corre mientras la sección está en pantalla.
+          ScrollTrigger.create({
+            trigger: root,
+            onEnter: () => tickerFn && gsap.ticker.add(tickerFn),
+            onLeave: () => tickerFn && gsap.ticker.remove(tickerFn),
+            onEnterBack: () => tickerFn && gsap.ticker.add(tickerFn),
+            onLeaveBack: () => tickerFn && gsap.ticker.remove(tickerFn),
+          })
+        }, root)
+
+        scheduleScrollTriggerRefresh(true)
+      })
 
       return () => {
+        cancelAnimationFrame(raf)
         if (tickerFn) gsap.ticker.remove(tickerFn)
-        ctx.revert()
+        ctx?.revert()
       }
     }, []),
   )
@@ -126,12 +134,18 @@ export function ReviewsMarquee({ eyebrow, heading, subheading }: ReviewsMarqueeP
       className={styles.section}
     >
       <div ref={containerRef} className={styles.container}>
-        <div className={styles.header}>
-          <span className={styles.eyebrow}>{eyebrow}</span>
-          <h2 data-split="heading" data-split-reveal="words" className={styles.heading}>
-            {heading}
-          </h2>
-          <p className={styles.subheading}>{subheading}</p>
+        {/* Misma estructura que las secciones vecinas: padding lateral fuera,
+            container de 1400px centrado dentro, para que el header alinee. */}
+        <div className="px-4 lg:px-6">
+          <div className="mx-auto w-full max-w-[1400px]">
+            <div className={styles.header}>
+              <span className={styles.eyebrow}>{eyebrow}</span>
+              <h2 data-split="heading" data-split-reveal="words" className={styles.heading}>
+                {heading}
+              </h2>
+              <p className={styles.subheading}>{subheading}</p>
+            </div>
+          </div>
         </div>
         <div className={styles.cardsArea}>
           <div ref={cardsRef} className={styles.cards}>

@@ -8,11 +8,14 @@ import {
   ECOMMERCE_PRICING_PRESENTATION,
   MAORI_CARD_GRADIENT,
   MAORI_PRICING_PRESENTATION,
+  PACKAGE_PRESENTATION,
   PROJECT_PRICING_PRESENTATION,
+  RETAINER_CARD_GRADIENT,
   type ProposalDualOptionPresentation,
   type ProposalDualOptionText,
   type ProposalFaq,
   type ProposalProjectPricingText,
+  type ProposalRetainerText,
 } from '@/content/proposals'
 import { Container } from '@/components/ui/container'
 import { GridGuides } from '@/components/ui/grid-guides'
@@ -228,6 +231,12 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
     }
   })
 
+  // Card full-width del retainer — alternativa a cotizar por proyecto. Por la
+  // complejidad de estos cuatro proyectos solo es viable el tier más alto de
+  // la primera propuesta (Visionary), así que el precio es el techo, no el piso.
+  const retainer = t.raw('retainer') as ProposalRetainerText
+  const retainerPrice = fmtMxn(Math.max(...PACKAGE_PRESENTATION.map((p) => p.priceMonthly)))
+
   // 4to slot — card compartida de maori.com.mx, ver 2 opciones (reparación
   // WooCommerce vs. recreación Shopify) apiladas en una sola card.
   const tMaori = await getTranslations('proposalsMaori')
@@ -310,6 +319,64 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
             <DualOptionCard gradient={ECOMMERCE_CARD_GRADIENT} options={ecommerceOptions} />
             <PriceCard item={pricing[1]} />
             <DualOptionCard gradient={MAORI_CARD_GRADIENT} options={maoriOptions} />
+
+            {/* Separator — corta el grid por proyecto antes de la alternativa retainer. */}
+            <div aria-hidden className="sm:col-span-2 mt-4 border-t border-surface-foreground/15" />
+
+            {/* Card full-width — alternativa retainer: todos los proyectos por
+                fases bajo tarifa mensual fija, con asesoría continua (vs. la
+                asesoría limitada al proyecto contratado del modelo por proyecto). */}
+            <div className="flex sm:col-span-2">
+              <div
+                style={
+                  {
+                    background: RETAINER_CARD_GRADIENT.bg,
+                    color: RETAINER_CARD_GRADIENT.text,
+                    '--button-061-color': '#fdf9ed',
+                    '--button-061-color-background': RETAINER_CARD_GRADIENT.text,
+                    '--button-061-hover-color-background': 'rgba(0, 0, 0, 0.22)',
+                  } as React.CSSProperties
+                }
+                className="relative flex w-full flex-col gap-8 overflow-hidden rounded-2xl p-8 shadow-lg lg:flex-row lg:gap-12"
+              >
+                <div className="flex flex-col lg:w-2/5 lg:shrink-0">
+                  <span className="text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{retainer.label}</span>
+                  <h3 className="mt-3 font-display text-[clamp(1.5rem,2.4vw,2.25rem)] font-extrabold leading-[0.98] tracking-[-0.02em]">{retainer.title}</h3>
+
+                  <div className="mt-5 flex items-end gap-2">
+                    <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{retainer.price_prefix}</span>
+                    <NumberOdometer
+                      items={[{ value: retainerPrice }]}
+                      numberClassName="font-display text-[2.25rem] font-extrabold leading-none tracking-[-0.03em]"
+                    />
+                    <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{retainer.price_unit}</span>
+                  </div>
+
+                  <p className="mt-4 text-sm font-medium leading-relaxed opacity-95">{retainer.tagline}</p>
+
+                  <div className="mt-8">
+                    <Button061 href="/proposals/pigmento-studio">{retainer.cta}</Button061>
+                  </div>
+                </div>
+
+                <div className="flex flex-1 flex-col">
+                  <ul className="flex-1">
+                    {retainer.includes.map((feature, i) => (
+                      <li
+                        key={feature}
+                        className={`py-3 text-sm font-medium leading-[1.45] opacity-85 ${i === 0 ? 'pt-0' : 'border-t border-current/15'}`}
+                      >
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <p className="mt-auto pt-6 border-t border-current/15 text-2xs font-accent uppercase tracking-[0.08em] opacity-70">
+                    {retainer.note}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Pricing terms — disclaimer fluido en monospace, sin contenedor */}
