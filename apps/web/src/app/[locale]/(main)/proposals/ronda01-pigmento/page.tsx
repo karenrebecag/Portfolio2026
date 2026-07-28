@@ -9,6 +9,8 @@ import {
   MAORI_CARD_GRADIENT,
   MAORI_PRICING_PRESENTATION,
   PACKAGE_PRESENTATION,
+  PIGMENTO_CARD_GRADIENT,
+  PIGMENTO_PRICING_PRESENTATION,
   PROJECT_PRICING_PRESENTATION,
   RETAINER_CARD_GRADIENT,
   type ProposalDualOptionPresentation,
@@ -83,7 +85,7 @@ type PriceCardItem = ProposalProjectPricingText & {
   gradient: { bg: string; text: string }
 }
 
-/** Card de precio único (1er y 3er slot: tintas.zip, Pigmento Studio). */
+/** Card de precio único (1er slot: tintas.zip). */
 function PriceCard({ item }: { item: PriceCardItem }) {
   return (
     <div className="flex">
@@ -126,8 +128,7 @@ function PriceCard({ item }: { item: PriceCardItem }) {
 
 /**
  * Card compartida con 2 opciones apiladas (divisor horizontal), en vez de una
- * card por opción. Usada por el 2do slot (e-commerce: Jamstack vs. Shopify +
- * Stripe) y el 4to slot (maori: reparación vs. recreación) del grid.
+ * card por opción. Usada por e-commerce, Pigmento Studio y maori del grid.
  */
 function DualOptionCard({ gradient, options }: { gradient: { bg: string; text: string }; options: DualOption[] }) {
   return (
@@ -217,19 +218,32 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
     }
   })
 
-  // 2do slot — e-commerce: Jamstack vs. Shopify + Stripe son dos caminos con
-  // precio propio, no un rango genérico; misma card compartida que maori.
-  const ecommerceOptions = (t.raw('ecommerce_options') as ProposalDualOptionText[]).map((opt, i) => {
-    const pres = ECOMMERCE_PRICING_PRESENTATION[i]
-    const isRange = pres.priceMax != null
-    return {
-      ...opt,
-      ...pres,
-      isRange,
-      priceValue: isRange ? `${fmtMxn(pres.price)} – ${fmtMxn(pres.priceMax!)}` : fmtMxn(pres.price),
-      priceUnit,
-    }
-  })
+  // E-commerce, Pigmento y maori: dos caminos con precio propio cada uno
+  // (misma card DualOptionCard, no un rango genérico).
+  const mapDualOptions = (
+    items: ProposalDualOptionText[],
+    presentation: { price: number; priceMax?: number }[],
+  ): DualOption[] =>
+    items.map((opt, i) => {
+      const pres = presentation[i]
+      const isRange = pres.priceMax != null
+      return {
+        ...opt,
+        ...pres,
+        isRange,
+        priceValue: isRange ? `${fmtMxn(pres.price)} – ${fmtMxn(pres.priceMax!)}` : fmtMxn(pres.price),
+        priceUnit,
+      }
+    })
+
+  const ecommerceOptions = mapDualOptions(
+    t.raw('ecommerce_options') as ProposalDualOptionText[],
+    ECOMMERCE_PRICING_PRESENTATION,
+  )
+  const pigmentoOptions = mapDualOptions(
+    t.raw('pigmento_options') as ProposalDualOptionText[],
+    PIGMENTO_PRICING_PRESENTATION,
+  )
 
   // Card full-width del retainer — alternativa a cotizar por proyecto. Por la
   // complejidad de estos cuatro proyectos solo es viable el tier más alto de
@@ -237,20 +251,11 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
   const retainer = t.raw('retainer') as ProposalRetainerText
   const retainerPrice = fmtMxn(Math.max(...PACKAGE_PRESENTATION.map((p) => p.priceMonthly)))
 
-  // 4to slot — card compartida de maori.com.mx, ver 2 opciones (reparación
-  // WooCommerce vs. recreación Shopify) apiladas en una sola card.
   const tMaori = await getTranslations('proposalsMaori')
-  const maoriOptions = (tMaori.raw('options') as ProposalDualOptionText[]).map((opt, i) => {
-    const pres = MAORI_PRICING_PRESENTATION[i]
-    const isRange = pres.priceMax != null
-    return {
-      ...opt,
-      ...pres,
-      isRange,
-      priceValue: isRange ? `${fmtMxn(pres.price)} – ${fmtMxn(pres.priceMax!)}` : fmtMxn(pres.price),
-      priceUnit,
-    }
-  })
+  const maoriOptions = mapDualOptions(
+    tMaori.raw('options') as ProposalDualOptionText[],
+    MAORI_PRICING_PRESENTATION,
+  )
 
   return (
     <div id="proposals-project-page" data-semantic-role="services" data-llm-context="professional-services-offering">
@@ -310,14 +315,12 @@ export default async function ProposalsProjectPage({ params }: { params: Promise
           </div>
 
           {/* Precio por proyecto */}
-          {/* Grid 2x2: 2 columnas desde sm, 1 columna en mobile. 4 slots
-              explícitos porque ya no son homogéneos: 1 y 3 son cards de precio
-              único (tintas.zip, Pigmento Studio); 2 y 4 son la card
-              compartida de 2 opciones (e-commerce, maori). */}
+          {/* Grid 2x2: tintas (precio único) + 3 cards duales (e-commerce,
+              Pigmento Studio, maori). */}
           <div data-reveal-group data-stagger="80" data-distance="1.5em" className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             <PriceCard item={pricing[0]} />
             <DualOptionCard gradient={ECOMMERCE_CARD_GRADIENT} options={ecommerceOptions} />
-            <PriceCard item={pricing[1]} />
+            <DualOptionCard gradient={PIGMENTO_CARD_GRADIENT} options={pigmentoOptions} />
             <DualOptionCard gradient={MAORI_CARD_GRADIENT} options={maoriOptions} />
 
             {/* Separator — corta el grid por proyecto antes de la alternativa retainer. */}

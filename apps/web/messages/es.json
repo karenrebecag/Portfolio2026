@@ -578,20 +578,22 @@
         "category": "Landing",
         "audience": "Para una presencia web nítida y sin complejidad.",
         "timeline": "Entrega estimada: 2–3 semanas"
+      }
+    ],
+    "pigmento_options": [
+      {
+        "label": "Opción A",
+        "title": "Pigmento Studio + Page Builder CMS",
+        "tagline": "Sitio completo en Next.js + Payload con page builder por bloques: cada case study compone su propio layout desde el CMS (~12 bloques Relume), bilingüe es/en. SEO y GEO on-page, formularios de contacto vía Resend. Migro ~10 proyectos destacados; tu equipo captura el resto. Asesoría de UX, responsive, motion e interacción incluida.",
+        "audience": "Para un sitio editorial donde cada proyecto se ve distinto y el equipo arma layouts sin desarrollo.",
+        "timeline": "Entrega estimada: 6–8 semanas"
       },
       {
-        "title": "Pigmento Studio",
-        "tagline": "Reconstrucción integral del sitio sobre un CMS a medida, donde cada proyecto compone su propio layout.",
-        "includes": [
-          "Sitio completo en Next.js + Payload CMS: home, portafolio de 30, servicios, nosotros, contacto y blog.",
-          "Page builder por bloques: cada case study elige y ordena sus propias secciones desde Payload, sin quedar atado a un template fijo.",
-          "Biblioteca de ~12 bloques basados en Relume, bilingüe es/en, con formularios vía Resend.",
-          "Migro ~10 proyectos destacados como plantilla; tu equipo captura el resto sin tocar código.",
-          "Asesoría de diseño web: te acompaño en decisiones de UX, responsive, motion e interacción para llevar tu diseño a producción sin perder detalle."
-        ],
-        "category": "Sistema",
-        "audience": "Para estudios que necesitan un sitio editorial que su equipo maneja sin depender de desarrollo.",
-        "timeline": "Entrega estimada: 6–8 semanas"
+        "label": "Opción B",
+        "title": "Pigmento Studio + CMS",
+        "tagline": "Mismo sitio en Next.js + Payload, pero sin page builder: un solo template de proyecto: todos se ven igual y se editan como contenido estructurado. Un solo idioma (es). Home, portafolio, servicios, nosotros, contacto y blog; SEO y GEO on-page, formularios de contacto vía Resend. Alcance recortado donde no se construye la biblioteca de bloques ni layouts por case study. El resto, queda igual.",
+        "audience": "Para un CMS operable sin la complejidad de plantillas y layouts por proyecto.",
+        "timeline": "Entrega estimada: 4–6 semanas"
       }
     ],
     "pricing_price_unit": "MXN / proyecto",

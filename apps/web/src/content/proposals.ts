@@ -120,7 +120,7 @@ export type ProposalProjectPricingView = ProposalProjectPricingText & ProposalPr
   priceUnit: string
 }
 
-/** Presentación de precios fijos, en el mismo orden que `proposalsProject.pricing` en los mensajes: Landing, Agencia + CMS. El e-commerce (antes en medio) ahora es card de 2 opciones — ver `ECOMMERCE_PRICING_PRESENTATION`. */
+/** Presentación de precios fijos, en el mismo orden que `proposalsProject.pricing` en los mensajes: solo tintas.zip. Pigmento Studio es card de 2 opciones — ver `PIGMENTO_PRICING_PRESENTATION`. */
 export const PROJECT_PRICING_PRESENTATION: ProposalProjectPricingPresentation[] = [
   {
     price: 10000,
@@ -129,13 +129,18 @@ export const PROJECT_PRICING_PRESENTATION: ProposalProjectPricingPresentation[] 
       text: '#52102f',
     },
   },
-  {
-    price: 50000,
-    gradient: {
-      bg: 'linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%)',
-      text: '#2c4014',
-    },
-  },
+]
+
+/** Gradiente de la card compartida de Pigmento Studio (mismo verde que tenía cuando era una sola card). */
+export const PIGMENTO_CARD_GRADIENT = {
+  bg: 'linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%)',
+  text: '#2c4014',
+}
+
+/** Presentación de las dos opciones, en el mismo orden que `proposalsProject.pigmento_options`: + Page Builder CMS, + CMS (sin page builder). */
+export const PIGMENTO_PRICING_PRESENTATION: ProposalDualOptionPresentation[] = [
+  { price: 50000 },
+  { price: 38000 },
 ]
 
 /**

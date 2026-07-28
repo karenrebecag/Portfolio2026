@@ -578,20 +578,22 @@
         "category": "Landing",
         "audience": "For a crisp web presence without the complexity.",
         "timeline": "Estimated delivery: 2–3 weeks"
+      }
+    ],
+    "pigmento_options": [
+      {
+        "label": "Option A",
+        "title": "Pigmento Studio + Page Builder CMS",
+        "tagline": "Full site in Next.js + Payload with a block-based page builder: each case study composes its own layout from the CMS (~12 Relume blocks), bilingual en/es. On-page SEO and GEO, contact forms via Resend. I migrate ~10 featured projects; your team enters the rest. UX, responsive, motion, and interaction advisory included.",
+        "audience": "For an editorial site where every project looks different and the team builds layouts without engineering.",
+        "timeline": "Estimated delivery: 6–8 weeks"
       },
       {
-        "title": "Pigmento Studio",
-        "tagline": "A full site rebuild on a custom CMS, where every project composes its own layout.",
-        "includes": [
-          "Complete site in Next.js + Payload CMS: home, 30-project portfolio, services, about, contact, and blog.",
-          "Block-based page builder: each case study picks and orders its own sections from Payload, never locked to a fixed template.",
-          "A library of ~12 Relume-based blocks, bilingual en/es, with forms via Resend.",
-          "I migrate ~10 featured projects as templates; your team enters the rest without touching code.",
-          "Web design advisory: I guide UX, responsive, motion, and interaction decisions to take your design to production without losing detail."
-        ],
-        "category": "System",
-        "audience": "For studios that need an editorial site their team runs without relying on development.",
-        "timeline": "Estimated delivery: 6–8 weeks"
+        "label": "Option B",
+        "title": "Pigmento Studio + CMS",
+        "tagline": "Same Next.js + Payload site, but without a page builder: one fixed project template: every case study looks the same and is edited as structured content. Single language (es). Home, portfolio, services, about, contact, and blog; on-page SEO and GEO, contact forms via Resend. Reduced scope: no block library, no per–case-study layouts. Everything else stays the same.",
+        "audience": "For a workable CMS without the complexity of templates and layouts per project.",
+        "timeline": "Estimated delivery: 4–6 weeks"
       }
     ],
     "pricing_price_unit": "MXN / project",
