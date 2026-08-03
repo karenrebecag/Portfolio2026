@@ -2,12 +2,13 @@
 > - **Who this is for:** Design-system and platform leads where **everyone vibecodes** (marketing, product, founders) and off-brand UI keeps landing on engineering for rescue.
 > - **Problem it solves:** Agents see component metadata but not source, so they invent hex values, spacing, and variants that pass visual review and ship as subtle lies about the system.
 > - **What changes if you apply this:** Machine-readable tokens (**~500 → ~350**, same visual range); shadcn-style copy-not-npm; MCP split (list vs implement) → **fewer PRs with CSS outside the token system**; one source of truth instead of three competing catalogs.
+> - **Where it stands today:** one source compiling to **five distribution channels**: authenticated registry, immutable CDN, scoped embed, MCP tools, and native Webflow paste with motion; **100% of eligible components** carry agent-grade metadata and editorial docs, drafted by agents and gated by a human; and CI fails any merge that makes the system less true (reproducibility, contract, and content-coverage gates).
 
 An AI agent generates a button. It compiles. It renders. It looks right. The background violet is `#534AB7`, a color that exists nowhere in the design system.
 
 Nobody decided that. The agent had the component's metadata (it knew a variant existed, it knew it took a size), but it didn't have the real code. So ==it made up the rest.== A plausible hex. A 36px padding where the system uses 40px. A font-size that approximates but doesn't match. The result passes human code review because it looks correct. And it ships to production as a subtle lie about the system.
 
-The honest path to a design system agents cannot hallucinate is **three problems in sequence**, each visible only after fixing the previous one: reinterpret an existing system for machine readers; connect agents and watch them hallucinate anyway; discover the architecture had truth duplicated in three places. Below is that sequence and what it implies for design systems and AI.
+The honest path to a design system agents cannot hallucinate is **five problems in sequence**, each visible only after fixing the previous one: reinterpret an existing system for machine readers; connect agents and watch them hallucinate anyway; discover the architecture had truth duplicated in three places; teach the system to ship where code can't run at all; and then fill it with knowledge faster than one person can write. Below is that sequence and what it implies for design systems and AI.
 
 > [!info] External grounding (not just our monorepo)
 > The distribution model follows [shadcn/ui's registry](https://ui.shadcn.com/docs/registry) (copy source, don't npm-install a black box). Agent access follows the [Model Context Protocol](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) tool surface. Tokens follow the [W3C Design Tokens format](https://www.designtokens.org/). Company auth for MCP follows [Clerk's MCP guides](https://clerk.com/docs/guides/ai/mcp/build-mcp-server). Code snippets below show *our* wiring; the reference table is what I use when the argument has to stand outside the repo.
@@ -84,17 +85,8 @@ The design system is not one repository; it is ==five coordinated repos== with w
 | `client-uikit-ds` | Root `CLAUDE.md`, `scripts/registry-schema.ts` | Tokens (3 layers), packages, `pnpm build:registry`, `client.discovery` vs `client.implementation` |
 | `client-uikit-cms` | `CLAUDE.md` → *Component article standard* | Payload collections, `restricted` flag on docs, MCP-readable article sections (Button doc ID 67 = reference) |
 | `client-uikit-docs` | `src/app/api/auth/mcp-token/route.ts`, `/auth/mcp-oauth` | Clerk login, company-domain gate, CLI token exchange |
-| `client-uikit-db` | `CLAUDE.md`, `supabase/functions/get-docs` | Supabase Postgres + edge functions (`get-docs`, `get-navigation`); `x-restricted-access` header for restricted blocks |
+| `client-uikit-db` | `CLAUDE.md`, `supabase/functions/get-docs` | Supabase Postgres + edge functions (`get-docs`, `get-navigation`); `x-restricted-access` header for restricted blocks. **Retired as a runtime dependency in the last consolidation: the MCP is now single-source on the registry (see *The operation*)** |
 | `uikit-client-mcp` | `CLAUDE.md`, `src/server.ts` | The hosted MCP (its own repo): discovery/implementation tools, OAuth 2.1, gated page flow, audit + `DESIGN.md` export |
-
-**Production URLs** (from CMS `CLAUDE.md`):
-
-| Surface | URL |
-|---------|-----|
-| Docs site | https://uikit.client.io |
-| CMS admin | https://uikit-admin.client.io |
-| MCP (HTTP) | https://uikit-mcp.vercel.app/mcp |
-| Registry API | https://uikit.client.io/api/r |
 
 **Registry pipeline** (verbatim from DS `CLAUDE.md`):
 
@@ -525,6 +517,65 @@ The rescue layer is the opening scene run backwards. This article starts with a 
 
 > [!info] The MCP started as a handful of read tools feeding an agent correct component source. It's now a builder: it can plan a page, generate its images, gate its delivery, audit someone else's, and export the whole system as a file another tool can read. Same rule the whole way up: one source of truth, one way in, one gate out.
 
+## Fourth problem: the most important channel doesn't run code
+
+> **In plain terms:** The brand's highest-traffic pages live in a no-code site builder. A design system that only ships code was invisible exactly where it mattered most.
+Everything so far assumes the consumer runs code. The client's marketing reality doesn't: the flagship site lives in **Webflow**, edited by people who will never open a code editor. The channel with the most traffic and the most brand exposure was precisely the one the system couldn't reach. And the two obvious options were both wrong. Rebuilding components by hand inside the Designer creates twin ports that drift, ==the exact disease this system exists to cure.== Embedding compiled code preserves fidelity but kills native editing, which is the entire point of a no-code tool.
+
+The way in was the clipboard. Webflow's paste format (`@webflow/XscpData`) is undocumented, so it was reverse-engineered against real Designer dumps, and the build now emits a **paste artifact per component**: structure and styles as native, editable elements; whatever the Designer can't express travels as a small head snippet; and in the default "connected" mode the pasted component consumes the **live token stylesheet**: change a token in git and already-pasted components repaint on the next publish.
+
+Motion travels too. Behaviors are framework-agnostic modules that export their own **DOM contract** (which `data-*` hooks they require), and the emitter validates every rendered component against that contract before emitting. Paste a marquee and it animates on publish, with the brand's easing.
+
+Two details carry most of the engineering honesty:
+
+- **Empirical allowlists.** Some CSS crashes the Designer's style panel the moment you select the element, found by minimal-repro bisection, one property at a time. Those properties are routed to the head snippet; pseudo-states that no real dump contains are never emitted. The generator encodes what the Designer actually survives, not what its docs imply.
+- **Declared exclusions.** Not every component belongs in a paste. App chrome, runtime-only portals, interactive panels are excluded **in the source, with a reason** that ships in the channel index. An exclusion is a decision you can read, not an error you discover. The channel today: ==37 components emitted, 22 excluded, every one with a stated reason, zero silent gaps.==
+
+> [!note] The paste is a photograph; the behavior attaches by contract. Same rule as everywhere else: nothing is generated twice, nothing drifts silently. The artifact is emitted from the canonical source on every build, and a structural-equality test against real Designer fixtures fails the build if the format shifts underneath us.
+
+## Fifth problem: a perfect library with empty shelves
+
+> **In plain terms:** Infrastructure without knowledge is an empty catalog. The fix: agents draft the docs, machines verify them, a human signs the judgment calls, and CI treats content like code coverage.
+With the channels built came an embarrassing audit: platform-grade infrastructure, and **14 of 120** registry items carried agent-grade knowledge: safe tuning ranges, real gotchas, when-not-to-use guidance. The payloads were correct and empty. And density is the one thing you can't brute-force, because a range like "0.2–0.4 for dense FAQs" is not documentation. ==It's a design decision.==
+
+The division of labor that worked: **the agent drafts, the machine verifies, the human decides.** An agent reads the actual source and drafts the metadata; the conformance suite makes inventing impossible (every prop and default is checked against the code, the anti-hallucination idea, aimed at documentation); and the ranges land on my desk as a table to approve or adjust **before** anything is committed. Review rules are strict: prescriptive guidance only ("75 for logo bars; 40–60 for dense text"), gotchas only if they're real, zero filler.
+
+You can't close a wave you can't measure, so the build now emits a **content coverage board** with, per component, metadata status, editorial status, channel status, and an aggregate score. Work batches are derived from the board, not from a hand-written list. And CI gained a **no-regression gate**: any merge that lowers the aggregate content score goes red. Deleting knowledge is now as loud as breaking a test.
+
+==Coverage went from 14 to 100% of eligible components==, exclusions listed and reasoned, and the final stretch (12 manifests plus 46 editorial docs) was drafted by agents in a single morning, with the human role reduced to what it should be: signing the judgment calls.
+
+> [!tip] Measure documentation like you measure code coverage. What made the content wave finishable wasn't writing faster; it was a board that made "missing" visible and a gate that made "regressing" impossible.
+
+## The operation: a supply chain, not a folder of copies
+
+> **In plain terms:** One source compiles into five distribution surfaces, with an executable contract at every seam, and CI that fails when any copy stops being derivable from the source.
+By now the system is less a repository than a pipeline: one monorepo compiles design decisions into artifacts that **promote** through five surfaces.
+
+| Channel | Surface | Contract at the seam |
+|---|---|---|
+| Registry API | authenticated JSON per component | conformance: manifest ↔ source, schema tests |
+| Public CDN | `/v1/*`, immutable and versioned | smoke against production with cache-busters |
+| Scoped embed | `embed.css` for hostile host pages | bidirectional leak tests in a real browser |
+| MCP | typed tools for agents | governance tests on the adapter; discovery/implementation split |
+| Webflow paste | native XscpData + motion | DOM contracts + structural equality vs real fixtures |
+
+Three operational rules keep it honest:
+
+- **Reproducible by construction.** CI fails if the published registry can't be rebuilt from the committed source, and every artifact carries the commit it was derived from. The supply-chain world calls these *reproducible builds* and *provenance*; here they exist for a humbler reason: ==a copy nobody can regenerate is a truth nobody can check.==
+- **The distribution list has one owner.** Everything the public channel needs (files, build steps, deploy triggers) lives in a single manifest that the build consumes and a check verifies against its four consumers. That rule was paid for in blood: one afternoon produced five deploy failures, all traced to the same list hand-copied in four places with nobody syncing them.
+- **The last consolidation.** The docs prose finally split into what's **derivable** (nine sections emitted from source, for all 120 items) and what's **editorial** (human judgment, in git). The CMS-and-database runtime dependency was removed entirely; the MCP now boots from exactly one source, and a third-party outage no longer takes the design system down with it.
+
+The auth plane got its own hardening pass along the way: a full audit of the OAuth surface, authorization codes made single-use with shared state (so the guarantee holds across serverless instances), and a proper revocation surface. ==A token you can mint but never revoke is a promise, not a control.==
+
+## The last layer: a pulse that survives distribution
+
+> **In plain terms:** Personality (motion) encoded as tokens and contracts, so it survives every channel instead of living in one developer's animation file.
+The last thing the system gained is the first thing people notice: personality. The motion language was specified like everything else: the signature easing curve and duration scale live as **tokens**, stagger rhythm became a token scale, and behaviors read those custom properties **at runtime**. There's a test that sets a fake value on the stylesheet and asserts the tween used it: motion provably comes from the system, not from literals buried in JS.
+
+The interesting decision wasn't technical but product: **animation defaults are per channel.** No-code surfaces get motion on by default with an explicit opt-out: people pasting components shouldn't need to know an API to get the brand's feel. Code surfaces expose it as a boolean prop; engineers opt in deliberately. And the decorative cursor exists as an optional component that is **always off by default**, because accessibility outranks personality.
+
+> [!info] Personality is usually the least systematized part of a design system: it lives in one animator's head and dies in distribution. Encoding it as tokens plus DOM contracts is what lets a marquee pasted into a no-code page move exactly like the flagship site.
+
 ## What changed in how I think
 
 > **In plain terms:** Mindset shift for leaders funding design systems in AI-heavy teams.
@@ -553,6 +604,10 @@ And there's an effect I didn't anticipate. The same system I built so an agent w
 
 - **Gate the MCP like a product API.** Auth before tools run; company domain before tokens mint; never ship long-lived secrets in URLs. Use Clerk (or equivalent) when login is not your differentiator: ship the design system, not a compliance program.
 
+- **Contract every seam.** Every artifact that crosses a repo or channel boundary needs an executable check on the receiving side: schema validation, structural equality, smoke against production. A seam without a contract is where the truth will fracture first.
+
+- **Measure content like code.** A coverage board for metadata and docs, plus a no-regression gate in CI, turns "documentation" from a wish into a finishable wave with a definition of done. Agents can write the volume; reserve the human for the judgment calls, and make that gate explicit.
+
 > [!info] This system's codebase fits in your head. Eight packages, one registry, an MCP where every tool still resolves to one source of truth. The complexity doesn't live in the code; it lives in the constraints and in who owns the truth.
 
 ## References (external, worth bookmarking)
@@ -575,6 +630,8 @@ And there's an effect I didn't anticipate. The same system I built so an agent w
 | Clerk MCP changelog (product direction) | [Clerk Changelog: MCP server](https://clerk.com/changelog/2025-06-25-mcp-server-nextjs) |
 | Remote MCP + auth patterns | [Kapa.ai: Remote MCP best practices](https://www.kapa.ai/blog/remote-mcp-servers-hosting-authentication-best-practices) |
 | Sharing components: copy vs install (industry essay) | [Bit.dev: Copy vs install](https://dev.to/bitdev_/sharing-ui-components-copy-vs-install-4mii) |
+| Supply-chain provenance & reproducible builds | [SLSA framework](https://slsa.dev) |
+| Consumer-driven contract testing | [Pact: Contract testing](https://docs.pact.io/) |
 
 ## The real lesson
 
