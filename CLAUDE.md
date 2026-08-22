@@ -1,185 +1,149 @@
-# Karen Ortiz Portfolio 2026
+# CLAUDE.md — Portfolio2026 (karenrebecaortiz.com)
 
-Portfolio personal de Karen Ortiz. Next.js 15 + GSAP + Tailwind CSS.
+Personal portfolio of Karen Ortiz. **Next.js 15** App Router, GSAP, Lenis, Tailwind v4, `next-intl`.
 
-Proyectos estaticos via archivos TypeScript/Markdown en `src/content/`.
+Public narrative for recruiters: [`README.md`](README.md) · product decisions: [`docs/PRODUCT.md`](docs/PRODUCT.md).
 
-## Estado actual
+## Current state (production)
 
-- CMS eliminado. Sin Payload, sin Docker, sin Postgres.
-- Proyectos viven en `src/lib/constants.ts` (metadata) y `src/content/projects/` (articulos en Markdown).
-- Deploy: Vercel. Dev local: `pnpm dev:web` en puerto 4100.
+- **No CMS.** Payload, Docker, and Postgres from the original scaffold are gone.
+- Content lives in the repo: TypeScript metadata + Markdown under `apps/web/src/content/`.
+- Deploy: **Vercel**. Local: `pnpm dev:web` → **http://localhost:4100**.
+- Contact form needs `RESEND_API_KEY` (and related vars in `apps/web/.env.example`); the site still renders without them.
 
-## Arquitectura
+## Architecture
 
 ```
-KarenOrtiz2026/
-  apps/
-    web/     -- Portfolio publico (Next.js 15, puerto 4100)
-  packages/
-    shared/  -- Tipos compartidos
+Portfolio2026/
+  apps/web/          public site (Next.js 15, port 4100)
+  packages/shared/   shared types/constants
+  docs/              human product notes
 ```
 
 ### Stack
 
-| Capa | Tecnologia |
-|------|-----------|
-| Frontend | Next.js 15 App Router |
-| Styling | Tailwind CSS 4.3 |
-| Animations | GSAP 3.15 (ScrollTrigger, SplitText, Observer) |
-| Smooth Scroll | Lenis |
-| i18n | next-intl (es default, en) |
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 15 App Router, React 19 |
+| Styling | Tailwind CSS 4 |
+| Animations | GSAP 3 (ScrollTrigger, SplitText, Observer, etc.) |
+| Smooth scroll | Lenis |
+| i18n | next-intl (`es` default unprefixed, `en` under `/en`) |
+| 3D | Spline runtime |
+| Email | Resend |
 | Fonts | Inter Tight (sans), Grift (display), Interval (accent/mono), Gantol (handwritten) |
 
 ## i18n
 
-- `next-intl` con `localePrefix: 'as-needed'`
-- `/` sirve espanol (default, sin prefijo), `/en` sirve ingles
-- Messages en `messages/es.json` y `messages/en.json`
-- Server components: `getTranslations()`, client components: `useTranslations()`
-- Locale toggle en navbar setea cookie `NEXT_LOCALE` y navega via `<a>` tags
-- **Siempre escribir textos con acentos correctos en espanol** (UTF-8)
+- `localePrefix: 'as-needed'` — `/` is Spanish, `/en` is English. `/es` and `/es/*` redirect to the unprefixed Spanish canonical.
+- Messages: `apps/web/messages/es.json`, `apps/web/messages/en.json`.
+- Server: `getTranslations()` · Client: `useTranslations()`.
+- **Locale selection (middleware):**
+  1. Cookie `NEXT_LOCALE` (set by the locale toggle) always wins.
+  2. Otherwise **IP geolocation** via `x-vercel-ip-country` (Spanish-speaking LATAM + ES → stay on default `es`; others → `/en`).
+  3. Crawlers are **not** geo-redirected so both language trees stay indexable.
+  4. Unknown geo (e.g. local dev) keeps Spanish default.
+- Do **not** document this as Accept-Language-only — that is outdated.
+- Always write Spanish UI strings with correct accents (UTF-8).
 
-## Paginas
+## Pages
 
-- `/[locale]` -- Home: marquee, hero, logo wall, statement, projects, about strip, contact
-- `/[locale]/about` -- About me: hero, personal statement, galeria, quote, baby photo, origin story, albums, bridge, experience, volunteering, education, stack, contact
-- `/[locale]/projects/[slug]` -- Detalle de proyecto individual
+| Route | Purpose |
+|-------|---------|
+| `/[locale]` | Home: marquee, hero, collaborations, statement, projects listing, about strip, contact |
+| `/[locale]/about` | Full about |
+| `/[locale]/projects/[slug]` | Case study (canonical when `canonicalRoute: 'project'`) |
+| `/[locale]/articulos/[slug]` | Long-form article (when `canonicalRoute: 'article'`) |
+| `/[locale]/projects`, `/[locale]/articulos` | Redirect to home listing |
+| `/[locale]/proposals/*` | Client proposal pages (e.g. Pigmento) |
+| `POST /api/contact` | Resend handler + rate limit |
 
-## Tipografia
+## Typography
 
-| Variable | Font | Uso |
+| Variable | Font | Use |
 |----------|------|-----|
 | `--font-sans` | Inter Tight | Body, UI |
-| `--font-display` | Grift | h1, h2, h3, mega text |
-| `--font-accent` | Interval (mono) | Pills, labels, metadata, locale toggle |
-| `--font-handwritten` | Gantol | Doodle labels ("that's me") |
+| `--font-display` | Grift | h1–h3, mega type |
+| `--font-accent` | Interval | Pills, labels, metadata, locale toggle |
+| `--font-handwritten` | Gantol | Doodle labels |
 
-## Sistema de color (3 themes)
-
-### Tokens
+## Color system (3 themes)
 
 | Token | Plantation (light) | Night (dark) | Mono Slate |
-|-------|-------------------|-------------|------------|
-| `--background` | `#fdf9ed` cream | `#0c0e0a` near-black | `#e8e6e1` warm gray |
-| `--foreground` | `#11221f` dark green | `#ECDFCC` warm cream | `#1c2028` navy gray |
-| `--plantation` | `#366B5E` mid green | `#5FA28F` bright green | `#6a9dae` blue steel |
+|-------|--------------------|--------------|------------|
+| `--background` | `#fdf9ed` | `#0c0e0a` | `#e8e6e1` |
+| `--foreground` | `#11221f` | `#ECDFCC` | `#1c2028` |
+| `--plantation` | `#366B5E` | `#5FA28F` | `#6a9dae` |
 | `--surface` | `#11221f` | `#070806` | `#14171d` |
 | `--surface-foreground` | `#fdf9ed` | `#ECDFCC` | `#d0cec9` |
 | `--muted-foreground` | `#71717a` | `#697565` | `#6b7280` |
 | `--border` | `#e4dfcf` | `#1e201b` | `#c8c6c1` |
 | `--secondary` | `#f3eedf` | `#161814` | `#dddbd6` |
 
-### Mecanismo
+### Mechanism
 
-- Clases en `<html>`: sin clase = Plantation light, `.dark` = Night, `.mono` = Mono Slate
-- Inline script anti-flash en `<head>` lee `localStorage.theme` y aplica clase antes de render
-- `ThemeToggle` component: 3 dots de color como selector de paleta
-- `Shift+T` cicla entre themes
-- Persistencia: `localStorage.theme` (valores: `light`, `dark`, `mono`)
+- `<html>` classes: none = Plantation light, `.dark` = Night, `.mono` = Mono Slate.
+- Anti-flash script in `<head>` reads `localStorage.theme` before paint.
+- `ThemeToggle`: three palette dots. `Shift+T` cycles themes.
+- Persist: `localStorage.theme` ∈ `light` | `dark` | `mono`.
 
-### Regla de `--plantation`
+### `--plantation` rule
 
-Es el accent color del sitio. Se usa para:
-- Scroll highlights (`[data-highlight]` con `color-mix` al 25%)
-- Rotating text color (`.rotating-text__highlight`)
-- Button hover circles (leido dinamicamente via `getComputedStyle`)
-- Nav active state, checkmarks, glyphs decorativos
-- **Nunca hardcodear `#88C0AF` o cualquier hex de Plantation. Siempre usar `var(--plantation)`.**
+Site accent. Use for scroll highlights, rotating text, button hover circles (`getComputedStyle`), nav active, decorative glyphs.
 
-### Image filters por theme
+**Never hardcode Plantation hex values.** Always `var(--plantation)` (or other semantic tokens).
 
-- **Mono**: `filter: grayscale(0.85) sepia(0.15) hue-rotate(180deg) saturate(0.5)` en parallax targets, marquee items, stickers, logos
-- **Albums**: siempre con filtro verde-sepia oscuro (`grayscale(0.5) sepia(0.4) hue-rotate(70deg) saturate(0.4) brightness(0.7)`)
+### Image filters
 
-## Contenido: proyectos y articulos
+- **Mono:** grayscale / sepia / hue-rotate stack on parallax, marquee, stickers, logos.
+- **Albums:** fixed green-sepia treatment (see globals / album components).
 
-### Como crear un nuevo proyecto/articulo
+## Content: projects and articles
 
-1. **Crear archivo de contenido** en `src/content/projects/{slug}.ts`:
+### Model
 
-```typescript
-/**
- * Caso de estudio / Articulo de portafolio
- * Markdown convertido a Lexical por markdown-to-lexical.ts.
- */
+One entry shape for case studies and articles. Routing via `canonicalRoute` and helpers in `apps/web/src/content/projects/project-routing.ts` and listing helpers (`getProjectHref`, legacy article redirects).
 
-export const myProjectMeta = {
-  id: '7',
-  title: 'Titulo Comercial (no anclado al proyecto)',
-  slug: 'titulo-comercial-en-slug',
-  status: 'published' as const,
-  category: 'web' as const,
-  role: 'Product Engineer & ...',
-  year: '2026',
-  featured: true,
-  summary: 'Resumen de una linea del enfoque, no del proyecto especifico.',
-  tags: [{ tag: 'Next.js' }, { tag: 'Design Systems' }],
-  liveUrl: 'https://...',
-  repoUrl: 'https://github.com/...',
-  services: 'Product Engineering, Design Systems',
-  coverImage: { url: 'https://...', alt: 'Descripcion' },
-  createdAt: '2026-06-01',
-  updatedAt: '2026-06-01',
-}
+### Add a new piece
 
-export const myProjectMarkdown = `
-Escribe en Markdown limpio. Usa ## para secciones.
-El convertidor soporta parrafos, headings, bold, italic, listas, code blocks.
-`.trim()
-```
+1. Create `apps/web/src/content/projects/{slug}.ts` (+ `{slug}-es.md` / `{slug}-en.md` as used by existing entries).
+2. Export meta (`id`, `title`, `slug`, `status`, `category`, `role`, `year`, `featured`, `summary`, `tags`, URLs, cover, dates, optional `articleSlug`, `canonicalRoute`).
+3. Register in `apps/web/src/lib/constants.ts` inside `PLACEHOLDER_PROJECTS` (markdown → description via `markdownToLexical` where applicable).
+4. **Titles:** commercial headlines, not internal project codenames.
 
-2. **Registrar en constants.ts**:
+### Middleware / public assets
 
-```typescript
-import { myProjectMeta, myProjectMarkdown } from '@/content/projects/my-project'
-import { markdownToLexical } from '@/lib/markdown-to-lexical'
+Matcher skips `api`, `_next`, static public folders, and extensioned files. If you add a new top-level folder under `apps/web/public/`, ensure it is excluded from locale middleware (see `middleware.ts` `matcher` and `servePublicFile`).
 
-// Agregar al array PLACEHOLDER_PROJECTS:
-{
-  ...myProjectMeta,
-  description: markdownToLexical(myProjectMarkdown),
-},
-```
+## Key components / systems
 
-3. **Reglas de titulos**: Los titulos deben ser comerciales/headline, no anclados a un proyecto especifico. El articulo puede hablar del proyecto en detalle, pero el titulo es generico. Ejemplo: "Context-Driven Visual Development" en vez de "Atom Webflow".
+| Piece | Role |
+|-------|------|
+| `ScrollHighlight` | Scroll-scrub highlight using `var(--plantation)` |
+| `InfiniteGrid` | Draggable infinite photo grid |
+| `DraggableMarqueeStrip` | Horizontal draggable marquee |
+| Navigation orchestrator (`lib/navigation/`) | Page transitions, scroll policy, link interceptor |
+| Article block renderers | Code, mermaid, tables, callouts, images |
+| `LocaleToggle` / `ThemeToggle` | Preference controls |
 
-### Middleware
-
-El middleware de next-intl intercepta todas las rutas excepto las excluidas en el matcher:
-```
-/((?!api|_next|stickers|gallery|albums|favicon.ico|.*\\.splinecode$).*)
-```
-Si agregas un directorio nuevo a `public/`, agregalo a esta lista de exclusion.
-
-## Componentes clave
-
-| Componente | Uso |
-|------------|-----|
-| `ScrollHighlight` | Wrapper. Hijos con `data-highlight` se revelan con scroll (ScrollTrigger scrub). Usa `color-mix(in oklab, var(--plantation) 25%, transparent)` |
-| `InfiniteGrid` | Galeria draggable infinita (fotos personales). Solo drag, sin wheel. |
-| `DraggableMarqueeStrip` | Marquee horizontal draggable con overlay en hover. Usado en proyectos adicionales y albumes. Props: `items`, `duration`. |
-| `AlbumMarquee` | Eliminado. Usar `DraggableMarqueeStrip` de `additional-work.tsx`. |
-| `PageTransition` | Column wipe + label de pagina + loader bar. Intercepta clicks en `<a>` internos. |
-| `IconButton` | Boton cuadrado con circle reveal. Soporta `href` (renderiza como `<a>`). |
-| `LocaleToggle` | `ES / EN` en font-accent. Setea cookie `NEXT_LOCALE` y navega con `<a>`. |
-
-## Comandos
+## Commands
 
 ```bash
-pnpm dev:web        # Levanta portfolio en :4100
-pnpm dev            # Levanta todo (turbo)
-pnpm build          # Build de produccion
+pnpm dev:web     # portfolio on :4100
+pnpm dev         # turbo all workspaces
+pnpm build
+pnpm typecheck
+pnpm test
 ```
 
-## Reglas
+## Rules
 
-- Desarrollo local primero
-- `.env` nunca se commitea
-- **Nunca hardcodear colores hex.** Usar `var(--plantation)`, `var(--foreground)`, etc.
-- **Botones leen `--plantation` dinamicamente** via `getComputedStyle` en cada hover. No pasar `colors` prop a menos que sea un override intencional.
-- Container (1400px) wrappea contenido, no fondos
-- Secciones: `px-4 lg:px-6` sin max-width (backgrounds full bleed)
-- **Todos los textos visibles deben estar en los archivos de mensajes** (`messages/en.json` y `messages/es.json`), no hardcodeados en componentes
-- Brand voice: Product Engineering, AI, Design Systems
-- Commits: conventional commits `type(scope): description`
+- Prefer local verification before relying on production only.
+- Never commit `.env` / `.env.local`.
+- **No hardcoded brand hex** in components — use CSS variables.
+- Buttons that animate with the accent should read `--plantation` at runtime unless an intentional override is required.
+- Container (~1400px) wraps **content**, not full-bleed backgrounds.
+- Sections: horizontal padding without forcing max-width on backgrounds.
+- Visible chrome copy belongs in `messages/*.json`, not hardcoded in components.
+- Brand voice: Product Engineering, AI, Design Systems.
+- Commits: conventional `type(scope): description`.

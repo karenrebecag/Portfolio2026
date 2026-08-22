@@ -1,6 +1,65 @@
 # Changelog
 
-## 2026-05-21 -- Scaffold inicial + Frontend completo
+Notable changes to this monorepo. The **May 2026** section is the original scaffold log (including Payload). Production no longer runs a CMS — see later entries.
+
+---
+
+## 2026-08-22 — Documentation aligned to production
+
+### Docs
+
+- Recruiter-facing `README.md`: positioning, product decisions, related public repos, run instructions.
+- `docs/PRODUCT.md`: why no CMS, single content model, locale/theme choices, related evidence repos.
+- MIT `LICENSE`.
+- `CLAUDE.md` rewritten against the live tree: no Payload paths, geo locale (not Accept-Language-only), three themes, correct content paths under `apps/web/src/`.
+
+---
+
+## 2026 (post-scaffold) — Production shape
+
+Evolutionary changes after the initial Payload-based scaffold. Exact day-by-day commits vary; this records the **current contract** so the changelog does not end in a dead architecture.
+
+### Content & data
+
+- **CMS removed.** No Payload admin, no Postgres, no Docker dependency for local content.
+- Case studies and articles authored as **TypeScript meta + Markdown** under `apps/web/src/content/projects/`.
+- Unified content model: `canonicalRoute` `'project' | 'article'`; shared listing on home; `/projects` and `/articulos` index routes redirect home.
+- Legacy article URLs can redirect when a piece is recanonicalized under `/projects/*`.
+- Sitemap and JSON-LD driven from the same entry list.
+- About copy per locale under `apps/web/src/content/about/`.
+- Proposal pages under `/proposals/*` (e.g. Pigmento).
+
+### i18n & locale
+
+- `next-intl` with Spanish default (no prefix) and English under `/en`.
+- First-visit locale via **Vercel IP country** (`x-vercel-ip-country`); Spanish-speaking LATAM + ES stay on `es`.
+- Manual toggle sets `NEXT_LOCALE` cookie (wins over geo).
+- Crawlers are not geo-redirected.
+- `/es` and `/es/*` permanent-redirect to unprefixed Spanish canonicals.
+
+### Design system of the site
+
+- Three themes: Plantation (light), Night (dark), Mono Slate (`.mono`).
+- Accent always via `var(--plantation)`; anti-flash theme script; `Shift+T` cycle.
+- Typography: Inter Tight, Grift, Interval, Gantol.
+
+### Product surface
+
+- Contact via Resend (`POST /api/contact`) with rate limiting; optional env (see `.env.example`).
+- Motion system retained and extended (GSAP, Lenis, navigation orchestrator, article blocks including Mermaid/Shiki).
+- SEO helpers, opengraph image route, `llms.txt`, robots/sitemap.
+
+### Related public work (linked from docs, not in this tree)
+
+- `atom-uikit-ds` — Atom marketing design system.
+- `Companion` — native macOS voice companion.
+- `PowerAutomate_MCP` — personal Power Automate MCP server.
+
+---
+
+## 2026-05-21 — Initial scaffold + full frontend (historical)
+
+> Describes the **origin** of the repo. Payload/Postgres/Docker were part of this phase and are **not** part of production today.
 
 ### Scaffold del monorepo
 
@@ -135,7 +194,7 @@
 - Namespaces: metadata, nav, hero, statement, stack, projects, about, contact, footer, project_detail, theme, marquee
 - Server components: `getTranslations()`, client: `useTranslations()`
 - Menu/Close traducido por locale
-- Middleware detecta Accept-Language
+- Middleware detecta Accept-Language *(superseded later by IP geolocation + cookie; see 2026 post-scaffold)*
 
 ### Layout y spacing
 
@@ -150,5 +209,5 @@
 - turbo, typescript, gsap 3.15, lenis, next-intl
 - lucide-react, clsx, tailwind-merge, class-variance-authority, tw-animate-css
 - @base-ui/react, shadcn
-- Payload CMS stack completo
+- Payload CMS stack completo *(removed from production later)*
 - sass evaluado y descartado
