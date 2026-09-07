@@ -159,7 +159,7 @@ export default async function LocaleLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t&&matchMedia('(prefers-color-scheme:dark)').matches)t='dark';if(location.pathname.indexOf('/proposals')>-1)t='dark';if(t==='dark')document.documentElement.classList.add('dark');else if(t==='mono')document.documentElement.classList.add('mono');var s='dark',c={light:{dark:'#11221f',light:'#fdf9ed'},dark:{dark:'#070806',light:'#0c0e0a'},mono:{dark:'#14171d',light:'#e8e6e1'}},site=t==='dark'?'dark':t==='mono'?'mono':'light',color=c[site][s],m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',color);var a=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(a)a.setAttribute('content','black')}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t&&matchMedia('(prefers-color-scheme:dark)').matches)t='dark';var p=location.pathname;if(p.indexOf('/proposals')>-1)t=p.indexOf('/proposals/moeasy')>-1?'light':'dark';if(t==='dark')document.documentElement.classList.add('dark');else if(t==='mono')document.documentElement.classList.add('mono');var s='dark',c={light:{dark:'#11221f',light:'#fdf9ed'},dark:{dark:'#070806',light:'#0c0e0a'},mono:{dark:'#14171d',light:'#e8e6e1'}},site=t==='dark'?'dark':t==='mono'?'mono':'light',color=c[site][s],m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',color);var a=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(a)a.setAttribute('content','black')}catch(e){}})()`,
           }}
         />
       </head>

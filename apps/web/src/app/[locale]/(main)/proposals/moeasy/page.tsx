@@ -18,9 +18,7 @@ import { HeroHoverList } from '@/components/hero-hover-list'
 import { CursorImageTrail } from '@/components/cursor-image-trail'
 import { ScrollSwapMarquee } from '@/components/scroll-swap-marquee'
 import { ScrollHighlight } from '@/components/scroll-highlight'
-import { ExpandingDisclaimer } from '@/components/expanding-disclaimer'
 import { NumberOdometer } from '@/components/number-odometer'
-import { ContactSection } from '@/components/contact-section'
 
 /** Problema del diagnóstico, en `proposalsMoeasy.problems`. */
 type MoeasyProblem = {
@@ -133,55 +131,70 @@ type TierView = ProposalTier & {
   marginValue: string
 }
 
-/** Renderiza `**texto**` como <strong>; usado en el copy de scope_includes/scope_excludes. */
-function renderWithBold(text: string) {
-  return text.split('**').map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))
-}
-
 /** Tabla de precios de mercado: proveedor, rango y qué entrega. Se usa tres
  *  veces en la sección interna de contexto (agencias, membresías, infra). */
 function PriceTable({ columns, rows, sourceLabel }: { columns: string[]; rows: PriceRow[]; sourceLabel: string }) {
+  const source = (row: PriceRow) =>
+    row.url && (
+      <a
+        href={row.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 block font-accent text-2xs uppercase tracking-[0.1em] text-foreground/55 underline underline-offset-4 transition-colors hover:text-[var(--plantation)]"
+      >
+        {sourceLabel}: {row.source}
+      </a>
+    )
+
   return (
-    <div className="mt-8 -mx-4 overflow-x-auto px-4 lg:mx-0 lg:px-0">
-      <table className="w-full min-w-[48rem] border-collapse text-left">
-        <thead>
-          <tr>
-            {columns.map((column, i) => (
-              <th
-                key={column}
-                scope="col"
-                className={`pb-4 pr-6 align-bottom text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground ${
-                  i === 0 ? 'w-[26%]' : i === 1 ? 'w-[26%]' : 'w-[48%]'
-                }`}
-              >
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.name} className="border-t border-surface-foreground/15">
-              <th scope="row" className="py-5 pr-6 align-top text-sm font-bold leading-[1.35]">{row.name}</th>
-              <td className="py-5 pr-6 align-top font-accent text-2xs leading-[1.7] text-[var(--plantation)]">{row.range}</td>
-              <td className="py-5 pr-6 align-top text-sm leading-[1.5] text-surface-foreground/65">
-                {row.note}
-                {row.url && (
-                  <a
-                    href={row.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 block font-accent text-2xs uppercase tracking-[0.1em] text-surface-foreground/40 underline underline-offset-4 transition-colors hover:text-[var(--plantation)]"
-                  >
-                    {sourceLabel}: {row.source}
-                  </a>
-                )}
-              </td>
+    <>
+      {/* En móvil se apila: la tabla necesita 48rem y meterla en un teléfono
+          empuja el layout en horizontal en vez de envolver. */}
+      <ul className="mt-8 md:hidden">
+        {rows.map((row) => (
+          <li key={row.name} className="border-t border-foreground/15 py-5">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h4 className="text-sm font-bold leading-[1.4]">{row.name}</h4>
+              <span className="font-accent text-sm font-bold leading-[1.6] text-[var(--plantation)]">{row.range}</span>
+            </div>
+            <p className="mt-2 text-sm leading-[1.6] text-foreground/75">{row.note}</p>
+            {source(row)}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-8 -mx-4 hidden overflow-x-auto px-4 md:block lg:mx-0 lg:px-0">
+        <table className="w-full min-w-[48rem] border-collapse text-left">
+          <thead>
+            <tr>
+              {columns.map((column, i) => (
+                <th
+                  key={column}
+                  scope="col"
+                  className={`pb-4 pr-6 align-bottom text-xs font-bold uppercase tracking-widest font-accent text-muted-foreground ${
+                    i === 0 ? 'w-[26%]' : i === 1 ? 'w-[26%]' : 'w-[48%]'
+                  }`}
+                >
+                  {column}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.name} className="border-t border-foreground/15">
+                <th scope="row" className="py-5 pr-6 align-top text-sm font-bold leading-[1.4]">{row.name}</th>
+                <td className="py-5 pr-6 align-top font-accent text-sm font-bold leading-[1.6] text-[var(--plantation)]">{row.range}</td>
+                <td className="py-5 pr-6 align-top text-sm leading-[1.6] text-foreground/75">
+                  {row.note}
+                  {source(row)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 
@@ -196,6 +209,7 @@ function TierCard({
   labels: {
     diff: string
     rationale: string
+    scope: string
     includes: string
     limits: string
     featured: string
@@ -207,6 +221,66 @@ function TierCard({
     suggestedTarget: string
   }
 }) {
+  const identity = (
+    <div className="flex flex-col">
+      <div className="flex items-baseline justify-between gap-3">
+        <span className="text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{tier.label}</span>
+        {tier.featured && (
+          <span className="rounded-full border border-current/25 px-2.5 py-1 text-2xs font-accent uppercase tracking-[0.12em] opacity-80">
+            {labels.featured}
+          </span>
+        )}
+      </div>
+
+      <h3 className="mt-3 font-display text-[clamp(1.5rem,2.2vw,2.25rem)] font-extrabold leading-[0.94] tracking-[-0.03em]">{tier.name}</h3>
+
+      <div className="mt-5 flex items-end gap-2">
+        <NumberOdometer
+          items={[{ value: tier.priceValue }]}
+          numberClassName="font-display text-[2.25rem] font-extrabold leading-none tracking-[-0.03em]"
+        />
+        <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{tier.priceUnit}</span>
+      </div>
+      <p className="mt-1.5 text-xs font-medium opacity-75">{tier.timeline}</p>
+
+      {/* Sugerencia de reventa: es una nota para Pigmento, así que se separa con
+          un relleno de su propia tinta y no con el peso del precio real. */}
+      <div className="mt-5 rounded-xl bg-current/10 px-4 py-3.5">
+        <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.suggested}</span>
+        <p className="mt-1 text-sm font-bold leading-tight">{tier.suggestedValue}</p>
+        <span className="mt-2.5 block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.margin}</span>
+        <p className="mt-1 text-xs font-bold leading-tight">{tier.marginValue}</p>
+      </div>
+    </div>
+  )
+
+  const promise = (
+    <div className="flex flex-col">
+      <p className="text-sm font-medium leading-relaxed opacity-95">{tier.tagline}</p>
+
+      {/* El caso de negocio: por qué este paquete se paga solo, o dónde deja
+          de hacerlo. Es lo que Pigmento repite cuando le preguntan el precio. */}
+      <div className="mt-5 border-t border-current/15 pt-4">
+        <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.rationale}</span>
+        <p className="mt-2 text-sm leading-[1.55] opacity-85">{tier.rationale}</p>
+      </div>
+    </div>
+  )
+
+  const difference = (
+    <div className="flex flex-col">
+      <span className="block text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{labels.diff}</span>
+      <dl className="mt-3 border-t border-current/15">
+        {tier.diff.map((item) => (
+          <div key={item.label} className="flex flex-col gap-0.5 border-b border-current/15 py-2.5 sm:flex-row sm:gap-4">
+            <dt className="text-2xs font-accent uppercase tracking-[0.1em] opacity-55 sm:w-[42%] sm:shrink-0">{item.label}</dt>
+            <dd className="text-xs font-bold leading-[1.5] opacity-90">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+
   return (
     <div className="flex">
       <div
@@ -216,104 +290,83 @@ function TierCard({
             color: tier.gradient.text,
           } as React.CSSProperties
         }
-        className={`relative flex w-full overflow-hidden rounded-2xl p-8 ${
-          wide ? 'flex-col gap-8 lg:flex-row lg:gap-12' : 'flex-col'
-        } ${tier.featured ? 'shadow-2xl' : 'shadow-lg'}`}
+        className={`relative flex w-full flex-col overflow-hidden rounded-2xl p-8 ${
+          tier.featured ? 'shadow-2xl' : 'shadow-lg'
+        }`}
       >
-        <div className={wide ? 'flex flex-col lg:w-[38%] lg:shrink-0' : 'contents'}>
-        <div className="flex items-baseline justify-between gap-3">
-          <span className="text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{tier.label}</span>
-          {tier.featured && (
-            <span className="rounded-full border border-current/25 px-2.5 py-1 text-2xs font-accent uppercase tracking-[0.12em] opacity-80">
-              {labels.featured}
+        {/* A lo ancho la card se reparte en tres columnas. Apilar identidad y
+            promesa en una sola dejaba la columna de la diferencia corta y con
+            un hueco debajo. */}
+        {wide ? (
+          <div className="mb-8 grid gap-10 lg:grid-cols-[0.9fr_1fr_1.1fr] lg:gap-12">
+            {identity}
+            {promise}
+            {difference}
+          </div>
+        ) : (
+          <div className="mb-8 flex flex-col gap-6">
+            {identity}
+            {promise}
+            {difference}
+          </div>
+        )}
+
+        {/* El alcance completo se pliega. La card vende con precio, diferencia y
+            caso de negocio; el detalle se abre solo cuando lo piden. */}
+        <details className="group mt-auto border-t border-current/15">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-2xs font-accent uppercase tracking-[0.12em] opacity-70 transition-opacity hover:opacity-100 [&::-webkit-details-marker]:hidden">
+            {labels.scope}
+            <span aria-hidden className="text-base leading-none transition-transform duration-200 group-open:rotate-45">
+              +
             </span>
-          )}
-        </div>
+          </summary>
 
-        <h3 className="mt-3 font-display text-[clamp(1.5rem,2.2vw,2.25rem)] font-extrabold leading-[0.94] tracking-[-0.03em]">{tier.name}</h3>
-
-        <div className="mt-5 flex items-end gap-2">
-          <NumberOdometer
-            items={[{ value: tier.priceValue }]}
-            numberClassName="font-display text-[2.25rem] font-extrabold leading-none tracking-[-0.03em]"
-          />
-          <span className="pb-1 text-xs font-accent uppercase tracking-wide opacity-60">{tier.priceUnit}</span>
-        </div>
-        <p className="mt-1.5 text-xs font-medium opacity-75">{tier.timeline}</p>
-
-        {/* Sugerencia de reventa: es una nota para Pigmento, por eso va con
-            contorno y no con el peso del precio real. */}
-        <div className="mt-5 border border-current/25 px-3 py-2.5">
-          <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.suggested}</span>
-          <p className="mt-1 text-sm font-bold leading-tight">{tier.suggestedValue}</p>
-          <span className="mt-2.5 block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.margin}</span>
-          <p className="mt-1 text-xs font-bold leading-tight">{tier.marginValue}</p>
-        </div>
-
-        <p className="mt-5 text-sm font-medium leading-relaxed opacity-95">{tier.tagline}</p>
-
-        {/* El caso de negocio: por qué este paquete se paga solo, o dónde deja
-            de hacerlo. Es lo que Pigmento repite cuando le preguntan el precio. */}
-        <div className="mt-5 border-t border-current/15 pt-4">
-          <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.rationale}</span>
-          <p className="mt-2 text-sm leading-[1.55] opacity-85">{tier.rationale}</p>
-        </div>
-
-        </div>
-
-        <div className={wide ? 'flex flex-1 flex-col' : 'contents'}>
-        <span className={`block text-2xs font-accent uppercase tracking-[0.14em] opacity-70 ${wide ? '' : 'mt-8'}`}>{labels.diff}</span>
-        <dl className="mt-3 border-t border-current/15">
-          {tier.diff.map((item) => (
-            <div key={item.label} className="flex flex-col gap-0.5 border-b border-current/15 py-2.5 sm:flex-row sm:gap-4">
-              <dt className="text-2xs font-accent uppercase tracking-[0.1em] opacity-55 sm:w-[42%] sm:shrink-0">{item.label}</dt>
-              <dd className="text-xs font-bold leading-[1.5] opacity-90">{item.value}</dd>
+          <div className={wide ? 'grid gap-8 lg:grid-cols-2 lg:gap-12' : ''}>
+            <div>
+              <span className="block text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{labels.includes}</span>
+              <ul className="mt-3 space-y-3">
+                {tier.features.map((feature) => (
+                  <li key={feature} className="flex gap-3 text-sm font-medium leading-[1.45]">
+                    <span aria-hidden className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-70" />
+                    <span className="opacity-85">{feature}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ))}
-        </dl>
 
-        <span className="mt-8 block text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{labels.includes}</span>
-        <ul className="mt-3 flex-1 space-y-3">
-          {tier.features.map((feature) => (
-            <li key={feature} className="flex gap-3 text-sm font-medium leading-[1.45]">
-              <span aria-hidden className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-70" />
-              <span className="opacity-85">{feature}</span>
-            </li>
-          ))}
-        </ul>
+            <div className={wide ? '' : 'mt-6'}>
+              {/* Los límites son el campo que distingue un tier del siguiente. */}
+              <div className="border-t border-current/15 pt-4">
+                <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.limits}</span>
+                <p className="mt-2 text-xs leading-[1.6] opacity-70">{tier.limits}</p>
+              </div>
 
-        {/* Los límites van dentro de la card, no en una nota al pie de la sección:
-            es el campo que distingue un tier del siguiente. */}
-        <div className="mt-6 border-t border-current/15 pt-4">
-          <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.limits}</span>
-          <p className="mt-2 text-xs leading-[1.6] opacity-70">{tier.limits}</p>
-        </div>
+              {/* Costo recurrente: infraestructura que el cliente paga directo a
+                  cada proveedor. No pasa por Pigmento ni lleva margen. */}
+              <div className="mt-4 border-t border-current/15 pt-4">
+                <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.recurring}</span>
+                <p className="mt-2 text-xs leading-[1.6] opacity-70">{tier.recurring}</p>
+              </div>
 
-        {/* Exclusiones explícitas: lo que no entra sin cotizar aparte. Es la
-            lista que protege el precio cuando el alcance empieza a crecer. */}
-        {/* Costo recurrente: infraestructura que el cliente paga directo a cada
-            proveedor. No pasa por Pigmento ni lleva margen. */}
-        <div className="mt-4 border-t border-current/15 pt-4">
-          <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.recurring}</span>
-          <p className="mt-2 text-xs leading-[1.6] opacity-70">{tier.recurring}</p>
-        </div>
+              {/* Exclusiones: la lista que protege el precio cuando el alcance crece. */}
+              <div className="mt-4 border-t border-current/15 pt-4">
+                <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.excludes}</span>
+                <ul className="mt-2 space-y-1.5">
+                  {tier.excludes.map((item) => (
+                    <li key={item} className="flex gap-2 text-xs leading-[1.5] opacity-60">
+                      <span aria-hidden className="mt-[0.55em] h-px w-2 shrink-0 bg-current" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
 
-        <div className="mt-4 border-t border-current/15 pt-4">
-          <span className="block text-2xs font-accent uppercase tracking-[0.12em] opacity-60">{labels.excludes}</span>
-          <ul className="mt-2 space-y-1.5">
-            {tier.excludes.map((item) => (
-              <li key={item} className="flex gap-2 text-xs leading-[1.5] opacity-60">
-                <span aria-hidden className="mt-[0.55em] h-px w-2 shrink-0 bg-current" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <p className="mt-5 border-t border-current/15 pt-4 text-2xs font-accent uppercase tracking-[0.08em] opacity-70">
-          {tier.audience}
-        </p>
-        </div>
+          <p className="mt-5 border-t border-current/15 pt-4 text-2xs font-accent uppercase tracking-[0.08em] opacity-70">
+            {tier.audience}
+          </p>
+        </details>
       </div>
     </div>
   )
@@ -370,10 +423,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
   const scopePages = t.raw('scope_pages') as ScopePage[]
   const solutions = t.raw('solutions') as Solution[]
   const marginItems = t.raw('margin_items') as MarginItem[]
-  const toolboxBody = t.raw('pricing_toolbox_body') as string[]
   const terms = t.raw('pricing_terms') as string[]
-  const scopeIncludes = t.raw('scope_includes') as string[]
-  const scopeExcludes = t.raw('scope_excludes') as string[]
 
   // Precio formateado (MXN, separador de miles) fusionado por índice con la
   // presentación de content/proposals.ts, igual que en ronda01-pigmento.
@@ -395,6 +445,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
   const tierCardLabels = {
     diff: t('tiers_diff_label'),
     rationale: t('tiers_rationale_label'),
+    scope: t('tiers_scope_label'),
     includes: t('tiers_includes_label'),
     limits: t('tiers_limits_label'),
     featured: t('tiers_featured_label'),
@@ -577,7 +628,6 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
           <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-16">
             <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[var(--plantation)]">{t('agency_label')}</span>
             <PriceTable columns={t.raw('agency_columns') as string[]} rows={agencyRows} sourceLabel={t('sources_label')} />
-            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-foreground/45">{t('agency_note')}</p>
           </div>
 
           {/* Membresías del sector: contra qué compara el cliente */}
@@ -600,7 +650,24 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
             <p className="mt-4 max-w-[84ch] text-sm leading-relaxed text-foreground/70">{t('alternatives_sub')}</p>
 
             {/* La última fila es la propuesta: se destaca para cerrar el argumento. */}
-            <div className="mt-8 -mx-4 overflow-x-auto px-4 lg:mx-0 lg:px-0">
+            <ul className="mt-8 md:hidden">
+              {alternativeRows.map((row, i) => {
+                const isProposal = i === alternativeRows.length - 1
+                return (
+                  <li key={row.name} className="border-t border-foreground/15 py-5">
+                    <h4 className={`text-sm font-bold leading-[1.4] ${isProposal ? 'text-[var(--plantation)]' : ''}`}>
+                      {row.name}
+                    </h4>
+                    <p className="mt-2 font-accent text-sm font-bold leading-[1.6] text-foreground/80">{row.cost}</p>
+                    <p className={`mt-2 text-sm leading-[1.6] ${isProposal ? 'font-medium text-foreground/90' : 'text-foreground/65'}`}>
+                      {row.why}
+                    </p>
+                  </li>
+                )
+              })}
+            </ul>
+
+            <div className="mt-8 -mx-4 hidden overflow-x-auto px-4 md:block lg:mx-0 lg:px-0">
               <table className="w-full min-w-[52rem] border-collapse text-left">
                 <thead>
                   <tr>
@@ -608,7 +675,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
                       <th
                         key={column}
                         scope="col"
-                        className={`pb-4 pr-6 align-bottom text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground ${
+                        className={`pb-4 pr-6 align-bottom text-xs font-bold uppercase tracking-widest font-accent text-muted-foreground ${
                           i === 0 ? 'w-[22%]' : i === 1 ? 'w-[24%]' : 'w-[54%]'
                         }`}
                       >
@@ -630,7 +697,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
                         >
                           {row.name}
                         </th>
-                        <td className="py-6 pr-6 align-top font-accent text-2xs leading-[1.7] text-foreground/70">
+                        <td className="py-6 pr-6 align-top font-accent text-sm font-bold leading-[1.6] text-foreground/80">
                           {row.cost}
                         </td>
                         <td
@@ -773,49 +840,53 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
       </section>
 
       {/* Áreas de margen — card full-width dirigida a Pigmento, no a MoEasy */}
-      <section data-theme-section="light" className="bg-background text-foreground px-4 lg:px-6 py-14 lg:py-20">
+      <section data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 py-14 lg:py-20">
         <Container>
-          <div data-reveal-group data-stagger="80" data-distance="1.5em" className="flex">
-            <div
-              style={
-                {
-                  background: MARGIN_CARD_GRADIENT.bg,
-                  color: MARGIN_CARD_GRADIENT.text,
-                } as React.CSSProperties
-              }
-              className="relative flex w-full flex-col gap-8 overflow-hidden rounded-2xl p-8 shadow-lg lg:flex-row lg:gap-12"
-            >
-              <div className="flex flex-col lg:w-2/5 lg:shrink-0">
-                <span className="inline-block self-start border border-current/40 px-2 py-1 text-2xs font-bold uppercase tracking-widest leading-none font-accent opacity-80">
-                  {t('badge_internal')}
-                </span>
-                <span className="mt-4 text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{t('margin_label')}</span>
-                <h2 className="mt-3 font-display text-[clamp(1.5rem,2.4vw,2.25rem)] font-extrabold leading-[0.98] tracking-[-0.02em]">
-                  {t('margin_title')}
-                </h2>
-                <p className="mt-5 text-sm font-medium leading-relaxed opacity-95">{t('margin_tagline')}</p>
-              </div>
+          <div data-reveal-group data-stagger="80" data-distance="1.5em">
+            <div className="flex">
+              <div
+                style={
+                  {
+                    background: MARGIN_CARD_GRADIENT.bg,
+                    color: MARGIN_CARD_GRADIENT.text,
+                  } as React.CSSProperties
+                }
+                className="relative flex w-full flex-col gap-8 overflow-hidden rounded-2xl p-8 shadow-lg lg:flex-row lg:gap-12"
+              >
+                <div className="flex flex-col lg:w-2/5 lg:shrink-0">
+                  <span className="inline-block self-start border border-current/40 px-2 py-1 text-2xs font-bold uppercase tracking-widest leading-none font-accent opacity-80">
+                    {t('badge_internal')}
+                  </span>
+                  <span className="mt-4 text-2xs font-accent uppercase tracking-[0.14em] opacity-70">{t('margin_label')}</span>
+                  <h2 className="mt-3 font-display text-[clamp(1.5rem,2.4vw,2.25rem)] font-extrabold leading-[0.98] tracking-[-0.02em]">
+                    {t('margin_title')}
+                  </h2>
+                  <p className="mt-5 text-sm font-medium leading-relaxed opacity-95">{t('margin_tagline')}</p>
+                </div>
 
-              <div className="flex flex-1 flex-col">
-                <ul className="flex-1">
+                <div className="flex flex-1 flex-col">
+                {/* Cada área se pliega: en la junta se recorre la lista de
+                    nombres y precios, y se abre solo la que preguntan. */}
+                <ul>
                   {marginItems.map((item, i) => (
-                    <li
-                      key={item.name}
-                      className={`py-4 ${i === 0 ? 'pt-0' : 'border-t border-current/15'}`}
-                    >
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                        <h3 className="text-sm font-bold leading-[1.35]">{item.name}</h3>
-                        <span className="font-accent text-2xs uppercase tracking-[0.08em] opacity-70">{item.reference}</span>
-                      </div>
-                      <p className="mt-1.5 text-sm leading-[1.5] opacity-75">{item.pitch}</p>
-                      <p className="mt-2 font-accent text-2xs uppercase tracking-[0.08em] opacity-55">{item.trigger}</p>
+                    <li key={item.name} className={i === 0 ? '' : 'border-t border-current/15'}>
+                      <details className="group">
+                        <summary className="flex cursor-pointer list-none flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-4 [&::-webkit-details-marker]:hidden">
+                          <h3 className="text-sm font-bold leading-[1.35]">{item.name}</h3>
+                          <span className="flex items-baseline gap-3 font-accent text-2xs uppercase tracking-[0.08em] opacity-70">
+                            {item.reference}
+                            <span aria-hidden className="text-base leading-none transition-transform duration-200 group-open:rotate-45">
+                              +
+                            </span>
+                          </span>
+                        </summary>
+                        <p className="text-sm leading-[1.5] opacity-75">{item.pitch}</p>
+                        <p className="mt-2 pb-4 font-accent text-2xs uppercase tracking-[0.08em] opacity-55">{item.trigger}</p>
+                      </details>
                     </li>
                   ))}
                 </ul>
-
-                <p className="mt-auto pt-6 border-t border-current/15 text-2xs font-accent uppercase tracking-[0.08em] opacity-70">
-                  {t('margin_note')}
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -869,55 +940,53 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
             </div>
           </div>
 
-          <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">
-            <span className="font-bold uppercase tracking-widest text-surface-foreground/65">{t('tiers_recurring_label')}:</span>{' '}
-            {t('tiers_recurring_note')}
-          </p>
-
-          <p className="mt-6 flex flex-wrap items-center gap-3 font-accent text-2xs leading-[1.8] text-surface-foreground/45">
-            <SectionBadge tone="internal">{t('badge_internal')}</SectionBadge>
-            <span>{t('tiers_suggested_note')} {t('tiers_margin_note')}</span>
-          </p>
-
-          {/* Pricing terms — disclaimer fluido en monospace, sin contenedor */}
-          <p className="mt-10 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">
-            <span className="font-bold uppercase tracking-widest text-surface-foreground/65">{t('pricing_terms_heading')}:</span>{' '}
-            {terms.join('  ·  ')}
-          </p>
-
-          {/* Rondas y aprobaciones — la cláusula que contiene el scope creep */}
-          <p className="mt-6 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">
-            <span className="font-bold uppercase tracking-widest text-surface-foreground/65">{t('governance_heading')}:</span>{' '}
-            {governanceItems.join('  ·  ')}
-          </p>
-
-          {/* Toolbox — disclaimer fluido en monospace, bold para highlight */}
-          <p className="mt-6 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">
-            <span className="font-bold uppercase tracking-widest text-surface-foreground/65">{t('pricing_toolbox_heading')}:</span>{' '}
-            <span className="font-bold text-surface-foreground/75">{t('pricing_toolbox_subheading')}</span>{' '}
-            {toolboxBody.join('  ·  ')}
-          </p>
-        </Container>
-      </section>
-
-      {/* Si dicen esto, va este paquete: el árbol de decisión vive pegado a
-          las cards para que se lea con los precios enfrente. */}
-      <section data-theme-section="light" className="bg-background text-foreground px-4 lg:px-6 py-14 lg:py-20">
-        <Container>
+          {/* Cómo elegir: se lee con los precios enfrente, no en una strip aparte. */}
           <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-14">
-            <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[var(--plantation)]">{t('choose_tree_label')}</span>
-            <div className="mt-6 grid grid-cols-1 gap-px border border-foreground/15 bg-foreground/15 md:grid-cols-2 lg:grid-cols-4">
+            <h3 className="font-display text-[clamp(1.35rem,2.2vw,1.875rem)] font-extrabold leading-[1.05] tracking-[-0.02em] max-w-[22ch]">
+              {t('choose_tree_label')}
+            </h3>
+            <div className="mt-8 grid grid-cols-1 gap-px border border-surface-foreground/15 bg-surface-foreground/15 md:grid-cols-2 lg:grid-cols-4">
               {chooseTree.map((branch) => (
-                <div key={branch.condition} className="flex flex-col justify-between gap-4 bg-background p-6">
-                  <p className="text-sm leading-relaxed text-foreground/70">{branch.condition}</p>
+                <div key={branch.condition} className="flex flex-col justify-between gap-4 bg-surface p-6">
+                  <p className="text-sm leading-relaxed text-surface-foreground/70">{branch.condition}</p>
                   <p className="font-display text-base font-extrabold leading-[1.15] tracking-[-0.02em] text-[var(--plantation)]">
                     {branch.result}
                   </p>
                 </div>
               ))}
             </div>
-            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-foreground/45">{t('choose_note')}</p>
+            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">{t('choose_note')}</p>
           </div>
+
+          <p className="mt-10 flex flex-wrap items-center gap-3 font-accent text-2xs leading-[1.8] text-surface-foreground/45">
+            <SectionBadge tone="internal">{t('badge_internal')}</SectionBadge>
+            <span>{t('tiers_suggested_note')}</span>
+          </p>
+
+          {/* Condiciones plegadas: son contractuales y hay que tenerlas, pero
+              apiladas a la vista eran el muro que enterraba a los paquetes. */}
+          <details className="group mt-6 border-t border-surface-foreground/15">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-accent text-2xs font-bold uppercase tracking-widest text-surface-foreground/65 transition-colors hover:text-surface-foreground [&::-webkit-details-marker]:hidden">
+              {t('pricing_terms_heading')}
+              <span aria-hidden className="text-base leading-none transition-transform duration-200 group-open:rotate-45">
+                +
+              </span>
+            </summary>
+
+            <ul className="space-y-2 pb-2">
+              {terms.map((term) => (
+                <li key={term} className="font-accent text-2xs leading-[1.8] text-surface-foreground/55">
+                  {term}
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-4 border-t border-surface-foreground/15 pt-4 font-accent text-2xs leading-[1.8] text-surface-foreground/55">
+              <span className="font-bold uppercase tracking-widest text-surface-foreground/65">{t('governance_heading')}:</span>{' '}
+              {governanceItems.join('  ·  ')}
+            </p>
+          </details>
+
         </Container>
       </section>
 
@@ -934,77 +1003,53 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
             <p className="mt-6 max-w-[54rem] text-base md:text-lg leading-relaxed text-muted-foreground">{t('objections_sub')}</p>
           </div>
 
-          <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-14 -mx-4 overflow-x-auto px-4 lg:mx-0 lg:px-0">
-            <table className="w-full min-w-[54rem] border-collapse text-left">
-              <thead>
-                <tr>
-                  {objectionColumns.map((column, i) => (
-                    <th
-                      key={column}
-                      scope="col"
-                      className={`pb-4 pr-6 align-bottom text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground ${
-                        i === 0 ? 'w-[20%]' : i === 1 ? 'w-[48%]' : 'w-[32%]'
-                      }`}
-                    >
-                      {column}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {objectionRows.map((row) => (
-                  <tr key={row.objection} className="border-t border-foreground/15">
-                    <th scope="row" className="py-6 pr-6 align-top text-sm font-bold leading-[1.35]">
-                      {row.objection}
-                    </th>
-                    <td className="py-6 pr-6 align-top text-sm leading-[1.55] text-foreground/80">{row.response}</td>
-                    <td className="py-6 pr-6 align-top text-sm leading-[1.55] text-[var(--plantation)]">{row.concession}</td>
+          <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-14">
+            <ul className="md:hidden">
+              {objectionRows.map((row) => (
+                <li key={row.objection} className="border-t border-foreground/15 py-5">
+                  <h3 className="text-sm font-bold leading-[1.4]">{row.objection}</h3>
+                  <p className="mt-1 text-2xs font-accent uppercase tracking-[0.1em] text-muted-foreground">{objectionColumns[1]}</p>
+                  <p className="mt-1.5 text-sm leading-[1.55] text-foreground/80">{row.response}</p>
+                  <p className="mt-3 text-2xs font-accent uppercase tracking-[0.1em] text-muted-foreground">{objectionColumns[2]}</p>
+                  <p className="mt-1.5 text-sm leading-[1.55] text-[var(--plantation)]">{row.concession}</p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="-mx-4 hidden overflow-x-auto px-4 md:block lg:mx-0 lg:px-0">
+              <table className="w-full min-w-[54rem] border-collapse text-left">
+                <thead>
+                  <tr>
+                    {objectionColumns.map((column, i) => (
+                      <th
+                        key={column}
+                        scope="col"
+                        className={`pb-4 pr-6 align-bottom text-xs font-bold uppercase tracking-widest font-accent text-muted-foreground ${
+                          i === 0 ? 'w-[20%]' : i === 1 ? 'w-[48%]' : 'w-[32%]'
+                        }`}
+                      >
+                        {column}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {objectionRows.map((row) => (
+                    <tr key={row.objection} className="border-t border-foreground/15">
+                      <th scope="row" className="py-6 pr-6 align-top text-sm font-bold leading-[1.35]">
+                        {row.objection}
+                      </th>
+                      <td className="py-6 pr-6 align-top text-sm leading-[1.55] text-foreground/80">{row.response}</td>
+                      <td className="py-6 pr-6 align-top text-sm leading-[1.55] text-[var(--plantation)]">{row.concession}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* Contact */}
-      <ContactSection />
-
-      {/* Disclaimer flotante — se porta al mismo div fixed del IconButton de
-          LinkedIn en el layout raíz (#fixed-corner-actions), como hermano. */}
-      <ExpandingDisclaimer
-        label={t('disclaimer_label')}
-        primaryLabel={t('scope_includes_label')}
-        primaryItems={scopeIncludes.map((line, i) => ({
-          key: `include-${i}`,
-          content: (
-            <div className="flex gap-2.5">
-              <img
-                src={PROPOSAL_TRAIL_SHAPES[i % PROPOSAL_TRAIL_SHAPES.length]}
-                alt=""
-                aria-hidden
-                className="mt-[0.2em] h-3.5 w-3.5 shrink-0 object-contain"
-              />
-              <span className="opacity-90">{renderWithBold(line)}</span>
-            </div>
-          ),
-        }))}
-        secondaryLabel={t('scope_excludes_label')}
-        secondaryItems={scopeExcludes.map((line, i) => ({
-          key: `exclude-${i}`,
-          content: (
-            <div className="flex gap-2.5">
-              <img
-                src={PROPOSAL_TRAIL_SHAPES[i % PROPOSAL_TRAIL_SHAPES.length]}
-                alt=""
-                aria-hidden
-                className="mt-[0.2em] h-3.5 w-3.5 shrink-0 object-contain grayscale opacity-50"
-              />
-              <span className="opacity-60">{renderWithBold(line)}</span>
-            </div>
-          ),
-        }))}
-      />
     </div>
   )
 }

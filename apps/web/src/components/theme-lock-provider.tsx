@@ -29,9 +29,18 @@ const ThemeLockContext = createContext(false)
 
 export const useThemeLock = () => useContext(ThemeLockContext)
 
-/** Rutas que viven solo en dark. Mantener en sync con el script anti-flash. */
-function isThemeLockedPath(pathname: string): boolean {
-  return pathname === '/proposals' || pathname.startsWith('/proposals/')
+/**
+ * Rutas con theme fijo, y cuál. Mantener en sync con el script anti-flash.
+ *
+ * MoEasy va fija en light y no en dark: alterna bandas claras y oscuras para
+ * separar lo interno de lo que ve el cliente, y ese par de tokens (--background
+ * claro contra --surface oscuro) solo abre en Plantation. En Night las dos
+ * bandas colapsan al mismo negro y la división se pierde.
+ */
+function lockedThemeForPath(pathname: string): 'dark' | 'light' | null {
+  const isProposal = pathname === '/proposals' || pathname.startsWith('/proposals/')
+  if (!isProposal) return null
+  return pathname.startsWith('/proposals/moeasy') ? 'light' : 'dark'
 }
 
 /* Store externo: páginas sin pathname fijo (404, error) piden el lock dark. */
@@ -76,16 +85,17 @@ function restoreStoredTheme() {
 export function ThemeLockProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const forced = useSyncExternalStore(subscribeForceDark, isForceDark, () => false)
-  const locked = isThemeLockedPath(pathname) || forced
+  const lockedTheme = forced ? 'dark' : lockedThemeForPath(pathname)
+  const locked = lockedTheme !== null
 
   useEffect(() => {
-    if (!locked) return
+    if (!lockedTheme) return
     const html = document.documentElement
-    html.classList.remove('mono')
-    html.classList.add('dark')
+    html.classList.remove('dark', 'mono')
+    if (lockedTheme === 'dark') html.classList.add('dark')
 
     return () => restoreStoredTheme()
-  }, [locked])
+  }, [lockedTheme])
 
   return <ThemeLockContext.Provider value={locked}>{children}</ThemeLockContext.Provider>
 }

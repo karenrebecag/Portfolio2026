@@ -980,7 +980,6 @@
     "margin_label": "Áreas de oportunidad",
     "margin_title": "Lo que Pigmento puede cobrar por su cuenta",
     "margin_tagline": "Antes de los precios, esto: cada pieza de aquí es un servicio que Pigmento vende aparte, cobra completo y se queda entero. No son extras inventados, son trabajos que el proyecto abre de forma natural y que el cliente ya está acostumbrado a pagar por separado. Los montos son referencia de mercado; el número final es suyo.",
-    "margin_note": "Esta sección es para ustedes, no para MoEasy. Si quieren una versión de esta propuesta sin ella para enseñarla directo al cliente, se las preparo.",
     "pricing_terms_heading": "Cómo funciona el pricing",
     "pricing_terms": [
       "Cada precio es fijo para el alcance descrito; el alcance final se confirma en discovery antes de arrancar.",
@@ -992,35 +991,6 @@
       "Los tiempos de entrega asumen contenidos, accesos y feedback a tiempo del lado del cliente; los retrasos recorren la fecha de entrega, no el precio.",
       "Propuesta emitida en septiembre de 2026; vigencia de 30 días a partir de esa fecha.",
       "Precios más IVA (16%), facturados vía CFDI."
-    ],
-    "pricing_toolbox_heading": "Cada proyecto incluye mi toolbox de trabajo",
-    "pricing_toolbox_subheading": "Diseño, motion y craft son parte del proceso. El objetivo es simple: no deberían preocuparse por el setup técnico detrás del trabajo.",
-    "pricing_toolbox_body": [
-      "Cada proyecto incluye las herramientas necesarias para ejecutarlo bien: Figma, herramientas de Adobe, librerías de motion, sistemas de componentes y el stack operativo que el proyecto necesite.",
-      "No se cobra por «abrir herramientas»; se cobra por resolver el problema con el setup correcto, asumiendo yo la responsabilidad del flujo de trabajo, la implementación y la entrega.",
-      "Hosting, servidores y licencias corren por cuenta del cliente final, incluida la de Webflow y su plan de localización."
-    ],
-    "disclaimer_label": "Qué incluye cada paquete",
-    "scope_includes_label": "Incluye",
-    "scope_excludes_label": "No incluye",
-    "scope_includes": [
-      "**De cero a producción**: diseño, implementación y despliegue del sitio publicado y funcionando.",
-      "**Acceso directo a mí** en reuniones y decisiones técnicas durante todo el proyecto.",
-      "**3 rondas de corrección de diseño** incluidas en el precio, sin cargo extra.",
-      "**Modelo de contenido** diseñado para inventario inmobiliario, no una colección genérica de productos.",
-      "**Migración estructural del catálogo** y redirecciones desde las URLs actuales de Shopify.",
-      "**SEO y GEO on-page** para buscadores y motores de IA, en los tres paquetes.",
-      "**Capacitación** al equipo que va a administrar el catálogo.",
-      "**15 días de garantía** post-lanzamiento: si aparece un bug, lo arreglo sin costo.",
-      "En los paquetes con CMS, **el código versionado en un repositorio** que pasa a ser del cliente al liquidar el proyecto."
-    ],
-    "scope_excludes": [
-      "**Captura del inventario**: migro la estructura del catálogo, no doy de alta las propiedades una por una.",
-      "**Traducción de contenido**: entrego la infraestructura multilingüe, no el copy traducido.",
-      "**Fotografía, render y material visual** de las propiedades.",
-      "**Integraciones con CRM, portales inmobiliarios o ERPs**: se cotizan como proyecto aparte.",
-      "**Mapas avanzados** con búsqueda por radio o polígono, calculadora hipotecaria y agenda de citas.",
-      "Hosting, servidores y licencias: **corren por cuenta del cliente final**, incluida la de Webflow y su plan de localización."
     ],
     "situacion_heading_before": "MoEasy no vende un tipo de propiedad: opera ",
     "situacion_heading_highlight": "cuatro líneas de inventario sobre una plataforma construida para vender productos.",
@@ -1216,7 +1186,6 @@
     "tiers_suggested_target": "Objetivo",
     "complicacion_cost_label": "Qué cuesta",
     "tiers_recurring_label": "Costo recurrente del cliente",
-    "tiers_recurring_note": "Los costos recurrentes son infraestructura y los paga MoEasy directamente a cada proveedor. No pasan por Pigmento ni llevan margen. Se listan aquí para que la comparación sea honesta.",
     "market_eyebrow": "Lo que cobra el mercado",
     "market_heading": "Dónde caen estos precios.",
     "market_sub": "Contexto para que Pigmento sepa con qué se compara lo que está vendiendo. Nada de esta sección va para MoEasy.",
@@ -1305,7 +1274,6 @@
         "url": "https://www.magokoro.mx/blog/precios-desarrollo-web-mexico"
       }
     ],
-    "agency_note": "Los tres paquetes cuestan 26, 38 y 72 mil pesos. Los precios sugeridos de reventa, de 40 a 52 mil, de 58 a 72 mil y de 105 a 130 mil, caen dentro de esas bandas y no arriba de ellas. El margen de Pigmento no sale de inflar un precio: sale de que la ejecución técnica cuesta menos de lo que el mercado cobra por ella.",
     "membership_label": "Membresías y software del sector",
     "membership_columns": [
       "Servicio",
@@ -1472,8 +1440,8 @@
       "Capacitación al equipo y quince días de garantía después de salir a producción."
     ],
     "tiers_margin_label": "Margen para Pigmento",
-    "tiers_margin_note": "El margen crece con el paquete, en pesos y en porcentaje. Recomendar la solución correcta no le cuesta rentabilidad a Pigmento: se la aumenta.",
     "tiers_diff_label": "La diferencia, en concreto",
-    "tiers_rationale_label": "Por qué se justifica"
+    "tiers_rationale_label": "Por qué se justifica",
+    "tiers_scope_label": "Alcance completo"
   }
 }

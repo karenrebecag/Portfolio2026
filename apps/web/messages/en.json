@@ -980,7 +980,6 @@
     "margin_label": "Opportunity areas",
     "margin_title": "What Pigmento can charge on its own",
     "margin_tagline": "Before the prices, this: every piece here is a service Pigmento sells separately, charges in full and keeps in full. They aren't invented extras, they're work the project opens naturally and that clients are already used to paying for on the side. The amounts are market references; the final number is yours.",
-    "margin_note": "This section is for you, not for MoEasy. If you want a clean version of this proposal without it to show the client directly, I'll prepare one.",
     "pricing_terms_heading": "How the pricing works",
     "pricing_terms": [
       "Each price is fixed for the scope described; the final scope is confirmed in discovery before kickoff.",
@@ -992,35 +991,6 @@
       "Delivery times assume content, access and feedback arrive on time from the client side; delays move the delivery date, not the price.",
       "Proposal issued in September 2026; valid for 30 days from that date.",
       "Prices plus VAT (16%), invoiced via CFDI."
-    ],
-    "pricing_toolbox_heading": "Every project includes my working toolbox",
-    "pricing_toolbox_subheading": "Design, motion and craft are part of the process. The goal is simple: you shouldn't have to worry about the technical setup behind the work.",
-    "pricing_toolbox_body": [
-      "Every project includes the tools needed to execute it well: Figma, Adobe tools, motion libraries, component systems and whatever operational stack the project needs.",
-      "Nobody gets charged for \"opening tools\"; the charge is for solving the problem with the right setup, with me owning the workflow, the implementation and the delivery.",
-      "Hosting, servers and licenses are on the end client, including Webflow and its localization plan."
-    ],
-    "disclaimer_label": "What each package includes",
-    "scope_includes_label": "Included",
-    "scope_excludes_label": "Not included",
-    "scope_includes": [
-      "**Zero to production**: design, implementation and deployment of a published, working site.",
-      "**Direct access to me** in meetings and technical decisions throughout the project.",
-      "**3 rounds of design revisions** included in the price, at no extra charge.",
-      "**A content model** designed for real estate inventory, not a generic product collection.",
-      "**Structural catalog migration** and redirects from the current Shopify URLs.",
-      "**On-page SEO and GEO** for search engines and AI engines, in all three packages.",
-      "**Training** for the team that will administer the catalog.",
-      "**15 days of post-launch warranty**: if a bug shows up, I fix it at no cost.",
-      "In the CMS packages, **code versioned in a repository** that becomes the client's on full payment."
-    ],
-    "scope_excludes": [
-      "**Inventory capture**: I migrate the catalog structure, I don't add the listings one by one.",
-      "**Content translation**: I deliver the multilingual infrastructure, not the translated copy.",
-      "**Photography, renders and visual material** for the listings.",
-      "**Integrations with CRMs, real estate portals or ERPs**: quoted as a separate project.",
-      "**Advanced maps** with radius or polygon search, mortgage calculators and viewing schedulers.",
-      "Hosting, servers and licenses: **on the end client**, including Webflow and its localization plan."
     ],
     "situacion_heading_before": "MoEasy doesn't sell one kind of property: it runs ",
     "situacion_heading_highlight": "four lines of inventory on a platform built to sell products.",
@@ -1216,7 +1186,6 @@
     "tiers_suggested_target": "Target",
     "complicacion_cost_label": "What it costs",
     "tiers_recurring_label": "Client's recurring cost",
-    "tiers_recurring_note": "Recurring costs are infrastructure and MoEasy pays them directly to each provider. They don't pass through Pigmento and carry no margin. They're listed here so the comparison is honest.",
     "market_eyebrow": "What the market charges",
     "market_heading": "Where these prices land.",
     "market_sub": "Context so Pigmento knows what its offer compares to. None of this section goes to MoEasy.",
@@ -1305,7 +1274,6 @@
         "url": "https://www.magokoro.mx/blog/precios-desarrollo-web-mexico"
       }
     ],
-    "agency_note": "The three packages cost 26, 38 and 72 thousand pesos. The suggested resale prices, 40 to 52 thousand, 58 to 72 thousand and 105 to 130 thousand, land inside those bands rather than above them. Pigmento's margin doesn't come from inflating a price: it comes from the technical execution costing less than what the market charges for it.",
     "membership_label": "Industry memberships and software",
     "membership_columns": [
       "Service",
@@ -1472,8 +1440,8 @@
       "Team training and fifteen days of warranty after going live."
     ],
     "tiers_margin_label": "Margin for Pigmento",
-    "tiers_margin_note": "The margin grows with the package, in pesos and as a percentage. Recommending the right solution doesn't cost Pigmento profitability: it increases it.",
     "tiers_diff_label": "The difference, concretely",
-    "tiers_rationale_label": "Why it pays for itself"
+    "tiers_rationale_label": "Why it pays for itself",
+    "tiers_scope_label": "Full scope"
   }
 }
