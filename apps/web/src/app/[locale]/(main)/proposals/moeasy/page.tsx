@@ -542,7 +542,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
             <div className="mt-8 grid grid-cols-1 gap-px border border-surface-foreground/15 bg-surface-foreground/15 sm:grid-cols-2 lg:grid-cols-4">
               {marketStats.map((stat) => (
                 <div key={stat.value} className="flex flex-col bg-surface p-6">
-                  <p className="font-display text-[clamp(1.5rem,2.6vw,2.25rem)] font-extrabold leading-none tracking-[-0.03em] text-[var(--plantation)]">
+                  <p className="font-display text-[clamp(1.5rem,2.6vw,2.25rem)] font-extrabold leading-none tracking-[-0.03em] text-surface-foreground">
                     {stat.value}
                   </p>
                   <p className="mt-4 flex-1 text-sm leading-relaxed text-surface-foreground/70">{stat.label}</p>
