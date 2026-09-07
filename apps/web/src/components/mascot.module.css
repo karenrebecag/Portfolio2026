@@ -1,0 +1,46 @@
+/* Mascota con la cara siguiendo al cursor (port de "Face Follow Cursor").
+   Geometría del original; los tres colores del arte quedan como variables para
+   retematizar sin tocar los paths. */
+
+.mascot {
+  --mascot-body: #efeeec;
+  --mascot-ink: #131313;
+  --mascot-accent: #d9fa60;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mascot-size, max(10em, 20vh));
+}
+
+.body {
+  width: 100%;
+}
+
+.face {
+  position: absolute;
+  top: 17%;
+  left: 22%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+}
+
+.faceSvg {
+  position: relative;
+  width: 40%;
+}
+
+/* Dos expresiones en el mismo SVG: la cuarta solo aparece en hover. */
+.faceSvg path:nth-child(4),
+.mascot:hover .faceSvg path:nth-child(3) {
+  opacity: 0;
+}
+
+.mascot:hover .faceSvg path:nth-child(4) {
+  opacity: 1;
+}

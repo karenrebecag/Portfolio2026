@@ -26,7 +26,9 @@
     "proposalsProject_title": "Per-project web services proposal for Pigmento Studio",
     "proposalsProject_description": "Per-project pricing for Pigmento Studio: from a landing page to sales platforms, a full site rebuild with a custom CMS, or recovering a WooCommerce store. Fixed price and defined scope per project, no retainer.",
     "proposalsMoeasy_title": "Real estate platform redesign proposal for MoEasy",
-    "proposalsMoeasy_description": "Three packages to rebuild MoEasy's catalog: express catalog in Webflow, tailored catalog in Next.js + Payload, and an inventory platform with property submission and approval. Fixed price and defined scope in each one."
+    "proposalsMoeasy_description": "Three packages to rebuild MoEasy's catalog: express catalog in Webflow, tailored catalog in Next.js + Payload, and an inventory platform with property submission and approval. Fixed price and defined scope in each one.",
+    "workflow_title": "Judgment doesn't automate: internal talk",
+    "workflow_description": "Thirty minutes on when a problem is worth solving with AI and when it is not: Pareto, the real cost of automating, and why the question matters more than the prompt."
   },
   "common": {
     "socials": "Socials",
@@ -440,22 +442,22 @@
     "process": [
       {
         "step": "01",
-        "title": "Discovery",
+        "title": "Discovery.",
         "description": "We understand the business goal, the audience, the brand constraints, and the technical limits. I define scope, risks, and deliverables before choosing tools or writing a line of code."
       },
       {
         "step": "02",
-        "title": "Design, systems & architecture",
+        "title": "Design, systems & architecture.",
         "description": "I define the architecture, the content model, and the design system: tokens, components, and patterns. I prototype key screens and flows (web, CMS, and automation/AI touchpoints) to validate direction before building at scale."
       },
       {
         "step": "03",
-        "title": "Build & automation",
+        "title": "Build & automation.",
         "description": "I build in short iterations with verifiable deliveries: typed, accessible, and optimized implementations across web frameworks, CMS, and workflows (n8n, MCP, and more), deployed to previews from day one."
       },
       {
         "step": "04",
-        "title": "Delivery, handoff & ownership",
+        "title": "Delivery, handoff & ownership.",
         "description": "Deploy to production, set up analytics and automation, and create living documentation and training so your team can keep iterating and own the system without depending on me for every change."
       }
     ],
@@ -1427,5 +1429,261 @@
     "tiers_diff_label": "The difference, concretely",
     "tiers_rationale_label": "Why it pays for itself",
     "tiers_scope_label": "Full scope"
+  },
+  "workflow": {
+    "hero_lines": [
+      "Judgment",
+      "doesn't",
+      "automate"
+    ],
+    "hero_subtitle": "Thirty minutes on when a problem is worth solving with AI, when it isn't, and why the question matters far more than the prompt.",
+    "hero_cta_primary": "See the filter",
+    "hero_cta_secondary": "See the toolbox",
+    "statement": "AI doesn't take our work away. It takes away ==the pause== where we used to decide whether the problem was ==worth solving at all==.",
+    "statement_sub": "I'm the only technical person on the team, so this talk isn't about how I write code. It's about how I decide what deserves to exist.",
+    "marquee_principles": [
+      "Not every problem deserves a solution",
+      "Pareto before perfection",
+      "Documenting beats prompting",
+      "Permanent context over the perfect prompt",
+      "You don't always need to reinvent the wheel",
+      "Question everything"
+    ],
+    "risk_eyebrow": "The risk",
+    "risk_heading": "I now generate code faster than I can understand it.",
+    "risk_body": [
+      "Let me start with what's true: AI makes us better, and that's not a small thing. What used to take a week can take an afternoon, and teams that depended on me to publish now publish on their own. Nothing that follows contradicts that.",
+      "But there's a cost that shows up in no demo. ==When answering becomes cheap, we stop asking whether the question was worth asking.== Asking for something technical used to cost you: a meeting, a ticket, three days of waiting. That cost was annoying, yes, but it worked as a filter: if something wasn't worth the effort, it died on its own. That filter is gone now, and the part of the work where judgment lived went with it.",
+      "The real risk isn't that AI gets things wrong. It's that ==it hands us a flawless solution to a problem we never had==. That doesn't look like a mistake: it looks like productivity. You notice months later, when nobody remembers why that automation exists, nobody knows how to maintain it, and everyone is a little afraid of it.",
+      "So my job moved. It's no longer writing the solution; that's the cheap part now. It's ==holding on to the why==: why this problem and not another, why this shape, why it's worth what it costs. I often don't understand every line that gets generated. I always understand why it's valuable."
+    ],
+    "risk_callout_title": "The question that replaced my checklist",
+    "risk_callout_body": "It isn't \"can this be automated?\". Almost anything can. It's \"what happens if we don't?\". If the honest answer is \"nothing serious\", you already have your answer.",
+    "filter_eyebrow": "The filter",
+    "filter_heading": "The 20% holding up the 80%.",
+    "filter_intro": [
+      "Pareto, without the jargon: in almost any process, a minority of the causes produces the majority of the results. What matters isn't the number, it's what it implies. ==Not every problem weighs the same==, even when they all feel equally annoying.",
+      "A tedious task you do once a quarter doesn't deserve an automation that takes three weeks to build: ==the solution costs more than the problem==. That same task, done by five people every week, is a different conversation. The question is never whether something can be automated. It's where the volume is.",
+      "This filter didn't come off a whiteboard. It came from a design system I spent months building to standardize everything together with product: I ended up duplicating components they were already building, tailoring it to what I needed because theirs never arrived, and nobody ever used it. It's archived now. Nobody briefed me badly; I simply never asked whether the problem existed, or whose it was. The five questions that follow are the ones that would have saved me those months."
+    ],
+    "pareto_graph_title": "Where the team's time goes",
+    "pareto_graph_series_real": "Cumulative time it consumes",
+    "pareto_graph_series_real_legend": "How it actually splits",
+    "pareto_graph_series_even": "If they all weighed the same",
+    "pareto_graph_series_even_legend": "If they all weighed the same",
+    "pareto_graph_labels": [
+      "Paid media",
+      "Content",
+      "Website",
+      "Reports",
+      "Forms",
+      "Other"
+    ],
+    "pareto_graph_hint": "An estimate, not a measurement: request types are ordered from heaviest to lightest and the first three already ate 83% of the time. The gap between the two lines is Pareto.",
+    "payoff_graph_title": "When the UIKit paid for itself",
+    "payoff_graph_series_cost": "Hours spent building it",
+    "payoff_graph_series_cost_legend": "What it cost",
+    "payoff_graph_series_saved": "Cumulative hours saved",
+    "payoff_graph_series_saved_legend": "What it saved",
+    "payoff_graph_labels": [
+      "Month 0",
+      "Month 2",
+      "Month 4",
+      "Month 6",
+      "Month 8",
+      "Month 10",
+      "Month 12"
+    ],
+    "payoff_graph_hint": "An estimate on top of real facts: the design system took seven months, and before it a landing took days while today it ships in hours. The investment stops when the tool is done; the savings keep climbing on their own. Where the lines cross is the only date that matters: before it, the solution still costs more than the problem.",
+    "filter_steps_label": "Five questions before building anything",
+    "process": [
+      {
+        "title": "Does the problem exist?",
+        "description": "Before solving, confirm there is something to solve. What arrives as \"we need a tool\" is often a task that went wrong once and nobody revisited. If it doesn't repeat, it isn't a problem: it's a to-do."
+      },
+      {
+        "title": "How much does it weigh?",
+        "description": "Count how many people suffer it, how many times a week, and how much time goes into each round. A small problem happening a hundred times weighs more than a big one happening once. That number decides, not how annoying it felt today."
+      },
+      {
+        "title": "Does the solution cost less than the problem?",
+        "description": "Building costs too: making it, explaining it, and maintaining it the day it breaks. If automating takes longer than it will save in a year, the right answer is to do it by hand and move on with your day. Overengineering is exactly this: solving with a platform what a spreadsheet already solved. The simplest thing that works almost always wins, even when the complicated one is far more fun to build."
+      },
+      {
+        "title": "Does it already exist?",
+        "description": "Almost nothing we need is new. Finding the documentation, reading it and adapting it takes less than inventing from scratch, and leaves you something someone else already maintains. Reinventing the wheel is the most expensive way to feel productive."
+      },
+      {
+        "title": "Who ends up owning it?",
+        "description": "A good solution leaves the team working on its own. If everyone still depends on me to use it, I didn't solve the problem: I became the problem."
+      }
+    ],
+    "toolset_eyebrow": "The toolset",
+    "toolset_heading": "We never start from zero.",
+    "toolset_intro": [
+      "How do we stand up a new site in days? It isn't that I write faster. It's that ==almost nothing starts blank==. When a project comes in, the first move isn't opening an empty file: it's checking what we already have that covers most of what it asks for.",
+      "The design system didn't come out of one intense week: it took months and it keeps growing. Every tip from a dev, every motion detail, everything I learn stays inside it, so ==it grows with me== and improves every project, including the ones already delivered. That's why raising quality doesn't cost us speed: ==it buys it==.",
+      "And it didn't only happen to me. When I joined Atom I was doing one or two landings a week; today a page ships in hours, by duplicating components that already exist. The content team published one weekly post in a single language and translated it by hand; today every post is written, iterated and published in three languages without going through me. It's the same phenomenon both times: remove the bottleneck, leave the team holding the controls, and the volume grows on its own.",
+      "And here's the contradiction, because someone is going to think it: by my own filter, the UIKit should never have been built. Seven months is absurdly expensive for any problem that happens once. What changed the math wasn't my enthusiasm, it was volume: it wasn't one page, it was every page we were going to build after it. Without that volume, the same investment is a whim."
+    ],
+    "toolset_layers_label": "What's already built",
+    "toolset_payoff_label": "What it saves",
+    "toolset_layers": [
+      {
+        "title": "The design system",
+        "body": "Months of work, not a weekend. Real components, tokens, motion and the accessibility decisions already made. Every project starts with the full library, and whatever I learn stays in it for the next one.",
+        "payoff": "From one or two landings a week to one in hours"
+      },
+      {
+        "title": "The internal tools",
+        "body": "The context nobody has to explain twice: brand, components, CMS and analytics, available as tools. The brand guidelines, for instance, are now written and edited by design on their own CMS; the MCP serves them and whoever builds follows them without asking anyone. Before that, every update was a manual rebuilt by hand that needed someone technical to publish it.",
+        "payoff": "Four months in production without a single request to me"
+      },
+      {
+        "title": "The architecture that repeats",
+        "body": "Front end decoupled from data, our own endpoint for what the CMS shouldn't do, explicit deploys. It isn't redesigned per project: we repeat the pattern we know holds up.",
+        "payoff": "Zero architecture decisions from scratch"
+      },
+      {
+        "title": "The written criteria",
+        "body": "How we write here, what's blocked, how things get reviewed, what gets documented. Written once and applied across every project, by me and by whoever comes next.",
+        "payoff": "The criteria travel with the repo"
+      },
+      {
+        "title": "The content templates",
+        "body": "Paid media landings, blog structure, case studies. The shape is already decided and approved; the only thing that changes between them is the message, which is why a post can ship in three languages instead of waiting for someone to translate it.",
+        "payoff": "Fourteen landings a week"
+      }
+    ],
+    "tools_label": "The usual tools",
+    "tools_intro": "There aren't many and they don't change often. That's exactly why they work: each one has a clear place along a project.",
+    "tools_showcase_eyebrow": "The usual tools",
+    "tools_showcase_heading": "Eight stages, the same tools.",
+    "tools_showcase_count": "08 stages",
+    "tools_showcase_scroll_hint": "Scroll",
+    "tools_showcase_item_label": "Stage",
+    "tools_showcase_includes_label": "What it solves",
+    "tools_showcase": [
+      {
+        "category": "Research",
+        "title": "Perplexity, Stack Overflow and forums",
+        "tagline": "Before building, find out who already ran into this.",
+        "includes": [
+          "Perplexity to sweep the ground in minutes, not afternoons.",
+          "Official documentation over whatever tutorial ranks first.",
+          "Stack Overflow is still alive, and articles by people further along beat the first answer that shows up.",
+          "The project's forums, where the people who already made the mistake are."
+        ]
+      },
+      {
+        "category": "Open tools",
+        "title": "Open source before custom",
+        "tagline": "Adopting the work of more experienced people is cheaper than imitating it.",
+        "includes": [
+          "If a community already maintains it, we don't maintain it.",
+          "Open code can be read: you learn why it works, not just that it works.",
+          "We inherit decisions from developers further along without living their mistakes.",
+          "Building from scratch is the exception, and it has to be justified."
+        ]
+      },
+      {
+        "category": "Thinking and building",
+        "title": "Claude Code + Cursor",
+        "tagline": "The what and the why first; the code comes after.",
+        "includes": [
+          "An approved spec before writing: goal, scope and risks.",
+          "Agents with a defined scope, each with a single responsibility.",
+          "Our own skills and plugins for whatever repeats across projects.",
+          "Cursor for fast edits when I already know exactly what to touch."
+        ]
+      },
+      {
+        "category": "Documenting",
+        "title": "Everything we do gets written down",
+        "tagline": "Documenting stopped being bureaucracy: it's the context everything else feeds on.",
+        "includes": [
+          "What isn't written gets asked again, and explained again.",
+          "Today's documentation is the context the team works with tomorrow.",
+          "It cuts the bottleneck: it stops depending on whether I'm available.",
+          "Written once and used by everyone, people and models."
+        ]
+      },
+      {
+        "category": "Connecting context",
+        "title": "MCP connections",
+        "tagline": "The piece that turns our source of truth into something you can query.",
+        "includes": [
+          "Brand, components, CMS and analytics, available as tools.",
+          "Design writes and edits the brand guidelines; the MCP serves them and whoever builds follows them without asking.",
+          "Nobody pastes context into a chat again: it's queried where it lives.",
+          "Every team works against the same source, not their own stale copy.",
+          "It's what makes the answer come back with our data instead of the world's."
+        ]
+      },
+      {
+        "category": "Version control",
+        "title": "Git + GitHub",
+        "tagline": "Every change on its own branch, and nothing reaches production unreviewed.",
+        "includes": [
+          "One branch per change and a protected main.",
+          "A preview per branch to review live before publishing.",
+          "The history ends up being the documentation nobody wrote separately.",
+          "If something goes wrong we revert; we don't patch it hot."
+        ]
+      },
+      {
+        "category": "Isolating risk",
+        "title": "Docker, databases and package managers",
+        "tagline": "Separate instances so testing something never means risking production.",
+        "includes": [
+          "Isolated environments: the copy breaks, never what the client is looking at.",
+          "Pinned versions of everything, so it runs today the way it will in three months.",
+          "The database holds the permanent context, not a loose file on someone's laptop.",
+          "Anyone can spin the project up the same way, without an afternoon of setup."
+        ]
+      },
+      {
+        "category": "Shipping and measuring",
+        "title": "Vercel + Cloudflare",
+        "tagline": "Publishing is a decision someone makes, not an accident.",
+        "includes": [
+          "Explicit deploys to production.",
+          "Analytics in the same place the site lives.",
+          "Domains, caching and security solved at the edge.",
+          "What ships gets measured; unmeasured, we don't know if it helped."
+        ]
+      }
+    ],
+    "tools_callout_title": "What no tool comes with",
+    "tools_callout_body": "AI has no judgment: it proposes the most likely solution, not the best one. And we don't always have it either. That's why we keep reading people further along and asking whoever already solved it: someone else's good judgment is worth more than another iteration of the prompt.",
+    "approach_label": "How we approach a problem",
+    "approach_intro": "This comes after the filter: we already decided it's worth solving. What follows is how it gets executed without starting over, and which part of it you can do without waiting for me.",
+    "approach_handoff_label": "What this means for you",
+    "approach_steps": [
+      {
+        "title": "Understand the problem, not the request",
+        "description": "What arrives is almost always a solution someone already imagined. First I translate it: what is happening, to whom, and how often.",
+        "handoff": "If something annoys you more than once, that's already a problem: write it down with how many times a week it happens. That number is worth more than the solution you imagined."
+      },
+      {
+        "title": "Search before writing",
+        "description": "I check what already exists that covers most of it: a component, a pattern, a tool, or the documentation of someone who already solved it.",
+        "handoff": "Before asking for something custom, check whether it already exists: a template, a component, a tool of your own. It usually does."
+      },
+      {
+        "title": "Write the spec",
+        "description": "Goal, files, constraints and risks, in half a page. If I can't write it, that's the sign I don't understand the problem yet.",
+        "handoff": "When you ask me for something, tell me what has to happen and what doesn't. Half a page saves us two weeks of assumptions, and that's where scope and what I can actually promise get decided."
+      },
+      {
+        "title": "Build on what's already there",
+        "description": "New code ends up being the smallest part. Most of it is assembling what already exists and reviewing it against the usual criteria.",
+        "handoff": "What's already yours, use it without going through me: writing posts, case studies and landings from your own tools."
+      }
+    ],
+    "toolset_statement": "Work smarter, not harder isn't doing less. It's that ==what you built once keeps working for you==.",
+    "closing_eyebrow": "To close",
+    "closing_statement": "The tool stopped being the hard part. ==The hard part is still knowing what deserves to exist.==",
+    "closing_body": "I generate code faster than I can understand it, and I still spend hours working out the why. I often don't understand the full solution; I always understand why it's valuable. AI doesn't do that part for us, and it's the one thing we really shouldn't automate. So I'm asking for one thing: next time something occurs to you, bring me the problem and how many times a week it happens, not the tool you already imagined. We'll handle the rest together."
   }
 }

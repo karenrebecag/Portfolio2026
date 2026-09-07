@@ -1,0 +1,227 @@
+/* LineGraph — port scopeado del Interactive Line Graph (SVG). Geometría y
+   anatomía del original; colores y tipografía salen de los tokens del
+   proyecto, así que el gráfico sigue al tema activo. */
+
+.root {
+  --graph-grid: color-mix(in srgb, var(--card-foreground) 14%, transparent);
+  --graph-text: var(--muted-foreground);
+  --graph-line-default: color-mix(in srgb, var(--card-foreground) 28%, transparent);
+  --graph-series-color: var(--graph-line-default);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+  padding: 1em;
+  border-radius: 1.5em;
+  background: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 30px rgb(0 0 0 / 0.06);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75em;
+  padding: 0.5em 1em 0.25em 0.75em;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5em;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4375em;
+  font-size: 0.875em;
+}
+
+.legendDot {
+  flex: none;
+  width: 1.5em;
+  height: 0.3125em;
+  border-radius: 50em;
+  background: var(--graph-series-color);
+}
+
+.box {
+  position: relative;
+  border-radius: 0.5em;
+  background: color-mix(in srgb, var(--card-foreground) 4%, transparent);
+}
+
+.scroll {
+  border-radius: inherit;
+  overflow-x: auto;
+}
+
+.visual {
+  position: relative;
+  width: 100%;
+  min-width: 34em;
+  aspect-ratio: 2;
+  border-radius: inherit;
+}
+
+.visual:focus-visible {
+  outline: 0.125em solid var(--plantation);
+  outline-offset: -0.125em;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.gridLine {
+  stroke: var(--graph-grid);
+  stroke-width: 2px;
+  stroke-dasharray: 2 10;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.baseline {
+  stroke-dasharray: none;
+}
+
+.axisLabel {
+  fill: var(--graph-text);
+  font-family: var(--font-accent);
+  font-size: 20px;
+}
+
+.line {
+  fill: none;
+  stroke: var(--graph-series-color);
+  stroke-width: 6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.hover {
+  transition: opacity 0.2s ease;
+}
+
+.hoverIdle {
+  opacity: 0;
+}
+
+.hoverLine {
+  stroke: var(--graph-grid);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.hoverDot {
+  fill: var(--graph-series-color);
+  stroke: var(--card);
+  stroke-width: 4px;
+  vector-effect: non-scaling-stroke;
+}
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  min-width: 10em;
+  padding: 1em;
+  border-radius: 0.875em;
+  background: var(--surface);
+  color: var(--surface-foreground);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -100%) translateY(-1em);
+  transition: opacity 0.3s ease;
+}
+
+.tooltipActive {
+  opacity: 1;
+}
+
+.tooltipMove {
+  transition:
+    left 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+    top 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.3s ease;
+}
+
+.tooltipLabel {
+  margin-bottom: 0.25em;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5em;
+  font-size: 0.8125em;
+}
+
+.tooltipSeries {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  color: color-mix(in srgb, var(--surface-foreground) 55%, transparent);
+}
+
+.tooltipDot {
+  flex: none;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--graph-series-color);
+}
+
+.tooltipValue {
+  font-weight: 500;
+}
+
+.hint {
+  margin: 0;
+  padding: 0 1em 0.25em 0.75em;
+  font-family: var(--font-accent);
+  font-size: 0.75em;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip,
+  .tooltipMove,
+  .hover {
+    transition: none;
+  }
+}
+
+/* Punto muy cerca del borde superior: el globo se voltea hacia abajo para no
+   quedar recortado por el contenedor de scroll. */
+.tooltipBelow {
+  transform: translate(-50%, 0) translateY(1em);
+}

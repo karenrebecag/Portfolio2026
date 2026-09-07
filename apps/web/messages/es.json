@@ -26,7 +26,9 @@
     "proposalsProject_title": "Propuesta de servicios web por proyecto para Pigmento Studio",
     "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a plataformas de venta, la reconstrucción del sitio con un CMS a medida o la recuperación de una tienda WooCommerce. Precio fijo y alcance definido por proyecto, sin retainer.",
     "proposalsMoeasy_title": "Propuesta de rediseño de plataforma inmobiliaria para MoEasy",
-    "proposalsMoeasy_description": "Tres paquetes para reconstruir el catálogo de MoEasy: catálogo express en Webflow, catálogo a la medida en Next.js + Payload, y plataforma de inventario con alta y aprobación de propiedades. Precio fijo y alcance definido en cada uno."
+    "proposalsMoeasy_description": "Tres paquetes para reconstruir el catálogo de MoEasy: catálogo express en Webflow, catálogo a la medida en Next.js + Payload, y plataforma de inventario con alta y aprobación de propiedades. Precio fijo y alcance definido en cada uno.",
+    "workflow_title": "El criterio no se automatiza: charla interna",
+    "workflow_description": "Treinta minutos sobre cuándo vale la pena resolver un problema con IA y cuándo no: Pareto, el costo real de automatizar y por qué la pregunta importa más que el prompt."
   },
   "common": {
     "socials": "Redes",
@@ -440,22 +442,22 @@
     "process": [
       {
         "step": "01",
-        "title": "Discovery",
+        "title": "Discovery.",
         "description": "Entendemos el objetivo de negocio, la audiencia, las restricciones de marca y los límites técnicos. Defino alcance, riesgos y entregables antes de elegir herramientas o escribir una línea de código."
       },
       {
         "step": "02",
-        "title": "Diseño, sistemas y arquitectura",
+        "title": "Diseño, sistemas y arquitectura.",
         "description": "Defino la arquitectura, el modelo de contenido y el design system: tokens, componentes y patrones. Prototipo las pantallas y flujos clave (web, CMS y puntos de automatización e IA) para validar la dirección antes de construir a escala."
       },
       {
         "step": "03",
-        "title": "Build y automatización",
+        "title": "Build y automatización.",
         "description": "Construyo en iteraciones cortas con entregas verificables: implementaciones tipadas, accesibles y optimizadas en frameworks web, CMS y workflows (n8n, MCP y más), desplegadas en previews desde el día uno."
       },
       {
         "step": "04",
-        "title": "Entrega, handoff y ownership",
+        "title": "Entrega, handoff y ownership.",
         "description": "Deploy a producción, configuración de analítica y automatización, y documentación viva con capacitación para que tu equipo siga iterando y sea dueño del sistema sin depender de mí en cada cambio."
       }
     ],
@@ -1427,5 +1429,261 @@
     "tiers_diff_label": "La diferencia, en concreto",
     "tiers_rationale_label": "Por qué se justifica",
     "tiers_scope_label": "Alcance completo"
+  },
+  "workflow": {
+    "hero_lines": [
+      "El criterio",
+      "no se",
+      "automatiza"
+    ],
+    "hero_subtitle": "Treinta minutos sobre cuándo vale la pena resolver un problema con IA, cuándo no, y por qué la pregunta importa mucho más que el prompt.",
+    "hero_cta_primary": "Ver el filtro",
+    "hero_cta_secondary": "Ver el toolbox",
+    "statement": "La IA no nos quita el trabajo. Nos quita ==la pausa== en la que decidíamos si el problema ==valía la pena resolverse==.",
+    "statement_sub": "Soy la única persona técnica del equipo, así que esta charla no va de cómo escribo código. Va de cómo decido qué merece existir.",
+    "marquee_principles": [
+      "No todo problema merece solución",
+      "Pareto antes que perfección",
+      "Documentar pesa más que promptear",
+      "Contexto permanente sobre prompt perfecto",
+      "No siempre hay que inventar la rueda",
+      "Cuestionarlo todo"
+    ],
+    "risk_eyebrow": "El riesgo",
+    "risk_heading": "Hoy genero código más rápido de lo que puedo entenderlo.",
+    "risk_body": [
+      "Empiezo por lo que sí: la IA nos potencia, y no es poco. Lo que antes tomaba una semana hoy puede tomar una tarde, y áreas que dependían de mí para publicar hoy publican solas. Nada de lo que sigue contradice eso.",
+      "Pero hay un costo que no aparece en ninguna demo. ==Cuando responder se vuelve barato, dejamos de preguntarnos si valía la pena preguntar.== Antes, pedir algo técnico costaba: una junta, un ticket, esperar tres días. Ese costo era incómodo, sí, pero funcionaba como filtro: si algo no valía el esfuerzo, se caía solo. Hoy ese filtro desapareció, y con él se fue la parte del trabajo donde vivía el criterio.",
+      "El riesgo real no es que la IA se equivoque. Es que ==nos entregue una solución impecable a un problema que no teníamos==. Eso no se ve como un error: se ve como productividad. Se nota meses después, cuando nadie recuerda por qué existe esa automatización, nadie sabe mantenerla y todos le tienen un poco de miedo.",
+      "Por eso mi trabajo cambió de lugar. Ya no está en escribir la solución, que hoy es la parte barata. Está en ==sostener el porqué==: por qué este problema y no otro, por qué de esta forma, por qué vale lo que cuesta. Muchas veces no entiendo cada línea de lo que se genera. Siempre entiendo por qué es valiosa."
+    ],
+    "risk_callout_title": "La pregunta que reemplazó a mi checklist",
+    "risk_callout_body": "No es «¿esto se puede automatizar?». Casi todo se puede. Es «¿qué pasa si no lo hacemos?». Si la respuesta honesta es «nada grave», ya tienes tu respuesta.",
+    "filter_eyebrow": "El filtro",
+    "filter_heading": "El 20% que sostiene el 80%.",
+    "filter_intro": [
+      "Pareto, sin jerga: en casi cualquier proceso, una minoría de las causas produce la mayoría de los resultados. Lo importante de esa idea no es el número, es lo que implica. ==No todos los problemas pesan lo mismo==, aunque todos molesten parecido.",
+      "Una tarea fastidiosa que haces una vez al trimestre no merece una automatización que toma tres semanas construir: ==la solución cuesta más que el problema==. La misma tarea, hecha por cinco personas todas las semanas, es otra conversación. La pregunta nunca es si algo se puede automatizar. Es dónde está el volumen.",
+      "Este filtro no salió de una pizarra. Salió de un design system que construí durante meses para estandarizar todo junto con producto: terminé duplicando componentes que ellos ya estaban construyendo, personalizándolo a lo que yo necesitaba porque nunca me suministraron lo suyo, y nadie llegó a usarlo. Hoy está archivado. Nadie me lo pidió mal; yo nunca pregunté si el problema existía ni de quién era. Las cinco preguntas que siguen son las que me habrían ahorrado esos meses."
+    ],
+    "pareto_graph_title": "Dónde se va el tiempo del equipo",
+    "pareto_graph_series_real": "Tiempo acumulado que consume",
+    "pareto_graph_series_real_legend": "Cómo se reparte de verdad",
+    "pareto_graph_series_even": "Si todos pesaran igual",
+    "pareto_graph_series_even_legend": "Si todos pesaran igual",
+    "pareto_graph_labels": [
+      "Pauta",
+      "Contenido",
+      "Sitio",
+      "Reportes",
+      "Formularios",
+      "Otros"
+    ],
+    "pareto_graph_hint": "Estimación, no medición: los tipos de pedido van ordenados de mayor a menor y los tres primeros ya se comieron el 83% del tiempo. La distancia entre las dos líneas es Pareto.",
+    "payoff_graph_title": "Cuándo se pagó el UIKit",
+    "payoff_graph_series_cost": "Horas invertidas en construirlo",
+    "payoff_graph_series_cost_legend": "Lo que costó",
+    "payoff_graph_series_saved": "Horas ahorradas acumuladas",
+    "payoff_graph_series_saved_legend": "Lo que ahorró",
+    "payoff_graph_labels": [
+      "Mes 0",
+      "Mes 2",
+      "Mes 4",
+      "Mes 6",
+      "Mes 8",
+      "Mes 10",
+      "Mes 12"
+    ],
+    "payoff_graph_hint": "Estimación sobre datos reales: el design system tomó siete meses, y antes de él una landing tomaba días mientras que hoy sale en horas. La inversión se detiene cuando la herramienta queda lista; el ahorro sigue subiendo solo. El cruce de las líneas es la única fecha que importa: antes de ahí, la solución todavía cuesta más que el problema.",
+    "filter_steps_label": "Cinco preguntas antes de construir nada",
+    "process": [
+      {
+        "title": "¿El problema existe?",
+        "description": "Antes de resolver, confirma que haya algo que resolver. Muchas veces lo que llega como «necesitamos una herramienta» es una tarea que salió mal una vez y nadie volvió a revisar. Si no se repite, no es un problema: es un pendiente."
+      },
+      {
+        "title": "¿Cuánto pesa?",
+        "description": "Cuenta cuántas personas lo sufren, cuántas veces por semana y cuánto tiempo se va en cada vuelta. Un problema chico que ocurre cien veces pesa más que uno grande que ocurre una. Ese número decide, no la incomodidad del momento."
+      },
+      {
+        "title": "¿La solución cuesta menos que el problema?",
+        "description": "Construir también cuesta: hacerlo, explicarlo y mantenerlo el día que se rompa. Si automatizar tarda más de lo que va a ahorrar en un año, la respuesta correcta es hacerlo a mano y seguir con tu día. Sobreingeniería es exactamente esto: resolver con una plataforma lo que se resolvía con una hoja de cálculo. Casi siempre gana la solución más simple que funcione, aunque la complicada sea mucho más divertida de construir."
+      },
+      {
+        "title": "¿Ya existe?",
+        "description": "Casi nada de lo que necesitamos es nuevo. Buscar la documentación, leerla y adaptarla toma menos que inventar desde cero, y deja algo que alguien más ya mantiene. Inventar la rueda es la forma más cara de sentirse productivo."
+      },
+      {
+        "title": "¿Quién queda dueño?",
+        "description": "Una buena solución deja al área trabajando sola. Si al terminar todos siguen dependiendo de mí para usarla, no resolví el problema: me convertí en el problema."
+      }
+    ],
+    "toolset_eyebrow": "El toolset",
+    "toolset_heading": "Nunca empezamos de cero.",
+    "toolset_intro": [
+      "¿Cómo levantamos un sitio nuevo en días? No es que yo escriba más rápido. Es que ==casi nada empieza en blanco==. Cuando entra un proyecto, lo primero no es abrir un archivo vacío: es revisar qué de lo que ya tenemos cubre la mayor parte de lo que pide.",
+      "El design system no salió de una semana intensa: tomó meses y sigue creciendo. Cada consejo de un dev, cada detalle de motion, cada cosa que aprendo se queda ahí dentro, así que ==crece conmigo== y mejora todos los proyectos, incluso los que ya entregué. Por eso subir la calidad no nos cuesta velocidad: ==la gana==.",
+      "Y no me pasó solo a mí. Cuando llegué a Atom hacía una o dos landings por semana; hoy una página sale en horas, duplicando componentes que ya existen. El equipo de contenido publicaba un blog semanal en un solo idioma y lo traducía a mano; hoy cada post nace, se itera y se publica en tres idiomas sin pasar por mí. Es el mismo fenómeno las dos veces: se quita el cuello de botella, el área se queda con el mando y el volumen crece solo.",
+      "Y aquí está la contradicción, porque alguien la va a pensar: según mi propio filtro, el UIKit nunca debió construirse. Siete meses son carísimos para cualquier problema que ocurre una vez. Lo que cambió la cuenta no fue mi entusiasmo, fue el volumen: no era una página, eran todas las páginas que íbamos a hacer después. Cuando el volumen no está, esa misma inversión es un capricho."
+    ],
+    "toolset_layers_label": "Lo que ya está construido",
+    "toolset_payoff_label": "Lo que ahorra",
+    "toolset_layers": [
+      {
+        "title": "El design system",
+        "body": "Meses de trabajo, no un fin de semana. Componentes reales, tokens, motion y las decisiones de accesibilidad ya tomadas. Cada proyecto arranca con la biblioteca completa, y lo que aprendo se queda dentro para el siguiente.",
+        "payoff": "De una o dos landings por semana a una en horas"
+      },
+      {
+        "title": "Las herramientas internas",
+        "body": "El contexto que no hay que volver a explicar: marca, componentes, CMS y analítica, disponibles como herramientas. Las directrices de marca, por ejemplo, hoy las escribe y las edita diseño sobre su propio CMS; el MCP las sirve y quien construye las sigue sin preguntarle a nadie. Antes de eso, cada actualización era un manual rehecho a mano que dependía de alguien técnico para publicarse.",
+        "payoff": "Cuatro meses en producción sin un solo pedido a mí"
+      },
+      {
+        "title": "La arquitectura que se repite",
+        "body": "Front desacoplado del dato, un endpoint propio para lo que el CMS no debe hacer, deploys explícitos. No se rediseña por proyecto: se repite el patrón que ya sabemos que aguanta.",
+        "payoff": "Cero decisiones de arquitectura desde cero"
+      },
+      {
+        "title": "Los criterios escritos",
+        "body": "Cómo se escribe aquí, qué está bloqueado, cómo se revisa, qué se documenta. Escrito una vez y aplicado en todos los proyectos, por mí y por quien llegue después.",
+        "payoff": "El criterio viaja con el repo"
+      },
+      {
+        "title": "Las plantillas de contenido",
+        "body": "Landings de pauta, estructura de blog, casos de éxito. La forma ya está decidida y aprobada; lo único que cambia de una a otra es el mensaje, y por eso un post puede salir en tres idiomas en vez de esperar a que alguien lo traduzca.",
+        "payoff": "Catorce landings por semana"
+      }
+    ],
+    "tools_label": "Las herramientas de siempre",
+    "tools_intro": "No son muchas ni cambian seguido. Justo por eso funcionan: cada una tiene un lugar claro en el camino de un proyecto.",
+    "tools_showcase_eyebrow": "Las herramientas de siempre",
+    "tools_showcase_heading": "Ocho tramos, las mismas herramientas.",
+    "tools_showcase_count": "08 tramos",
+    "tools_showcase_scroll_hint": "Scroll",
+    "tools_showcase_item_label": "Tramo",
+    "tools_showcase_includes_label": "Qué resuelve",
+    "tools_showcase": [
+      {
+        "category": "Investigar",
+        "title": "Perplexity, Stack Overflow y foros",
+        "tagline": "Antes de construir, averiguar quién ya se topó con esto.",
+        "includes": [
+          "Perplexity para barrer el terreno en minutos, no en tardes.",
+          "La documentación oficial por encima del tutorial de turno.",
+          "Stack Overflow sigue vivo, y los artículos de gente con más camino le ganan a la primera respuesta que salga.",
+          "Los foros del proyecto, donde están los que ya cometieron el error."
+        ]
+      },
+      {
+        "category": "Herramientas abiertas",
+        "title": "Open source antes que a la medida",
+        "tagline": "Adoptar el trabajo de gente con más experiencia sale más barato que imitarlo.",
+        "includes": [
+          "Si una comunidad ya lo mantiene, no lo mantenemos nosotros.",
+          "Lo abierto se puede leer: se entiende por qué funciona, no solo que funciona.",
+          "Heredamos las decisiones de desarrolladores con más camino sin vivir sus errores.",
+          "Construir desde cero es la excepción, y hay que justificarla."
+        ]
+      },
+      {
+        "category": "Pensar y construir",
+        "title": "Claude Code + Cursor",
+        "tagline": "Primero el qué y el porqué; el código viene después.",
+        "includes": [
+          "Un spec aprobado antes de escribir: objetivo, alcance y riesgos.",
+          "Agentes con alcance definido, cada uno con una sola responsabilidad.",
+          "Skills y plugins propios para lo que se repite entre proyectos.",
+          "Cursor para editar rápido cuando ya sé exactamente qué tocar."
+        ]
+      },
+      {
+        "category": "Documentar",
+        "title": "Todo lo que hacemos queda escrito",
+        "tagline": "Documentar dejó de ser burocracia: es el contexto del que se alimenta todo lo demás.",
+        "includes": [
+          "Lo que no está escrito se vuelve a preguntar, y alguien lo vuelve a explicar.",
+          "La documentación de hoy es el contexto con el que trabaja el equipo mañana.",
+          "Reduce el cuello de botella: deja de depender de que yo esté disponible.",
+          "Se escribe una vez y la usan todos, personas y modelos."
+        ]
+      },
+      {
+        "category": "Conectar el contexto",
+        "title": "Conexiones MCP",
+        "tagline": "La pieza que convierte nuestra fuente de verdad en algo que se puede consultar.",
+        "includes": [
+          "Marca, componentes, CMS y analítica, disponibles como herramientas.",
+          "Diseño escribe y edita las directrices de marca; el MCP las sirve y quien construye las sigue sin preguntar.",
+          "Nadie vuelve a pegar el contexto en un chat: se consulta donde vive.",
+          "Cada área trabaja contra la misma fuente, no contra su copia desactualizada.",
+          "Es lo que hace que la respuesta salga con nuestros datos y no con los del mundo."
+        ]
+      },
+      {
+        "category": "Versionar",
+        "title": "Git + GitHub",
+        "tagline": "Cada cambio en su propia rama, y nada llega a producción sin revisión.",
+        "includes": [
+          "Una rama por cambio y main protegida.",
+          "Un preview por rama para revisar en vivo antes de publicar.",
+          "El historial termina siendo la documentación que nadie escribió aparte.",
+          "Si algo sale mal, se revierte; no se repara en caliente."
+        ]
+      },
+      {
+        "category": "Aislar el riesgo",
+        "title": "Docker, bases de datos y gestores de paquetes",
+        "tagline": "Instancias separadas para que probar algo nunca signifique arriesgar producción.",
+        "includes": [
+          "Entornos aislados: se rompe la copia, nunca lo que el cliente está viendo.",
+          "Versiones fijas de todo, para que hoy corra igual que en tres meses.",
+          "La base de datos guarda el contexto permanente, no un archivo suelto en la compu de alguien.",
+          "Cualquiera levanta el proyecto igual, sin una tarde de configuración."
+        ]
+      },
+      {
+        "category": "Publicar y medir",
+        "title": "Vercel + Cloudflare",
+        "tagline": "Publicar es una decisión que alguien toma, no un accidente.",
+        "includes": [
+          "Deploys explícitos a producción.",
+          "Analítica en el mismo lugar donde vive el sitio.",
+          "Dominios, caché y seguridad resueltos en el borde.",
+          "Lo que se publica se mide; si no se mide, no sabemos si sirvió."
+        ]
+      }
+    ],
+    "tools_callout_title": "Lo que ninguna herramienta trae",
+    "tools_callout_body": "La IA no tiene criterio: propone la solución más probable, no la mejor. Y nosotros tampoco lo tenemos siempre. Por eso seguimos leyendo a gente con más camino y preguntando a quien ya lo resolvió: un buen criterio ajeno vale más que otra iteración del prompt.",
+    "approach_label": "Cómo nos aproximamos a un problema",
+    "approach_intro": "Esto ya es después del filtro: decidimos que vale la pena resolverlo. Lo que sigue es cómo se ejecuta sin volver a empezar de cero, y qué parte de eso pueden hacer ustedes sin esperarme.",
+    "approach_handoff_label": "Lo que significa para ustedes",
+    "approach_steps": [
+      {
+        "title": "Entender el problema, no el pedido",
+        "description": "Lo que llega casi siempre es una solución ya imaginada por alguien más. Primero traduzco: qué está pasando, a quién y cada cuánto.",
+        "handoff": "Si algo les molesta más de una vez, eso ya es un problema: anótenlo con cuántas veces pasa por semana. Ese número vale más que la idea de solución."
+      },
+      {
+        "title": "Buscar antes de escribir",
+        "description": "Reviso qué de lo que ya existe cubre la mayor parte: un componente, un patrón, una herramienta, o la documentación de alguien que ya lo resolvió.",
+        "handoff": "Antes de pedir algo a la medida, revisen si ya existe: una plantilla, un componente, una herramienta suya. Casi siempre existe."
+      },
+      {
+        "title": "Escribir el spec",
+        "description": "Objetivo, archivos, restricciones y riesgos, en media cuartilla. Si no logro escribirlo, es señal de que todavía no entiendo el problema.",
+        "handoff": "Cuando me pidan algo, díganme qué tiene que pasar y qué no. Media cuartilla nos ahorra dos semanas de suposiciones, y es ahí donde se define el alcance y lo que sí puedo prometer."
+      },
+      {
+        "title": "Construir sobre lo que ya está",
+        "description": "El código nuevo termina siendo la parte más chica. Casi todo es ensamblar lo que ya existe y revisarlo con los criterios de siempre.",
+        "handoff": "Lo que ya es suyo, úsenlo sin pasar por mí: escribir blogs, casos y landings desde sus propias herramientas."
+      }
+    ],
+    "toolset_statement": "Work smarter, not harder no es hacer menos. Es que ==lo que hiciste una vez siga trabajando por ti==.",
+    "closing_eyebrow": "Para cerrar",
+    "closing_statement": "La herramienta ya dejó de ser la parte difícil. ==La parte difícil sigue siendo saber qué merece existir.==",
+    "closing_body": "Genero código más rápido de lo que puedo entenderlo, y aun así dedico horas a plantear el porqué. Muchas veces no entiendo la solución completa; siempre entiendo por qué es valiosa. Eso no lo hace la IA por nosotros, y es lo único que de verdad no conviene automatizar. Así que les pido una sola cosa: la próxima vez que se les ocurra algo, tráiganme el problema y cuántas veces por semana pasa, no la herramienta que ya imaginaron. Del resto nos encargamos juntos."
   }
 }

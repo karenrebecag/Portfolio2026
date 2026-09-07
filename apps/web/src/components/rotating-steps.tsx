@@ -139,7 +139,7 @@ export function RotatingSteps({ steps, shapes }: RotatingStepsProps) {
           {steps.map((step, i) => (
             <p key={step.title} className={styles.paragraph}>
               <span className={styles.num}>{i + 1}</span>{' '}
-              <span className={styles.title}>{step.title}.</span>{' '}
+              <span className={styles.title}>{step.title}</span>{' '}
               <span className={styles.desc}>{step.description}</span>
             </p>
           ))}
