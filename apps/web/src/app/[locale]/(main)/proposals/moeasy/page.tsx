@@ -16,6 +16,7 @@ import { GridGuides } from '@/components/ui/grid-guides'
 import { Button061 } from '@/components/ui/button-061'
 import { HeroHoverList } from '@/components/hero-hover-list'
 import { CursorImageTrail } from '@/components/cursor-image-trail'
+import { AccordionCssInit } from '@/components/accordion-css'
 import { ScrollSwapMarquee } from '@/components/scroll-swap-marquee'
 import { ScrollHighlight } from '@/components/scroll-highlight'
 import { NumberOdometer } from '@/components/number-odometer'
@@ -459,6 +460,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
 
   return (
     <div id="proposals-moeasy-page" data-semantic-role="services" data-llm-context="professional-services-offering">
+      <AccordionCssInit />
       {/* Hero — bg surface (token más oscuro) + maquetación MWG 041: lista interactiva */}
       <section
         data-semantic-role="hero"
@@ -865,27 +867,45 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
                 </div>
 
                 <div className="flex flex-1 flex-col">
-                {/* Cada área se pliega: en la junta se recorre la lista de
-                    nombres y precios, y se abre solo la que preguntan. */}
-                <ul>
-                  {marginItems.map((item, i) => (
-                    <li key={item.name} className={i === 0 ? '' : 'border-t border-current/15'}>
-                      <details className="group">
-                        <summary className="flex cursor-pointer list-none flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-4 [&::-webkit-details-marker]:hidden">
-                          <h3 className="text-sm font-bold leading-[1.35]">{item.name}</h3>
-                          <span className="flex items-baseline gap-3 font-accent text-2xs uppercase tracking-[0.08em] opacity-70">
-                            {item.reference}
-                            <span aria-hidden className="text-base leading-none transition-transform duration-200 group-open:rotate-45">
-                              +
+                {/* Accordion CSS: la apertura la anima grid-template-rows en
+                    globals.css, el click solo alterna data-accordion-status. */}
+                <div data-accordion-css-init data-accordion-close-siblings="true">
+                  <ul className="accordion-css__list">
+                    {marginItems.map((item, i) => (
+                      <li key={item.name} data-accordion-status="not-active" className="accordion-css__item">
+                        {/* El botón va dentro del heading: es el patrón de accordion
+                            de WAI-ARIA y deja el título en el árbol de encabezados. */}
+                        <h3 className="m-0">
+                          <button
+                            type="button"
+                            data-accordion-toggle
+                            aria-expanded="false"
+                            aria-controls={`margin-panel-${i}`}
+                            className="accordion-css__item-top"
+                          >
+                            <span className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                              <span className="text-sm font-bold leading-[1.35]">{item.name}</span>
+                              <span className="font-accent text-2xs uppercase tracking-[0.08em] opacity-70">{item.reference}</span>
                             </span>
-                          </span>
-                        </summary>
-                        <p className="text-sm leading-[1.5] opacity-75">{item.pitch}</p>
-                        <p className="mt-2 pb-4 font-accent text-2xs uppercase tracking-[0.08em] opacity-55">{item.trigger}</p>
-                      </details>
-                    </li>
-                  ))}
-                </ul>
+                            <span aria-hidden className="accordion-css__item-icon">
+                              <svg className="accordion-css__item-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                                <path d="M28.5 22.5L18 12L7.5 22.5" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" />
+                              </svg>
+                            </span>
+                          </button>
+                        </h3>
+                        <div id={`margin-panel-${i}`} className="accordion-css__item-bottom">
+                          <div className="accordion-css__item-bottom-wrap">
+                            <div className="accordion-css__item-bottom-content">
+                              <p className="text-sm leading-[1.5] opacity-75">{item.pitch}</p>
+                              <p className="mt-2 font-accent text-2xs uppercase tracking-[0.08em] opacity-55">{item.trigger}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 </div>
               </div>
             </div>

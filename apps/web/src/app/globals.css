@@ -2675,3 +2675,90 @@ body[data-section-theme='light'] [data-css-marquee]:not([data-footer-marquee]) {
   pointer-events: none;
   will-change: transform;
 }
+
+/* -- Accordion CSS (OSMO) -- La apertura la anima grid-template-rows 0fr -> 1fr,
+      así que no hay que medir alturas en JS: el toggle solo cambia
+      data-accordion-status. Los colores salen de currentColor para que herede
+      la paleta del contenedor donde se monte. -- */
+.accordion-css__list {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 0;
+}
+
+.accordion-css__item {
+  background-color: color-mix(in srgb, currentColor 8%, transparent);
+  border-radius: 0.75rem;
+  list-style: none;
+}
+
+.accordion-css__item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.accordion-css__item-bottom {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  position: relative;
+  transition: grid-template-rows 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+[data-accordion-status='active'] .accordion-css__item-bottom {
+  grid-template-rows: 1fr;
+}
+
+/* La altura desmedida es el workaround de OSMO: sin ella Safari no colapsa el
+   contenido dentro de una fila de 0fr. La fila del grid la acota. */
+.accordion-css__item-bottom-wrap {
+  display: flex;
+  flex-flow: column;
+  height: 100000%;
+  overflow: hidden;
+  position: relative;
+}
+
+.accordion-css__item-bottom-content {
+  padding: 0 1rem 1rem;
+}
+
+.accordion-css__item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, currentColor 14%, transparent);
+  transform: rotate(180deg);
+  transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+[data-accordion-status='active'] .accordion-css__item-icon {
+  transform: rotate(0.001deg);
+}
+
+.accordion-css__item-icon-svg {
+  width: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion-css__item-bottom,
+  .accordion-css__item-icon {
+    transition: none;
+  }
+}
