@@ -449,7 +449,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
           Maqueta a 12 columnas: el heading ocupa la izquierda, la nota de
           verificación cierra la derecha y los bullets corren a lo ancho, para
           que la columna derecha no quede vacía en desktop. */}
-      <section data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20">
+      <section data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 py-14 lg:py-20">
         <Container data-reveal-group data-stagger="120" data-start="top 80%" data-distance="2.5em">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-7">
@@ -492,7 +492,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
           cliente confirma que son inversionistas radicados en México, se
           sustituye ese item de `problems` en los messages (es el único que
           depende de ese supuesto). */}
-      <section id="diagnostico" data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20 scroll-mt-20">
+      <section id="diagnostico" data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 py-14 lg:py-20 scroll-mt-20">
         <Container>
           <div data-reveal-group data-stagger="90" data-start="top 82%" data-distance="2em">
             <div className="flex flex-wrap items-center gap-3">
@@ -533,7 +533,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
 
             <div className="mt-8 grid grid-cols-1 gap-px border border-surface-foreground/15 bg-surface-foreground/15 sm:grid-cols-2 lg:grid-cols-4">
               {marketStats.map((stat) => (
-                <div key={stat.value} className="flex flex-col bg-background p-6">
+                <div key={stat.value} className="flex flex-col bg-surface p-6">
                   <p className="font-display text-[clamp(1.5rem,2.6vw,2.25rem)] font-extrabold leading-none tracking-[-0.03em] text-[var(--plantation)]">
                     {stat.value}
                   </p>
@@ -562,7 +562,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
       {/* Contexto de mercado para Pigmento — cuánto cobra la competencia nuestra,
           cuánto cuestan las membresías del sector y cuánto la infraestructura.
           Sección interna: le da a Pigmento el marco para poner su precio. */}
-      <section data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20">
+      <section data-theme-section="light" className="bg-background text-foreground px-4 lg:px-6 py-14 lg:py-20">
         <Container>
           <div data-reveal-group data-stagger="90" data-start="top 82%" data-distance="2em">
             <div className="flex flex-wrap items-center gap-3">
@@ -577,7 +577,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
           <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-16">
             <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[var(--plantation)]">{t('agency_label')}</span>
             <PriceTable columns={t.raw('agency_columns') as string[]} rows={agencyRows} sourceLabel={t('sources_label')} />
-            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">{t('agency_note')}</p>
+            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-foreground/45">{t('agency_note')}</p>
           </div>
 
           {/* Membresías del sector: contra qué compara el cliente */}
@@ -590,14 +590,14 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
           <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-20">
             <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[var(--plantation)]">{t('infra_label')}</span>
             <PriceTable columns={t.raw('infra_columns') as string[]} rows={infraRows} sourceLabel={t('sources_label')} />
-            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">{t('infra_note')}</p>
+            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-foreground/45">{t('infra_note')}</p>
           </div>
 
           {/* Alternativas evaluadas: lo que MoEasy podría comprar en vez de esto */}
           <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-20">
             <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[var(--plantation)]">{t('alternatives_label')}</span>
             <h3 className="mt-4 text-[clamp(1.5rem,2.6vw,2.25rem)] font-bold leading-[1.1] tracking-tight max-w-[18ch]">{t('alternatives_heading')}</h3>
-            <p className="mt-4 max-w-[84ch] text-sm leading-relaxed text-surface-foreground/70">{t('alternatives_sub')}</p>
+            <p className="mt-4 max-w-[84ch] text-sm leading-relaxed text-foreground/70">{t('alternatives_sub')}</p>
 
             {/* La última fila es la propuesta: se destaca para cerrar el argumento. */}
             <div className="mt-8 -mx-4 overflow-x-auto px-4 lg:mx-0 lg:px-0">
@@ -621,21 +621,21 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
                   {alternativeRows.map((row, i) => {
                     const isProposal = i === alternativeRows.length - 1
                     return (
-                      <tr key={row.name} className="border-t border-surface-foreground/15">
+                      <tr key={row.name} className="border-t border-foreground/15">
                         <th
                           scope="row"
                           className={`py-6 pr-6 align-top text-sm font-bold leading-[1.35] ${
-                            isProposal ? 'text-[var(--plantation)]' : 'text-surface-foreground'
+                            isProposal ? 'text-[var(--plantation)]' : 'text-foreground'
                           }`}
                         >
                           {row.name}
                         </th>
-                        <td className="py-6 pr-6 align-top font-accent text-2xs leading-[1.7] text-surface-foreground/70">
+                        <td className="py-6 pr-6 align-top font-accent text-2xs leading-[1.7] text-foreground/70">
                           {row.cost}
                         </td>
                         <td
                           className={`py-6 pr-6 align-top text-sm leading-[1.55] ${
-                            isProposal ? 'font-medium text-surface-foreground/90' : 'text-surface-foreground/65'
+                            isProposal ? 'font-medium text-foreground/90' : 'text-foreground/65'
                           }`}
                         >
                           {row.why}
@@ -652,7 +652,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
 
       {/* Por qué esto y por qué Pigmento — la lógica comercial detrás de la
           propuesta. Alineado a la izquierda, como el resto de la página. */}
-      <section data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20">
+      <section data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 py-14 lg:py-20">
         <Container>
           <div data-reveal-group data-stagger="90" data-start="top 82%" data-distance="2em">
             <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">{t('why_eyebrow')}</span>
@@ -698,7 +698,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
       {/* La solución — cada pieza ligada a la falla que resuelve y a lo que se
           espera de ella. Va sin lenguaje técnico: la lee Pigmento y la lee el
           cliente. */}
-      <section id="solucion" data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20 scroll-mt-20">
+      <section id="solucion" data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 py-14 lg:py-20 scroll-mt-20">
         <Container>
           <div data-reveal-group data-stagger="90" data-start="top 82%" data-distance="2em">
             <div className="flex flex-wrap items-center gap-3">
@@ -773,7 +773,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
       </section>
 
       {/* Áreas de margen — card full-width dirigida a Pigmento, no a MoEasy */}
-      <section data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20">
+      <section data-theme-section="light" className="bg-background text-foreground px-4 lg:px-6 py-14 lg:py-20">
         <Container>
           <div data-reveal-group data-stagger="80" data-distance="1.5em" className="flex">
             <div
@@ -823,7 +823,7 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
       </section>
 
       {/* Los tres paquetes */}
-      <section id="paquetes" data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20 scroll-mt-20">
+      <section id="paquetes" data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 py-14 lg:py-20 scroll-mt-20">
         <Container>
           <div
             data-reveal-group
@@ -902,28 +902,28 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
 
       {/* Si dicen esto, va este paquete: el árbol de decisión vive pegado a
           las cards para que se lea con los precios enfrente. */}
-      <section data-theme-section="dark" className="px-4 lg:px-6 pb-14 lg:pb-20">
+      <section data-theme-section="light" className="bg-background text-foreground px-4 lg:px-6 py-14 lg:py-20">
         <Container>
           <div data-reveal-group data-stagger="70" data-distance="1.5em" className="mt-14">
             <span className="text-2xs font-bold uppercase tracking-widest font-accent text-[var(--plantation)]">{t('choose_tree_label')}</span>
-            <div className="mt-6 grid grid-cols-1 gap-px border border-surface-foreground/15 bg-surface-foreground/15 md:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid grid-cols-1 gap-px border border-foreground/15 bg-foreground/15 md:grid-cols-2 lg:grid-cols-4">
               {chooseTree.map((branch) => (
                 <div key={branch.condition} className="flex flex-col justify-between gap-4 bg-background p-6">
-                  <p className="text-sm leading-relaxed text-surface-foreground/70">{branch.condition}</p>
+                  <p className="text-sm leading-relaxed text-foreground/70">{branch.condition}</p>
                   <p className="font-display text-base font-extrabold leading-[1.15] tracking-[-0.02em] text-[var(--plantation)]">
                     {branch.result}
                   </p>
                 </div>
               ))}
             </div>
-            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-surface-foreground/45">{t('choose_note')}</p>
+            <p className="mt-8 w-full font-accent text-2xs leading-[1.8] text-foreground/45">{t('choose_note')}</p>
           </div>
         </Container>
       </section>
 
       {/* Manejo de objeciones — cada objeción con su respuesta y la concesión
           que recorta alcance en vez de precio. */}
-      <section data-theme-section="dark" className="px-4 lg:px-6 py-14 lg:py-20">
+      <section data-theme-section="light" className="bg-background text-foreground px-4 lg:px-6 py-14 lg:py-20">
         <Container>
           <div data-reveal-group data-stagger="90" data-start="top 82%" data-distance="2em">
             <div className="flex flex-wrap items-center gap-3">
@@ -953,11 +953,11 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
               </thead>
               <tbody>
                 {objectionRows.map((row) => (
-                  <tr key={row.objection} className="border-t border-surface-foreground/15">
+                  <tr key={row.objection} className="border-t border-foreground/15">
                     <th scope="row" className="py-6 pr-6 align-top text-sm font-bold leading-[1.35]">
                       {row.objection}
                     </th>
-                    <td className="py-6 pr-6 align-top text-sm leading-[1.55] text-surface-foreground/80">{row.response}</td>
+                    <td className="py-6 pr-6 align-top text-sm leading-[1.55] text-foreground/80">{row.response}</td>
                     <td className="py-6 pr-6 align-top text-sm leading-[1.55] text-[var(--plantation)]">{row.concession}</td>
                   </tr>
                 ))}
