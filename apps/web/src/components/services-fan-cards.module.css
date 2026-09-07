@@ -173,28 +173,30 @@
 
 /* Mismo patrón que las pricing cards: linear-gradient(150deg) de 3 paradas
    light -> vibrant del pack "Gradient Abstract Geometric Shapes", con texto
-   oscuro del mismo tono. Los 3 primeros reusan los gradientes de packages. */
-.fanCircle:nth-child(1) .fanCard {
+   oscuro del mismo tono. Los 3 primeros reusan los gradientes de packages.
+   El ciclo es de 6: a partir de la séptima card la paleta se repite en vez de
+   dejarla sin fondo. */
+.fanCircle:nth-child(6n+1) .fanCard {
   background: linear-gradient(150deg, #d9c4ff 0%, #a7b6ff 52%, #6f8cff 100%);
   color: #171a52;
 }
-.fanCircle:nth-child(2) .fanCard {
+.fanCircle:nth-child(6n+2) .fanCard {
   background: linear-gradient(150deg, #e7cef5 0%, #c08fee 50%, #8a4fe6 100%);
   color: #260b52;
 }
-.fanCircle:nth-child(3) .fanCard {
+.fanCircle:nth-child(6n+3) .fanCard {
   background: linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%);
   color: #5a2408;
 }
-.fanCircle:nth-child(4) .fanCard {
+.fanCircle:nth-child(6n+4) .fanCard {
   background: linear-gradient(150deg, #ffd2ec 0%, #ff9ecb 52%, #ff5fa8 100%);
   color: #52102f;
 }
-.fanCircle:nth-child(5) .fanCard {
+.fanCircle:nth-child(6n+5) .fanCard {
   background: linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%);
   color: #2c4014;
 }
-.fanCircle:nth-child(6) .fanCard {
+.fanCircle:nth-child(6n) .fanCard {
   background: linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%);
   color: #0a3a52;
 }
