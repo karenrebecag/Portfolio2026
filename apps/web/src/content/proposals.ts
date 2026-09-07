@@ -318,18 +318,18 @@ export const MOEASY_TIER_PRESENTATION: ProposalTierPresentation[] = [
     },
   },
   {
-    price: 46000,
-    suggestedMin: 82000,
-    suggestedTarget: 105000,
+    price: 38000,
+    suggestedMin: 68000,
+    suggestedTarget: 88000,
     gradient: {
       bg: 'linear-gradient(150deg, #e7cef5 0%, #c08fee 50%, #8a4fe6 100%)',
       text: '#260b52',
     },
   },
   {
-    price: 66000,
-    suggestedMin: 125000,
-    suggestedTarget: 155000,
+    price: 48000,
+    suggestedMin: 92000,
+    suggestedTarget: 115000,
     featured: true,
     gradient: {
       bg: 'linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%)',
