@@ -24,7 +24,9 @@
     "proposals_title": "Propuesta de servicios web para Pigmento Studio",
     "proposals_description": "Retainers web para Pigmento: implementación de marca, CMS, automatización, SEO/GEO, IA y colaboración con diseño. Tres paquetes — Essentials, Growth y Visionary — para sostener entregas, escalar servicios digitales y abrir líneas de mayor valor.",
     "proposalsProject_title": "Propuesta de servicios web por proyecto para Pigmento Studio",
-    "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a plataformas de venta, la reconstrucción del sitio con un CMS a medida o la recuperación de una tienda WooCommerce. Precio fijo y alcance definido por proyecto, sin retainer."
+    "proposalsProject_description": "Cotización por proyecto para Pigmento Studio: de una landing a plataformas de venta, la reconstrucción del sitio con un CMS a medida o la recuperación de una tienda WooCommerce. Precio fijo y alcance definido por proyecto, sin retainer.",
+    "proposalsMoeasy_title": "Propuesta de rediseño de plataforma inmobiliaria para MoEasy",
+    "proposalsMoeasy_description": "Tres paquetes para reconstruir el catálogo de MoEasy: catálogo express en Webflow, catálogo a la medida en Next.js + Payload, y plataforma de inventario con alta y aprobación de propiedades. Precio fijo y alcance definido en cada uno."
   },
   "common": {
     "socials": "Redes",
@@ -759,5 +761,719 @@
         "timeline": "Entrega estimada: 4–6 semanas"
       }
     ]
+  },
+  "proposalsMoeasy": {
+    "hero_lines": [
+      "Pigmento entrega.",
+      "Yo construyo.",
+      "MoEasy ve una agencia."
+    ],
+    "hero_subtitle": "Llevo la parte técnica de sus proyectos web sin aparecer en ningún lado. Ustedes ponen la cara, la marca y la relación con el cliente. Esto es el planteamiento completo para MoEasy: qué está roto, qué se construye, cuánto cuesta y qué pueden vender alrededor.",
+    "hero_cta_primary": "Ver los tres paquetes",
+    "hero_cta_secondary": "Empezar por el diagnóstico",
+    "marquee_services": [
+      "Catálogos inmobiliarios",
+      "Buscadores y filtros",
+      "CMS y modelos de contenido",
+      "Migraciones desde Shopify",
+      "SEO, GEO y redirecciones",
+      "Sitios multilingües"
+    ],
+    "situacion_eyebrow": "El punto de partida",
+    "situacion_sub": "Todo lo que sigue sale de revisar su sitio actual, no de suposiciones. Cada punto se puede verificar entrando a moeasy.com.mx.",
+    "complicacion_eyebrow": "Auditoría del sitio actual",
+    "complicacion_heading": "Dónde se pierde dinero hoy.",
+    "complicacion_sub": "Revisamos moeasy.com.mx antes de escribir esta propuesta. Esto es lo que encontramos, en orden de lo que cuesta. Cada punto se puede verificar entrando al sitio.",
+    "problems": [
+      {
+        "n": "01",
+        "tag": "Captación",
+        "title": "La ficha de propiedad no captura un solo lead",
+        "body": "Los únicos formularios de una ficha son el de moneda, el de idioma y el buscador. No hay formulario de contacto, ni correo, ni teléfono, ni WhatsApp. Lo único que puede hacer un interesado desde la propiedad es compartirla.",
+        "cost": "Quien se interesa tiene que salirse de la propiedad, encontrar la página de contacto y escribir desde cero. En sitios inmobiliarios la conversión de visitante a lead ronda entre 1% y 3%; sin captura en la ficha, esa conversión ocurre fuera del sitio o no ocurre."
+      },
+      {
+        "n": "02",
+        "tag": "Calificación",
+        "title": "La ficha no trae los datos que deciden una operación",
+        "body": "Una sola plantilla para casa, bodega, oficina y local. No existen altura libre, andenes, capacidad eléctrica ni uso de suelo.",
+        "cost": "El 80% de los inquilinos y el 78% de los inversionistas de bienes raíces comerciales dicen que internet es esencial en su búsqueda. Para ese segmento la ficha no es publicidad, es el proceso de calificación. Si no está el dato, el equipo termina calificando por WhatsApp lo que la página debía contestar sola."
+      },
+      {
+        "n": "03",
+        "tag": "Descubrimiento",
+        "title": "Nadie puede buscar como compra",
+        "body": "Ocho colecciones separadas mezclan operación, segmento y subtipo. No hay forma de cruzar renta, oficina, zona y presupuesto en una sola vista.",
+        "cost": "Cada filtro que falta es una lista más larga de revisar a mano. La búsqueda termina en un portal, donde MoEasy aparece junto a todos sus competidores y la conversación empieza por precio."
+      },
+      {
+        "n": "04",
+        "tag": "Seguimiento",
+        "title": "El lead que llega no trae propiedad ni dueño",
+        "body": "El contacto es genérico y no viaja con la propiedad que lo originó, así que nadie sabe de qué inmueble se está hablando ni a quién le toca responder.",
+        "cost": "Responder en cinco minutos hace 21 veces más probable calificar un lead que responder en treinta. En un estudio de 74 brokerages, el 41% nunca respondió una consulta web. Sin propiedad ni responsable, no hay cronómetro que arrancar."
+      }
+    ],
+    "tiers_eyebrow": "Los tres paquetes",
+    "tiers_heading": "Tres rutas, y la diferencia es dónde vive el inventario.",
+    "tiers_subtitle": "MoEasy no está partiendo de cero: ya administra su inventario desde un CRM propio, alojado en un servidor en China, con su propia lógica de operación. Los dos primeros paquetes no se conectan con nada de eso y construyen un sitio desde cero. El tercero se monta encima de lo que ya tienen. Esa es la decisión real, y es la que explica la diferencia de precio.",
+    "tiers_price_unit": "MXN / proyecto",
+    "tiers_featured_label": "Recomendado",
+    "tiers_includes_label": "Qué incluye",
+    "tiers_limits_label": "Dónde está el límite",
+    "tiers": [
+      {
+        "label": "Para lanzar rápido",
+        "name": "Catálogo express",
+        "tagline": "Saca a MoEasy de la lógica de tienda en tres semanas, con su propio equipo al mando y sin depender de nadie para publicar.",
+        "timeline": "Entrega estimada: 3 semanas",
+        "rationale": "Es la ruta de menor riesgo y la más rápida de aprobar. Arregla el problema que hoy es visible desde el primer clic: un inversionista que busca una nave industrial de 2,000 m² llega a una página que le habla de carrito, favoritas y precio de oferta. Lo que no arregla es la operación interna, y por eso es el paquete más barato, no el más conveniente.",
+        "diff": [
+          {
+            "label": "Dónde vive el inventario",
+            "value": "En un catálogo nuevo. El CRM sigue por su lado."
+          },
+          {
+            "label": "Quién carga las propiedades",
+            "value": "MoEasy, una por una, desde cero."
+          },
+          {
+            "label": "Buscador",
+            "value": "Filtros fijos y rangos de precio predefinidos."
+          },
+          {
+            "label": "Ficha de propiedad",
+            "value": "Una sola plantilla para los cuatro tipos de activo."
+          },
+          {
+            "label": "Permisos del equipo",
+            "value": "Los que trae Webflow, sin granularidad por rol."
+          },
+          {
+            "label": "Techo de crecimiento",
+            "value": "El plan de Webflow marca el límite de inventario."
+          }
+        ],
+        "recurring": "Webflow Premium $25 USD al mes con plan anual, más localización de tres idiomas $9 USD al mes. Alrededor de $34 USD mensuales.",
+        "features": [
+          "Un sitio que se lee como inmobiliaria comercial y no como e-commerce: home, catálogo, ficha de propiedad, servicios, nosotros y contacto.",
+          "Cada propiedad con su propio formulario y su asesor identificado, para que la solicitud llegue a alguien concreto y no a un buzón general.",
+          "Buscador con los filtros que de verdad usa un inversionista comercial: operación, tipo de activo, zona y rango de precio.",
+          "Estructura de datos definida con su equipo, para que capturar una propiedad sea llenar campos y no improvisar descripciones.",
+          "Español, inglés y mandarín activos desde el primer día, con la misma ficha en los tres.",
+          "El proyecto se entrega dentro de su propia cuenta: publican, editan y crecen sin pedirle permiso a nadie."
+        ],
+        "limits": "Nosotros entregamos la estructura y la capacitación; el alta de las propiedades la hace MoEasy. No se conecta con el CRM que ya operan: el sitio arranca desde cero y queda como un inventario aparte, así que Mercadotecnia captura dos veces.",
+        "excludes": [
+          "Migración del catálogo actual.",
+          "Conexión con el CRM o con cualquier sistema existente.",
+          "Fichas con datos distintos por tipo de inmueble.",
+          "Filtros que se crucen entre sí.",
+          "Permisos por equipo."
+        ],
+        "audience": "Para salir de la lógica de tienda ya, con presupuesto contenido y un equipo dispuesto a capturar."
+      },
+      {
+        "label": "Para entregar operando",
+        "name": "Catálogo con migración",
+        "tagline": "El mismo sitio, pero entregado operando: con el inventario ya adentro y sin perder el posicionamiento que ya ganaron.",
+        "timeline": "Entrega estimada: 4 a 5 semanas",
+        "rationale": "Compra dos cosas que cuestan caro por separado. La primera es tiempo del equipo de Mercadotecnia, que no tiene que dedicar semanas a mudar el catálogo a mano. La segunda es el tráfico: un cambio de sitio sin redirecciones tira el posicionamiento acumulado y recuperarlo toma meses, justo mientras el sitio nuevo debería estar produciendo solicitudes. Sigue habiendo dos inventarios, pero MoEasy no carga con la mudanza.",
+        "diff": [
+          {
+            "label": "Dónde vive el inventario",
+            "value": "En un catálogo nuevo, entregado ya lleno."
+          },
+          {
+            "label": "Quién carga las propiedades",
+            "value": "Nosotros migramos, MoEasy mantiene de ahí en adelante."
+          },
+          {
+            "label": "Buscador",
+            "value": "Filtros fijos y rangos de precio predefinidos."
+          },
+          {
+            "label": "Ficha de propiedad",
+            "value": "Una sola plantilla para los cuatro tipos de activo."
+          },
+          {
+            "label": "Permisos del equipo",
+            "value": "Los que trae Webflow, sin granularidad por rol."
+          },
+          {
+            "label": "Techo de crecimiento",
+            "value": "El plan de Webflow marca el límite de inventario."
+          }
+        ],
+        "recurring": "Webflow Premium $25 USD al mes con plan anual, más localización de tres idiomas $9 USD al mes. Alrededor de $34 USD mensuales.",
+        "features": [
+          "Todo lo del Catálogo express.",
+          "El inventario actual migrado y revisado, con la cantidad de propiedades cerrada antes de arrancar.",
+          "Redirecciones desde cada URL actual, para que el tráfico y el posicionamiento no se caigan el día del cambio.",
+          "Normalización de los datos que se migran: superficies, precios y ubicaciones con el mismo formato en todo el catálogo.",
+          "El día del lanzamiento el sitio ya vende, en vez de ser una estructura vacía esperando a que alguien la llene."
+        ],
+        "limits": "Resuelve el arranque, no la operación. Tampoco se conecta con el CRM: el catálogo migrado queda como un inventario nuevo y separado, y a partir del día uno hay que mantener los dos.",
+        "excludes": [
+          "Conexión con el CRM o con cualquier sistema existente.",
+          "Fichas con datos distintos por tipo de inmueble.",
+          "Filtros que se crucen entre sí.",
+          "Permisos por equipo.",
+          "Limpieza manual extensa de propiedades con datos incompletos."
+        ],
+        "audience": "Para lanzar sin que el equipo cargue con la mudanza ni con el hueco de tráfico."
+      },
+      {
+        "label": "Para operar sobre lo que ya tienen",
+        "name": "Plataforma conectada",
+        "tagline": "El sitio se monta sobre la infraestructura que ya operan: lee el inventario de su CRM y respeta su lógica de negocio, en vez de pedirles que la repitan en otro lado.",
+        "timeline": "Entrega estimada: 7 a 9 semanas",
+        "rationale": "Es el único que toca la causa y no el síntoma. MoEasy ya captura su inventario, ya lo tiene estructurado y ya lo administra desde su propio CRM; los otros dos paquetes le piden mantener eso y además un catálogo paralelo. Aquí el sitio deja de ser una copia que hay que sincronizar y pasa a ser la cara pública de lo que ya operan. Para dimensionar el retorno: con la renta industrial de la Ciudad de México en 10.32 USD por m² al mes, la comisión de un solo arrendamiento de 2,000 m² ronda los 20,000 USD. Una operación adicional al año cubre el proyecto completo con holgura.",
+        "diff": [
+          {
+            "label": "Dónde vive el inventario",
+            "value": "En su CRM. Sigue siendo la fuente y el sitio lee de ahí."
+          },
+          {
+            "label": "Quién carga las propiedades",
+            "value": "Nadie recaptura. Se captura una vez, donde ya se captura."
+          },
+          {
+            "label": "Buscador",
+            "value": "Filtros que se cruzan entre sí, con precio y superficie reales."
+          },
+          {
+            "label": "Ficha de propiedad",
+            "value": "Una por tipo de activo, con sus campos comerciales propios."
+          },
+          {
+            "label": "Permisos del equipo",
+            "value": "Por rol, definidos con ustedes, para delegar sin abrir todo."
+          },
+          {
+            "label": "Techo de crecimiento",
+            "value": "Sin techo de inventario ni licencias por propiedad."
+          }
+        ],
+        "recurring": "Hosting y base de datos del orden de $20 a $40 USD al mes, sin licencias de plataforma ni topes de inventario.",
+        "features": [
+          "Todo lo del Catálogo con migración.",
+          "Respeta la infraestructura y la operación que ya tienen: no se cambia de sistema, se publica lo que ya está adentro.",
+          "Una sola fuente de verdad. Se acaba la doble captura y los inventarios que no coinciden entre el sitio y el CRM.",
+          "Ficha distinta por tipo de activo: recámaras y baños en habitacional; altura libre, andenes, capacidad eléctrica y uso de suelo en industrial, oficinas y retail. Es la información con la que un inversionista decide si vale la pena llamar.",
+          "Buscador que cruza filtros y acorta la búsqueda: quien encuentra rápido lo que busca contacta, y quien no encuentra se va con la competencia.",
+          "Permisos por rol para delegar la carga a Mercadotecnia, a sistemas o a un asesor, sin abrirle todo el sitio a todo el mundo.",
+          "Sin techo de inventario: crece a miles de propiedades sin cambiar de plan, de plataforma ni de proveedor."
+        ],
+        "limits": "La conexión depende de que el CRM permita consultar su información de forma programada. Se confirma en discovery antes de firmar el alcance; si no lo permite, se plantea sincronización por archivo o se recomienda el paquete anterior.",
+        "excludes": [
+          "Escritura de vuelta hacia el CRM. La conexión es de lectura salvo que se cotice aparte.",
+          "Formulario público para que terceros propongan propiedades.",
+          "Búsqueda por mapa, radio o polígono.",
+          "Portal de asesores, favoritos o cuentas de usuario final.",
+          "Agenda de visitas, recorridos 360 y video.",
+          "Reparto automático de leads y publicación automática en portales."
+        ],
+        "audience": "Para que el sitio sea la cara pública del inventario que ya administran, no una copia que hay que mantener aparte."
+      }
+    ],
+    "margin_label": "Áreas de oportunidad",
+    "margin_title": "Lo que Pigmento puede cobrar por su cuenta",
+    "margin_tagline": "Antes de los precios, esto: cada pieza de aquí es un servicio que Pigmento vende aparte, cobra completo y se queda entero. No son extras inventados, son trabajos que el proyecto abre de forma natural y que el cliente ya está acostumbrado a pagar por separado. Los montos son referencia de mercado; el número final es suyo.",
+    "margin_note": "Esta sección es para ustedes, no para MoEasy. Si quieren una versión de esta propuesta sin ella para enseñarla directo al cliente, se las preparo.",
+    "pricing_terms_heading": "Cómo funciona el pricing",
+    "pricing_terms": [
+      "Cada precio es fijo para el alcance descrito; el alcance final se confirma en discovery antes de arrancar.",
+      "Cualquier cambio de alcance se cotiza como adicional, no se absorbe en el precio original.",
+      "Estos precios son los que yo le facturo a Pigmento Studio. Lo que Pigmento le cobre a MoEasy es su decisión y su margen.",
+      "Anticipo del 50% para reservar el proyecto en el calendario; el 50% restante se cobra contra entrega.",
+      "Cancelación: una vez arrancado el discovery, el anticipo no es reembolsable; si el proyecto se cancela a medio camino, el trabajo realizado se factura proporcionalmente.",
+      "La propiedad del código y de los entregables se transfiere al liquidar el 100% del proyecto.",
+      "Los tiempos de entrega asumen contenidos, accesos y feedback a tiempo del lado del cliente; los retrasos recorren la fecha de entrega, no el precio.",
+      "Propuesta emitida en septiembre de 2026; vigencia de 30 días a partir de esa fecha.",
+      "Precios más IVA (16%), facturados vía CFDI."
+    ],
+    "pricing_toolbox_heading": "Cada proyecto incluye mi toolbox de trabajo",
+    "pricing_toolbox_subheading": "Diseño, motion y craft son parte del proceso. El objetivo es simple: no deberían preocuparse por el setup técnico detrás del trabajo.",
+    "pricing_toolbox_body": [
+      "Cada proyecto incluye las herramientas necesarias para ejecutarlo bien: Figma, herramientas de Adobe, librerías de motion, sistemas de componentes y el stack operativo que el proyecto necesite.",
+      "No se cobra por «abrir herramientas»; se cobra por resolver el problema con el setup correcto, asumiendo yo la responsabilidad del flujo de trabajo, la implementación y la entrega.",
+      "Hosting, servidores y licencias corren por cuenta del cliente final, incluida la de Webflow y su plan de localización."
+    ],
+    "disclaimer_label": "Qué incluye cada paquete",
+    "scope_includes_label": "Incluye",
+    "scope_excludes_label": "No incluye",
+    "scope_includes": [
+      "**De cero a producción**: diseño, implementación y despliegue del sitio publicado y funcionando.",
+      "**Acceso directo a mí** en reuniones y decisiones técnicas durante todo el proyecto.",
+      "**3 rondas de corrección de diseño** incluidas en el precio, sin cargo extra.",
+      "**Modelo de contenido** diseñado para inventario inmobiliario, no una colección genérica de productos.",
+      "**Migración estructural del catálogo** y redirecciones desde las URLs actuales de Shopify.",
+      "**SEO y GEO on-page** para buscadores y motores de IA, en los tres paquetes.",
+      "**Capacitación** al equipo que va a administrar el catálogo.",
+      "**15 días de garantía** post-lanzamiento: si aparece un bug, lo arreglo sin costo.",
+      "En los paquetes con CMS, **el código versionado en un repositorio** que pasa a ser del cliente al liquidar el proyecto."
+    ],
+    "scope_excludes": [
+      "**Captura del inventario**: migro la estructura del catálogo, no doy de alta las propiedades una por una.",
+      "**Traducción de contenido**: entrego la infraestructura multilingüe, no el copy traducido.",
+      "**Fotografía, render y material visual** de las propiedades.",
+      "**Integraciones con CRM, portales inmobiliarios o ERPs**: se cotizan como proyecto aparte.",
+      "**Mapas avanzados** con búsqueda por radio o polígono, calculadora hipotecaria y agenda de citas.",
+      "Hosting, servidores y licencias: **corren por cuenta del cliente final**, incluida la de Webflow y su plan de localización."
+    ],
+    "situacion_heading_before": "MoEasy no vende un tipo de propiedad: opera ",
+    "situacion_heading_highlight": "cuatro líneas de inventario sobre una plataforma construida para vender productos.",
+    "situacion_bullets": [
+      "Habitacional, industrial, oficinas y retail, en compra venta y en arrendamiento. Ocho combinaciones de operación y segmento dentro del mismo catálogo.",
+      "Además del inventario ofrecen administración de inmuebles, mantenimiento, limpieza y asesoría de crédito y legal.",
+      "Su catálogo digital corre hoy sobre Shopify: las propiedades son productos, con carrito y precio de oferta.",
+      "Operan en español e inglés, y quieren sumar mandarín."
+    ],
+    "scope_eyebrow": "La solución",
+    "scope_heading": "Qué construimos, y qué esperar de cada pieza.",
+    "scope_sub": "Cada cosa que se construye responde a una falla concreta de la auditoría. No hay piezas puestas porque se ven bien.",
+    "scope_pages_label": "Lo que incluye el sitio",
+    "scope_pages": [
+      {
+        "name": "Home",
+        "detail": "Propuesta de valor, buscador destacado, propiedades seleccionadas y accesos a las cuatro líneas."
+      },
+      {
+        "name": "Catálogo",
+        "detail": "Listado con filtros, orden y paginación. Una sola vista para habitacional y comercial."
+      },
+      {
+        "name": "Ficha de propiedad",
+        "detail": "Galería, especificaciones según el tipo de activo, ubicación aproximada y solicitud de información."
+      },
+      {
+        "name": "Servicios",
+        "detail": "Administración de inmuebles, mantenimiento, limpieza y asesoría de crédito y legal."
+      },
+      {
+        "name": "Nosotros",
+        "detail": "Historia, equipo y cobertura, con la línea comercial y la habitacional en el mismo relato."
+      },
+      {
+        "name": "Contacto",
+        "detail": "Formulario general y datos de oficina, separado de la solicitud por propiedad."
+      }
+    ],
+    "margin_items": [
+      {
+        "name": "SEO y GEO on-page",
+        "pitch": "Optimización para buscadores y para motores de IA. Va incluida en los tres paquetes, y el cliente la percibe como una ronda aparte.",
+        "reference": "$8,000 a $18,000",
+        "trigger": "Cuando el sitio recibe visitas pero llegan pocos contactos."
+      },
+      {
+        "name": "Migración sin perder posicionamiento",
+        "pitch": "Redirecciones 301 desde las URLs de Shopify. Es el entregable que evita que el tráfico se caiga el día del cambio.",
+        "reference": "$6,000 a $12,000",
+        "trigger": "Al momento del cambio de plataforma, no después."
+      },
+      {
+        "name": "Capacitación del equipo",
+        "pitch": "Sesión grabada para dar de alta, editar y publicar propiedades, más una guía escrita que queda en su poder.",
+        "reference": "$4,000 a $9,000",
+        "trigger": "En la entrega, cuando el equipo toca el CMS por primera vez."
+      },
+      {
+        "name": "Carga inicial de propiedades",
+        "pitch": "Yo migro la estructura del catálogo; capturar el inventario es trabajo de contenido y se cotiza por propiedad.",
+        "reference": "$150 a $350 por propiedad",
+        "trigger": "Cuando el inventario a migrar pasa de unas cuantas decenas."
+      },
+      {
+        "name": "Traducción al mandarín",
+        "pitch": "Entrego la infraestructura de los tres idiomas. El copy traducido y su revisión es un servicio con proveedor propio.",
+        "reference": "Según volumen",
+        "trigger": "Cuando exista operación comercial real en ese idioma, con quien responda."
+      },
+      {
+        "name": "Fotografía y render",
+        "pitch": "El catálogo se ve tan bien como sus fotos. Es la venta más fácil de todas y la que más cambia la percepción del sitio.",
+        "reference": "Según sesión",
+        "trigger": "Cuando las fotos actuales no sostienen el diseño nuevo."
+      },
+      {
+        "name": "Mantenimiento mensual",
+        "pitch": "Hosting, altas de propiedades, cambios menores y soporte. Convierte el proyecto en una cuenta recurrente.",
+        "reference": "$6,000 a $15,000 al mes",
+        "trigger": "A los treinta días del lanzamiento, cuando aparecen los primeros ajustes."
+      }
+    ],
+    "alternatives_heading": "Por qué no una opción más barata.",
+    "alternatives_sub": "MoEasy va a encontrar estas opciones si busca, y todas son más baratas que construir. Conviene que Pigmento las conozca antes que el cliente, con la respuesta ya puesta.",
+    "alternatives_columns": [
+      "Camino",
+      "Costo real",
+      "Por qué no alcanza"
+    ],
+    "alternatives_rows": [
+      {
+        "name": "CRM inmobiliario con sitio incluido",
+        "cost": "$1,490 al mes por 50 anuncios, más $500 al mes por el sitio. Unos $24,000 al año.",
+        "why": "Sería la opción correcta si MoEasy solo vendiera casas, y conviene decirlo así. Pero el sitio sale de nueve plantillas, así que se ve igual que el de cualquier otra inmobiliaria del país, y su modelo de datos es residencial: no hay altura libre, ni andenes, ni uso de suelo. Además es renta. El día que dejan de pagar, el sitio desaparece."
+      },
+      {
+        "name": "WordPress con tema inmobiliario",
+        "cost": "Licencia de unos $79 USD una sola vez, más el desarrollo.",
+        "why": "Técnicamente es la alternativa más cercana: trae CRM, búsqueda avanzada y campos personalizables para inmuebles comerciales. El costo real no está en la licencia, está en el mantenimiento. Un tema inmobiliario vive de plugins, y cuando el hosting actualiza la versión de PHP se caen piezas en silencio: notificaciones que dejan de enviarse, formularios que no llegan, inventarios desincronizados. Eso se paga en operaciones perdidas, no en pesos de licencia."
+      },
+      {
+        "name": "Publicar solo en portales",
+        "cost": "Plan profesional desde $1,899 al mes por cinco anuncios. La versión destacada, $5,742 al mes por cinco publicaciones.",
+        "why": "Con inventario de decenas de propiedades el número se dispara, y es tráfico rentado. Cada propiedad de MoEasy compite contra la de al lado en la misma página, sin marca y sin control del contexto. Sirve como canal de adquisición, no como casa propia."
+      },
+      {
+        "name": "Rediseñar el tema de Shopify actual",
+        "cost": "Lo más barato de todas las opciones.",
+        "why": "Cambia cómo se ve, no qué modela. Las propiedades siguen siendo productos con carrito, precio de oferta y URLs de tienda. El problema no es estético."
+      },
+      {
+        "name": "Construir a la medida",
+        "cost": "$45,000 a $155,000 una sola vez, según el paquete.",
+        "why": "Es la única que sostiene la mitad comercial del negocio, que es justo lo que diferencia a MoEasy de una inmobiliaria residencial. En su versión completa se monta sobre la infraestructura que ya operan, en vez de abrir un sistema paralelo. Se paga una vez y el activo queda en su poder."
+      }
+    ],
+    "badge_client": "Visible para el cliente",
+    "badge_internal": "Nota de venta para Pigmento",
+    "tiers_excludes_label": "No incluido sin cotizar",
+    "choose_tree_label": "Si dicen esto, va este paquete",
+    "choose_tree": [
+      {
+        "condition": "Si el presupuesto manda y el equipo puede cargar el catálogo",
+        "result": "Catálogo express"
+      },
+      {
+        "condition": "Si quieren lanzar sin que el equipo cargue con la mudanza",
+        "result": "Catálogo con migración"
+      },
+      {
+        "condition": "Si el CRM ya es la fuente del inventario y no quieren capturar dos veces",
+        "result": "Plataforma conectada"
+      },
+      {
+        "condition": "Si no está claro qué expone el CRM",
+        "result": "Vender primero un discovery pagado, acreditable al proyecto"
+      }
+    ],
+    "choose_note": "La plataforma conectada es la recomendación, y el argumento no es que sea más moderna. MoEasy ya captura su inventario en un sistema propio: cualquier ruta que no lea de ahí les está pidiendo que hagan el mismo trabajo dos veces, todos los días, para siempre.",
+    "objections_eyebrow": "Manejo de objeciones",
+    "objections_heading": "Nunca bajen la tarifa sin bajar el alcance.",
+    "objections_sub": "Cada objeción tiene una respuesta y una concesión segura. La concesión recorta alcance, no precio por el mismo trabajo.",
+    "objections_columns": [
+      "Lo que van a decir",
+      "Qué responder",
+      "Concesión segura"
+    ],
+    "objections_rows": [
+      {
+        "objection": "Se sale del presupuesto",
+        "response": "Podemos conservar el resultado principal y reducir la complejidad operativa, no la calidad de lo que se entrega.",
+        "concession": "Bajar al paquete express, reducir el número de propiedades migradas, dejar el idioma adicional como fase dos."
+      },
+      {
+        "objection": "Queremos todo, pero más barato",
+        "response": "La forma responsable de bajar la inversión es priorizar una primera fase, no quitar las horas invisibles de arquitectura, QA y lanzamiento, que son las que evitan que el sitio falle en producción.",
+        "concession": "Home, catálogo, ficha y captura de leads ahora. Servicios y nosotros en una segunda entrega."
+      },
+      {
+        "objection": "Necesitamos mandarín desde el lanzamiento",
+        "response": "Confirmado en discovery: la audiencia son clientes chinos radicados en México y el sitio se administra desde sus oficinas, así que no hay riesgo de conectividad. Los tres idiomas entran en el plan de localización de Webflow por nueve dólares al mes, y en la plataforma conectada son nativos. Lo que sí es trabajo aparte es el copy traducido y quién responde en ese idioma.",
+        "concession": "Infraestructura multilingüe incluida en cualquiera de las tres rutas, contenido en mandarín como add-on."
+      },
+      {
+        "objection": "Queremos mapa y CRM también",
+        "response": "Son extensiones valiosas y las vamos a querer. Afectan modelo de datos, rutas y pruebas, así que se cotizan como fase posterior con su propio alcance.",
+        "concession": "Dejar diseñados los puntos de integración, sin construirlos."
+      },
+      {
+        "objection": "¿Por qué no lo dejamos en Shopify?",
+        "response": "Shopify seguirá siendo excelente para comercio. Este proyecto resuelve otra cosa: exploración de activos, calificación y contacto inmobiliario. No es un juicio sobre la herramienta, es que su objeto central es el producto y el carrito.",
+        "concession": "Si lo que manda es la velocidad, migrar al paquete express y evolucionar después."
+      },
+      {
+        "objection": "Un CRM inmobiliario nos sale en dos mil al mes",
+        "response": "Y sería la opción correcta si estuvieran empezando de cero. Ustedes ya tienen un CRM con su inventario adentro. Lo que falta no es otro sistema donde capturar, es que el sitio lea del que ya usan. Además su sitio sale de nueve plantillas y su modelo de datos es residencial: no tiene altura libre, andenes ni uso de suelo.",
+        "concession": "Si el inventario comercial fuera marginal, recomendarlo con honestidad y cotizar solo la marca."
+      }
+    ],
+    "governance_heading": "Rondas y aprobaciones",
+    "governance_items": [
+      "Las tres rondas de diseño se trabajan sobre comentarios consolidados de un solo responsable por parte del cliente.",
+      "Cada ronda tiene una ventana de feedback de tres días hábiles; los retrasos recorren la fecha de entrega, no el precio.",
+      "Una ronda corrige el entregable presentado; no reabre decisiones ya aprobadas en fases anteriores.",
+      "Cambios de arquitectura de información, modelo de contenido, filtros, idiomas, plantillas o integraciones después de la aprobación se consideran cambio de alcance y se cotizan aparte.",
+      "Contenidos, fotografías, precios, atributos técnicos, disponibilidad y traducciones son responsabilidad del cliente final.",
+      "La migración contempla una cantidad cerrada de registros y no incluye normalización manual extensa de datos incompletos."
+    ],
+    "tiers_suggested_label": "Sugerencia de reventa",
+    "tiers_suggested_note": "Es una sugerencia para Pigmento, no una condición. El precio al cliente final lo deciden ustedes.",
+    "tiers_suggested_min": "Mínimo",
+    "tiers_suggested_target": "Objetivo",
+    "complicacion_cost_label": "Qué cuesta",
+    "tiers_recurring_label": "Costo recurrente del cliente",
+    "tiers_recurring_note": "Los costos recurrentes son infraestructura y los paga MoEasy directamente a cada proveedor. No pasan por Pigmento ni llevan margen. Se listan aquí para que la comparación sea honesta.",
+    "market_eyebrow": "Lo que cobra el mercado",
+    "market_heading": "Dónde caen estos precios.",
+    "market_sub": "Contexto para que Pigmento sepa con qué se compara lo que está vendiendo. Nada de esta sección va para MoEasy.",
+    "market_stats_label": "El mercado en el que operan",
+    "market_stats": [
+      {
+        "value": "247,680 USD",
+        "label": "es el valor anual de renta de una sola nave de 2,000 m² en la Ciudad de México, al promedio de 10.32 dólares por m² al mes de enero de 2026.",
+        "source": "Datoz, enero 2026",
+        "url": "https://mexicoindustry.com/noticia/precios-de-renta-de-naves-industriales-en-cdmx-superan-los-11-usd-m2-datoz"
+      },
+      {
+        "value": "1 mes de renta",
+        "label": "es la comisión estándar de un arrendamiento en México por contrato de un año. De esa nave, en una sola operación.",
+        "source": "Práctica de mercado",
+        "url": "https://es.linkedin.com/pulse/cu%C3%A1les-son-las-comisiones-de-ventas-y-rentas-en-m%C3%A9xico-emilio-doporto-1c"
+      },
+      {
+        "value": "80%",
+        "label": "de los inquilinos de bienes raíces comerciales califica en línea antes de contactar a un asesor. Los inversionistas, 78%.",
+        "source": "LoopNet con Google",
+        "url": "https://www.costargroup.com/press-room/2023/loopnet-and-google-release-commercial-real-estate-study-focused-identifying-trends"
+      },
+      {
+        "value": "0",
+        "label": "formularios de contacto en las fichas de propiedad de moeasy.com.mx. Los únicos de la página son el de moneda, el de idioma y el buscador.",
+        "source": "Verificado en el código, septiembre 2026"
+      }
+    ],
+    "market_stats_note": "Las tres primeras cifras son del mercado y no se pueden cambiar. La cuarta es del sitio, y se arregla en tres semanas.",
+    "alternatives_label": "Alternativas evaluadas",
+    "agency_label": "Lo que cobran otras agencias por un proyecto así",
+    "agency_columns": [
+      "Proveedor",
+      "Rango en MXN",
+      "Qué entregan por eso"
+    ],
+    "agency_rows": [
+      {
+        "name": "Freelancer",
+        "range": "$8,000 a $50,000",
+        "note": "Sitio sobre plantilla. Sin modelo de datos propio, sin integraciones, sin garantía.",
+        "source": "Nebugrama",
+        "url": "https://www.nebugrama.com/blog/cuanto-cuesta-pagina-web-mexico"
+      },
+      {
+        "name": "Sitio inmobiliario de plantilla",
+        "range": "$6,900 a $16,000",
+        "note": "Catálogo básico sobre un tema comprado, con gestión de propiedades limitada a lo que trae el tema.",
+        "source": "Fernando Orendain",
+        "url": "https://www.fernandoorendain.com/cuanto-cuesta-hacer-una-pagina-web-inmobiliaria-en-2024/"
+      },
+      {
+        "name": "Identidad más sitio para inmobiliaria",
+        "range": "$20,000 a $60,000",
+        "note": "Paquete de marca y web, con el catálogo resuelto de forma estándar.",
+        "source": "Trichter Consulting",
+        "url": "https://trichterconsulting.com/cuanto-cuesta-marketing-digital-inmobiliario-mexico/"
+      },
+      {
+        "name": "Agencia chica",
+        "range": "$35,000 a $200,000",
+        "note": "Rango amplísimo. Abajo es plantilla con otro nombre; arriba ya es trabajo a la medida.",
+        "source": "Magokoro",
+        "url": "https://www.magokoro.mx/blog/precios-desarrollo-web-mexico"
+      },
+      {
+        "name": "Agencia con stack moderno",
+        "range": "$60,000 a $120,000",
+        "note": "Next.js, Core Web Vitals, CMS e integraciones por API. Es la banda donde compite la plataforma conectada.",
+        "source": "Magokoro",
+        "url": "https://www.magokoro.mx/blog/precios-desarrollo-web-mexico"
+      },
+      {
+        "name": "Corporativo headless multiidioma",
+        "range": "$120,000 a $300,000",
+        "note": "CMS desacoplado, varios idiomas y comercio. Lo más cercano en alcance a lo que se propone aquí.",
+        "source": "Magokoro",
+        "url": "https://www.magokoro.mx/blog/precios-desarrollo-web-mexico"
+      },
+      {
+        "name": "Next.js con CMS a la medida",
+        "range": "$150,000 a $600,000",
+        "note": "La categoría técnica exacta de la plataforma conectada, según el tamaño de la agencia que la venda.",
+        "source": "Magokoro",
+        "url": "https://www.magokoro.mx/blog/precios-desarrollo-web-mexico"
+      }
+    ],
+    "agency_note": "Los tres paquetes cuestan 26, 38 y 72 mil pesos. Los precios sugeridos de reventa, de 40 a 52 mil, de 58 a 72 mil y de 105 a 130 mil, caen dentro de esas bandas y no arriba de ellas. El margen de Pigmento no sale de inflar un precio: sale de que la ejecución técnica cuesta menos de lo que el mercado cobra por ella.",
+    "membership_label": "Membresías y software del sector",
+    "membership_columns": [
+      "Servicio",
+      "Costo",
+      "Qué resuelve"
+    ],
+    "membership_rows": [
+      {
+        "name": "EasyBroker",
+        "range": "$490 a $1,490 al mes según anuncios, más $500 por el sitio",
+        "note": "CRM inmobiliario con sitio de nueve plantillas y modelo de datos residencial.",
+        "source": "EasyBroker",
+        "url": "https://www.easybroker.com/mx/planes"
+      },
+      {
+        "name": "Tokko Broker",
+        "range": "$480 a $3,499 al mes según usuarios",
+        "note": "CRM con sitio integrado. Mismo techo de plantilla y modelo propio de la plataforma.",
+        "source": "Tokko Broker",
+        "url": "https://www.tokkobroker.com/es-mx/planes-y-precios"
+      },
+      {
+        "name": "Software de gestión inmobiliaria en general",
+        "range": "$200 a $7,000 al mes",
+        "note": "De la herramienta básica para un asesor a la plataforma empresarial.",
+        "source": "Trichter Consulting",
+        "url": "https://trichterconsulting.com/cuanto-cuesta-marketing-digital-inmobiliario-mexico/"
+      },
+      {
+        "name": "Portal profesional",
+        "range": "$1,899 al mes por cinco anuncios",
+        "note": "Tráfico rentado. La versión destacada sube a $5,742 al mes por las mismas cinco.",
+        "source": "Inmuebles24",
+        "url": "https://www.inmuebles24.com/blog/que-paquete-de-avisos-me-conviene-para-anunciar-en-inmuebles24/"
+      }
+    ],
+    "infra_label": "Infraestructura",
+    "infra_columns": [
+      "Concepto",
+      "Costo",
+      "Nota"
+    ],
+    "infra_rows": [
+      {
+        "name": "Webflow Premium, plan anual",
+        "range": "$25 USD al mes",
+        "note": "20,000 items de CMS y 40 colecciones. Reemplazó a los planes CMS y Business en mayo de 2026.",
+        "source": "Memberstack",
+        "url": "https://www.memberstack.com/blog/new-webflow-pricing-in-2026-what-every-plan-costs-and-how-to-choose"
+      },
+      {
+        "name": "Localización de Webflow",
+        "range": "$9 USD al mes",
+        "note": "Hasta tres idiomas en el plan Essential, que es justo lo que necesitan.",
+        "source": "Webflow Wiki",
+        "url": "https://www.tunel.studio/webflow-wiki/pricing/webflow-localization-pricing-and-plans"
+      },
+      {
+        "name": "Hosting y base de datos de la plataforma conectada",
+        "range": "$20 a $40 USD al mes",
+        "note": "Sin licencias de plataforma y sin techo de colecciones ni de items."
+      },
+      {
+        "name": "Dominio",
+        "range": "$200 a $800 al año",
+        "note": "Ya lo tienen. Se conserva en cualquiera de las tres rutas.",
+        "source": "BastianSoft",
+        "url": "https://bastiansoft.com/blog/precios-paginas-web-mexico-2026"
+      },
+      {
+        "name": "Mantenimiento típico de agencia en México",
+        "range": "$500 a $3,000 al mes",
+        "note": "Referencia de mercado para cotizar la fase de retainer.",
+        "source": "BastianSoft",
+        "url": "https://bastiansoft.com/blog/precios-paginas-web-mexico-2026"
+      }
+    ],
+    "infra_note": "El recurrente de las tres rutas es prácticamente el mismo. Webflow no sale más barato de operar, sale más barato de construir, y esa distinción es la que conviene tener clara antes de que el cliente la use como argumento.",
+    "sources_label": "Fuente",
+    "why_eyebrow": "Por qué esto",
+    "why_heading": "Por qué vendemos esto, y por qué lo vende Pigmento.",
+    "why_sub": "Un rediseño se justifica con gusto. Una plataforma se justifica con negocio. Esta es la lógica detrás de lo que estamos proponiendo, para que se pueda defender en una junta sin hablar de tecnología.",
+    "why_product_label": "Por qué esto y no un rediseño",
+    "why_product": [
+      {
+        "title": "El problema no está en cómo se ve",
+        "body": "La auditoría no encontró un sitio feo. Encontró un sitio que no captura leads, no da los datos que califican una operación comercial y obliga a capturar el inventario dos veces. Nada de eso se arregla con diseño."
+      },
+      {
+        "title": "El inventario comercial es el que paga",
+        "body": "Cuatro líneas de negocio, y la de mayor ticket y ciclo más largo es la peor servida por el sitio actual. Ahí está el retorno, y ahí es donde se concentra la propuesta."
+      },
+      {
+        "title": "La fuente de verdad ya existe",
+        "body": "MoEasy ya administra su inventario desde un CRM propio, alojado en un servidor en China, con la lógica de operación que su equipo construyó. Levantar un sitio en paralelo es pedirles que mantengan dos sistemas para siempre. Leer del que ya tienen es respetar lo que funciona y publicarlo bien. Esa diferencia es la que separa las tres rutas."
+      },
+      {
+        "title": "El mercado ya se mueve así",
+        "body": "Su competencia directa filtra cruzado, publica datos comerciales y captura desde la ficha. Esto no se vende como innovación, se vende como paridad."
+      }
+    ],
+    "why_pigmento_label": "Por qué lo vende Pigmento",
+    "why_pigmento": [
+      {
+        "title": "La relación es suya",
+        "body": "MoEasy confía en Pigmento por el trabajo de marca. El desarrollo entra por esa puerta, no al revés. Nadie llega antes que ustedes a esa conversación."
+      },
+      {
+        "title": "El riesgo técnico no es suyo",
+        "body": "El alcance, la arquitectura, la integración y la garantía las sostengo yo. Ustedes responden por el resultado frente al cliente, no por el código."
+      },
+      {
+        "title": "Abre una cuenta, no cierra un proyecto",
+        "body": "Mantenimiento, altas de propiedades, contenido, campañas y CRM son servicios que Pigmento factura después, con el respaldo técnico ya montado."
+      },
+      {
+        "title": "El precio deja margen real",
+        "body": "Lo que el mercado cobra por un proyecto así está por encima de lo que cuesta aquí. Esa diferencia es de ustedes, y está documentada en la sección anterior."
+      }
+    ],
+    "scope_answers_label": "Responde a",
+    "scope_forecast_label": "Qué esperar",
+    "solutions": [
+      {
+        "answers": "Falla 01, captación",
+        "title": "Cada propiedad se vuelve un punto de contacto",
+        "body": "Cada ficha lleva su propio formulario de solicitud de información. El mensaje llega con la propiedad, la zona y el asesor asignado ya adentro, así que nadie tiene que preguntar de cuál inmueble se trata ni a quién le toca.",
+        "forecast": "Los sitios inmobiliarios convierten entre 1% y 3% de sus visitantes en contactos. Hoy esa conversión no puede ocurrir en la ficha, así que el primer efecto no es un porcentaje mejor: es que el porcentaje empieza a existir. Y como el lead llega identificado, se puede responder en minutos. Responder en cinco hace 21 veces más probable calificarlo que responder en treinta.",
+        "source": "MIT con InsideSales, sobre 1.25 millones de leads",
+        "url": "https://www.bitontree.com/workforce/blog/5-minute-lead-response-rule-real-estate"
+      },
+      {
+        "answers": "Falla 03, descubrimiento",
+        "title": "Un buscador que lleva a elegir, no a recorrer",
+        "body": "Operación, tipo de inmueble, zona, presupuesto y superficie se combinan en la misma pantalla. Quien busca una bodega en cierto corredor hasta cierto precio llega a su lista en un paso, no recorriendo ocho secciones.",
+        "forecast": "43% de los visitantes va directo al buscador, y quien busca convierte 4.63% contra 2.77% de quien solo navega: casi el doble. Airbnb construyó su crecimiento sobre esta idea y publicó la investigación, medida con pruebas A/B: recomendar los filtros correctos mueve reservas, no solo clics.",
+        "source": "Econsultancy y la investigación de filtros de Airbnb",
+        "url": "https://arxiv.org/abs/2602.23717"
+      },
+      {
+        "answers": "Falla 02, calificación",
+        "title": "La ficha se adapta al inmueble, como en Airbnb",
+        "body": "Una casa muestra recámaras y baños. Una nave muestra altura libre, andenes, capacidad eléctrica y uso de suelo. El visitante ve solo lo que necesita para decidir, y el equipo captura solo lo que aplica a ese activo.",
+        "forecast": "Es el mismo mecanismo de Airbnb: al elegir casa completa aparecen cocina y zona de trabajo; al elegir habitación privada aparecen los espacios compartidos. Con 80% de los inquilinos comerciales calificando en línea antes de contactar a un asesor, la ficha deja de ser publicidad y se vuelve la herramienta que decide si hay visita.",
+        "source": "Baymard Institute, caso Airbnb",
+        "url": "https://baymard.com/ux-benchmark/case-studies/airbnb"
+      },
+      {
+        "answers": "Falla 04, seguimiento",
+        "title": "Un lugar para administrar y permisos para delegar",
+        "body": "El equipo publica, edita y da de baja desde una sola pantalla, con los campos que corresponden a cada tipo de inmueble y sin tocar código. Los permisos se reparten por rol, así que se puede delegar la carga sin abrir todo el sitio a todo el mundo.",
+        "forecast": "En la plataforma conectada, además, nadie captura dos veces: el sitio lee del sistema donde Mercadotecnia ya trabaja. Cada propiedad recapturada a mano es tiempo del equipo que no se recupera, y cada dato que se actualiza en un solo lado es una ficha que queda mal publicada."
+      }
+    ],
+    "tiers_common_label": "En los tres paquetes",
+    "tiers_common": [
+      "Diseño a medida sobre la identidad de MoEasy, responsive de móvil a escritorio.",
+      "Formulario de solicitud de información en cada ficha, con el inmueble y el asesor ya identificados en el mensaje.",
+      "Contacto por WhatsApp desde cada propiedad, que es por donde realmente se cierra en México.",
+      "Cada ficha lista para compartir: al mandar el link por WhatsApp se ve la propiedad, no un logo genérico.",
+      "SEO y GEO on-page para buscadores y para motores de IA, sobre el inventario y no solo sobre las páginas fijas.",
+      "Alta de infraestructura: despliegue, dominio conectado y certificado de seguridad.",
+      "Analítica base con eventos de contacto, para saber qué propiedades generan mensajes.",
+      "Capacitación al equipo y quince días de garantía después de salir a producción."
+    ],
+    "tiers_margin_label": "Margen para Pigmento",
+    "tiers_margin_note": "El margen crece con el paquete, en pesos y en porcentaje. Recomendar la solución correcta no le cuesta rentabilidad a Pigmento: se la aumenta.",
+    "tiers_diff_label": "La diferencia, en concreto",
+    "tiers_rationale_label": "Por qué se justifica"
   }
 }

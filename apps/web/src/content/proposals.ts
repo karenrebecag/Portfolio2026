@@ -239,3 +239,146 @@ export const PACKAGE_PRESENTATION: ProposalPackagePresentation[] = [
     },
   },
 ]
+
+/** Texto de cada tier de la propuesta de MoEasy, en `proposalsMoeasy.tiers`. */
+export type ProposalTierText = {
+  /** Etiqueta corta de posicionamiento, ej. "Para lanzar rápido". */
+  label: string
+  name: string
+  tagline: string
+  /** Entrega estimada, mostrada bajo el precio. */
+  timeline: string
+  /**
+   * El caso de negocio del paquete: qué compra y qué deja sin resolver. Va
+   * arriba de las features porque es lo que Pigmento repite en la junta.
+   */
+  rationale: string
+  /**
+   * Las dimensiones donde los tres paquetes se separan, con el mismo `label` y
+   * el mismo orden en los tres. Vive dentro de la card para que la comparación
+   * se lea sin salir a una tabla aparte.
+   */
+  diff: ProposalTierDiff[]
+  features: string[]
+  /**
+   * Dónde deja de alcanzar el paquete. Es el campo que diferencia los tiers:
+   * la línea de corte entre uno y otro es un límite operativo verificable, no
+   * una promesa sobre el futuro.
+   */
+  limits: string
+  /** Lo que no entra sin cotizar aparte. Protege el precio cuando el alcance crece. */
+  excludes: string[]
+  /** Infraestructura que paga el cliente final directo al proveedor. No lleva margen. */
+  recurring: string
+  /** One-liner de "para quién es este paquete", al pie de la card. */
+  audience: string
+}
+
+export type ProposalTierPresentation = {
+  /** Precio fijo en MXN por proyecto: lo que se le factura a Pigmento. */
+  price: number
+  /**
+   * Sugerencia de reventa al cliente final, en MXN. No es un precio mío ni una
+   * condición: existe para que Pigmento no subvalore el trabajo técnico al
+   * cotizar. El número final lo decide la agencia.
+   */
+  suggestedMin: number
+  suggestedTarget: number
+  /** Resalta el paquete recomendado en el grid. */
+  featured?: boolean
+  gradient: { bg: string; text: string }
+}
+
+export type ProposalTier = ProposalTierText & ProposalTierPresentation
+
+/** Un criterio de comparación resuelto dentro de un tier: qué cambia aquí. */
+export type ProposalTierDiff = {
+  label: string
+  value: string
+}
+
+/**
+ * Presentación de los tiers, en el mismo orden que `proposalsMoeasy.tiers` en
+ * los mensajes: express (Webflow), a la medida (Next + Payload), plataforma de
+ * inventario. Ordenados de menor a mayor con el recomendado en medio, igual que
+ * los paquetes de pigmento-studio.
+ *
+ * HACK: precios sin confirmar con Pigmento (septiembre 2026); son mi estimación
+ * anclada a ronda01. Actualizarlos al cerrar la ronda — este array es el único
+ * lugar que se toca.
+ */
+export const MOEASY_TIER_PRESENTATION: ProposalTierPresentation[] = [
+  {
+    price: 26000,
+    suggestedMin: 45000,
+    suggestedTarget: 58000,
+    gradient: {
+      bg: 'linear-gradient(150deg, #bdeffe 0%, #7fd6f4 52%, #33b6ec 100%)',
+      text: '#0a3a52',
+    },
+  },
+  {
+    price: 46000,
+    suggestedMin: 82000,
+    suggestedTarget: 105000,
+    gradient: {
+      bg: 'linear-gradient(150deg, #e7cef5 0%, #c08fee 50%, #8a4fe6 100%)',
+      text: '#260b52',
+    },
+  },
+  {
+    price: 66000,
+    suggestedMin: 125000,
+    suggestedTarget: 155000,
+    featured: true,
+    gradient: {
+      bg: 'linear-gradient(150deg, #ffd9b0 0%, #ff9d5c 52%, #ff7a33 100%)',
+      text: '#5a2408',
+    },
+  },
+]
+
+/** Card full-width de áreas de margen para Pigmento — verde, para separarla visualmente de los tiers. */
+export const MARGIN_CARD_GRADIENT = {
+  bg: 'linear-gradient(150deg, #ddf2a8 0%, #b9e85f 52%, #93d62f 100%)',
+  text: '#2c4014',
+}
+
+/**
+ * Shapes multicolor del image trail de los heroes de propuestas (en public/shapes/).
+ * Vive aquí para no repetir el array en cada página de propuesta.
+ */
+export const PROPOSAL_TRAIL_SHAPES = [
+  '/shapes/flower.png',
+  '/shapes/clover.png',
+  '/shapes/petals.png',
+  '/shapes/bloom.png',
+  '/shapes/donut.png',
+  '/shapes/arrow.png',
+  '/shapes/metaball.png',
+  '/shapes/energy.png',
+  '/shapes/star-sparkles.png',
+  '/shapes/sparkle-circle.png',
+  '/shapes/connection.png',
+  '/shapes/semi-circle.png',
+  '/shapes/blue-flower.png',
+  '/shapes/blue-smile.png',
+  '/shapes/blue-pink-circle.png',
+  '/shapes/blue-x.png',
+  '/shapes/black-spades.png',
+  '/shapes/black-ellipse.png',
+  '/shapes/orange-asterisk.png',
+  '/shapes/orange-hearts.png',
+  '/shapes/orange-diamond.png',
+  '/shapes/orange-pin.png',
+  '/shapes/pink-flower.png',
+  '/shapes/pink-bang-star.png',
+  '/shapes/pink-fish.png',
+  '/shapes/pink-click.png',
+  '/shapes/purple-star.png',
+  '/shapes/purple-petals.png',
+  '/shapes/purple-windmill.png',
+  '/shapes/purple-gear.png',
+  '/shapes/purple-six-flower.png',
+  '/shapes/purple-chat.png',
+]
