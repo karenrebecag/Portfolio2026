@@ -6,18 +6,12 @@ import { SITE_AUTHOR } from '@/lib/seo/site-config'
 import {
   MARGIN_CARD_GRADIENT,
   MOEASY_TIER_PRESENTATION,
-  PROPOSAL_TRAIL_SHAPES,
   type ProposalFaq,
   type ProposalTier,
   type ProposalTierText,
 } from '@/content/proposals'
 import { Container } from '@/components/ui/container'
-import { GridGuides } from '@/components/ui/grid-guides'
-import { Button061 } from '@/components/ui/button-061'
-import { HeroHoverList } from '@/components/hero-hover-list'
-import { CursorImageTrail } from '@/components/cursor-image-trail'
 import { AccordionCssInit } from '@/components/accordion-css'
-import { ScrollSwapMarquee } from '@/components/scroll-swap-marquee'
 import { ScrollHighlight } from '@/components/scroll-highlight'
 import { NumberOdometer } from '@/components/number-odometer'
 
@@ -405,8 +399,6 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
   setRequestLocale(locale)
   const t = await getTranslations('proposalsMoeasy')
 
-  const heroLines = t.raw('hero_lines') as string[]
-  const marqueeServices = t.raw('marquee_services') as string[]
   const situacionBullets = t.raw('situacion_bullets') as string[]
   const problems = t.raw('problems') as MoeasyProblem[]
   const whyProduct = t.raw('why_product') as WhyPoint[]
@@ -461,48 +453,11 @@ export default async function ProposalsMoeasyPage({ params }: { params: Promise<
   return (
     <div id="proposals-moeasy-page" data-semantic-role="services" data-llm-context="professional-services-offering">
       <AccordionCssInit />
-      {/* Hero — bg surface (token más oscuro) + maquetación MWG 041: lista interactiva */}
-      <section
-        data-semantic-role="hero"
-        data-llm-context="services-offering"
-        data-theme-section="dark"
-        className="relative min-h-[90vh] md:min-h-dvh px-4 lg:px-6 pt-20 overflow-hidden flex flex-col justify-center bg-surface text-surface-foreground"
-      >
-        <GridGuides className="z-0" />
-        <CursorImageTrail images={PROPOSAL_TRAIL_SHAPES} autoIntervalMs={550} className="absolute inset-0 z-0" />
-        <div
-          data-reveal-group
-          data-stagger="140"
-          data-start="top 90%"
-          data-distance="2.5em"
-          className="relative z-[1] flex flex-1 flex-col items-center justify-center py-12"
-        >
-          <div className="mx-auto flex w-full max-w-[42rem] flex-col items-center">
-            <HeroHoverList items={heroLines} />
-            <p className="mt-8 w-full text-center text-base md:text-lg leading-relaxed text-surface-foreground/70">
-              {t('hero_subtitle')}
-            </p>
-            <div
-              data-reveal-group-nested
-              data-stagger="90"
-              data-distance="1.5em"
-              className="mt-12 flex flex-wrap justify-center gap-3"
-            >
-              <Button061 href="#paquetes">{t('hero_cta_primary')}</Button061>
-              <Button061 href="#diagnostico" variant="secondary">{t('hero_cta_secondary')}</Button061>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services marquee — banda separadora bajo el hero (scroll lento) */}
-      <ScrollSwapMarquee items={marqueeServices} compact speed={45} />
-
       {/* Situación — el estado de hechos que el cliente acepta sin discutir (marco SCR).
           Maqueta a 12 columnas: el heading ocupa la izquierda, la nota de
           verificación cierra la derecha y los bullets corren a lo ancho, para
           que la columna derecha no quede vacía en desktop. */}
-      <section data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 py-14 lg:py-20">
+      <section data-theme-section="dark" className="bg-surface text-surface-foreground px-4 lg:px-6 pt-32 pb-14 lg:pt-40 lg:pb-20">
         <Container data-reveal-group data-stagger="120" data-start="top 80%" data-distance="2.5em">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-7">
