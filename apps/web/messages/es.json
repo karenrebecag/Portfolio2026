@@ -764,11 +764,11 @@
   },
   "proposalsMoeasy": {
     "hero_lines": [
-      "Pigmento entrega.",
-      "Yo construyo.",
-      "MoEasy ve una agencia."
+      "Ustedes al frente.",
+      "Yo detrás, resolviendo.",
+      "MoEasy ve un solo equipo."
     ],
-    "hero_subtitle": "Llevo la parte técnica de sus proyectos web sin aparecer en ningún lado. Ustedes ponen la cara, la marca y la relación con el cliente. Esto es el planteamiento completo para MoEasy: qué está roto, qué se construye, cuánto cuesta y qué pueden vender alrededor.",
+    "hero_subtitle": "Llevo la parte técnica de sus proyectos y me quedo detrás: la cara, la marca y la relación con el cliente son suyas. Aquí les dejo todo lo de MoEasy, qué encontré, qué propongo, cuánto cuesta y qué pueden vender alrededor. Y cualquier duda técnica que salga en la junta, se las contesto antes de que la necesiten.",
     "hero_cta_primary": "Ver los tres paquetes",
     "hero_cta_secondary": "Empezar por el diagnóstico",
     "marquee_services": [
