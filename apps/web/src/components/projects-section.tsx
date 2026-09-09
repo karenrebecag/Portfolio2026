@@ -9,7 +9,6 @@ import { Button061 } from '@/components/ui/button-061'
 import type { Project } from '@karen-portfolio/shared'
 import { PLACEHOLDER_PROJECTS } from '@/lib/constants'
 import { getProjectHref, isArticleProject } from '@/lib/article-projects'
-import { AdditionalWorkMarquee } from '@/components/additional-work'
 
 const MAX_ESSAYS = 7
 const MAX_CLIENT = 4
@@ -93,7 +92,6 @@ function ProjectRows({
 
 export function ProjectsSection({ projects }: { projects: Project[] }) {
   const t = useTranslations('projects')
-  const tAdditional = useTranslations('additional')
   const raw = projects.length > 0 ? projects : (PLACEHOLDER_PROJECTS as unknown as Project[])
   const published = raw.filter((p) => p.status === 'published')
   const essays = published.filter((p) => isArticleProject(p.slug)).slice(0, MAX_ESSAYS)
@@ -161,15 +159,6 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
           </div>
         </div>
       </Container>
-
-      <div className="mt-20 pb-10 hidden md:block">
-        <Container className="px-4 lg:px-6 mb-6">
-          <span className="text-2xs font-bold uppercase tracking-widest font-accent text-muted-foreground">
-            {tAdditional('pill')}
-          </span>
-        </Container>
-        <AdditionalWorkMarquee />
-      </div>
     </section>
   )
 }
